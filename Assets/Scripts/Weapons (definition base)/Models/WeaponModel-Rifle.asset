@@ -1,0 +1,38 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a070637fec44b624a82ce2cef2e05bf9, type: 3}
+  m_Name: WeaponModel-Rifle
+  m_EditorClassIdentifier: 
+  muzzleFlash: {fileID: 198792769130808804, guid: 4543ab5e3d405ec40a8d4e9aa5165030,
+    type: 3}
+  shellPrefab: {fileID: 3157565929852043342, guid: 118078f99e7cca24eb3b31030f87add8,
+    type: 3}
+  tracerEffect: {fileID: 6979889274879812289, guid: aa11a2cd3ebc37a4082e56922b6aedf8,
+    type: 3}
+  layerMask:
+    serializedVersion: 2
+    m_Bits: 1
+  prefabWeapon: {fileID: 3157565929852043342, guid: cc4156adf6614cb4693b57fd602cf0b9,
+    type: 3}
+  buletSpawner: {fileID: 11400000, guid: 9ebc35bce57ebb34086242e7c8839608, type: 2}
+  fireRate: 7
+  WeaponStates:
+  - Name: At ready
+    RightHendPosition: {x: 0.07, y: -0.27, z: 0.05}
+    RightHendRotation: {x: -0.48520595, y: 0.42478785, z: -0.43044093, w: 0.6315467}
+    LeftHendPosition: {x: 0.17, y: 0.09, z: 0.03}
+    LeftHendRotation: {x: -0.5784522, y: -0.45100763, z: 0.51953673, w: 0.43825415}
+  - Name: Aim
+    RightHendPosition: {x: -0.02, y: -0.338, z: -0.084}
+    RightHendRotation: {x: 0.46375892, y: -0.39780286, z: 0.47017694, w: -0.6368785}
+    LeftHendPosition: {x: 0.183, y: 0.102, z: 0.01}
+    LeftHendRotation: {x: 0, y: 0, z: 0, w: 1}

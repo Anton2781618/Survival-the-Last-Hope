@@ -1,0 +1,10 @@
+using System.Collections.Generic;
+using UnityEngine;
+using Zenject;
+
+namespace Units
+{
+    public abstract class Unit : MonoBehaviour
+    {
+    }
+}

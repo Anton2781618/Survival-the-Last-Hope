@@ -1,0 +1,18 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" xsi="http://www.w3.org/2001/XMLSchema-instance" engine="UnityEngine.UIElements" editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="True">
+    <Style src="project://database/Assets/Graph/Edtor/BehavioureTreeEdtor.uss?fileID=7433441132597879392&amp;guid=89ff0cfde0b40b8478f3063baa942573&amp;type=3#BehavioureTreeEdtor" />
+    <uie:Toolbar>
+        <ui:Button text="Заполнить" display-tooltip-when-elided="true" name="populateBUtton" />
+    </uie:Toolbar>
+    <uie:ToolbarMenu tabindex="-1" display-tooltip-when-elided="true" text="Асеты" style="width: 69px;" />
+    <SplitVuew fixed-pane-initial-dimension="300">
+        <ui:VisualElement name="Left-Panel" style="flex-grow: 1; background-color: rgba(255, 255, 255, 0);">
+            <ui:Label tabindex="0" text="Инспектор" display-tooltip-when-elided="true" style="background-color: rgb(32, 32, 32); -unity-background-scale-mode: stretch-to-fill;" />
+            <InspectorView />
+        </ui:VisualElement>
+        <ui:VisualElement name="Right-Panel" style="flex-grow: 1; background-color: rgba(0, 0, 0, 0);">
+            <BehaviorTreeView focusable="true" style="flex-grow: 1;">
+                <ui:Label tabindex="-1" text="Дерево" display-tooltip-when-elided="true" style="background-color: rgb(32, 32, 32);" />
+            </BehaviorTreeView>
+        </ui:VisualElement>
+    </SplitVuew>
+</ui:UXML>

@@ -1,0 +1,19 @@
+{
+    "name": "_HumanWeaponStateSystem",
+    "rootNamespace": "",
+    "references": [
+        "GUID:041acc7a39e1629429f1f4720f11d77f",
+        "GUID:56bafa2f8da9fed4a86b6aa4e5d73626",
+        "GUID:076f547e15cee0146889c35dddfd0da2",
+        "GUID:821e0fa94b9d2474ab9743b6454459ec"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

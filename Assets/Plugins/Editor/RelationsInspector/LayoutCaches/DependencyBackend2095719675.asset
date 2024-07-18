@@ -1,0 +1,120 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -262343771, guid: eb4eaaabc8cc3594aa76719228fcd76f, type: 3}
+  m_Name: DependencyBackend2095719675
+  m_EditorClassIdentifier: 
+  vertexPositions:
+  - vertexId: 31646
+    vertexPosition: {x: 0.48998618, y: 0.22387388}
+  - vertexId: 31502
+    vertexPosition: {x: 1.9353981, y: -0.9053491}
+  - vertexId: 31510
+    vertexPosition: {x: -0.75608104, y: -1.2057058}
+  - vertexId: 31612
+    vertexPosition: {x: 1.1544499, y: 1.3840357}
+  - vertexId: 31686
+    vertexPosition: {x: 0.08858606, y: 1.9478167}
+  - vertexId: 31778
+    vertexPosition: {x: -0.5051003, y: -0.5355184}
+  - vertexId: 8814
+    vertexPosition: {x: 1.2990212, y: -2.2654898}
+  - vertexId: 9288
+    vertexPosition: {x: 2.9908938, y: -1.5159777}
+  - vertexId: 31844
+    vertexPosition: {x: 2.9834306, y: -0.7070592}
+  - vertexId: 7806
+    vertexPosition: {x: -1.8597509, y: -2.2936416}
+  - vertexId: 8408
+    vertexPosition: {x: 0.93069977, y: 2.4934125}
+  - vertexId: 31398
+    vertexPosition: {x: 2.1667557, y: 1.7392601}
+  - vertexId: 8288
+    vertexPosition: {x: 0.034070436, y: 3.033335}
+  - vertexId: 15490
+    vertexPosition: {x: -0.6719451, y: 3.0162332}
+  - vertexId: 9048
+    vertexPosition: {x: -1.3741683, y: -1.6319145}
+  - vertexId: 31894
+    vertexPosition: {x: 0.09230516, y: -1.3317509}
+  - vertexId: 31896
+    vertexPosition: {x: 0.68835944, y: -1.9108909}
+  - vertexId: 31898
+    vertexPosition: {x: -0.44761908, y: 0.56591636}
+  - vertexId: 31900
+    vertexPosition: {x: -2.162642, y: 0.58292913}
+  - vertexId: 8642
+    vertexPosition: {x: 0.08888694, y: -3.130136}
+  - vertexId: 10968
+    vertexPosition: {x: 2.8461227, y: -0.006103725}
+  - vertexId: 8410
+    vertexPosition: {x: 0.89060235, y: 3.4585626}
+  - vertexId: 4650
+    vertexPosition: {x: 3.0575993, y: 1.8281223}
+  - vertexId: 5436
+    vertexPosition: {x: 2.8552582, y: 0.99463284}
+  - vertexId: 12288
+    vertexPosition: {x: 1.7623569, y: 2.5697265}
+  - vertexId: 11820
+    vertexPosition: {x: 2.523289, y: 2.629683}
+  - vertexId: 4952
+    vertexPosition: {x: 1.0156287, y: -1.3215104}
+  - vertexId: 30964
+    vertexPosition: {x: 0.9358424, y: -0.6350729}
+  - vertexId: 31132
+    vertexPosition: {x: -0.46412227, y: -2.4182897}
+  - vertexId: 3816
+    vertexPosition: {x: 2.1040747, y: -2.010865}
+  - vertexId: 32676
+    vertexPosition: {x: 1.8422852, y: -2.8363204}
+  - vertexId: 30958
+    vertexPosition: {x: 0.8294966, y: -3.0683596}
+  - vertexId: 32008
+    vertexPosition: {x: -1.2275597, y: 0.15526588}
+  - vertexId: 3510
+    vertexPosition: {x: -0.82275844, y: 1.3788576}
+  - vertexId: 31108
+    vertexPosition: {x: -1.2785536, y: 0.9242775}
+  - vertexId: 1972
+    vertexPosition: {x: -2.7118201, y: -0.08686912}
+  - vertexId: 3562
+    vertexPosition: {x: -3.4032536, y: 0.6340161}
+  - vertexId: 5392
+    vertexPosition: {x: -3.1502593, y: 1.297629}
+  - vertexId: 12234
+    vertexPosition: {x: -2.098655, y: 2.3598738}
+  - vertexId: 8826
+    vertexPosition: {x: -2.8169086, y: 1.9767606}
+  - vertexId: 13008
+    vertexPosition: {x: -2.1674614, y: 1.4960302}
+  - vertexId: 13076
+    vertexPosition: {x: -1.44412, y: 2.031851}
+  - vertexId: 13374
+    vertexPosition: {x: -3.1121447, y: -0.89385724}
+  - vertexId: 14052
+    vertexPosition: {x: -1.9347547, y: -0.50746554}
+  - vertexId: 30998
+    vertexPosition: {x: -3.47807, y: -0.15756565}
+  - vertexId: 31252
+    vertexPosition: {x: -2.4489725, y: -1.1037091}
+  - vertexId: 5438
+    vertexPosition: {x: 3.6338508, y: 0.4962732}
+  - vertexId: 34450
+    vertexPosition: {x: 1.5932323, y: 0.22779909}
+  - vertexId: 34448
+    vertexPosition: {x: -1.2844785, y: -3.1886063}
+  - vertexId: 678
+    vertexPosition: {x: 0.77418214, y: -3.8456724}
+  transform:
+    translation: {x: 0, y: 0}
+    scale: {x: 1, y: 1}
+    rotation: 0
+  widgetType: 0

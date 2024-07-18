@@ -1,0 +1,16 @@
+{
+    "name": "_MoveHandler",
+    "rootNamespace": "",
+    "references": [
+        "GUID:076f547e15cee0146889c35dddfd0da2"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}
