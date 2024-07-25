@@ -1,7 +1,5 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
 using static InventoryDiablo.ItemGrid;
 
 namespace InventoryDiablo
@@ -101,7 +99,12 @@ namespace InventoryDiablo
             }
         }
 
-        public void ShowInventory() => gameObject.SetActive(!gameObject.activeSelf);
+        public void ShowInventory()
+        {
+            RefreshUI();
+            
+            gameObject.SetActive(!gameObject.activeSelf);
+        }
 
         public void RefreshUI() 
         {

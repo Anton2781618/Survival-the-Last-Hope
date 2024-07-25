@@ -1286,7 +1286,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: eb2d22b692ee4bd4e9a655f39229db07, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isWork: 1
+  isWork: 0
   hp: 100
 --- !u!136 &2613710709890326383
 CapsuleCollider:
