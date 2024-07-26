@@ -36,7 +36,7 @@ namespace Weapons
 
         public abstract void Fire();
         public abstract InventoryItem RemoveClip();
-        public abstract IEnumerator Reload(IInventoryController inventoryItem);
+        public abstract IEnumerator Reload(IInventorySystem inventorySystem);
         public abstract void InsertClip(InventoryItem inventoryItem);
         public abstract void StopFire();
         public bool IsReloadingNow() => isReloading; 

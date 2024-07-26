@@ -7,6 +7,7 @@ using UnityEngine.InputSystem;
 using Weapons;
 using Zenject;
 using TMPro;
+using Unity.VisualScripting;
 
 /// <summary>
 /// Класс представляет из себя обертку над юнитом, позволяет управлять юнитом через один класс
@@ -73,11 +74,21 @@ namespace MyProject
                 itemWorld.ShowText(false);
                 
                 if(itemWorld == null) return;
+
+                ItemGrid grid = InventoryController.InventoryUI.CheckFreeSpaceForItem(itemWorld.GetItem());
+
+                if(!grid)
+                {
+                    Debug.Log("Нет места в инвентаре");
+                    
+                    return;
+                }
                 
                 Destroy(itemWorld.gameObject);
 
+                // InventoryController.Inventory.AddItem(itemWorld.GetItem());
+                InventoryController.InventoryUI.CreateAndInsertItem(itemWorld.GetItem(), grid);
                 // InventoryController.InventoryUI.RefreshUI();
-                InventoryController.InventoryUI.CreateAndInsertItem(itemWorld.GetItem(), ItemGrid.GridName.backpack);
             } 
         }
 

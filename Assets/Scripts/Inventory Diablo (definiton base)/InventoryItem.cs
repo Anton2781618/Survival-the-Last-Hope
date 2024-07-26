@@ -17,6 +17,7 @@ namespace InventoryDiablo
         public Dictionary<ItemType, InventoryItem> combinedItems;
         [SerializeField] private int amount = 0;
         [SerializeField] private int price = 0; 
+        public ItemGrid Grid {get; set;}
 
             //свойство для доступа к количеству предметов при обращении обновляет текст
         public int Amount 

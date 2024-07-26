@@ -36,7 +36,7 @@ namespace States
 
                 stateService.inputs.reload = false;
 
-                stateService.CurrentWeapon.StartCoroutine(stateService.CurrentWeapon.Reload(stateService.owner.InventoryController));
+                stateService.CurrentWeapon.StartCoroutine(stateService.CurrentWeapon.Reload(stateService.owner));
             }
 
             SetNoWeapon();

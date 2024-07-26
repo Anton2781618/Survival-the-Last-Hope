@@ -47,6 +47,8 @@ namespace InventoryDiablo
             return null;
         }
 
+        public List<InventoryItem> GetInventoryItems() => inventoryItems;
+
         //проверяет есть ли в инвентаре такой предмет по scriptable object
         public bool CheckInventoryForItems(ItemData itemData)
         {

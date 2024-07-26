@@ -5214,6 +5214,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6659639936778060843, guid: 229474381bd9bcd4c84f9ae25e9b0536,
         type: 3}
+      propertyPath: Item.amount
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6659639936778060843, guid: 229474381bd9bcd4c84f9ae25e9b0536,
+        type: 3}
       propertyPath: humanModel.hend
       value: 
       objectReference: {fileID: 1843996216}
@@ -5267,6 +5272,12 @@ PrefabInstance:
       propertyPath: playerModel.debugTransform
       value: 
       objectReference: {fileID: 9170013066092465750}
+    - target: {fileID: 6659639936778060843, guid: 229474381bd9bcd4c84f9ae25e9b0536,
+        type: 3}
+      propertyPath: Item.<ItemData>k__BackingField
+      value: 
+      objectReference: {fileID: 11400000, guid: 0156facadb44fc244ac5036fd3335aee,
+        type: 2}
     - target: {fileID: 6659639936778060843, guid: 229474381bd9bcd4c84f9ae25e9b0536,
         type: 3}
       propertyPath: humanModel.objectForLocalSpace

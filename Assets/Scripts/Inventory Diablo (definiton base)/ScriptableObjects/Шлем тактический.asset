@@ -16,8 +16,8 @@ MonoBehaviour:
   Title: 
   Description: 
   Prefab: {fileID: 688769618811775190, guid: c72dc94f83927154292692f5bfd0d380, type: 3}
-  Width: 1
-  Height: 1
+  Width: 2
+  Height: 2
   Benefit: 0
   IsSingle: 0
   MaxAmount: 1

@@ -145,7 +145,7 @@ namespace Weapons
             // StartCoroutine(RemoveClipCoroutine());
         }
 
-        public override IEnumerator Reload(IInventoryController inventory)
+        public override IEnumerator Reload(IInventorySystem IInventorySystem)
         {
             isReloading = true;
 
@@ -154,9 +154,21 @@ namespace Weapons
 
             InventoryItem clip = RemoveClip();
 
-            InventoryItem newClip = inventory.Inventory.TakeTtem(InventoryItem, ItemData.ItemType.Обойма_патронов);
+            InventoryItem newClip = IInventorySystem.InventoryController.Inventory.TakeTtem(InventoryItem, ItemData.ItemType.Обойма_патронов);
 
-            if(clip != null) inventory.InventoryUI.CreateAndInsertItem(clip, ItemGrid.GridName.backpack );
+            if(clip != null) 
+            {
+                ItemGrid grid = IInventorySystem.InventoryController.InventoryUI.CheckFreeSpaceForItem(clip);
+
+                if(!grid)
+                {
+                    IInventorySystem.DropItem(clip);
+                } 
+                else
+                {
+                    IInventorySystem.InventoryController.InventoryUI.CreateAndInsertItem(clip, grid);
+                }
+            }
             
             if(newClip == null) 
             {
@@ -169,7 +181,7 @@ namespace Weapons
 
             InsertClip(newClip);
 
-            inventory.InventoryUI.DestroyInventoryItem(newClip);
+            IInventorySystem.InventoryController.InventoryUI.DestroyInventoryItem(newClip);
 
             isReloading = false;
         }

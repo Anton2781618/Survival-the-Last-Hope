@@ -99,6 +99,24 @@ namespace InventoryDiablo
 
             return null;
         }
+        public Vector2Int? FindSpaceForObject(InventoryItem itemToInsert)
+        {
+            int heght = GridSizeHeight - itemToInsert.ItemData.Height + 1;
+            int wight = GridSizeWidth - itemToInsert.ItemData.Width + 1; 
+            
+            for (int y = 0; y < heght; y++)
+            {
+                for (int x = 0; x < wight ; x++)
+                {
+                    if(CheckAvailabeSpace(x, y, itemToInsert.ItemData.Width, itemToInsert.ItemData.Height) == true)
+                    {
+                        return new Vector2Int(x, y); 
+                    }
+                }
+            }
+
+            return null;
+        }
 
         //метод установить итем в слот
         public bool PlaceItem(UIInventoryItem inventoryItem, int posX, int posY, ref UIInventoryItem overlapItem, IInventorySystem owner)
@@ -336,13 +354,8 @@ namespace InventoryDiablo
             return toReturn;
         }
 
-        public UIInventoryItem GetInventoryItem(int x, int y)
-        {
-            return inventoryItemSlot[x, y];
-        }
-
         //очистить сылки на итем в сетке
-        private void CleanGridReference(UIInventoryItem toReturn)
+        public void CleanGridReference(UIInventoryItem toReturn)
         {
             for (int ix = 0; ix < toReturn.WIDTH; ix++)
             {

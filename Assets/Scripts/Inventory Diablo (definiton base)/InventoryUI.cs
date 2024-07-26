@@ -101,20 +101,37 @@ namespace InventoryDiablo
 
         public void ShowInventory()
         {
-            RefreshUI();
-            
             gameObject.SetActive(!gameObject.activeSelf);
-        }
 
+            // RefreshUI();
+        }
+        
         public void RefreshUI() 
         {
+            if(!gameObject.activeSelf) return;
+
             foreach (ItemGrid grid in grids)
             {
                 foreach (UIInventoryItem item in grid.GetItems())
                 {
-                    item.UpdateAmountText();
+                    grid.CleanGridReference(item);
+
+                    item.DestructSelf();
                 }
             }
+
+            foreach (InventoryItem inventoryItem in owner.InventoryController.Inventory.GetInventoryItems())
+            {
+                CreateAndInsertItem(inventoryItem, inventoryItem.Grid);
+            }
+            
+            // foreach (ItemGrid grid in grids)
+            // {
+            //     foreach (UIInventoryItem item in grid.GetItems())
+            //     {
+            //         item.UpdateAmountText();
+            //     }
+            // }
         }
 
         private void RotateItem()
@@ -139,16 +156,11 @@ namespace InventoryDiablo
             InsertItemOnGrid(itemToInsert, selectedItemGrid);
         }
 
-        public void CreateAndInsertItem(InventoryItem itemToInsert, GridName gridName)
-        {
-            CreateAndInsertItem(itemToInsert.ItemData, grids.Find(x => x.gridName == gridName), itemToInsert.Amount);
-        }
-
         private void InsertItemOnGrid(UIInventoryItem itemToInsert, ItemGrid grid)
         {
             Vector2Int? posOnGrid = grid.FindSpaceForObject(itemToInsert);
 
-            owner.InventoryController.Inventory.AddItem(itemToInsert.InventoryItem);
+            if(gameObject.activeSelf) owner.InventoryController.Inventory.AddItem(itemToInsert.InventoryItem);
             
             if(posOnGrid == null) 
             {
@@ -160,6 +172,22 @@ namespace InventoryDiablo
             }
 
             grid.PlaceItem(itemToInsert, posOnGrid.Value.x, posOnGrid.Value.y);
+        }
+
+        //проверить есть ли свободное место на одной из сетке
+        public ItemGrid CheckFreeSpaceForItem(InventoryItem inventoryItem)
+        {
+            foreach (ItemGrid grid in grids)
+            {
+                if(grid.FindSpaceForObject(inventoryItem) != null) return grid;
+            }
+
+            return null;
+        }
+        
+        public void CreateAndInsertItem(InventoryItem itemToInsert, ItemGrid grid)
+        {
+            CreateAndInsertItem(itemToInsert.ItemData, grid, itemToInsert.Amount);
         }
 
         //!!!Этот метод создает итем и устанавливает его на сетку ОБРАЩАТЬСЯ ЧЕРЕЗ НЕГО
@@ -283,7 +311,7 @@ namespace InventoryDiablo
             if (UIselectedItem != null) return;
 
             Vector2Int titleGridPosition = GetTitleGridPosition();
-            UIInventoryItem uiInventoryItem = SelectedItemGrid.GetInventoryItem(titleGridPosition.x, titleGridPosition.y);
+            UIInventoryItem uiInventoryItem = SelectedItemGrid.GetItem(titleGridPosition.x, titleGridPosition.y);
             
             if(!uiInventoryItem)return;
             
@@ -427,6 +455,20 @@ namespace InventoryDiablo
         
         //задать владельца инвентаря
         public void SetInventoryOwner(IInventorySystem newOwner) => owner = newOwner;
+
+
+        public void DestroyAllInventoryItem()
+        {
+            foreach (ItemGrid grid in grids)
+            {
+                foreach (UIInventoryItem item in grid.GetItems())
+                {
+                    owner.InventoryController.Inventory.RemoveItem(item.InventoryItem);
+
+                    item.DestructSelf();
+                }
+            }
+        }
 
         public void DestroyInventoryItem(InventoryItem inventoryItem)
         {
