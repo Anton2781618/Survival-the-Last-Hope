@@ -8,6 +8,7 @@ using Weapons;
 using Zenject;
 using TMPro;
 using Unity.VisualScripting;
+using System;
 
 /// <summary>
 /// Класс представляет из себя обертку над юнитом, позволяет управлять юнитом через один класс
@@ -18,13 +19,14 @@ namespace MyProject
     public class Player : UnitHuman, IDestroyable, IInventorySystem, IMoveSystem, IWeaponStateSystem, IRaycastSysytem
     {
         [SerializeField] private TextMeshProUGUI _text;
-        [Inject] public IMuveHandler MuveHandler { get; }
+        [Inject] public IMuveHandler MuveHandler { get; set; }
         
-        [Inject] public IWeaponStates WeaponStates { get; }
+        [Inject] public IWeaponStates WeaponStates { get; set;}
 
-        [Inject] public IRaycastHandler raycastHandler { get; }
+        [Inject] public IRaycastHandler raycastHandler { get; set;}
 
-        [Inject] public IInventoryController InventoryController { get; }
+        [Inject] public IInventoryController InventoryController { get; set;}
+
 
         private void Awake()
         {
@@ -76,6 +78,7 @@ namespace MyProject
                 if(itemWorld == null) return;
 
                 ItemGrid grid = InventoryController.InventoryUI.CheckFreeSpaceForItem(itemWorld.GetItem());
+                
 
                 if(!grid)
                 {
@@ -132,6 +135,50 @@ namespace MyProject
             Helper.spawner.SpawnWeaponOnStreet(item.ItemData.Prefab, item, transform);
 
             InventoryController.Inventory.RemoveItem(item);
+        }
+
+        [Serializable]
+        public class SaveData
+        {
+            public Inventory Inventory;
+
+            public float x;
+            public float y;
+            public float z;
+
+        }
+            
+
+        public void Save()
+        {
+            Debug.Log("Сохранение");
+            
+            SaveData saveData = new SaveData
+            {
+                Inventory = InventoryController.Inventory as Inventory,
+                
+                x = transform.position.x,
+                y = transform.position.y,
+                z = transform.position.z,
+                
+            };
+
+            
+            BlazeSave.SaveData("Player", saveData);
+        }
+
+        public void Load()
+        {
+            Debug.Log("Загрузка");
+            SaveData saveData = BlazeSave.LoadData<SaveData>("Player");
+            
+            Debug.Log(saveData.x + " " + saveData.y + " " + saveData.z);
+
+            Vector3 position = new Vector3(saveData.x, saveData.y, saveData.z);
+            this.transform.position = position;
+            
+            // InventoryController.Inventory = saveData.Inventory;
+
         }
     }
 }

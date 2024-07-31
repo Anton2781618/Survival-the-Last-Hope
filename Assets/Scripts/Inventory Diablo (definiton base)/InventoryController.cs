@@ -5,7 +5,7 @@ namespace InventoryDiablo
 {
     public class InventoryController : IInventoryController
     {
-        [Inject] public IInventory Inventory {get;}
+        [Inject] public IInventory Inventory {get; set;}
 
         [Inject] public IInventoryUI InventoryUI {get;}
     }

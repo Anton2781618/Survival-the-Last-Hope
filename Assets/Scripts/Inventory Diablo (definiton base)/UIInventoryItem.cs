@@ -14,7 +14,6 @@ namespace InventoryDiablo
         public RectTransform rectItemHighLight;
         public RectTransform rectTransform;
         [SerializeField] public Text amauntText;
-        private ItemGrid _grid;
 
         public InventoryItem InventoryItem
         {
@@ -71,8 +70,6 @@ namespace InventoryDiablo
         internal void Setup(ItemData itemData, ItemGrid grid, int amount)
         {
             inventoryItem = new InventoryItem(itemData, amount);
-
-            _grid = grid;
 
             GetComponent<Image>().sprite = itemData.ItemIcon;
 

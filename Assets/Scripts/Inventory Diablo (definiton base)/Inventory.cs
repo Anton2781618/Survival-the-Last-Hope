@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -6,14 +7,11 @@ namespace InventoryDiablo
 {
 
     //класс является представлением места для хранения предметов (сундук или инвентарь игрока или торговца)
-
+    [Serializable]
     public class Inventory : IInventory
     {
         public int money = 500;
-        public ItemGrid _chestGrid;
         private List<InventoryItem> inventoryItems = new List<InventoryItem>();
-
-        public List<UIInventoryItem> InventoryItems { get => throw new System.NotImplementedException(); set => throw new System.NotImplementedException(); }
 
         public void OpenChest()
         {
@@ -23,17 +21,8 @@ namespace InventoryDiablo
         //вставить все итемы в инвентарь
         public void UpdateChestItems()
         {
-            inventoryItems.Clear();
 
-            foreach (Transform item in _chestGrid.transform)
-            {
-                if(item.gameObject.layer == 5)
-                {
-                    UIInventoryItem buferItem = item.transform.GetComponent<UIInventoryItem>();
             
-                    inventoryItems.Add(new InventoryItem(buferItem.InventoryItem.ItemData, buferItem.InventoryItem.Amount));
-                }
-            }
         }
 
         //получить итем из мнвентаря
@@ -136,12 +125,7 @@ namespace InventoryDiablo
         //удалить UI объекты из слоя инвентаря
         private void ClearItems()
         {
-            foreach (Transform item in _chestGrid.transform)
-            {
-                // GameManager.Instance.RemoveUsableObject(item.gameObject);
-
-                // if(item.gameObject.layer == 5) Destroy(item.gameObject);
-            }
+            inventoryItems.Clear();
         }
 
         public void ShowInventory()

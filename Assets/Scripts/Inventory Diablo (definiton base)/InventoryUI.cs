@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using static InventoryDiablo.ItemGrid;
 
@@ -122,7 +123,10 @@ namespace InventoryDiablo
 
             foreach (InventoryItem inventoryItem in owner.InventoryController.Inventory.GetInventoryItems())
             {
-                CreateAndInsertItem(inventoryItem, inventoryItem.Grid);
+                
+                ItemGrid grid = grids.FirstOrDefault(t => t.gridName == inventoryItem.gridName);
+
+                CreateAndInsertItem(inventoryItem, grid);
             }
             
             // foreach (ItemGrid grid in grids)

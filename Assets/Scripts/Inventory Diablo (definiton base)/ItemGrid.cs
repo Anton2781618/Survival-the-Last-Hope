@@ -1,4 +1,5 @@
 
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEditor;
@@ -10,7 +11,6 @@ namespace InventoryDiablo
 {
     //класс представляет из себя сетку с ячейками и данные о размерах
     //устанавливается на UI сетки
-
     public class ItemGrid : MonoBehaviour
     {
         public const float titleSizeWidth = 32;

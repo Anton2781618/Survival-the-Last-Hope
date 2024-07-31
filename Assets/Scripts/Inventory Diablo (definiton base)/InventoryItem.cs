@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 using static InventoryDiablo.ItemData;
+using static InventoryDiablo.ItemGrid;
 
 namespace InventoryDiablo
 {
@@ -17,7 +18,8 @@ namespace InventoryDiablo
         public Dictionary<ItemType, InventoryItem> combinedItems;
         [SerializeField] private int amount = 0;
         [SerializeField] private int price = 0; 
-        public ItemGrid Grid {get; set;}
+        // public ItemGrid Grid {get; set;}
+        public GridName gridName = GridName.backpack;
 
             //свойство для доступа к количеству предметов при обращении обновляет текст
         public int Amount 
