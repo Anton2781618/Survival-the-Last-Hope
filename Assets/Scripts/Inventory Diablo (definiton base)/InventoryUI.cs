@@ -8,7 +8,6 @@ namespace InventoryDiablo
     //класс является системой управления всех ивентарей, основной функцианал инвентарей находится тут
     public class InventoryUI : MonoBehaviour, IInventoryUI
     {
-        [SerializeField] private Transform go;
         [SerializeField] private UIContextMenu contextMenu;
 
         private ItemGrid buferGrid;
@@ -37,15 +36,9 @@ namespace InventoryDiablo
         [SerializeField] private List<ItemData> items;
         [SerializeField] private UIInventoryItem itemPrefab;
 
-        private Transform canvasTransform;
         public InventoryIHighLight inventoryIHighLight;
 
         [HideInInspector] public SetCharacter Clothes{get; set;}
-
-        private void Start() 
-        {
-            canvasTransform = transform.root;
-        }
 
         private void Update() 
         {
@@ -253,7 +246,7 @@ namespace InventoryDiablo
             UIselectedItem = inventoryItem;
 
             itemRectTransform = inventoryItem.rectTransform;
-            itemRectTransform.SetParent(canvasTransform);
+            itemRectTransform.SetParent(transform);
             itemRectTransform.SetAsLastSibling();
 
             
@@ -269,7 +262,7 @@ namespace InventoryDiablo
 
 
             itemRectTransform = inventoryItem.rectTransform;
-            itemRectTransform.SetParent(canvasTransform);
+            itemRectTransform.SetParent(transform);
             itemRectTransform.SetAsLastSibling();
 
             UIselectedItem.Setup(itemData, grid, amount);
@@ -350,7 +343,7 @@ namespace InventoryDiablo
 
             if (UIselectedItem)
             {
-                UIselectedItem.transform.SetParent(UIselectedItem.transform.root);
+                UIselectedItem.transform.SetParent(transform);
                 itemRectTransform = UIselectedItem.rectTransform;
                 itemRectTransform.SetAsLastSibling();
 

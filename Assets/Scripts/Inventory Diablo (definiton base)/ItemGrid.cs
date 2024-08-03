@@ -48,8 +48,9 @@ namespace InventoryDiablo
             return gridForItemsType;
         }
 
-        [InventoryDiablo.Button] 
-        public void Обновить_размер_сетки()
+        // [InventoryDiablo.Button] 
+        [ContextMenu("Обновить_размер_сетки")]
+        public void UpdateSizeGrid()
         {
             if(!rectTransform) rectTransform = GetComponent<RectTransform>();    
 

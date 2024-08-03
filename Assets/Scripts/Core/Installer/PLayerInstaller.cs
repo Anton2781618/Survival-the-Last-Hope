@@ -15,6 +15,7 @@ namespace MyProject
         [SerializeField] private Transform debugTarget;
         [SerializeField] private SettingsRaycaster settingsRaycaster;
         [SerializeField] private InventoryUI inventoryUI; 
+        [SerializeField] private InventoryController inventoryController; 
 
         public override void InstallBindings()
         {
@@ -29,11 +30,11 @@ namespace MyProject
             Container.Bind<HumanModel>().FromInstance(player.humanModel).AsSingle();
 
             
-            Container.Bind<IInventory>().To<Inventory>().AsTransient();
+            // Container.Bind<IInventory>().To<Inventory>().AsTransient();
             
             Container.Bind<IInventoryUI>().To<InventoryUI>().FromInstance(inventoryUI).AsSingle();
 
-            Container.Bind<IInventoryController>().To<InventoryController>().AsTransient();
+            Container.Bind<IInventoryController>().To<InventoryController>().FromInstance(inventoryController).AsSingle();
         }
     }
 }

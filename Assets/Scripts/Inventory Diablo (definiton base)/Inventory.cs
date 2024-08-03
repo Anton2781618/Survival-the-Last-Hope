@@ -11,7 +11,7 @@ namespace InventoryDiablo
     public class Inventory : IInventory
     {
         public int money = 500;
-        private List<InventoryItem> inventoryItems = new List<InventoryItem>();
+        [SerializeField] private List<InventoryItem> inventoryItems = new List<InventoryItem>();
 
         public void OpenChest()
         {

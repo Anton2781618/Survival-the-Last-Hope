@@ -3,10 +3,10 @@ using Zenject;
 
 namespace InventoryDiablo
 {
-    public class InventoryController : IInventoryController
+    public class InventoryController : MonoBehaviour, IInventoryController
     {
-        [Inject] public IInventory Inventory {get; set;}
-
-        [Inject] public IInventoryUI InventoryUI {get;}
+        /* [Inject]  */IInventory IInventoryController.Inventory => inventory;
+        [Inject] IInventoryUI IInventoryController.InventoryUI {get;}
+        [SerializeField]  private Inventory inventory;
     }
 }
