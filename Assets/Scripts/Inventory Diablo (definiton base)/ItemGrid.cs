@@ -17,7 +17,7 @@ namespace InventoryDiablo
         public const float titleSizeHeight = 32;
 
         //это ссылка на того чей инвентарь
-        public Inventory chest;// {get; set;}
+        public IInventorySystem owner {get; set;}
         private UIInventoryItem[,] inventoryItemSlot;
         private RectTransform rectTransform;
         private Vector2 positionOnTheGrid = new Vector2();
@@ -120,7 +120,7 @@ namespace InventoryDiablo
         }
 
         //метод установить итем в слот
-        public bool PlaceItem(UIInventoryItem inventoryItem, int posX, int posY, ref UIInventoryItem overlapItem, IInventorySystem owner)
+        public bool PlaceItem(UIInventoryItem inventoryItem, int posX, int posY, ref UIInventoryItem overlapItem)
         {
             // не можем расположить итем если он хотябы частично за сеткой
             if (BoundryCheck(posX, posY, inventoryItem.WIDTH, inventoryItem.HEIGHT) == false)

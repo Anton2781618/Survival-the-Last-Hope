@@ -6,7 +6,7 @@ using UnityEditor;
 namespace InventoryDiablo
 {
    
-    [CustomEditor(typeof(InventoryUI))] /* [CanEditMultipleObjects] */
+    [CustomEditor(typeof(InventoryManager))] /* [CanEditMultipleObjects] */
     public class SetCharacterEditor : Editor
     {
         const int defaultSpace = 8;
@@ -15,7 +15,7 @@ namespace InventoryDiablo
         {
             base.OnInspectorGUI();
             
-            InventoryUI Inventory = (InventoryUI)target;
+            InventoryManager Inventory = (InventoryManager)target;
 
             EditorGUILayout.BeginHorizontal("Box");
             
@@ -56,7 +56,7 @@ namespace InventoryDiablo
             }
         }
 
-        private void DrawDetails(InventoryUI Inventory)
+        private void DrawDetails(InventoryManager Inventory)
         {
             
 
@@ -116,7 +116,7 @@ namespace InventoryDiablo
             }
         }
 
-        private void CreateCloches(InventoryUI chest)
+        private void CreateCloches(InventoryManager chest)
         {
             chest.Clothes = new SetCharacter(chest.transform, chest.transform.GetComponent<Animator>());
 

@@ -1,11 +1,10 @@
-using System.Collections;
-using System.Collections.Generic;
+using Units;
 using UnityEngine;
 
 namespace InventoryDiablo
 {
 
-    public class ItemOnstreet : MonoBehaviour
+    public class ItemOnstreet : Unit
     {
         [SerializeField] private InventoryItem _item;
         [SerializeField] private Collider _collider;

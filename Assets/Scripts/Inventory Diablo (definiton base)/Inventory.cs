@@ -8,7 +8,7 @@ namespace InventoryDiablo
 
     //класс является представлением места для хранения предметов (сундук или инвентарь игрока или торговца)
     [Serializable]
-    public class Inventory : IInventory
+    public class Inventory
     {
         public int money = 500;
         [SerializeField] private List<InventoryItem> inventoryItems = new List<InventoryItem>();

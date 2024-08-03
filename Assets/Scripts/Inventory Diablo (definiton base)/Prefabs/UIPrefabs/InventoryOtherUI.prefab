@@ -341,7 +341,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 40fe8fc0d9f800c4e89e044cc93f92e3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  inventoryController: {fileID: 5523533388250629289}
+  inventoryController: {fileID: 0}
   itemGrid: {fileID: 3001876507253964456}
 --- !u!1 &4387988417808732218
 GameObject:
@@ -452,7 +452,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 40fe8fc0d9f800c4e89e044cc93f92e3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  inventoryController: {fileID: 5523533388250629289}
+  inventoryController: {fileID: 0}
   itemGrid: {fileID: 4387988417808732164}
 --- !u!1 &4688280924776608353
 GameObject:
@@ -563,7 +563,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 40fe8fc0d9f800c4e89e044cc93f92e3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  inventoryController: {fileID: 5523533388250629289}
+  inventoryController: {fileID: 0}
   itemGrid: {fileID: 4688280924776608351}
 --- !u!1 &5425392300667547035
 GameObject:
@@ -956,7 +956,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 40fe8fc0d9f800c4e89e044cc93f92e3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  inventoryController: {fileID: 5523533388250629289}
+  inventoryController: {fileID: 0}
   itemGrid: {fileID: 3066199670664442443}
 --- !u!1 &6256523787862765133
 GameObject:
@@ -1042,8 +1042,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8944121699330871558}
-  - component: {fileID: 5523533388250629289}
-  - component: {fileID: 8932793274909202678}
   m_Layer: 5
   m_Name: InventoryOtherUI
   m_TagString: Untagged
@@ -1079,48 +1077,6 @@ RectTransform:
   m_AnchoredPosition: {x: -487, y: -193.85}
   m_SizeDelta: {x: 828.1563, y: 692.3037}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &5523533388250629289
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6455028484378285245}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 52993029b1b2df44abdffe148cc12a66, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  contextMenu: {fileID: 0}
-  grids:
-  - {fileID: 3066199670664442443}
-  - {fileID: 7724352700149767297}
-  - {fileID: 3001876507253964456}
-  items:
-  - {fileID: 11400000, guid: 306fd59f34f7b1b4c948ed4e22653969, type: 2}
-  - {fileID: 11400000, guid: ddcc013a94659bc4bb68e1f1fcf133cf, type: 2}
-  - {fileID: 11400000, guid: 0156facadb44fc244ac5036fd3335aee, type: 2}
-  - {fileID: 11400000, guid: 65defc33165764a4687df65bc6be9884, type: 2}
-  - {fileID: 11400000, guid: f41d2fa2dc48557439ac3e9a418765ae, type: 2}
-  - {fileID: 11400000, guid: ac88002b590d69347a03057e4563e671, type: 2}
-  - {fileID: 11400000, guid: c65f5e3e4f0fc5a4cba9d990faa6d337, type: 2}
-  - {fileID: 11400000, guid: 1940e62c6779fbe4b82ec52dadbc625b, type: 2}
-  itemPrefab: {fileID: 3786321271830801994, guid: 211cbaeb343b3fa469149bc570354fe2,
-    type: 3}
-  inventoryIHighLight: {fileID: 8932793274909202678}
---- !u!114 &8932793274909202678
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6455028484378285245}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8df4f9ad0edcb9249a81e441f00aca35, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  highLighter: {fileID: 8406746145436257572}
 --- !u!1 &6758445486250645479
 GameObject:
   m_ObjectHideFlags: 0
@@ -1230,7 +1186,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 40fe8fc0d9f800c4e89e044cc93f92e3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  inventoryController: {fileID: 5523533388250629289}
+  inventoryController: {fileID: 0}
   itemGrid: {fileID: 6758445486250645465}
 --- !u!1 &7127259476179232240
 GameObject:
@@ -1415,7 +1371,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 40fe8fc0d9f800c4e89e044cc93f92e3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  inventoryController: {fileID: 5523533388250629289}
+  inventoryController: {fileID: 0}
   itemGrid: {fileID: 7724352700149767297}
 --- !u!1 &8137780259099687045
 GameObject:

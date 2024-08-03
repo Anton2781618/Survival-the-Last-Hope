@@ -15,7 +15,7 @@ namespace MyProject
         [SerializeField] private Transform debugTarget;
         [SerializeField] private SettingsRaycaster settingsRaycaster;
         [SerializeField] private InventoryUI inventoryUI; 
-        [SerializeField] private InventoryController inventoryController; 
+        [SerializeField] private InventoryHandler inventoryHandler; 
 
         public override void InstallBindings()
         {
@@ -33,8 +33,8 @@ namespace MyProject
             // Container.Bind<IInventory>().To<Inventory>().AsTransient();
             
             Container.Bind<IInventoryUI>().To<InventoryUI>().FromInstance(inventoryUI).AsSingle();
-
-            Container.Bind<IInventoryController>().To<InventoryController>().FromInstance(inventoryController).AsSingle();
+            
+            Container.Bind<InventoryHandler>().FromInstance(inventoryHandler).AsSingle();
         }
     }
 }

@@ -154,11 +154,11 @@ namespace Weapons
 
             InventoryItem clip = RemoveClip();
 
-            InventoryItem newClip = IInventorySystem.InventoryController.Inventory.TakeTtem(InventoryItem, ItemData.ItemType.Обойма_патронов);
+            InventoryItem newClip = IInventorySystem.InventoryHandler.Inventory.TakeTtem(InventoryItem, ItemData.ItemType.Обойма_патронов);
 
             if(clip != null) 
             {
-                ItemGrid grid = IInventorySystem.InventoryController.InventoryUI.CheckFreeSpaceForItem(clip);
+                ItemGrid grid = IInventorySystem.InventoryHandler.InventoryUI.CheckFreeSpaceForItem(clip);
 
                 if(!grid)
                 {
@@ -166,7 +166,7 @@ namespace Weapons
                 } 
                 else
                 {
-                    IInventorySystem.InventoryController.InventoryUI.CreateAndInsertItem(clip, grid);
+                    IInventorySystem.InventoryHandler.InventoryUI.CreateAndInsertItem(clip, grid);
                 }
             }
             
@@ -181,7 +181,7 @@ namespace Weapons
 
             InsertClip(newClip);
 
-            IInventorySystem.InventoryController.InventoryUI.DestroyInventoryItem(newClip);
+            IInventorySystem.InventoryHandler.InventoryUI.DestroyInventoryItem(newClip);
 
             isReloading = false;
         }

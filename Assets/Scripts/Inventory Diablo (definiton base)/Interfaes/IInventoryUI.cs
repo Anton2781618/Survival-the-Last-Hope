@@ -7,6 +7,7 @@ namespace InventoryDiablo
         public void CreateAndInsertItem(InventoryItem inventoryItem, ItemGrid grid);
         public void SetInventoryOwner(IInventorySystem newOwner);
         public void DestroyInventoryItem(InventoryItem inventoryItem);
+        public void DestroyAllInventoryItem();
         public void ShowInventory();
 
         public void RefreshUI();

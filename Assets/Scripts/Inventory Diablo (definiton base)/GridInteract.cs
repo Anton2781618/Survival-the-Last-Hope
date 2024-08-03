@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using Zenject;
 
 namespace InventoryDiablo
 {
@@ -10,7 +11,7 @@ namespace InventoryDiablo
     [RequireComponent(typeof(ItemGrid))]
     public class GridInteract : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
     {
-    [SerializeField] private InventoryUI inventoryController;
+    [Inject] private InventoryManager InventoryManager;
     [SerializeField] private ItemGrid itemGrid;
 
         private void Start()
@@ -20,12 +21,12 @@ namespace InventoryDiablo
 
         void IPointerEnterHandler.OnPointerEnter(PointerEventData eventData)
         {
-            inventoryController.SelectedItemGrid = itemGrid;
+            InventoryManager.SelectedItemGrid = itemGrid;
         }
 
         void IPointerExitHandler.OnPointerExit(PointerEventData eventData)
         {
-            inventoryController.SelectedItemGrid = null;
+            InventoryManager.SelectedItemGrid = null;
         }
     }
 }

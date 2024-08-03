@@ -25,12 +25,12 @@ namespace MyProject
 
         [Inject] public IRaycastHandler raycastHandler { get; set;}
 
-        [Inject] public IInventoryController InventoryController { get; set;}
+        [Inject] public InventoryHandler InventoryHandler { get; set;}
 
 
         private void Awake()
         {
-            InventoryController.InventoryUI.SetInventoryOwner(this);
+            InventoryHandler.InventoryUI.SetInventoryOwner(this);
             
             WeaponStates.SetInventoryOwner(this);
 
@@ -60,7 +60,7 @@ namespace MyProject
             //!временно
             if(Input.GetKeyUp(KeyCode.I))
             {
-                InventoryController.InventoryUI.ShowInventory();
+                InventoryHandler.InventoryUI.ShowInventory();
             }
         }
         
@@ -71,13 +71,16 @@ namespace MyProject
             {
                 if(raycastHandler.GetHitGameObject() == null) return;
                 
-                ItemOnstreet itemWorld = raycastHandler.GetHitGameObject().GetComponent<ItemOnstreet>();
+                // ItemOnstreet itemWorld = raycastHandler.GetHitGameObject().GetComponent<ItemOnstreet>();
+                Units.Unit itemWorld = raycastHandler.GetHitGameObject().GetComponent<Units.Unit>();
 
                 itemWorld.ShowText(false);
                 
                 if(itemWorld == null) return;
 
-                ItemGrid grid = InventoryController.InventoryUI.CheckFreeSpaceForItem(itemWorld.GetItem());
+                itemWorld.Use();
+
+                ItemGrid grid = InventoryHandler.InventoryUI.CheckFreeSpaceForItem(itemWorld.GetItem());
                 
 
                 if(!grid)
@@ -90,7 +93,7 @@ namespace MyProject
                 Destroy(itemWorld.gameObject);
 
                 // InventoryController.Inventory.AddItem(itemWorld.GetItem());
-                InventoryController.InventoryUI.CreateAndInsertItem(itemWorld.GetItem(), grid);
+                InventoryHandler.InventoryUI.CreateAndInsertItem(itemWorld.GetItem(), grid);
                 // InventoryController.InventoryUI.RefreshUI();
             } 
         }
@@ -112,7 +115,7 @@ namespace MyProject
         [ContextMenu("Показать инвентарь")]
         public void ChecksInventory()
         {
-            InventoryController.Inventory.ShowInventory();
+            InventoryHandler.Inventory.ShowInventory();
         }
 
         public void TakeOffItem(UIInventoryItem item)
@@ -134,7 +137,7 @@ namespace MyProject
         {
             Helper.spawner.SpawnWeaponOnStreet(item.ItemData.Prefab, item, transform);
 
-            InventoryController.Inventory.RemoveItem(item);
+            InventoryHandler.Inventory.RemoveItem(item);
         }
 
         [Serializable]

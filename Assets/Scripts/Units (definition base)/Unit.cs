@@ -6,5 +6,9 @@ namespace Units
 {
     public abstract class Unit : MonoBehaviour
     {
+        public virtual void Use()
+        {
+            
+        }
     }
 }

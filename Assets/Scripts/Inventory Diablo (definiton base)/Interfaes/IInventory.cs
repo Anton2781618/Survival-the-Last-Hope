@@ -1,15 +1,11 @@
-using System.Collections.Generic;
+using System;
 
 namespace InventoryDiablo
 {
     public interface IInventory
     {
-        public void AddItem(InventoryItem item);
-        public void RemoveItem(InventoryItem item);
-        public InventoryItem TakeTtem(InventoryItem model,ItemData.ItemType itemType);
-
-        public List<InventoryItem> GetInventoryItems();
-        public void ShowInventory();
+        public Inventory Inventory {get;}
+        public IInventoryUI InventoryUI {get;}
     }
     
 }
