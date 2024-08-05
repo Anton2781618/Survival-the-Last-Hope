@@ -35,6 +35,8 @@ namespace MyProject
             Container.Bind<IInventoryUI>().To<InventoryUI>().FromInstance(inventoryUI).AsSingle();
             
             Container.Bind<InventoryHandler>().FromInstance(inventoryHandler).AsSingle();
+
+            Container.Bind<CharacterController>().FromComponentSibling().AsSingle();
         }
     }
 }

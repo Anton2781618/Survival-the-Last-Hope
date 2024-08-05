@@ -18,7 +18,6 @@ namespace MyProject
 {
     public class Player : UnitHuman, IDestroyable, IInventorySystem, IMoveSystem, IWeaponStateSystem, IRaycastSysytem
     {
-        [SerializeField] private TextMeshProUGUI _text;
         [Inject] public IMuveHandler MuveHandler { get; set; }
         
         [Inject] public IWeaponStates WeaponStates { get; set;}
@@ -26,6 +25,8 @@ namespace MyProject
         [Inject] public IRaycastHandler raycastHandler { get; set;}
 
         [Inject] public InventoryHandler InventoryHandler { get; set;}
+
+        [Inject] public CharacterController CharacterControllerPlayer { get; }
 
 
         private void Awake()
@@ -137,52 +138,6 @@ namespace MyProject
             Helper.spawner.SpawnWeaponOnStreet(item.ItemData.Prefab, item, transform);
 
             InventoryHandler.Inventory.RemoveItem(item);
-        }
-
-        [Serializable]
-        public class SaveData
-        {
-            // public Inventory Inventory;
-
-            public float x;
-            public float y;
-            public float z;
-
-        }
-            
-
-        public void Save()
-        {
-            Debug.Log("Сохранение");
-            SaveData saveData = new SaveData
-            {
-
-                // Inventory = InventoryController.Inventory as Inventory,
-                
-                x = transform.position.x,
-                y = transform.position.y,
-                z = transform.position.z,
-                
-            };
-            
-
-            
-            BlazeSave.SaveData("Player", saveData);
-        }
-        
-        [ContextMenu("Загрузить")]
-        public void Load()
-        {
-            Debug.Log("Загрузка");
-            SaveData saveData = BlazeSave.LoadData<SaveData>("Player");
-            
-
-            Vector3 position = new Vector3(saveData.x, saveData.y, saveData.z);
-            this.transform.position = position;
-            Debug.Log(saveData.x + " " + saveData.y + " " + saveData.z);
-            
-            // InventoryController.Inventory = saveData.Inventory;
-
         }
     }
 }

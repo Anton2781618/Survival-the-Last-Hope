@@ -335,6 +335,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Game Systems
       objectReference: {fileID: 0}
+    - target: {fileID: 7660693252466254302, guid: a572de15ce068424b8c2ae297f825cc1,
+        type: 3}
+      propertyPath: player
+      value: 
+      objectReference: {fileID: 1652482158}
     - target: {fileID: 8153226840628053596, guid: a572de15ce068424b8c2ae297f825cc1,
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
@@ -886,6 +891,11 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 151190033966568515, guid: 229474381bd9bcd4c84f9ae25e9b0536,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 165293124411116850, guid: 229474381bd9bcd4c84f9ae25e9b0536,
         type: 3}
       propertyPath: debugTarget

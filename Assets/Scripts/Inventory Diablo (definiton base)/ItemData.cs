@@ -4,7 +4,7 @@ using UnityEngine;
 namespace InventoryDiablo
 {
 
-    [CreateAssetMenu, Serializable]
+    [CreateAssetMenu]
     public class ItemData : ScriptableObject
     {
         public Sprite ItemIcon;
