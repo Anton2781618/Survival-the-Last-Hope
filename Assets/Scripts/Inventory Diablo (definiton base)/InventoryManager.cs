@@ -116,7 +116,7 @@ namespace InventoryDiablo
         {
             Vector2Int? posOnGrid = grid.FindSpaceForObject(itemToInsert);
 
-            if(gameObject.activeSelf) grid.owner.InventoryHandler.Inventory.AddItem(itemToInsert.InventoryItem);
+            // if(gameObject.activeSelf) grid.owner.InventoryHandler.Inventory.AddItem(itemToInsert.InventoryItem);
             
             if(posOnGrid == null) 
             {

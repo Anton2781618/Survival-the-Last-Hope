@@ -158,7 +158,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 772248044345183085}
-  - component: {fileID: 6667658115562681283}
   m_Layer: 0
   m_Name: GameDataBase
   m_TagString: Untagged
@@ -181,19 +180,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 4706640829339872419}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &6667658115562681283
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2147954976727866155}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 70d01ea599965f34482657436bd420ce, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  tree: {fileID: 0}
 --- !u!1 &3530434177468099698
 GameObject:
   m_ObjectHideFlags: 0
@@ -1324,11 +1310,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 4706640829339872419}
     m_Modifications:
-    - target: {fileID: 49164593114130651, guid: b3cdb48e8f837ff40950068d43f886b8,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 1637781899535093818, guid: b3cdb48e8f837ff40950068d43f886b8,
         type: 3}
       propertyPath: m_Pivot.x
@@ -1429,73 +1410,37 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 3160802233017359610, guid: b3cdb48e8f837ff40950068d43f886b8,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4534626250825125102, guid: b3cdb48e8f837ff40950068d43f886b8,
-        type: 3}
-      propertyPath: m_Enabled
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4534626250825125102, guid: b3cdb48e8f837ff40950068d43f886b8,
-        type: 3}
-      propertyPath: inventoryIHighLight
-      value: 
-      objectReference: {fileID: 5522348190864925601}
     - target: {fileID: 5219999915041937535, guid: b3cdb48e8f837ff40950068d43f886b8,
         type: 3}
       propertyPath: m_Name
       value: Canvas
-      objectReference: {fileID: 0}
-    - target: {fileID: 5940845257812774540, guid: b3cdb48e8f837ff40950068d43f886b8,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7021682111513269941, guid: b3cdb48e8f837ff40950068d43f886b8,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7112131930600526969, guid: b3cdb48e8f837ff40950068d43f886b8,
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 2604452986042987840}
-    - target: {fileID: 7112131930600526969, guid: b3cdb48e8f837ff40950068d43f886b8,
-        type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: CreateRandomItem
-      objectReference: {fileID: 0}
-    - target: {fileID: 7112131930600526969, guid: b3cdb48e8f837ff40950068d43f886b8,
-        type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
-      value: InventoryDiablo.InventoryManager, _InventoryDiablo
-      objectReference: {fileID: 0}
     - target: {fileID: 8255450711998630047, guid: b3cdb48e8f837ff40950068d43f886b8,
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
-      value: 6
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8255450711998630047, guid: b3cdb48e8f837ff40950068d43f886b8,
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
-      objectReference: {fileID: 4652863142254957264}
+      objectReference: {fileID: 0}
     - target: {fileID: 8255450711998630047, guid: b3cdb48e8f837ff40950068d43f886b8,
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: SetActive
+      value: ShowInventory
       objectReference: {fileID: 0}
     - target: {fileID: 8255450711998630047, guid: b3cdb48e8f837ff40950068d43f886b8,
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
-      value: UnityEngine.GameObject, UnityEngine
+      value: MyProject.Player, Assembly-CSharp
       objectReference: {fileID: 0}
-    m_RemovedComponents:
-    - {fileID: 702028215930163377, guid: b3cdb48e8f837ff40950068d43f886b8, type: 3}
+    m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []
@@ -1515,12 +1460,6 @@ MonoBehaviour:
 --- !u!223 &3258468725903739613 stripped
 Canvas:
   m_CorrespondingSourceObject: {fileID: 5077613453488276727, guid: b3cdb48e8f837ff40950068d43f886b8,
-    type: 3}
-  m_PrefabInstance: {fileID: 7732441426597744170}
-  m_PrefabAsset: {fileID: 0}
---- !u!1 &4652863142254957264 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 3160802233017359610, guid: b3cdb48e8f837ff40950068d43f886b8,
     type: 3}
   m_PrefabInstance: {fileID: 7732441426597744170}
   m_PrefabAsset: {fileID: 0}

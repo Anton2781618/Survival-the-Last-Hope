@@ -28,6 +28,24 @@ namespace InventoryDiablo
             Destroy(this.gameObject);
         }
 
+        public override void Use(Unit unit)
+        {
+            IInventorySystem inventorySystem = unit as IInventorySystem;
+
+            ItemGrid grid = inventorySystem.InventoryHandler.InventoryUI.CheckFreeSpaceForItem(_item);
+
+            if(!grid)
+            {
+                Debug.Log("Нет места в инвентаре");
+                
+                return;
+            }
+
+            inventorySystem.InventoryHandler.InventoryUI.CreateAndInsertItem(_item, grid);
+
+            Destroy(gameObject);
+        }
+
         //переключить текст
         public void ShowText(bool isShow) => text.gameObject.SetActive(isShow);
 

@@ -101,9 +101,10 @@ namespace InventoryDiablo
 
         public void ShowInventory()
         {
+            Debug.Log("Показать инвентарь " + transform.name);
             gameObject.SetActive(true);
 
-            // RefreshUI();
+            RefreshUI();
         }
     }
 }

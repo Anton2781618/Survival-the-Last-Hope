@@ -159,6 +159,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1144589663051472964}
+  - component: {fileID: 7992123873019329170}
   m_Layer: 5
   m_Name: InventoryChestUI
   m_TagString: Untagged
@@ -190,6 +191,20 @@ RectTransform:
   m_AnchoredPosition: {x: -487, y: -182.85}
   m_SizeDelta: {x: 828.1563, y: 692.3037}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &7992123873019329170
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3056078563680445951}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 52993029b1b2df44abdffe148cc12a66, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  grids:
+  - {fileID: 3928244696480905205}
 --- !u!1 &3992175586455566445
 GameObject:
   m_ObjectHideFlags: 0
@@ -279,9 +294,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bae209eda2508f340bb2047a90f51cb7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  chest:
-    money: 500
-    inventoryItems: []
   GridSizeWidth: 15
   GridSizeHeight: 10
   gridForItemsType: -1
@@ -298,7 +310,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 40fe8fc0d9f800c4e89e044cc93f92e3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  inventoryController: {fileID: 0}
   itemGrid: {fileID: 3928244696480905205}
 --- !u!1 &4086837418556333273
 GameObject:

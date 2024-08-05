@@ -1,19 +1,29 @@
 using InventoryDiablo;
 using Units;
 using UnityEngine;
+using Zenject;
 
 public class Chest : Unit, IInventorySystem
 {
-    [SerializeField] private Collider _collider;
-    [SerializeField] private Rigidbody _rigidbody;
     [SerializeField] private OutlineSystem.Outline _outline;
     [SerializeField] private GameObject text;
 
-    public InventoryHandler InventoryHandler { get; set; }
+    [Inject] public InventoryHandler InventoryHandler { get; set; }
 
-    public override void Use()
+    private void Start() 
     {
+    }
+
+    public override void Use(Unit unit)
+    {
+
+        InventoryHandler.InventoryUI.SetInventoryOwner(this);
         
+        IInventorySystem unitInventory = unit as IInventorySystem;
+
+        unitInventory.InventoryHandler.InventoryUI.ShowInventory();
+
+        InventoryHandler.InventoryUI.ShowInventory();
     }
 
     void OnMouseEnter()

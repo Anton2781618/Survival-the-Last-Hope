@@ -60,8 +60,13 @@ namespace MyProject
             //!временно
             if(Input.GetKeyUp(KeyCode.I))
             {
-                InventoryHandler.InventoryUI.ShowInventory();
+                ShowInventory();
             }
+        }
+
+        public void ShowInventory()
+        {
+            InventoryHandler.InventoryUI.ShowInventory();
         }
         
         //!временно
@@ -69,31 +74,25 @@ namespace MyProject
         {
             if(Input.GetKeyUp(KeyCode.E))
             {
-                if(raycastHandler.GetHitGameObject() == null) return;
+                if(raycastHandler.GetHitGameObject() == null)
+                {
+                    Debug.Log("луч не попал в объект");
+                    return;
+                } 
                 
-                // ItemOnstreet itemWorld = raycastHandler.GetHitGameObject().GetComponent<ItemOnstreet>();
                 Units.Unit itemWorld = raycastHandler.GetHitGameObject().GetComponent<Units.Unit>();
 
-                itemWorld.ShowText(false);
                 
-                if(itemWorld == null) return;
-
-                itemWorld.Use();
-
-                ItemGrid grid = InventoryHandler.InventoryUI.CheckFreeSpaceForItem(itemWorld.GetItem());
-                
-
-                if(!grid)
+                if(itemWorld == null)
                 {
-                    Debug.Log("Нет места в инвентаре");
-                    
+                    Debug.Log("Объект не найден");
+
                     return;
-                }
-                
-                Destroy(itemWorld.gameObject);
+                } 
+
+                itemWorld.Use(this);
 
                 // InventoryController.Inventory.AddItem(itemWorld.GetItem());
-                InventoryHandler.InventoryUI.CreateAndInsertItem(itemWorld.GetItem(), grid);
                 // InventoryController.InventoryUI.RefreshUI();
             } 
         }
