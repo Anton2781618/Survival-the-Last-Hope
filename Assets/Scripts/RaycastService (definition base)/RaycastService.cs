@@ -19,7 +19,7 @@ public class RaycastService : IRaycastHandler
 
     public void UpdateMe() => Raycaster();
 
-    public GameObject GetHitGameObject() => hit.collider != null && CheckLayers() ? hit.collider.gameObject : null;
+    public Collider GetHitCollider() => hit.collider != null && CheckLayers() ? hit.collider : null;
 
     private bool CheckLayers()
     {

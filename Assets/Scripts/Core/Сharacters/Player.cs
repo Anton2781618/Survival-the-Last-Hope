@@ -36,6 +36,14 @@ namespace MyProject
             WeaponStates.SetInventoryOwner(this);
 
             WeaponStates.StateCompleted += UpdateInventory;
+
+            Helper.GameDataBase.AddUnit(CharacterControllerPlayer, this);
+        }
+
+        [ContextMenu("проверить")]
+        public void dasd()
+        {
+            Debug.Log(Helper.GameDataBase);
         }
         
         public void SetDamage()
@@ -75,13 +83,13 @@ namespace MyProject
         {
             if(Input.GetKeyUp(KeyCode.E))
             {
-                if(raycastHandler.GetHitGameObject() == null)
+                if(raycastHandler.GetHitCollider() == null)
                 {
                     Debug.Log("луч не попал в объект");
                     return;
                 } 
                 
-                Units.Unit itemWorld = raycastHandler.GetHitGameObject().GetComponent<Units.Unit>();
+                Units.Unit itemWorld = raycastHandler.GetHitCollider().GetComponent<Units.Unit>();
 
                 
                 if(itemWorld == null)
@@ -109,7 +117,7 @@ namespace MyProject
                 WeaponStates.TakeAwayWeapon();
             }
             
-            WeaponStates.SetWeapon(Helper.spawner.SpawnWeaponOnUnit(item));
+            WeaponStates.SetWeapon(Helper.Spawner.SpawnWeaponOnUnit(item));
         }
 
         [ContextMenu("Показать инвентарь")]
@@ -135,7 +143,7 @@ namespace MyProject
 
         public void DropItem(InventoryItem item)
         {
-            Helper.spawner.SpawnWeaponOnStreet(item.ItemData.Prefab, item, transform);
+            Helper.Spawner.SpawnWeaponOnStreet(item.ItemData.Prefab, item, transform);
 
             InventoryHandler.Inventory.RemoveItem(item);
         }

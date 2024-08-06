@@ -12,5 +12,7 @@ public class ChestInstaller : MonoInstaller
         Container.Bind<IInventoryUI>().To<InventoryUI>().FromInstance(inventoryUI).AsSingle();
 
         Container.Bind<InventoryHandler>().FromInstance(inventoryHandler).AsSingle();
+
+        Container.Bind<Collider>().FromComponentSibling().AsSingle();
     }
 }

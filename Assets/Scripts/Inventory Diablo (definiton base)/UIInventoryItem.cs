@@ -10,7 +10,7 @@ namespace InventoryDiablo
         public int onGridPositionX;  
         public int onGridPositionY; 
         
-        
+        [SerializeField] private Image icon;
         public RectTransform rectItemHighLight;
         public RectTransform rectTransform;
         [SerializeField] public Text amauntText;
@@ -71,7 +71,7 @@ namespace InventoryDiablo
         {
             inventoryItem = new InventoryItem(itemData, amount);
 
-            GetComponent<Image>().sprite = itemData.ItemIcon;
+            icon.sprite = itemData.ItemIcon;
 
             Vector2 size = new Vector2();
 

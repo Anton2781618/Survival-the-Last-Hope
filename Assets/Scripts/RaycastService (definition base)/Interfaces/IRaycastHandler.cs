@@ -6,5 +6,5 @@ public interface IRaycastHandler
 {
     public void UpdateMe();
 
-    public GameObject GetHitGameObject();
+    public Collider GetHitCollider();
 }

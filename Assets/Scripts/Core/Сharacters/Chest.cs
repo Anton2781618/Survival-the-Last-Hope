@@ -3,64 +3,71 @@ using Units;
 using UnityEngine;
 using Zenject;
 
-public class Chest : Unit, IInventorySystem
+namespace MyProject
 {
-    [SerializeField] private OutlineSystem.Outline _outline;
-    [SerializeField] private GameObject text;
-
-    [Inject] public InventoryHandler InventoryHandler { get; set; }
-
-    private void Start() 
+    public class Chest : Unit, IInventorySystem
     {
-    }
-
-    public override void Use(Unit unit)
-    {
-
-        InventoryHandler.InventoryUI.SetInventoryOwner(this);
         
-        IInventorySystem unitInventory = unit as IInventorySystem;
+        [SerializeField] private OutlineSystem.Outline _outline;
+        [SerializeField] private GameObject text;
+        [Inject] private Collider myCollider;
 
-        unitInventory.InventoryHandler.InventoryUI.ShowInventory();
+        [Inject] public InventoryHandler InventoryHandler { get; set; }
 
-        InventoryHandler.InventoryUI.ShowInventory();
-    }
+        private void Awake() 
+        {
+            Debug.Log(myCollider.transform.name);
+            Helper.GameDataBase.AddUnit(myCollider, this);
+        }
 
-    void OnMouseEnter()
-    {
-        _outline.enabled = true;
+        public override void Use(Unit unit)
+        {
 
-        ShowText(true);
+            InventoryHandler.InventoryUI.SetInventoryOwner(this);
+            
+            IInventorySystem unitInventory = unit as IInventorySystem;
 
-        text.transform.position = new Vector3(transform.position.x, transform.position.y, transform.position.z - 1);
-    }
+            unitInventory.InventoryHandler.InventoryUI.ShowInventory();
 
-    void OnMouseOver()
-    {
-        // rend.material.color -= new Color(0.1F, 0, 0) * Time.deltaTime;
-    }
+            InventoryHandler.InventoryUI.ShowInventory();
+        }
 
-    void OnMouseExit()
-    {
-        ShowText(false);
+        void OnMouseEnter()
+        {
+            _outline.enabled = true;
 
-        _outline.enabled = false;
-    }
+            ShowText(true);
 
-    public void ShowText(bool isShow) => text.gameObject.SetActive(isShow);
+            text.transform.position = new Vector3(transform.position.x, transform.position.y, transform.position.z - 1);
+        }
 
-    public void EquipItem(InventoryItem item)
-    {
-        throw new System.NotImplementedException();
-    }
+        void OnMouseOver()
+        {
+            // rend.material.color -= new Color(0.1F, 0, 0) * Time.deltaTime;
+        }
 
-    public void TakeOffItem(UIInventoryItem item)
-    {
-        throw new System.NotImplementedException();
-    }
+        void OnMouseExit()
+        {
+            ShowText(false);
 
-    public void DropItem(InventoryItem item)
-    {
-        throw new System.NotImplementedException();
+            _outline.enabled = false;
+        }
+
+        public void ShowText(bool isShow) => text.gameObject.SetActive(isShow);
+
+        public void EquipItem(InventoryItem item)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public void TakeOffItem(UIInventoryItem item)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public void DropItem(InventoryItem item)
+        {
+            throw new System.NotImplementedException();
+        }
     }
 }

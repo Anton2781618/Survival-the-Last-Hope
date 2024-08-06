@@ -21,7 +21,7 @@ namespace MyProject
             hp -= 100;
             if(hp <= 0)
             {
-                Instantiate(Helper.spawner.MK3Dead, transform.position, transform.rotation);
+                Instantiate(Helper.Spawner.MK3Dead, transform.position, transform.rotation);
 
                 Destroy(gameObject);
             }

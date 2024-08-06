@@ -401,6 +401,50 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   loadMenuUI: {fileID: 0}
+--- !u!1 &5176876598599951527
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 6387686653411583007}
+  - component: {fileID: 4907170604916285816}
+  m_Layer: 0
+  m_Name: GameDataBase
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &6387686653411583007
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5176876598599951527}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 4706640829339872419}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &4907170604916285816
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5176876598599951527}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f31921967a7bc2e4286d3bafd7871119, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &5423287176849367859
 GameObject:
   m_ObjectHideFlags: 0
@@ -713,6 +757,7 @@ Transform:
   m_Children:
   - {fileID: 9173866739252308111}
   - {fileID: 4799518114878915825}
+  - {fileID: 6387686653411583007}
   - {fileID: 2404049897314541539}
   - {fileID: 4809260819294948618}
   - {fileID: 1357684827798439595}
@@ -891,10 +936,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 519cd47ad89720849b6034b2b9b7c6e6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  starterAssetsInputs: {fileID: 1897609634209859900}
   spawner: {fileID: 7333461355386757151}
-  inventoryManager: {fileID: 2604452986042987840}
   canvas: {fileID: 3258468725903739613}
+  gameDataBase: {fileID: 4907170604916285816}
 --- !u!1 &8548330601074069448
 GameObject:
   m_ObjectHideFlags: 0

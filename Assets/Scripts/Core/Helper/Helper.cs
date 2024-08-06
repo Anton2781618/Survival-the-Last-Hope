@@ -9,7 +9,8 @@ namespace MyProject
 {
     public static class Helper
     {
-        [Inject] public static Spawner spawner;
+        [Inject] public static Spawner Spawner;
+        [Inject] public static GameDataBase GameDataBase;
 
         /// <summary>
         /// Выключить все объекты которые передадут в метод, затом перенести их в пул  
