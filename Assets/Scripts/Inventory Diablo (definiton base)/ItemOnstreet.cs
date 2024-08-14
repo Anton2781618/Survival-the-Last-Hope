@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace InventoryDiablo
 {
-
+    [RequireComponent(typeof(Collider)), RequireComponent(typeof(Rigidbody)), RequireComponent(typeof(OutlineSystem.Outline))]
     public class ItemOnstreet : Unit
     {
         [SerializeField] private InventoryItem _item;
@@ -42,6 +42,8 @@ namespace InventoryDiablo
             }
 
             inventorySystem.InventoryHandler.InventoryUI.CreateAndInsertItem(_item, grid);
+
+            inventorySystem.InventoryHandler.Inventory.AddItem(_item);
 
             Destroy(gameObject);
         }

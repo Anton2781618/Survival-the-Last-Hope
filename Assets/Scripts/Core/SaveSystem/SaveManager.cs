@@ -31,7 +31,7 @@ namespace MyProject
 
             for (int i = 0; i < saveData.InventorySaveData.InventoryCount; i++)
             {
-                ItemData itemData = Resources.Load<ItemData>($"ScriptableObjects/{saveData.InventorySaveData.ItemDataNames[i]}");
+                ItemData itemData = Helper.GameDataBase.GetItemData(saveData.InventorySaveData.ItemDataNames[i]);
 
                 InventoryItem inventoryItem = new InventoryItem(itemData, saveData.InventorySaveData.InventoryItemsAmounts[i]);
 

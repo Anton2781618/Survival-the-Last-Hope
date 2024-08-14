@@ -20,7 +20,7 @@ namespace MyProject
     {
         [Inject] public IMuveHandler MuveHandler { get; set; }
         
-        [Inject] public IWeaponStates WeaponStates { get; set;}
+        [Inject] public IWeaponStates WeaponHandler { get; set;}
 
         [Inject] public IRaycastHandler raycastHandler { get; set;}
 
@@ -33,9 +33,9 @@ namespace MyProject
         {
             InventoryHandler.InventoryUI.SetInventoryOwner(this);
             
-            WeaponStates.SetInventoryOwner(this);
+            WeaponHandler.SetInventoryOwner(this);
 
-            WeaponStates.StateCompleted += UpdateInventory;
+            WeaponHandler.StateCompleted += UpdateInventory;
 
             Helper.GameDataBase.AddUnit(CharacterControllerPlayer, this);
         }
@@ -62,7 +62,7 @@ namespace MyProject
 
             MuveHandler.UpdateMe();
 
-            WeaponStates.UpdateMe();
+            WeaponHandler.UpdateMe();
 
             SelectedObjectOnstreet();
             
@@ -109,15 +109,17 @@ namespace MyProject
         public void EquipItem(InventoryItem item)
         {
             Debug.Log("Одеть предмет");
-            //!! временно
-            if(item.ItemData.TypeItem != ItemData.ItemType.Оружие) return;
-
-            if(!WeaponStates.WeaponIsNull())
-            {
-                WeaponStates.TakeAwayWeapon();
-            }
             
-            WeaponStates.SetWeapon(Helper.Spawner.SpawnWeaponOnUnit(item));
+            if(item.ItemData.TypeItem == ItemData.ItemType.Оружие)
+            {
+                if(!WeaponHandler.WeaponIsNull()) WeaponHandler.TakeAwayWeapon();
+                
+                WeaponHandler.SetWeapon(Helper.Spawner.SpawnWeaponOnUnit(item));
+            }
+            else
+            {
+                addClothes(item.ItemData.Prefab.gameObject);
+            }
         }
 
         [ContextMenu("Показать инвентарь")]
@@ -128,9 +130,9 @@ namespace MyProject
 
         public void TakeOffItem(UIInventoryItem item)
         {
-            if(!WeaponStates.WeaponIsNull())
+            if(!WeaponHandler.WeaponIsNull())
             {
-                WeaponStates.TakeAwayWeapon();
+                WeaponHandler.TakeAwayWeapon();
             }
         }
         
@@ -143,9 +145,29 @@ namespace MyProject
 
         public void DropItem(InventoryItem item)
         {
-            Helper.Spawner.SpawnWeaponOnStreet(item.ItemData.Prefab, item, transform);
+            Helper.Spawner.SpawnOnStreet(item.ItemData.Prefab, item, transform);
 
             InventoryHandler.Inventory.RemoveItem(item);
+        }
+
+        
+        [SerializeField] private SkinnedMeshRenderer playerSkin;
+        void addClothes(GameObject prefab)
+        {
+            GameObject clothObj = Instantiate(prefab, playerSkin.transform.parent.parent);
+            SkinnedMeshRenderer[] renderers = clothObj.GetComponentsInChildren<SkinnedMeshRenderer>();
+            foreach (SkinnedMeshRenderer renderer in renderers)
+            {
+                renderer.bones = playerSkin.bones;
+                renderer.rootBone = playerSkin.rootBone;
+            }
+        }
+        
+        public GameObject clo;
+        [ContextMenu("Одеть")]
+        public void ADDCLOTHES()
+        {
+            addClothes(clo);
         }
     }
 }

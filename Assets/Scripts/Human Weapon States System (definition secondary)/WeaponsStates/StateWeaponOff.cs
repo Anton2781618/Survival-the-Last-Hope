@@ -43,11 +43,16 @@ namespace States
 
             Transform rightHend = stateService.playerModel.rigTargetRight.transform;
             
-            Transform ToPosition = stateService.playerModel.ToPosition;
+            Transform toPosition = stateService.playerModel.PistolHolster;
+            
+            if(stateService.CurrentWeapon)
+            {
+                toPosition = stateService.CurrentWeapon.TypeWeapon == Weapons.WeaponBase.WeaponType.Pistol ? stateService.playerModel.PistolHolster : stateService.playerModel.RifleHolster;
+            } 
 
-            rightHend.localPosition = Vector3.Lerp(ConvertePoint(ToPosition.position), FromPoint, lerpRatio) + positionOffset;
+            rightHend.localPosition = Vector3.Lerp(ConvertePoint(toPosition.position), FromPoint, lerpRatio) + positionOffset;
 
-            rightHend.rotation = Quaternion.Lerp(ToPosition.rotation, FromRotation, lerpRatio);
+            rightHend.rotation = Quaternion.Lerp(toPosition.rotation, FromRotation, lerpRatio);
 
             //убераем вес левой руки
             stateService.playerModel.SetWeightLeftHand(lerpRatio);
@@ -63,7 +68,7 @@ namespace States
         {
             if(lerpRatio <= 0)
             {
-                stateService.CurrentWeapon?.HolsterWeapon(stateService.playerModel.ToPosition);
+                stateService.CurrentWeapon?.HolsterWeapon(stateService.CurrentWeapon.TypeWeapon == Weapons.WeaponBase.WeaponType.Pistol ? stateService.playerModel.PistolHolster : stateService.playerModel.RifleHolster);
 
                 SetNoWeapon();
             }

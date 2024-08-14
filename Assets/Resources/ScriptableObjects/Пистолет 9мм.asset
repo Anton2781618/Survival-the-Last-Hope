@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 899338d7b8ba7504faaf588374590522, type: 3}
   m_Name: "\u041F\u0438\u0441\u0442\u043E\u043B\u0435\u0442 9\u043C\u043C"
   m_EditorClassIdentifier: 
-  ItemIcon: {fileID: 21300000, guid: ebfae333c39903644aa38274e4abf39a, type: 3}
+  ItemIcon: {fileID: 69552275, guid: a12529b02c8fa5e4ebc777bbb409d105, type: 3}
   Title: "\u041F\u0438\u0441\u0442\u043E\u043B\u0435\u0442 9\u043C\u043C"
   Description: 
   Prefab: {fileID: -1152881421759394975, guid: 28c55101572547c42a314c7f2f8a6096, type: 3}

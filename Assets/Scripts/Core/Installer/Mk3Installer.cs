@@ -29,7 +29,7 @@ namespace MyProject
     }
     public class SpiderWeaponSystem : SpiderWeaponHandler, IWeaponStateSystem
     {
-        public IWeaponStates WeaponStates => throw new System.NotImplementedException();
+        public IWeaponStates WeaponHandler => throw new System.NotImplementedException();
 
     }
 }

@@ -16,7 +16,7 @@ GameObject:
   - component: {fileID: 7032409441463748227}
   - component: {fileID: 4643445874412423275}
   m_Layer: 6
-  m_Name: "\u0428\u043B\u0435\u043C"
+  m_Name: "\u0417\u0430\u0433\u043B\u0443\u0448\u043A\u0430"
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -31,8 +31,8 @@ Transform:
   m_GameObject: {fileID: 4544364508056942136}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 15.95697, y: 0.0491, z: 9.0365}
-  m_LocalScale: {x: 0.18598753, y: 0.15232614, z: 0.17306195}
+  m_LocalPosition: {x: 15.9127, y: 0.1561, z: 9.0158}
+  m_LocalScale: {x: 0.27453446, y: 0.3663572, z: 0.26894262}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -124,7 +124,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _item:
-    <ItemData>k__BackingField: {fileID: 11400000, guid: c65f5e3e4f0fc5a4cba9d990faa6d337,
+    <ItemData>k__BackingField: {fileID: 11400000, guid: f41d2fa2dc48557439ac3e9a418765ae,
       type: 2}
     OnItemsChanged:
       m_PersistentCalls:

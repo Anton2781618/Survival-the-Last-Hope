@@ -45,7 +45,7 @@ namespace Weapons
                     return;
                 }
                 else
-                if(InventoryItem.combinedItems[InventoryDiablo.ItemData.ItemType.Обойма_патронов].Amount <= 0)
+                if(InventoryItem.CombinedItems[InventoryDiablo.ItemData.ItemType.Обойма_патронов].Amount <= 0)
                 {
                     Debug.Log("Обойма пуста");
                     
@@ -69,7 +69,7 @@ namespace Weapons
                 
                     muzzleFlash.Play();
 
-                    InventoryItem.combinedItems[InventoryDiablo.ItemData.ItemType.Обойма_патронов].Amount--;
+                    InventoryItem.CombinedItems[InventoryDiablo.ItemData.ItemType.Обойма_патронов].Amount--;
 
                     InventoryItem.OnItemsChanged?.Invoke();
 
@@ -115,7 +115,7 @@ namespace Weapons
         }
 
         //проверить наличие обоймы в оружие
-        public bool CheckMagazine() => InventoryItem.combinedItems.ContainsKey(InventoryDiablo.ItemData.ItemType.Обойма_патронов);
+        public bool CheckMagazine() => InventoryItem.CombinedItems.ContainsKey(InventoryDiablo.ItemData.ItemType.Обойма_патронов);
 
 
 
@@ -167,6 +167,8 @@ namespace Weapons
                 else
                 {
                     IInventorySystem.InventoryHandler.InventoryUI.CreateAndInsertItem(clip, grid);
+
+                    IInventorySystem.InventoryHandler.Inventory.AddItem(clip);
                 }
             }
             

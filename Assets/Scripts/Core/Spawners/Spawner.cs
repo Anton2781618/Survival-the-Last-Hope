@@ -22,7 +22,7 @@ namespace MyProject
             return weapon;
         }
 
-        public void SpawnWeaponOnStreet(ItemOnstreet prefab, InventoryItem item, Transform ownerTransform)
+        public void SpawnOnStreet(ItemOnstreet prefab, InventoryItem item, Transform ownerTransform)
         {
             Vector3 vector = ownerTransform.position + ownerTransform.forward * 0.8f;
 

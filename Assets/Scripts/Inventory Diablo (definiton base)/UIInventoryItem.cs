@@ -52,11 +52,13 @@ namespace InventoryDiablo
         {
             Debug.Log($"!Обновлен UI предмета {inventoryItem.ItemData.Title} {inventoryItem.Amount}");
 
-            if(inventoryItem.ItemData.TypeItem == ItemData.ItemType.Оружие && inventoryItem.combinedItems.Count > 0)
+            if(inventoryItem.CombinedItems == null) inventoryItem.CombinedItems = new System.Collections.Generic.Dictionary<ItemData.ItemType, InventoryItem>();
+
+            if(inventoryItem.ItemData.TypeItem == ItemData.ItemType.Оружие && inventoryItem.CombinedItems.Count > 0)
             {
-                if(inventoryItem.combinedItems.ContainsKey(ItemData.ItemType.Обойма_патронов))
+                if(inventoryItem.CombinedItems.ContainsKey(ItemData.ItemType.Обойма_патронов))
                 {
-                    amauntText.text = inventoryItem.combinedItems[ItemData.ItemType.Обойма_патронов].Amount.ToString();
+                    amauntText.text = inventoryItem.CombinedItems[ItemData.ItemType.Обойма_патронов].Amount.ToString();
                 }
             }
             else
@@ -67,23 +69,23 @@ namespace InventoryDiablo
 
         public void UpdateAmount(int sum) => amauntText.text = (inventoryItem.Amount += sum).ToString();
 
-        internal void Setup(ItemData itemData, ItemGrid grid, int amount)
+        internal void Setup(InventoryItem item, ItemGrid grid, int amount)
         {
-            inventoryItem = new InventoryItem(itemData, amount);
+            inventoryItem = item;
 
-            icon.sprite = itemData.ItemIcon;
+            icon.sprite = item.ItemData.ItemIcon;
 
             Vector2 size = new Vector2();
 
-            size.x = itemData.Width * ItemGrid.titleSizeWidth;
+            size.x = item.ItemData.Width * ItemGrid.titleSizeWidth;
 
-            size.y = itemData.Height * ItemGrid.titleSizeHeight;
+            size.y = item.ItemData.Height * ItemGrid.titleSizeHeight;
 
             rectTransform.sizeDelta = size; 
 
             rectItemHighLight.sizeDelta = size;
 
-            amauntText.gameObject.SetActive(!itemData.IsSingle);
+            amauntText.gameObject.SetActive(!item.ItemData.IsSingle);
 
             amauntText.rectTransform.sizeDelta = size;
 

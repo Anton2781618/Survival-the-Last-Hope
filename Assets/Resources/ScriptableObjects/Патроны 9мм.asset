@@ -15,7 +15,7 @@ MonoBehaviour:
   ItemIcon: {fileID: 0}
   Title: "\u041F\u0430\u0442\u0440\u043E\u043D\u044B 9\u043C\u043C"
   Description: 
-  Prefab: {fileID: 0}
+  Prefab: {fileID: 688769618811775190, guid: 21e1fb2b21fb18147b9b2e0521bf6b7b, type: 3}
   Width: 1
   Height: 1
   Benefit: 0

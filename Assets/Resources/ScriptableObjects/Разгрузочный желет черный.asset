@@ -16,7 +16,7 @@ MonoBehaviour:
   ItemIcon: {fileID: 21300000, guid: 93b1f16e0dcc28847a892daab3618a51, type: 3}
   Title: 
   Description: 
-  Prefab: {fileID: 688769618811775190, guid: 67be09c6169ae3042993c88101816d81, type: 3}
+  Prefab: {fileID: 2263946598004552975, guid: 737469d6143661c49a378f5e52d824fb, type: 3}
   Width: 4
   Height: 4
   Benefit: 0

@@ -20,7 +20,8 @@ namespace Units
         public Transform rigTargetLeft;
         public AnimationCurve lerpCurve;
 
-        public Transform ToPosition;
+        public Transform PistolHolster;
+        public Transform RifleHolster;
         public Transform objectForLocalSpace;
         public Vector3 lerpOffset;
         public AnimationCurve lerpOffsetHend;

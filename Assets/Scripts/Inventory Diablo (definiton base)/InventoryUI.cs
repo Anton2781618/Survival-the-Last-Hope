@@ -27,7 +27,7 @@ namespace InventoryDiablo
 
         public void CreateAndInsertItem(InventoryItem inventoryItem, ItemGrid grid)
         {
-            inventoryManager.CreateAndInsertItem(inventoryItem.ItemData, grid, inventoryItem.Amount);
+            inventoryManager.CreateAndInsertItem(inventoryItem, grid, inventoryItem.Amount);
         }
 
         public void DestroyInventoryItem(InventoryItem inventoryItem)
@@ -78,7 +78,7 @@ namespace InventoryDiablo
             foreach (InventoryItem inventoryItem in owner.InventoryHandler.Inventory.GetInventoryItems())
             {
                 
-                ItemGrid grid = grids.FirstOrDefault(t => t.gridName == inventoryItem.gridName);
+                ItemGrid grid = grids.FirstOrDefault(t => t.gridName == inventoryItem.GridName);
 
                 CreateAndInsertItem(inventoryItem, grid);
             }
@@ -106,5 +106,11 @@ namespace InventoryDiablo
 
             RefreshUI();
         }
+
+        public void CreateRandomItem()
+        {
+            inventoryManager.CreateRandomItem(grids[0]);
+        }
+            
     }
 }

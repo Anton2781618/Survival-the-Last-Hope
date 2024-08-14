@@ -12,15 +12,14 @@ namespace InventoryDiablo
     public class InventoryItem
     {    
         [field: SerializeField] public ItemData ItemData { get; private set; }       
-        public delegate void MyDelegate();
-        public UnityEvent OnItemsChanged;
         private Dictionary<ItemType,MyDelegate> delegatesDict;
-        public Dictionary<ItemType, InventoryItem> combinedItems;
+        public Dictionary<ItemType, InventoryItem> CombinedItems;
         [SerializeField] private int amount = 0;
         [SerializeField] private int price = 0; 
-        // public ItemGrid Grid {get; set;}
-        public GridName gridName = GridName.backpack;
+        public GridName GridName = GridName.BackpackGrid;
+        public UnityEvent OnItemsChanged;
 
+        public delegate void MyDelegate();
             //свойство для доступа к количеству предметов при обращении обновляет текст
         public int Amount 
         {
@@ -47,7 +46,7 @@ namespace InventoryDiablo
 
             OnItemsChanged = new UnityEvent();
          
-            combinedItems = new Dictionary<ItemType, InventoryItem>();
+            CombinedItems = new Dictionary<ItemType, InventoryItem>();
             
             Amount = amount;
         }
@@ -58,11 +57,11 @@ namespace InventoryDiablo
         {
             InventoryItem item = null;
 
-            if(combinedItems.ContainsKey(ItemType.Обойма_патронов))
+            if(CombinedItems.ContainsKey(ItemType.Обойма_патронов))
             {
-                item = combinedItems[ItemType.Обойма_патронов];
+                item = CombinedItems[ItemType.Обойма_патронов];
 
-                combinedItems.Remove(ItemType.Обойма_патронов);
+                CombinedItems.Remove(ItemType.Обойма_патронов);
             } 
             
             return item;
@@ -72,7 +71,7 @@ namespace InventoryDiablo
 
         public void InsertСombinedItems(ItemType itemType, InventoryItem inventoryItem)
         {
-            if(!combinedItems.ContainsKey(itemType)) combinedItems.Add(itemType, inventoryItem);
+            if(!CombinedItems.ContainsKey(itemType)) CombinedItems.Add(itemType, inventoryItem);
         }
 
         public void InitDict() 
@@ -80,9 +79,9 @@ namespace InventoryDiablo
             delegatesDict = new Dictionary<ItemType, MyDelegate>();
             
             delegatesDict.Add(ItemType.Шлем, UseHelmet);
-            delegatesDict.Add(ItemType.Броня, UseArmor);
+            delegatesDict.Add(ItemType.Разгрузка, UseArmor);
             delegatesDict.Add(ItemType.Ремень, UseBelt);
-            delegatesDict.Add(ItemType.Штаны, UseTrousers);
+            delegatesDict.Add(ItemType.Рюкзак, UseTrousers);
             delegatesDict.Add(ItemType.Сапоги, UseBoots);
             delegatesDict.Add(ItemType.Оружие, UseWeapon);
             delegatesDict.Add(ItemType.Щит, UseShild);

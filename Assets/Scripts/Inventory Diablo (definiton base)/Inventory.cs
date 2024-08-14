@@ -85,15 +85,16 @@ namespace InventoryDiablo
         // метод убирает из списка итемов в инвентаре определенный итем 
         public void RemoveItem(InventoryItem item)
         {
-            for (int i = 0; i < inventoryItems.Count; i++)
-            {
-                if(inventoryItems[i].ItemData == item.ItemData && inventoryItems[i].Amount == item.Amount)
-                {
-                    inventoryItems.RemoveAt(i);
+            inventoryItems.Remove(item);
+            // for (int i = 0; i < inventoryItems.Count; i++)
+            // {
+            //     if(inventoryItems[i].ItemData == item.ItemData && inventoryItems[i].Amount == item.Amount)
+            //     {
+            //         inventoryItems.RemoveAt(i);
 
-                    return;
-                }
-            }
+            //         return;
+            //     }
+            // }
         }
 
         public InventoryItem TakeTtem(InventoryItem model,ItemData.ItemType itemType)
@@ -134,9 +135,9 @@ namespace InventoryDiablo
 
             foreach (var item in inventoryItems)
             {
-                Debug.Log($"{item.ItemData.Title} внутри итема {item.combinedItems.Count} предметов");
+                Debug.Log($"{item.ItemData.Title} внутри итема {item.CombinedItems.Count} предметов");
 
-                foreach (var combinedItem in item.combinedItems)
+                foreach (var combinedItem in item.CombinedItems)
                 {
                     Debug.Log(item.ItemData.Title + " " + combinedItem.Value.ItemData.Title + " " + combinedItem.Value.Amount);
                 }

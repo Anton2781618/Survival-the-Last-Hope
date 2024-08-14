@@ -443,12 +443,13 @@ MonoBehaviour:
     type: 3}
   InventoryItem:
     <ItemData>k__BackingField: {fileID: 0}
+    amount: 0
+    price: 0
+    GridName: 0
     OnItemsChanged:
       m_PersistentCalls:
         m_Calls: []
-    amount: 0
-    price: 0
-    gridName: 0
+  TypeWeapon: 1
 --- !u!114 &-6479620846070134182
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -464,12 +465,12 @@ MonoBehaviour:
   _item:
     <ItemData>k__BackingField: {fileID: 11400000, guid: 306fd59f34f7b1b4c948ed4e22653969,
       type: 2}
+    amount: 0
+    price: 0
+    GridName: 0
     OnItemsChanged:
       m_PersistentCalls:
         m_Calls: []
-    amount: 0
-    price: 0
-    gridName: 0
   _collider: {fileID: -3162277348460582708}
   _rigidbody: {fileID: -8736061226518597766}
   _outline: {fileID: -994985856135360568}

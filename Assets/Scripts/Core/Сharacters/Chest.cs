@@ -16,7 +16,6 @@ namespace MyProject
 
         private void Awake() 
         {
-            Debug.Log(myCollider.transform.name);
             Helper.GameDataBase.AddUnit(myCollider, this);
         }
 
@@ -67,7 +66,9 @@ namespace MyProject
 
         public void DropItem(InventoryItem item)
         {
-            throw new System.NotImplementedException();
+            Helper.Spawner.SpawnOnStreet(item.ItemData.Prefab, item, transform);
+
+            InventoryHandler.Inventory.RemoveItem(item);
         }
     }
 }

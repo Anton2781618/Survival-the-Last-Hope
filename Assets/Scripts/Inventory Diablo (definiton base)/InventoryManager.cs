@@ -30,7 +30,8 @@ namespace InventoryDiablo
         private RectTransform itemRectTransform;
         [Inject] private Canvas canvas;
 
-        [SerializeField] private List<ItemData> items;
+        // [SerializeField] private List<ItemData> items;
+        [SerializeField] private List<InventoryItem> items;
         [SerializeField] private UIInventoryItem itemPrefab;
 
         public InventoryIHighLight inventoryIHighLight;
@@ -45,7 +46,7 @@ namespace InventoryDiablo
             {
                 if(UIselectedItem == null)
                 {
-                    CreateRandomItem();
+                    CreateRandomItem(selectedItemGrid);
                 }
             }
 
@@ -65,7 +66,7 @@ namespace InventoryDiablo
 
                 if(Input.GetMouseButtonDown(0))
                 {
-                    if(UIselectedItem && !IsTreid)DropItem(UIselectedItem.InventoryItem);
+                    if(UIselectedItem && !IsTreid) DropItem(UIselectedItem.InventoryItem);
                 }
 
                 return;
@@ -100,9 +101,14 @@ namespace InventoryDiablo
         [ContextMenu("InsertRandomItem")]
         public void InsertRandomItem()
         {
-            if(selectedItemGrid == null) {return;}
+            if(selectedItemGrid == null) 
+            {
+                Debug.LogError("Не выбрана сетка для вставки предмета");
 
-            CreateRandomItem();
+                return;
+            }
+
+            CreateRandomItem(selectedItemGrid);
 
             UIInventoryItem itemToInsert = UIselectedItem;
 
@@ -132,11 +138,11 @@ namespace InventoryDiablo
 
         //!!!Этот метод создает итем и устанавливает его на сетку ОБРАЩАТЬСЯ ЧЕРЕЗ НЕГО
         //создать физически итем и установить его на сетку 
-        public void CreateAndInsertItem(ItemData itemData, ItemGrid grid, int amount = 0)
+        public void CreateAndInsertItem(InventoryItem inventoryItem, ItemGrid grid, int amount = 0)
         {
-            Debug.Log($"Создан предмет {itemData.Title} {amount} штук");
+            Debug.Log($"Создан предмет {inventoryItem.ItemData.Title} {amount} штук");
             
-            CreateItem(itemData, grid, amount);
+            CreateItem(inventoryItem, grid, amount);
             
             UIInventoryItem itemToInsert = UIselectedItem;
             
@@ -175,15 +181,14 @@ namespace InventoryDiablo
             }
             else
             {
-                inventoryIHighLight.Show(SelectedItemGrid.BoundryCheck(positionOnGrid.x, positionOnGrid.y,
-                                        UIselectedItem.WIDTH, UIselectedItem.HEIGHT));
+                inventoryIHighLight.Show(SelectedItemGrid.BoundryCheck(positionOnGrid.x, positionOnGrid.y, UIselectedItem.WIDTH, UIselectedItem.HEIGHT));
                 inventoryIHighLight.SetSize(UIselectedItem);
                 inventoryIHighLight.SetPosition(SelectedItemGrid, UIselectedItem, positionOnGrid.x, positionOnGrid.y);
             }
         }
 
         //создать случайный итем
-        public void CreateRandomItem()
+        public void CreateRandomItem(ItemGrid itemGrid)
         {
             UIInventoryItem inventoryItem = Instantiate(itemPrefab);
             UIselectedItem = inventoryItem;
@@ -195,20 +200,22 @@ namespace InventoryDiablo
             
             int selectedItemID = UnityEngine.Random.Range(0, items.Count);
 
-            UIselectedItem.Setup(items[selectedItemID], null, items[selectedItemID].MaxAmount);
+            UIselectedItem.Setup(items[selectedItemID], null, items[selectedItemID].ItemData.MaxAmount);
+
+            buferGrid = itemGrid;
         }
 
-        private void CreateItem(ItemData itemData, ItemGrid grid, int amount)
+        private void CreateItem(InventoryItem inventoryItem, ItemGrid grid, int amount)
         {
-            UIInventoryItem inventoryItem = Instantiate(itemPrefab);
-            UIselectedItem = inventoryItem;
+            UIInventoryItem uiInventoryItem = Instantiate(itemPrefab);
+            UIselectedItem = uiInventoryItem;
 
 
-            itemRectTransform = inventoryItem.rectTransform;
+            itemRectTransform = uiInventoryItem.rectTransform;
             itemRectTransform.SetParent(canvas.transform);
             itemRectTransform.SetAsLastSibling();
 
-            UIselectedItem.Setup(itemData, grid, amount);
+            UIselectedItem.Setup(inventoryItem, grid, amount);
         }
 
         //метод перемещает итем в след за мышкой
@@ -360,7 +367,7 @@ namespace InventoryDiablo
 
             UIInventoryItem buferItem = UIselectedItem;
 
-            CreateAndInsertItem(buferItem.InventoryItem.ItemData, selectedItemGrid, UIselectedItem.InventoryItem.Amount);
+            CreateAndInsertItem(buferItem.InventoryItem, selectedItemGrid, UIselectedItem.InventoryItem.Amount);
 
             buferItem.DestructSelf();
 
@@ -386,8 +393,6 @@ namespace InventoryDiablo
         //метод выкинуть предмет
         public void DropItem(InventoryItem item)
         {
-            // owner.DropItem(item);
-
             buferGrid.owner.DropItem(item);
                 
             UIselectedItem.DestructSelf();

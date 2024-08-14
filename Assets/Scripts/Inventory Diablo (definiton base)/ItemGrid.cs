@@ -29,11 +29,16 @@ namespace InventoryDiablo
 
         //поле определяет сетка для одного предмета или нет
         public bool isSingle = false;
-        internal GridName gridName = GridName.backpack;
+        [SerializeField] internal GridName gridName = GridName.BackpackGrid;
 
         public enum GridName
         {
-            backpack,
+            BackpackSlot,
+            BackpackGrid,
+            WeaponSlot,
+            UnloadingSlot,
+            UnloadingGrid,
+            HelmetSlot,
         }
 
         private void Awake() 
@@ -154,7 +159,7 @@ namespace InventoryDiablo
                         
                         if(overlapItem.InventoryItem.ItemData.TypeItem == ItemType.Оружие && inventoryItem.InventoryItem.ItemData.TypeItem == ItemType.Обойма_патронов)
                         {
-                            overlapItem.InventoryItem.combinedItems.Add(inventoryItem.InventoryItem.ItemData.TypeItem, inventoryItem.InventoryItem);
+                            overlapItem.InventoryItem.CombinedItems.Add(inventoryItem.InventoryItem.ItemData.TypeItem, inventoryItem.InventoryItem);
                             
                             overlapItem.UpdateAmount(inventoryItem.InventoryItem.Amount); 
 
@@ -167,7 +172,7 @@ namespace InventoryDiablo
 
                         if(inventoryItem.InventoryItem.ItemData.TypeItem == ItemType.Патроны && inventoryItem.InventoryItem.Amount == 0 ) TransferAmount(inventoryItem, overlapItem);
 
-                        CleanGridReference(inventoryItem);
+                        // CleanGridReference(inventoryItem);
 
                         overlapItem = null;
 
@@ -184,7 +189,7 @@ namespace InventoryDiablo
                     }
                     else
                     {
-                        Debug.Log("у оружия есть обойма патронов " + overlapItem.InventoryItem.combinedItems[ItemType.Обойма_патронов]);
+                        Debug.Log("у оружия есть обойма патронов " + overlapItem.InventoryItem.CombinedItems[ItemType.Обойма_патронов]);
 
                         TransferAmount(inventoryItem, overlapItem);
 
@@ -211,19 +216,19 @@ namespace InventoryDiablo
             {
                 if(!CombineSlotIsFree(to, ItemType.Обойма_патронов))
                 {
-                    to.InventoryItem.ItemData.MaxAmount = to.InventoryItem.combinedItems[ItemType.Обойма_патронов].ItemData.MaxAmount;
+                    to.InventoryItem.ItemData.MaxAmount = to.InventoryItem.CombinedItems[ItemType.Обойма_патронов].ItemData.MaxAmount;
                     
-                    Debug.Log(to.InventoryItem.combinedItems[ItemType.Обойма_патронов].ItemData.MaxAmount + " ! " + to.InventoryItem.Amount);
+                    Debug.Log(to.InventoryItem.CombinedItems[ItemType.Обойма_патронов].ItemData.MaxAmount + " ! " + to.InventoryItem.Amount);
                     
                     //если у оружия есть обойма патронов, то надо расчитать сколько патронов можно вставить и сколько останется, в случае если патронов больше чем влезет в обойму
-                    if(to.InventoryItem.combinedItems[ItemType.Обойма_патронов].ItemData.MaxAmount <= to.InventoryItem.Amount)
+                    if(to.InventoryItem.CombinedItems[ItemType.Обойма_патронов].ItemData.MaxAmount <= to.InventoryItem.Amount)
                     {
                         return;
                     }
                     else
-                    if(to.InventoryItem.combinedItems[ItemType.Обойма_патронов].ItemData.MaxAmount < to.InventoryItem.combinedItems[ItemType.Обойма_патронов].Amount + amount)
+                    if(to.InventoryItem.CombinedItems[ItemType.Обойма_патронов].ItemData.MaxAmount < to.InventoryItem.CombinedItems[ItemType.Обойма_патронов].Amount + amount)
                     {
-                        amount = to.InventoryItem.combinedItems[ItemType.Обойма_патронов].ItemData.MaxAmount - to.InventoryItem.combinedItems[ItemType.Обойма_патронов].Amount;          
+                        amount = to.InventoryItem.CombinedItems[ItemType.Обойма_патронов].ItemData.MaxAmount - to.InventoryItem.CombinedItems[ItemType.Обойма_патронов].Amount;          
                     }
                 }
             }
@@ -239,10 +244,10 @@ namespace InventoryDiablo
         }
 
         //существует ли и занят ли слот у overlapItem. Слот который соответствует типу itemType. true значит занят
-        private bool CombineSlotIsFree(UIInventoryItem overlapItem, ItemType itemType) => !overlapItem.InventoryItem.combinedItems.Keys.Contains(itemType);
+        private bool CombineSlotIsFree(UIInventoryItem overlapItem, ItemType itemType) => !overlapItem.InventoryItem.CombinedItems.Keys.Contains(itemType);
 
         //занят ли слот у overlapItem. Слот который соответствует типу inventoryItem. true значит занят
-        private bool CombineSlotIsNotFree(UIInventoryItem inventoryItem, UIInventoryItem overlapItem) => !overlapItem.InventoryItem.combinedItems.Keys.Contains(inventoryItem.InventoryItem.ItemData.TypeItem);
+        private bool CombineSlotIsNotFree(UIInventoryItem inventoryItem, UIInventoryItem overlapItem) => !overlapItem.InventoryItem.CombinedItems.Keys.Contains(inventoryItem.InventoryItem.ItemData.TypeItem);
         
         // можно ли в overlapItem поместить inventoryItem
         private bool CanBeCombinedItems(UIInventoryItem inventoryItem, UIInventoryItem overlapItem)
@@ -279,6 +284,8 @@ namespace InventoryDiablo
             Vector2 positionItem = CalculatePositionOnGrid(inventoryItem, posX, posY);
 
             rectTransform.localPosition = positionItem;
+
+            inventoryItem.InventoryItem.GridName = gridName;
         }
 
         public Vector2 CalculatePositionOnGrid(UIInventoryItem inventoryItem, int posX, int posY)

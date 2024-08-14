@@ -122,11 +122,11 @@ namespace InventoryDiablo
 
             chest.Clothes.items.Add(new SetCharacter.Item(ItemData.ItemType.Шлем, false, HumanBodyBones.Head));
 
-            chest.Clothes.items.Add(new SetCharacter.Item(ItemData.ItemType.Броня, true));
+            chest.Clothes.items.Add(new SetCharacter.Item(ItemData.ItemType.Разгрузка, true));
 
             chest.Clothes.items.Add(new SetCharacter.Item(ItemData.ItemType.Ремень, true));
 
-            chest.Clothes.items.Add(new SetCharacter.Item(ItemData.ItemType.Штаны, true));
+            chest.Clothes.items.Add(new SetCharacter.Item(ItemData.ItemType.Рюкзак, true));
 
             chest.Clothes.items.Add(new SetCharacter.Item(ItemData.ItemType.Сапоги, true));
 

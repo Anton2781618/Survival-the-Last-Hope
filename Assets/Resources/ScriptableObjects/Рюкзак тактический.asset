@@ -15,11 +15,11 @@ MonoBehaviour:
   ItemIcon: {fileID: 21300000, guid: 6b0c715db7d593a479cf72260575b2d6, type: 3}
   Title: 
   Description: 
-  Prefab: {fileID: 688769618811775190, guid: 3a313765ca5046c44948be7af268d3b0, type: 3}
+  Prefab: {fileID: 6928130851219517087, guid: c62a84f4af1f9ba49b60276c8480f509, type: 3}
   Width: 4
   Height: 5
   Benefit: 0
   IsSingle: 0
   MaxAmount: 1
-  TypeItem: 2
+  TypeItem: 8
   CanBeCombined: []

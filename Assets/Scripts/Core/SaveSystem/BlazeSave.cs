@@ -1,10 +1,10 @@
 ﻿using UnityEngine;
-using System.Collections;
 using System.IO;
 using System.Security.Cryptography;
 using System.Text;
 
-public static class BlazeSave {
+public static class BlazeSave 
+{
 
 	static DESCryptoServiceProvider des = new DESCryptoServiceProvider();
 
@@ -71,7 +71,8 @@ public static class BlazeSave {
 		//CryptoKeys
 		byte[] key = { 1, 2, 3, 4, 5, 6, 7, 8 };
 		byte[] iv = { 1, 2, 3, 4, 5, 6, 7, 8 };
-		if (cryptoKey != null) {
+		if (cryptoKey != null) 
+		{
 			key = Encoding.ASCII.GetBytes (cryptoKey.Substring(0,8));
 			iv = Encoding.ASCII.GetBytes (cryptoKey.Substring((cryptoKey.Length-8), 8));
 		}
@@ -83,8 +84,10 @@ public static class BlazeSave {
 
 		CryptoStream cryptoStream = null;
 
-		try{
+		try
+		{
 			using (Stream stream = File.Open(fullPath, FileMode.Open))
+
 			using (cryptoKey == null ? null : cryptoStream = new CryptoStream(stream, des.CreateDecryptor(key, iv), CryptoStreamMode.Read))
 			{
 				var binaryFormatter = new System.Runtime.Serialization.Formatters.Binary.BinaryFormatter();
@@ -93,12 +96,10 @@ public static class BlazeSave {
 				}else{
 					return (T)binaryFormatter.Deserialize(cryptoStream);
 				}
-				stream.Close();
-				if(cryptoKey != null){
-					cryptoStream.Close();
-				}
 			}
-		}catch(IOException e){
+		}
+		catch(IOException e)
+		{
 			Debug.Log("ERROR: "+e.Message);
 			return default(T);
 		}

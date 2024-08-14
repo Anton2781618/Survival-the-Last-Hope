@@ -96,7 +96,7 @@ namespace States
             
             CurrentWeapon = newWeapon;
 
-            CurrentWeapon?.HolsterWeapon(playerModel.ToPosition);
+            CurrentWeapon?.HolsterWeapon(newWeapon.TypeWeapon == WeaponBase.WeaponType.Pistol ? playerModel.PistolHolster : playerModel.RifleHolster);
         }
 
         /// <summary>

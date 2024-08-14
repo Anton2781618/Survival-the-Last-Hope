@@ -5,32 +5,35 @@ EditorUserSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 4
   m_ConfigSettings:
-    RecentlyUsedSceneGuid-0:
-      value: 5a08575f5207595a0f5d59741173094444164f7d7d2a23317c7a4465bbe1646d
+    GraphicsSettingsInspector_UserSettings:
+      value: 18134705175a055722080a3115371d4a0d55006876786860616b0471b8b6616bacb72ba5a52a362c3c0ee63201181433fe3e101bf3250b06144ca74c24f1190708e016c213c61a52f91c12cac80fd8edd298e1e4d1fde2cacddeacbcc1fee7eef0e3b6faa69af9ceaeaaec81a6d2c2c8c8c4b2e5dfd5ccd3f8cf
       flags: 0
-    RecentlyUsedSceneGuid-1:
+    RecentlyUsedSceneGuid-0:
       value: 535057025504595a5e0d5c7011730b4447154f727f7f76322e2a4564b1b3646d
       flags: 0
-    RecentlyUsedSceneGuid-2:
+    RecentlyUsedSceneGuid-1:
       value: 5507515f0056510c5c0c582415735a44444f1b2f757b27362c7f4b65bbb1326b
       flags: 0
-    RecentlyUsedSceneGuid-3:
-      value: 5203065101010b035c595b2411255b444415497b7a2d2762797f4430e7e26539
-      flags: 0
-    RecentlyUsedSceneGuid-4:
+    RecentlyUsedSceneGuid-2:
       value: 545500520003085e595b557440755b44134f4b2b2e2c23697a7f4566b0b5356f
       flags: 0
-    RecentlyUsedSceneGuid-5:
+    RecentlyUsedSceneGuid-3:
       value: 5257560404575d5f5b08542613215b4413154c7c7c7f7331752f4932b4b8316c
       flags: 0
-    RecentlyUsedSceneGuid-6:
+    RecentlyUsedSceneGuid-4:
       value: 0254555455530f0a0f5e5b2316750b44104e4e79742c7f337a7d4d36e1b03168
       flags: 0
-    RecentlyUsedSceneGuid-7:
+    RecentlyUsedSceneGuid-5:
       value: 530105575c025b0c5a0b552148205c44174e1929797e713575791e61e7e46c69
       flags: 0
-    RecentlyUsedSceneGuid-8:
+    RecentlyUsedSceneGuid-6:
       value: 0002525657545d0a540b0f271177094414151c7d7e7927617a7e4e61e0b8306a
+      flags: 0
+    RecentlyUsedSceneGuid-7:
+      value: 0609035354070b0d540c5b7a12260744154e49297a2c2063747e4a37bab36c6b
+      flags: 0
+    RecentlyUsedSceneGuid-8:
+      value: 5203065101010b035c595b2411255b444415497b7a2d2762797f4430e7e26539
       flags: 0
     RecentlyUsedSceneGuid-9:
       value: 540552570606515a59585d7b15775e44104e1d73287c2462757e4a64b2b9326c

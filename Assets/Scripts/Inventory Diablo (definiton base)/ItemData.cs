@@ -4,7 +4,7 @@ using UnityEngine;
 namespace InventoryDiablo
 {
 
-    [CreateAssetMenu]
+    [CreateAssetMenu] [Serializable]
     public class ItemData : ScriptableObject
     {
         public Sprite ItemIcon;
@@ -34,9 +34,9 @@ namespace InventoryDiablo
         public enum ItemType
         {
             Шлем = 1 << 0, 
-            Броня = 1 << 1, 
+            Разгрузка = 1 << 1, 
             Ремень = 1 << 2, 
-            Штаны = 1 << 3,
+            Рюкзак = 1 << 3,
             Сапоги = 1 << 4,
             Оружие = 1 << 5,
             Щит = 1 << 6,
@@ -58,9 +58,9 @@ namespace InventoryDiablo
             return TypeItem switch
             {
                 ItemType.Шлем => 0,
-                ItemType.Броня => 1,
+                ItemType.Разгрузка => 1,
                 ItemType.Ремень => 2,
-                ItemType.Штаны => 3,
+                ItemType.Рюкзак => 3,
                 ItemType.Сапоги => 4,
                 ItemType.Оружие => 5,
                 ItemType.Щит => 6,

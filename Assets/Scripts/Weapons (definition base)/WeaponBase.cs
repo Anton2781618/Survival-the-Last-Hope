@@ -1,5 +1,6 @@
 using System;
 using System.Collections;
+using Codice.Client.BaseCommands;
 using InventoryDiablo;
 using UnityEditor;
 using UnityEngine;
@@ -19,6 +20,16 @@ namespace Weapons
         internal LayerMask layerMask;
         internal float nextTimeToFire = 0f;
         internal bool isReloading = false;
+        public WeaponType TypeWeapon;
+
+        public enum WeaponType
+        {
+            Pistol,
+            Rifle,
+            Shotgun,
+            SniperRifle,
+            MachineGun
+        }
 
         private void Awake() 
         {
