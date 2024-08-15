@@ -1,5 +1,6 @@
 // using ModestTree;
 using UnityEngine;
+using Weapons;
 
 namespace States
 {
@@ -7,9 +8,9 @@ namespace States
     {
         protected HumanWeaponStateManager stateService;
 
-        protected bool stateComplete = false;
+        public bool IsComplete = false;
 
-        protected Vector3 FromPoint;
+        public Vector3 FromPoint;
         protected Vector3 ToPoint;
         protected Quaternion FromRotation;
         public Quaternion ToRotation;
@@ -30,7 +31,7 @@ namespace States
 
         public virtual void Init()
         {
-            stateComplete = false;
+            IsComplete = false;
 
             FromPoint = stateService.playerModel.rigTargetRight.localPosition;
 
@@ -57,7 +58,7 @@ namespace States
         public virtual void MoveHendsFromPoint()
         {
             if(!needMoveHeand) return;
-            Debug.Log("MoveHendsFromPoint");
+            
             Vector3 positionOffset = TransitionForward ? lerpCurve.Evaluate(lerpRatio) * lerpOffset : Vector3.zero;
             
             //правая рука
@@ -65,11 +66,34 @@ namespace States
             
             stateService.playerModel.rigTargetRight.localRotation = Quaternion.Lerp(FromRotation, ToRotation, lerpRatio);
 
-
             //левая рука
             stateService.playerModel.rigTargetLeft.transform.localPosition = stateService.CurrentWeapon.GetModel().WeaponStates[0].LeftHendPosition;
 
             stateService.playerModel.SetWeightLeftHand(TransitionForward ? lerpRatio : 1);
+        }
+    }
+
+    public class StateWeaponChange : WeaponState
+    {
+        private WeaponBase newWeapon;
+
+        public void SetNewWeapon(WeaponBase newWeapon)
+        {
+            this.newWeapon = newWeapon;
+        }
+
+        public override void Execute()
+        {
+            stateService.CurrentWeapon = newWeapon;
+
+            stateService.inputSystem.weaponOn = true;
+
+            stateService.inputSystem.weaponChange = false;
+            
+            // stateService.playerModel.rigTargetRight.localPosition = 
+            // stateService.CurrentWeapon.TypeWeapon == Weapons.WeaponBase.WeaponType.Pistol ? stateService.playerModel.PistolHolster.localPosition : stateService.playerModel.RifleHolster.localPosition;
+            
+            // stateService.stateWeaponOn.FromPoint = stateService.playerModel.rigTargetRight.localPosition;
         }
     }
 }

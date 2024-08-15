@@ -35,7 +35,8 @@ namespace InventoryDiablo
         {
             BackpackSlot,
             BackpackGrid,
-            WeaponSlot,
+            PistolSlot,
+            RifleSlot,
             UnloadingSlot,
             UnloadingGrid,
             HelmetSlot,

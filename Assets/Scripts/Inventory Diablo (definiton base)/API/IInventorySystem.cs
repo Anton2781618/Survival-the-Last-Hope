@@ -8,7 +8,7 @@ namespace InventoryDiablo
         public InventoryHandler InventoryHandler { get; }
 
         public void EquipItem(InventoryItem item);
-        public void TakeOffItem(UIInventoryItem item);
+        public void TakeOffItem(InventoryItem item);
         public void DropItem(InventoryItem item);
     }
 }

@@ -288,7 +288,7 @@ namespace InventoryDiablo
             if(SelectedItemGrid.isSingle)
             {
                 // TakeOffClothes(selectedItem.itemData.GetItemTypeIndex());
-                SelectedItemGrid.owner.TakeOffItem(UIselectedItem);
+                SelectedItemGrid.owner.TakeOffItem(UIselectedItem.InventoryItem);
             }
 
             if (UIselectedItem)

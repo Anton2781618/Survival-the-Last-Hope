@@ -7,8 +7,14 @@ namespace States
         public override void Init()
         {
             base.Init();
-
+            
+            Debug.Log("Init " + stateService.CurrentWeapon.GetModel().WeaponStates[0].RightHendPosition);
             ToPoint = stateService.CurrentWeapon.GetModel().WeaponStates[0].RightHendPosition;
+            
+            // stateService.playerModel.rigTargetRight.localPosition = 
+            // stateService.CurrentWeapon.TypeWeapon == Weapons.WeaponBase.WeaponType.Pistol ? stateService.playerModel.PistolHolster.localPosition : stateService.playerModel.RifleHolster.localPosition;
+            
+            // FromPoint = stateService.playerModel.rigTargetRight.localPosition;
             
             ToRotation = stateService.CurrentWeapon.GetModel().WeaponStates[0].RightHendRotation;
 
@@ -19,22 +25,22 @@ namespace States
         
         public override void Execute()
         {
-            if(!stateService.inputs.weaponOn && stateComplete || stateService.CurrentWeapon == null)
+            if(!stateService.inputSystem.weaponOn && IsComplete || stateService.CurrentWeapon == null)
             {
                 stateService.TransitionTo(stateService.stateWeaponOff);
             }
             else
-            if(stateService.inputs.reload)
+            if(stateService.inputSystem.reload)
             {
                 stateService.TransitionTo(stateService.stateWeaponReload);
             }
             else
-            if(stateService.inputs.aim && lerpRatio > 0.9f) 
+            if(stateService.inputSystem.aim && lerpRatio > 0.9f) 
             {
                 stateService.TransitionTo(stateService.stateWeaponAim);
             }
             else
-            if(stateService.inputs.weaponOn && stateComplete) return;
+            if(stateService.inputSystem.weaponOn && IsComplete) return;
             
             if(stateService.playerModel.animator.GetBool("Aim")) stateService.playerModel.animator.SetBool("Aim", false);
 
@@ -43,7 +49,7 @@ namespace States
 
             UpdateLerpRatio();
 
-            if(SetWeaponsAtReady() && lerpRatio >=1) stateComplete = true;
+            if(SetWeaponsAtReady() && lerpRatio >=1) IsComplete = true;
         }
 
         private bool SetWeaponsAtReady()

@@ -282,15 +282,69 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   contextMenu: {fileID: 489512485375183263}
   items:
-  - {fileID: 11400000, guid: 306fd59f34f7b1b4c948ed4e22653969, type: 2}
-  - {fileID: 11400000, guid: bec202bb1c0c221419fdca3da00f3352, type: 2}
-  - {fileID: 11400000, guid: 1940e62c6779fbe4b82ec52dadbc625b, type: 2}
-  - {fileID: 11400000, guid: 65defc33165764a4687df65bc6be9884, type: 2}
-  - {fileID: 11400000, guid: 0156facadb44fc244ac5036fd3335aee, type: 2}
-  - {fileID: 11400000, guid: ddcc013a94659bc4bb68e1f1fcf133cf, type: 2}
-  - {fileID: 11400000, guid: ac88002b590d69347a03057e4563e671, type: 2}
-  - {fileID: 11400000, guid: f41d2fa2dc48557439ac3e9a418765ae, type: 2}
-  - {fileID: 11400000, guid: c65f5e3e4f0fc5a4cba9d990faa6d337, type: 2}
+  - <ItemData>k__BackingField: {fileID: 0}
+    amount: 0
+    price: 0
+    GridName: 0
+    OnItemsChanged:
+      m_PersistentCalls:
+        m_Calls: []
+  - <ItemData>k__BackingField: {fileID: 0}
+    amount: 0
+    price: 0
+    GridName: 0
+    OnItemsChanged:
+      m_PersistentCalls:
+        m_Calls: []
+  - <ItemData>k__BackingField: {fileID: 0}
+    amount: 0
+    price: 0
+    GridName: 0
+    OnItemsChanged:
+      m_PersistentCalls:
+        m_Calls: []
+  - <ItemData>k__BackingField: {fileID: 0}
+    amount: 0
+    price: 0
+    GridName: 0
+    OnItemsChanged:
+      m_PersistentCalls:
+        m_Calls: []
+  - <ItemData>k__BackingField: {fileID: 0}
+    amount: 0
+    price: 0
+    GridName: 0
+    OnItemsChanged:
+      m_PersistentCalls:
+        m_Calls: []
+  - <ItemData>k__BackingField: {fileID: 0}
+    amount: 0
+    price: 0
+    GridName: 0
+    OnItemsChanged:
+      m_PersistentCalls:
+        m_Calls: []
+  - <ItemData>k__BackingField: {fileID: 0}
+    amount: 0
+    price: 0
+    GridName: 0
+    OnItemsChanged:
+      m_PersistentCalls:
+        m_Calls: []
+  - <ItemData>k__BackingField: {fileID: 0}
+    amount: 0
+    price: 0
+    GridName: 0
+    OnItemsChanged:
+      m_PersistentCalls:
+        m_Calls: []
+  - <ItemData>k__BackingField: {fileID: 0}
+    amount: 0
+    price: 0
+    GridName: 0
+    OnItemsChanged:
+      m_PersistentCalls:
+        m_Calls: []
   itemPrefab: {fileID: 3786321271830801994, guid: 211cbaeb343b3fa469149bc570354fe2,
     type: 3}
   inventoryIHighLight: {fileID: 5522348190864925601}
@@ -445,7 +499,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f31921967a7bc2e4286d3bafd7871119, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  items: []
+  text: {fileID: 1492318969966126827}
 --- !u!1 &5423287176849367859
 GameObject:
   m_ObjectHideFlags: 0
@@ -854,7 +908,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6101c7a9534caf24f91fe1845529a1ed, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  TextGo: {fileID: 1492318969966126827}
   HitBloodEffect: {fileID: 100002, guid: 1e97e2bd218c0714cbf40a7d457bac5c, type: 3}
   HitDirtEffect: {fileID: 100002, guid: 2f9348d6583cde14eb0d82bb9732647e, type: 3}
   MK3Dead: {fileID: 531471475811203496, guid: 813149c3497547348b32a31b728c7ab6, type: 3}
@@ -993,6 +1046,7 @@ MonoBehaviour:
   shoot: 0
   reload: 0
   weaponOn: 0
+  weaponChange: 0
   analogMovement: 0
   cursorLocked: 0
   cursorInputForLook: 0
@@ -1483,6 +1537,21 @@ PrefabInstance:
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
       value: MyProject.SaveManager, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 3693619630388261527, guid: b3cdb48e8f837ff40950068d43f886b8,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 7333461355386757151}
+    - target: {fileID: 3693619630388261527, guid: b3cdb48e8f837ff40950068d43f886b8,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: SpawnSpder
+      objectReference: {fileID: 0}
+    - target: {fileID: 3693619630388261527, guid: b3cdb48e8f837ff40950068d43f886b8,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: MyProject.Spawner, Assembly-CSharp
       objectReference: {fileID: 0}
     - target: {fileID: 5219999915041937535, guid: b3cdb48e8f837ff40950068d43f886b8,
         type: 3}

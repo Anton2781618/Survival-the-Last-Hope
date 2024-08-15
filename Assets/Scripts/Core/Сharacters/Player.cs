@@ -35,17 +35,9 @@ namespace MyProject
             
             WeaponHandler.SetInventoryOwner(this);
 
-            WeaponHandler.StateCompleted += UpdateInventory;
-
             Helper.GameDataBase.AddUnit(CharacterControllerPlayer, this);
         }
 
-        [ContextMenu("проверить")]
-        public void dasd()
-        {
-            Debug.Log(Helper.GameDataBase);
-        }
-        
         public void SetDamage()
         {
             Debug.Log(transform.name + " получил урон");
@@ -112,7 +104,7 @@ namespace MyProject
             
             if(item.ItemData.TypeItem == ItemData.ItemType.Оружие)
             {
-                if(!WeaponHandler.WeaponIsNull()) WeaponHandler.TakeAwayWeapon();
+                if(!WeaponHandler.WeaponIsNull()) WeaponHandler.TakeAwayWeapon(item);
                 
                 WeaponHandler.SetWeapon(Helper.Spawner.SpawnWeaponOnUnit(item));
             }
@@ -128,21 +120,14 @@ namespace MyProject
             InventoryHandler.Inventory.ShowInventory();
         }
 
-        public void TakeOffItem(UIInventoryItem item)
+        public void TakeOffItem(InventoryItem item)
         {
             if(!WeaponHandler.WeaponIsNull())
             {
-                WeaponHandler.TakeAwayWeapon();
+                WeaponHandler.TakeAwayWeapon(item);
             }
         }
         
-        //!временно
-        public void UpdateInventory()
-        {
-            // Debug.Log("Обновить инвентарь");
-            // InventoryController.InventoryUI.RefreshUI();
-        }
-
         public void DropItem(InventoryItem item)
         {
             Helper.Spawner.SpawnOnStreet(item.ItemData.Prefab, item, transform);

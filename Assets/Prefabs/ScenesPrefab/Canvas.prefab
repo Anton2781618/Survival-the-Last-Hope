@@ -367,6 +367,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: InventoryPlayerUI
       objectReference: {fileID: 0}
+    - target: {fileID: 2418744923333232499, guid: 17a23a8815281af4996dbf42b8c6db18,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

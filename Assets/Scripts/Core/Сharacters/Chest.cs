@@ -59,7 +59,7 @@ namespace MyProject
             throw new System.NotImplementedException();
         }
 
-        public void TakeOffItem(UIInventoryItem item)
+        public void TakeOffItem(InventoryItem item)
         {
             throw new System.NotImplementedException();
         }

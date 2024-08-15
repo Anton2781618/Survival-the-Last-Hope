@@ -1,31 +1,32 @@
 using StarterAssets;
-using UnityEngine;
 using Weapons;
 using Zenject;
 using Units;
-using System;
 using InventoryDiablo;
+using UnityEngine;
 
 namespace States
 {
     public class HumanWeaponStateManager : IStateService, IWeaponStates
     {
         internal IInventorySystem owner;
-        public event Action StateCompleted;
         internal HumanModel playerModel;
-        internal StarterAssetsInputs inputs;
+        internal StarterAssetsInputs inputSystem;
         private WeaponState currentState = null; 
 
         internal StateWeaponOff stateWeaponOff;
         internal StateHeandOnWeapon stateHeandOnWeapon;
         internal StateWeaponOn stateWeaponOn;
         internal StateWeaponAim stateWeaponAim;
+        internal StateWeaponChange stateWeaponChange;
         internal StateWeaponShoot stateWeaponShoot;
         internal StateWeaponReload stateWeaponReload;
 
         public float LerpTime { get ; set;}
 
         private WeaponBase currentWeapon = null;
+        private WeaponBase pistolSlot = null;
+        private WeaponBase rifleSlot = null;
 
 
         public WeaponBase CurrentWeapon
@@ -45,7 +46,7 @@ namespace States
         {
             this.playerModel = playerModel;
             
-            this.inputs = inputs;
+            this.inputSystem = inputs;
 
             stateHeandOnWeapon = new StateHeandOnWeapon();
 
@@ -59,6 +60,8 @@ namespace States
             
             stateWeaponAim = new StateWeaponAim();
 
+            stateWeaponChange = new StateWeaponChange();
+
             LerpTime = 0.4f;
         }
 
@@ -69,62 +72,116 @@ namespace States
             
             state.InitState(this);
 
-            // Debug.Log("Переход в состояние " + state);
+            Debug.Log("Переход в состояние " + state);
         }
 
         public void UpdateMe()
         {
             if(CurrentWeapon == null)
             {
-                inputs.weaponOn = false;
+                inputSystem.weaponOn = false;
 
                 if(currentState != stateWeaponOff) TransitionTo(stateWeaponOff);
             }
             
             currentState.Execute();
-        }
 
-        public void StateComplete()
-        {
-            StateCompleted?.Invoke();
-        }
+            if(Input.GetKeyUp(KeyCode.Alpha1))
+            {
+                if(currentWeapon == pistolSlot)
+                {
+                    inputSystem.weaponOn = !inputSystem.weaponOn;
 
+                    return;
+                } 
+
+                inputSystem.weaponOn = false;
+
+                inputSystem.weaponChange = true;
+
+                stateWeaponChange.SetNewWeapon(pistolSlot);
+            }
+            else
+            if(Input.GetKeyUp(KeyCode.Alpha2))
+            {
+                if(currentWeapon == rifleSlot)
+                {
+                    inputSystem.weaponOn = !inputSystem.weaponOn;
+                    
+                    return;
+                }
+
+                inputSystem.weaponOn = false;
+
+                inputSystem.weaponChange = true;
+
+                stateWeaponChange.SetNewWeapon(rifleSlot);
+            }
+
+        }
 
         public void SetWeapon(WeaponBase newWeapon)
         {
-            if(CurrentWeapon) return;
+            // if(CurrentWeapon) return;
+            if(newWeapon.TypeWeapon == WeaponBase.WeaponType.Pistol)
+            {
+                if(pistolSlot == null)
+                {
+                    pistolSlot = newWeapon;
+                }
+                else
+                {
+                    pistolSlot.DestructSelf();
+                    pistolSlot = newWeapon;
+                }
+
+                newWeapon.HolsterWeapon(playerModel.PistolHolster);
+            }
+            else
+            {
+                if(rifleSlot == null)
+                {
+                    rifleSlot = newWeapon;
+                }
+                else
+                {
+                    rifleSlot.DestructSelf();
+                    rifleSlot = newWeapon;
+                }
+
+                newWeapon.HolsterWeapon(playerModel.RifleHolster);
+            }
             
             CurrentWeapon = newWeapon;
-
-            CurrentWeapon?.HolsterWeapon(newWeapon.TypeWeapon == WeaponBase.WeaponType.Pistol ? playerModel.PistolHolster : playerModel.RifleHolster);
         }
 
         /// <summary>
-        /// Checks if the player has no weapons.
+        /// Проверяет, есть ли у игрока оружие.
         /// </summary>
         /// <returns>True if the player has no weapons, false otherwise.</returns>
-        public bool WeaponIsNull()
-        {
-            return CurrentWeapon == null;
-        }
+        public bool WeaponIsNull() => CurrentWeapon == null;
 
-        public void TakeAwayWeapon()
+        public void TakeAwayWeapon(InventoryItem item)
         {
             TransitionTo(stateWeaponOff);
+            
+            ClearSlot(item, pistolSlot);
 
-            CurrentWeapon.DestructSelf();
+            ClearSlot(item, rifleSlot);
             
             CurrentWeapon = null;
         }
 
-        public WeaponBase GetCurrentWeapon()
+        private void ClearSlot(InventoryItem item, WeaponBase slot)
         {
-            return CurrentWeapon;
+            if(slot != null && item == slot.InventoryItem)
+            {
+                slot.DestructSelf();
+
+                slot = null;
+            }
         }
 
-        public void SetInventoryOwner(IInventorySystem newOwner)
-        {
-            owner = newOwner;
-        }
+        public void SetInventoryOwner(IInventorySystem newOwner) => owner = newOwner;
     }
 }

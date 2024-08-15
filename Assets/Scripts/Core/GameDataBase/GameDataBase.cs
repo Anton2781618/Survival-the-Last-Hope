@@ -8,6 +8,7 @@ namespace MyProject
 {
     public class GameDataBase : MonoBehaviour
     {
+        public GameObject text;
         private Dictionary<Collider, Unit> units = new Dictionary<Collider, Unit>();
         private Dictionary<string ,ItemData> items = new Dictionary<string, ItemData>();
 

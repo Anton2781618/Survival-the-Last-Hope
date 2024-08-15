@@ -34,10 +34,10 @@ namespace MyProject
             
             itemWorld.GetRigidbody().AddForce(ownerTransform.forward * 1.5f, ForceMode.Impulse);
 
-            itemWorld.SetupItem(item, TextGo);
+            itemWorld.SetupItem(item, Helper.GameDataBase.text);
         }
 
-        public GameObject TextGo;
+        
         public GameObject HitBloodEffect;
         public GameObject HitDirtEffect;
         public GameObject MK3Dead;

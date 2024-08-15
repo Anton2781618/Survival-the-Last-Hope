@@ -12,13 +12,27 @@ namespace States
             lerpRatio = 1;
 
             stateTimer = 0.4f;
+
+            // if(stateService.CurrentWeapon)
+            // {
+            //     FromPoint = /* stateService.CurrentWeapon.TypeWeapon == Weapons.WeaponBase.WeaponType.Pistol ?  */stateService.playerModel.PistolHolster.localPosition /* : stateService.playerModel.RifleHolster.localPosition */;
+            // }
         }
 
         public override void Execute()
         {
-            if(!stateService.inputs.weaponOn && stateComplete) return;
 
-            if(stateService.inputs.weaponOn) 
+            if(!stateService.inputSystem.weaponOn && stateService.inputSystem.weaponChange && IsComplete)
+            {
+                stateService.TransitionTo(stateService.stateWeaponChange);
+            }
+            else
+            if(!stateService.inputSystem.weaponOn && IsComplete) 
+            {
+                return;
+            }
+            else
+            if(stateService.inputSystem.weaponOn) 
             {
                 stateService.TransitionTo(stateService.stateHeandOnWeapon);
             }
@@ -47,8 +61,9 @@ namespace States
             
             if(stateService.CurrentWeapon)
             {
-                toPosition = stateService.CurrentWeapon.TypeWeapon == Weapons.WeaponBase.WeaponType.Pistol ? stateService.playerModel.PistolHolster : stateService.playerModel.RifleHolster;
-            } 
+                // FromPoint = stateService.CurrentWeapon.TypeWeapon == Weapons.WeaponBase.WeaponType.Pistol ? stateService.playerModel.PistolHolster.localPosition : stateService.playerModel.RifleHolster.localPosition;
+                // toPosition = stateService.CurrentWeapon.TypeWeapon == Weapons.WeaponBase.WeaponType.Pistol ? stateService.playerModel.PistolHolster : stateService.playerModel.RifleHolster;
+            }
 
             rightHend.localPosition = Vector3.Lerp(ConvertePoint(toPosition.position), FromPoint, lerpRatio) + positionOffset;
 
@@ -77,8 +92,8 @@ namespace States
         //убрать вес со слоя так что юы персонаж был без оружия
         private void SetNoWeapon()
         {
-            if(stateService.playerModel.SetWeightRigBuilderlayer((int)Units.HumanModel.RigLayers.Aim, 0, Time.deltaTime * 5) == 0 && 
-            stateService.playerModel.SetWeightRigBuilderlayer((int)Units.HumanModel.RigLayers.NoAim, 0, Time.deltaTime * 5) == 0) stateComplete = true;
+            if(stateService.playerModel.SetWeightRigBuilderlayer((int)Units.HumanModel.RigLayers.Aim, -0.1f, Time.deltaTime * 5) <= 0 && 
+            stateService.playerModel.SetWeightRigBuilderlayer((int)Units.HumanModel.RigLayers.NoAim, -0.1f, Time.deltaTime * 5) <= 0) IsComplete = true;
         }
     }
 }

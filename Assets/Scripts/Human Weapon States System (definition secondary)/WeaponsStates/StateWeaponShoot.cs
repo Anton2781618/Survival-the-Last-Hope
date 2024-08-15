@@ -6,7 +6,7 @@ namespace States
     {
         public override void Execute()
         {
-            if (!stateService.inputs.shoot)
+            if (!stateService.inputSystem.shoot)
             {
                 stateService.TransitionTo(stateService.stateWeaponAim);
             }

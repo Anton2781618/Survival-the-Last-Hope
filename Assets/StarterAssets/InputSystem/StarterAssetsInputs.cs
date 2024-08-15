@@ -16,6 +16,7 @@ namespace StarterAssets
 		public bool shoot;
 		public bool reload;
 		public bool weaponOn;
+		public bool weaponChange;
 
 		[Header("Movement Settings")]
 		public bool analogMovement;

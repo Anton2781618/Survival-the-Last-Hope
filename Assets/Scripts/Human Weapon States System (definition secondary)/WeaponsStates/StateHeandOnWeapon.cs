@@ -6,7 +6,7 @@ namespace States
     {
         public override void Execute()
         {
-            if(stateService.inputs.weaponOn && stateComplete)
+            if(stateService.inputSystem.weaponOn && IsComplete)
             {
                 stateService.stateWeaponOn.TransitionForward = true;
 
@@ -26,7 +26,7 @@ namespace States
             {
                 stateService.CurrentWeapon.DrawWeapon(stateService.playerModel.hend);
 
-                stateComplete = true;
+                IsComplete = true;
             }
         }
 

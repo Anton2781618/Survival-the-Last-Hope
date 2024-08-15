@@ -18,19 +18,19 @@ namespace States
 
         public override void Execute()
         {
-            if(stateService.inputs.reload)
+            if(stateService.inputSystem.reload)
             {
                 stateService.TransitionTo(stateService.stateWeaponReload);
             }
             else
-            if(!stateService.inputs.aim)
+            if(!stateService.inputSystem.aim)
             {
                 stateService.stateWeaponOn.TransitionForward = false;
 
                 stateService.TransitionTo(stateService.stateWeaponOn);
             }
             else
-            if(stateService.inputs.shoot && stateComplete)
+            if(stateService.inputSystem.shoot && IsComplete)
             {
                 stateService.TransitionTo(stateService.stateWeaponShoot);
             }
@@ -39,7 +39,7 @@ namespace States
             
             MoveHendsFromPoint();
 
-            if(SetWeaponsAtReady() && lerpRatio >=1) stateComplete = true;
+            if(SetWeaponsAtReady() && lerpRatio >=1) IsComplete = true;
             
         }
 

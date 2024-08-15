@@ -15,8 +15,6 @@ namespace States
 
                 stateService.stateWeaponOn.TransitionForward = false;
 
-                stateService.StateComplete();
-
                 stateService.TransitionTo(stateService.stateWeaponOn);
                 
                 stateService.CurrentWeapon.InventoryItem.OnItemsChanged?.Invoke();
@@ -26,15 +24,15 @@ namespace States
 
         private void Reload()
         {
-            if (stateService.inputs.reload)
+            if (stateService.inputSystem.reload)
             {
-                stateComplete = false;
+                IsComplete = false;
 
                 needMoveHeand = false;
 
                 stateService.playerModel.animator.SetTrigger("Reload");
 
-                stateService.inputs.reload = false;
+                stateService.inputSystem.reload = false;
 
                 stateService.CurrentWeapon.StartCoroutine(stateService.CurrentWeapon.Reload(stateService.owner));
             }
@@ -46,7 +44,7 @@ namespace States
         private void SetNoWeapon()
         {
             if(stateService.playerModel.SetWeightRigBuilderlayer((int)Units.HumanModel.RigLayers.Aim, 0, Time.deltaTime * 5) == 0 && 
-            stateService.playerModel.SetWeightRigBuilderlayer((int)Units.HumanModel.RigLayers.NoAim, 0, Time.deltaTime * 5) == 0) stateComplete = true;
+            stateService.playerModel.SetWeightRigBuilderlayer((int)Units.HumanModel.RigLayers.NoAim, 0, Time.deltaTime * 5) == 0) IsComplete = true;
         }
     }
 }

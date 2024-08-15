@@ -8,13 +8,13 @@ namespace MyProject
     public class Spider : Unit, IDestroyable, IMoveSystem
     {
         GameObject target;
+        public Animator Animator;
 
         [SerializeField] private bool isWork = true;
 
         public int hp = 100;
 
-        [Inject]
-        public IMuveHandler MuveHandler { get; }
+        [Inject] public IMuveHandler MuveHandler { get; }
 
         public void SetDamage()
         {
@@ -39,6 +39,15 @@ namespace MyProject
                 if(!MuveHandler.IsMoveNow() && !MuveHandler.TargetIsNull())
                 {
                     Debug.Log("Атакую");
+                    
+                    Animator.SetBool("walk", false);
+                    // Animator.SetTrigger("Attack_1");
+                    Animator.SetBool("Attack_1_bool", true);
+                }
+                else
+                {
+                    Animator.SetBool("Attack_1_bool", false);
+                    Animator.SetBool("walk", true);
                 }
 
             }    
