@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: a0de4b9e0c522480e98989bebec5e155
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 133081
+  packageName: UModeler Lite
+  packageVersion: 1.0.8
+  assetPath: Assets/tripolygon/UModeler/Materials/Basic/UModelerLite_OnlyVC_HDRP.mat
+  uploadId: 550684

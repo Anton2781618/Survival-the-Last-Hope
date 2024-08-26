@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: c39750059e4e64cd59e47a62ac6dcd0e
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 133081
+  packageName: UModeler Lite
+  packageVersion: 1.0.8
+  assetPath: Assets/tripolygon/UModeler/Materials/Basic/UModelerLite_RulerGrid_Orange_HDRP.mat
+  uploadId: 550684

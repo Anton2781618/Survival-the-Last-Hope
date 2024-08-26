@@ -602,7 +602,7 @@ SkinnedMeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 5edbf7c465e2d0a4a9f5a2374502ba1c, type: 2}
+  - {fileID: 2100000, guid: bf78829e63610dc40a8f91c02d4f755f, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -1050,7 +1050,7 @@ GameObject:
   - component: {fileID: 115844975569185252}
   - component: {fileID: 3010782696734772755}
   - component: {fileID: 8323042574636055298}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: "\u0422\u0430\u043A\u0442\u0438\u0447\u0435\u0441\u043A\u0430\u044F \u043A\u0430\u0441\u043A\u0430"
   m_TagString: Untagged
   m_Icon: {fileID: 0}

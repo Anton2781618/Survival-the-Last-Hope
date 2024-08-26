@@ -1,0 +1,18 @@
+fileFormatVersion: 2
+guid: 317f00b8e0c65af4c95639471f4f6526
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences: []
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 133081
+  packageName: UModeler Lite
+  packageVersion: 1.0.8
+  assetPath: Assets/tripolygon/UModeler/Scripts/PureCode/Editor/TransformEditor.cs
+  uploadId: 550684

@@ -1,0 +1,16 @@
+fileFormatVersion: 2
+guid: 1986f114a7af080469cfba696ba59014
+ShaderImporter:
+  externalObjects: {}
+  defaultTextures: []
+  nonModifiableTextures: []
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 133081
+  packageName: UModeler Lite
+  packageVersion: 1.0.8
+  assetPath: Assets/tripolygon/UModeler/Materials/Basic/UModelerLite_UnlitVertexColorShader.shader
+  uploadId: 550684

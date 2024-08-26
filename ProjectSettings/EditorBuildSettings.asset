@@ -9,7 +9,7 @@ EditorBuildSettings:
     path: Assets/Scenes/Map.unity
     guid: 99c9720ab356a0642a771bea13969a05
   - enabled: 1
-    path: Assets/Scenes/Level.unity
+    path: Assets/MyScenes/Level.unity
     guid: 1227d4b8177fafd42b116ea2469ceb1a
   m_configObjects:
     com.unity.addressableassets: {fileID: 11400000, guid: 3b94c5d54c3cd4f46a332e81046ac244,
@@ -20,3 +20,4 @@ EditorBuildSettings:
       type: 2}
     com.unity.localization.settings: {fileID: 11400000, guid: 4c0ed6fbedf72c246ae53a3dcc0f8d55,
       type: 2}
+  m_UseUCBPForAssetBundles: 0

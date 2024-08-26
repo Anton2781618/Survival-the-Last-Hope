@@ -1,0 +1,18 @@
+fileFormatVersion: 2
+guid: 1d070a8ff914e6742b3e6594c094c8c1
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences: []
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 133081
+  packageName: UModeler Lite
+  packageVersion: 1.0.8
+  assetPath: Assets/tripolygon/UModeler/Scripts/PureCode/Editor/MeshFilterEditor.cs
+  uploadId: 550684

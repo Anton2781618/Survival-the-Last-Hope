@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 12889c899f03e6347ba03654b4b20f89
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 11400000
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 133081
+  packageName: UModeler Lite
+  packageVersion: 1.0.8
+  assetPath: Assets/tripolygon/UModeler/UModelerLiteDefault.guiskin
+  uploadId: 550684

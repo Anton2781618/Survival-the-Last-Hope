@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: ef6b3d49cbc3649e1b9b73af5488c436
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 133081
+  packageName: UModeler Lite
+  packageVersion: 1.0.8
+  assetPath: Assets/tripolygon/UModeler/Materials/Basic/UModelerLite_RulerGrid_Orange_URP.mat
+  uploadId: 550684

@@ -1,5 +1,17 @@
 {
   "dependencies": {
+    "bz-soft.ragdoll-helper": {
+      "version": "file:bz-soft.ragdoll-helper",
+      "depth": 0,
+      "source": "embedded",
+      "dependencies": {}
+    },
+    "com.tripolygon.umodeler-x": {
+      "version": "file:com.tripolygon.umodeler-x-0.20.5/com.tripolygon.umodeler-x-0.20.5.tgz",
+      "depth": 0,
+      "source": "local-tarball",
+      "dependencies": {}
+    },
     "com.unity.2d.sprite": {
       "version": "1.0.0",
       "depth": 0,
