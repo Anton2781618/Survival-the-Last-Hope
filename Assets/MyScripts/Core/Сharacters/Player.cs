@@ -67,7 +67,7 @@ namespace MyProject
 
         public void ShowInventory()
         {
-            InventoryHandler.InventoryUI.ShowInventory();
+            InventoryHandler.InventoryUI.TurnInventory();
         }
         
         //!временно

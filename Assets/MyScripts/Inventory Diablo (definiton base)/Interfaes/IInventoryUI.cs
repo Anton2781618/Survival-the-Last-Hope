@@ -8,7 +8,8 @@ namespace InventoryDiablo
         public void SetInventoryOwner(IInventorySystem newOwner);
         public void DestroyInventoryItem(InventoryItem inventoryItem);
         public void DestroyAllInventoryItem();
-        public void ShowInventory();
+        public void ShowInventory(bool value);
+        public void TurnInventory();
 
         public void RefreshUI();
         public ItemGrid CheckFreeSpaceForItem(InventoryItem item);
