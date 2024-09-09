@@ -110,8 +110,7 @@ namespace Weapons
             hitEffectBufer.transform.rotation = Quaternion.LookRotation(hit.normal);
 
 
-            // Instantiate(holeEffect, hitEffectBufer.transform.position, Quaternion.LookRotation(-hit.normal), hit.transform);
-            Instantiate(holeEffect, hitEffectBufer.transform.position, Quaternion.LookRotation(hit.normal), hit.transform);
+            Instantiate(holeEffect, hitEffectBufer.transform.position, Quaternion.LookRotation(-hit.normal), hit.transform);
             // Instantiate(holeEffect, hitEffectBufer.transform.position, muzzleFlashPoint.rotation, hit.transform);
         }
 

@@ -26,9 +26,9 @@ namespace MyProject
             
             IInventorySystem unitInventory = unit as IInventorySystem;
 
-            unitInventory.InventoryHandler.InventoryUI.ShowInventory(true);
+            unitInventory.InventoryHandler.InventoryUI.ShowInventory();
 
-            InventoryHandler.InventoryUI.ShowInventory(true);
+            InventoryHandler.InventoryUI.ShowInventory();
         }
 
         void OnMouseEnter()

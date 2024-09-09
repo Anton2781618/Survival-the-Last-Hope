@@ -10,7 +10,7 @@ public class BulletProjectile : MonoBehaviour
     private void Start() 
     {
 
-        bulletRigidbody.velocity = transform.forward * speed;
+        bulletRigidbody.linearVelocity = transform.forward * speed;
     }
 
     private void OnTriggerEnter(Collider other) 

@@ -26,16 +26,16 @@ namespace MyProject
             {
                 // Destroy(gameObject);
                 // Instantiate(Helper.Spawner.MK3Dead, transform.position, transform.rotation);
-                Animator.enabled = false;
+                // Animator.enabled = false;
 
-                RagdollOperations.EnableRagdoll();
+                // RagdollOperations.EnableRagdoll();
                 
-                // MyCollider.enabled = false;
+                MyCollider.enabled = false;
                 
                 agent.enabled = false;
 
                 isWork = false;
-                // Animator.SetBool("IsDead", true);
+                Animator.SetBool("IsDead", true);
                 Animator.SetBool("walk", false);
                 Animator.SetBool("Attack_1_bool", false);
             }

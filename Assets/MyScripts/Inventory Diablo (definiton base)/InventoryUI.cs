@@ -99,19 +99,18 @@ namespace InventoryDiablo
             grids.ForEach(t => t.owner = owner);
         }
 
-        public void ShowInventory(bool value)
+        public void ShowInventory()
         {
             Debug.Log("Показать инвентарь " + transform.name);
-            gameObject.SetActive(value);
+            gameObject.SetActive(true);
 
-            if(value) RefreshUI();
+            RefreshUI();
         }
 
         public void CreateRandomItem()
         {
             inventoryManager.CreateRandomItem(grids[0]);
         }
-
-        public void TurnInventory() => ShowInventory(!gameObject.activeSelf);
+            
     }
 }
