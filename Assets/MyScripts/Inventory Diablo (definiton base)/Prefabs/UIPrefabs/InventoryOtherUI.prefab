@@ -322,13 +322,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bae209eda2508f340bb2047a90f51cb7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  chest:
-    money: 500
-    inventoryItems: []
   GridSizeWidth: 7
   GridSizeHeight: 5
   gridForItemsType: -1
   isSingle: 0
+  gridName: 1
 --- !u!114 &3001876507253964461
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -341,7 +339,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 40fe8fc0d9f800c4e89e044cc93f92e3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  inventoryController: {fileID: 0}
   itemGrid: {fileID: 3001876507253964456}
 --- !u!1 &4387988417808732218
 GameObject:
@@ -433,13 +430,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bae209eda2508f340bb2047a90f51cb7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  chest:
-    money: 500
-    inventoryItems: []
   GridSizeWidth: 4
   GridSizeHeight: 5
   gridForItemsType: -1
   isSingle: 1
+  gridName: 1
 --- !u!114 &4387988417808732161
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -452,7 +447,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 40fe8fc0d9f800c4e89e044cc93f92e3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  inventoryController: {fileID: 0}
   itemGrid: {fileID: 4387988417808732164}
 --- !u!1 &4688280924776608353
 GameObject:
@@ -544,13 +538,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bae209eda2508f340bb2047a90f51cb7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  chest:
-    money: 500
-    inventoryItems: []
   GridSizeWidth: 4
   GridSizeHeight: 4
   gridForItemsType: -1
   isSingle: 1
+  gridName: 1
 --- !u!114 &4688280924776608346
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -563,7 +555,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 40fe8fc0d9f800c4e89e044cc93f92e3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  inventoryController: {fileID: 0}
   itemGrid: {fileID: 4688280924776608351}
 --- !u!1 &5425392300667547035
 GameObject:
@@ -937,13 +928,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bae209eda2508f340bb2047a90f51cb7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  chest:
-    money: 500
-    inventoryItems: []
   GridSizeWidth: 10
   GridSizeHeight: 8
   gridForItemsType: -1
   isSingle: 0
+  gridName: 1
 --- !u!114 &5637589742273059829
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -956,7 +945,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 40fe8fc0d9f800c4e89e044cc93f92e3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  inventoryController: {fileID: 0}
   itemGrid: {fileID: 3066199670664442443}
 --- !u!1 &6256523787862765133
 GameObject:
@@ -1167,13 +1155,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bae209eda2508f340bb2047a90f51cb7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  chest:
-    money: 500
-    inventoryItems: []
   GridSizeWidth: 2
   GridSizeHeight: 2
   gridForItemsType: -1
   isSingle: 1
+  gridName: 1
 --- !u!114 &6758445486250645468
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1186,7 +1172,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 40fe8fc0d9f800c4e89e044cc93f92e3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  inventoryController: {fileID: 0}
   itemGrid: {fileID: 6758445486250645465}
 --- !u!1 &7127259476179232240
 GameObject:
@@ -1352,13 +1337,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bae209eda2508f340bb2047a90f51cb7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  chest:
-    money: 500
-    inventoryItems: []
   GridSizeWidth: 10
   GridSizeHeight: 3
   gridForItemsType: -1
   isSingle: 1
+  gridName: 1
 --- !u!114 &7724352700149767300
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1371,7 +1354,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 40fe8fc0d9f800c4e89e044cc93f92e3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  inventoryController: {fileID: 0}
   itemGrid: {fileID: 7724352700149767297}
 --- !u!1 &8137780259099687045
 GameObject:

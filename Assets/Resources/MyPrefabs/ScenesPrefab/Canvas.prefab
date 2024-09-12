@@ -128,7 +128,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1814445718726193290, guid: fe9145c1259b2ca4ba27261db877e30b,
         type: 3}
-      propertyPath: 'm_ActiveFontFeatures.Array.data[0]'
+      propertyPath: m_ActiveFontFeatures.Array.data[0]
       value: 1801810542
       objectReference: {fileID: 0}
     - target: {fileID: 5277252012050719312, guid: fe9145c1259b2ca4ba27261db877e30b,
@@ -383,19 +383,13 @@ RectTransform:
     type: 3}
   m_PrefabInstance: {fileID: 742099237877865353}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &3160802233017359610 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 2418744923333232499, guid: 17a23a8815281af4996dbf42b8c6db18,
-    type: 3}
-  m_PrefabInstance: {fileID: 742099237877865353}
-  m_PrefabAsset: {fileID: 0}
 --- !u!114 &4534626250825125102 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 3792679458525910887, guid: 17a23a8815281af4996dbf42b8c6db18,
     type: 3}
   m_PrefabInstance: {fileID: 742099237877865353}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3160802233017359610}
+  m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 52993029b1b2df44abdffe148cc12a66, type: 3}
@@ -409,16 +403,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1637781899535093818}
     m_Modifications:
-    - target: {fileID: 574629293508552534, guid: d3561302ddd19124ea980d65c0652298,
-        type: 3}
-      propertyPath: m_ActiveFontFeatures.Array.size
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1482210104774990418, guid: d3561302ddd19124ea980d65c0652298,
-        type: 3}
-      propertyPath: m_ActiveFontFeatures.Array.size
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 2159404753824515216, guid: d3561302ddd19124ea980d65c0652298,
         type: 3}
       propertyPath: m_Pivot.x
@@ -519,45 +503,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 2785223784455517223, guid: d3561302ddd19124ea980d65c0652298,
-        type: 3}
-      propertyPath: m_ActiveFontFeatures.Array.size
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3187648791342384848, guid: d3561302ddd19124ea980d65c0652298,
-        type: 3}
-      propertyPath: m_ActiveFontFeatures.Array.size
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 5474507667337259053, guid: d3561302ddd19124ea980d65c0652298,
         type: 3}
       propertyPath: m_Name
       value: HelpMenuUI
-      objectReference: {fileID: 0}
-    - target: {fileID: 6400064522829843897, guid: d3561302ddd19124ea980d65c0652298,
-        type: 3}
-      propertyPath: m_ActiveFontFeatures.Array.size
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7584840148867384024, guid: d3561302ddd19124ea980d65c0652298,
-        type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
-      value: 6
-      objectReference: {fileID: 0}
-    - target: {fileID: 7584840148867384024, guid: d3561302ddd19124ea980d65c0652298,
-        type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
-      value: 
-      objectReference: {fileID: 3160802233017359610}
-    - target: {fileID: 7584840148867384024, guid: d3561302ddd19124ea980d65c0652298,
-        type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: SetActive
-      objectReference: {fileID: 0}
-    - target: {fileID: 7584840148867384024, guid: d3561302ddd19124ea980d65c0652298,
-        type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
-      value: UnityEngine.GameObject, UnityEngine
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

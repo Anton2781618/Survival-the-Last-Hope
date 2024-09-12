@@ -58,9 +58,6 @@ MeshRenderer:
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 2
   m_RayTraceProcedural: 0
-  m_RayTracingAccelStructBuildFlagsOverride: 0
-  m_RayTracingAccelStructBuildFlags: 1
-  m_SmallMeshCulling: 1
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -155,7 +152,7 @@ GameObject:
   - component: {fileID: 3637041449361416643}
   - component: {fileID: 151190033966568515}
   - component: {fileID: 6659639936778060843}
-  - component: {fileID: 5697319438748644886}
+  - component: {fileID: 2527821701189276895}
   - component: {fileID: 8281993558952102560}
   - component: {fileID: 646388545932503044}
   - component: {fileID: 165293124411116850}
@@ -185,7 +182,7 @@ Transform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!95 &3637041449361416643
 Animator:
-  serializedVersion: 7
+  serializedVersion: 5
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -199,7 +196,6 @@ Animator:
   m_ApplyRootMotion: 1
   m_LinearVelocityBlending: 0
   m_StabilizeFeet: 0
-  m_AnimatePhysics: 0
   m_WarningMessage: 
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
@@ -220,6 +216,7 @@ CharacterController:
     serializedVersion: 2
     m_Bits: 0
   m_LayerOverridePriority: 0
+  m_IsTrigger: 0
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
@@ -248,43 +245,9 @@ MonoBehaviour:
     rigBuilder: {fileID: 8281993558952102560}
     rigTargetRight: {fileID: 2284750880950391113}
     rigTargetLeft: {fileID: 5756065672446307426}
-    lerpCurve:
-      serializedVersion: 2
-      m_Curve:
-      - serializedVersion: 3
-        time: 0
-        value: 0
-        inSlope: 1.9933295
-        outSlope: 1.9933295
-        tangentMode: 34
-        weightedMode: 0
-        inWeight: 0
-        outWeight: 0.33333334
-      - serializedVersion: 3
-        time: 0.4946504
-        value: 0.98600125
-        inSlope: 0.7454128
-        outSlope: 0.7454128
-        tangentMode: 0
-        weightedMode: 0
-        inWeight: 0.038364697
-        outWeight: 0.33333334
-      - serializedVersion: 3
-        time: 1
-        value: 0
-        inSlope: -1.9511268
-        outSlope: -1.9511268
-        tangentMode: 34
-        weightedMode: 0
-        inWeight: 0.33333334
-        outWeight: 0
-      m_PreInfinity: 2
-      m_PostInfinity: 2
-      m_RotationOrder: 4
-    PistolHolster: {fileID: 0}
-    RifleHolster: {fileID: 0}
+    PistolHolster: {fileID: 4321227759242324849}
+    RifleHolster: {fileID: 1536032001428975792}
     objectForLocalSpace: {fileID: 8752903699517060986}
-    lerpOffset: {x: -0.13, y: 0.27, z: 0.13}
     lerpOffsetHend:
       serializedVersion: 2
       m_Curve:
@@ -318,9 +281,9 @@ MonoBehaviour:
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
-  playerSkin: {fileID: 0}
+  playerSkin: {fileID: 1501892160049854709}
   clo: {fileID: 0}
---- !u!114 &5697319438748644886
+--- !u!114 &2527821701189276895
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -329,14 +292,28 @@ MonoBehaviour:
   m_GameObject: {fileID: 269563900195235590}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 909d917d73a63f940ac158d02e936645, type: 3}
+  m_Script: {fileID: 11500000, guid: 5de73318b869a1a49aafd311a2449114, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  pushLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  canPush: 0
-  strength: 1.1
+  inventory:
+    money: 500
+    inventoryItems:
+    - <ItemData>k__BackingField: {fileID: 11400000, guid: 0156facadb44fc244ac5036fd3335aee,
+        type: 2}
+      amount: 7
+      price: 0
+      GridName: 1
+      OnItemsChanged:
+        m_PersistentCalls:
+          m_Calls: []
+    - <ItemData>k__BackingField: {fileID: 11400000, guid: 965a5f462e52dbe47a2459c4610c789c,
+        type: 2}
+      amount: 0
+      price: 0
+      GridName: 1
+      OnItemsChanged:
+        m_PersistentCalls:
+          m_Calls: []
 --- !u!114 &8281993558952102560
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -390,7 +367,7 @@ MonoBehaviour:
   debugTarget: {fileID: 0}
   settingsRaycaster: {fileID: 11400000, guid: cab9b39eb76691440ac6612f616faf53, type: 2}
   inventoryUI: {fileID: 0}
-  inventoryHandler: {fileID: 0}
+  inventoryHandler: {fileID: 2527821701189276895}
 --- !u!1 &275624791568623541
 GameObject:
   m_ObjectHideFlags: 0
@@ -622,9 +599,6 @@ MeshRenderer:
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 2
   m_RayTraceProcedural: 0
-  m_RayTracingAccelStructBuildFlagsOverride: 0
-  m_RayTracingAccelStructBuildFlags: 1
-  m_SmallMeshCulling: 1
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -771,9 +745,6 @@ MeshRenderer:
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 2
   m_RayTraceProcedural: 0
-  m_RayTracingAccelStructBuildFlagsOverride: 0
-  m_RayTracingAccelStructBuildFlags: 1
-  m_SmallMeshCulling: 1
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -857,9 +828,6 @@ MeshRenderer:
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 2
   m_RayTraceProcedural: 0
-  m_RayTracingAccelStructBuildFlagsOverride: 0
-  m_RayTracingAccelStructBuildFlags: 1
-  m_SmallMeshCulling: 1
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -1097,9 +1065,6 @@ SkinnedMeshRenderer:
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 3
   m_RayTraceProcedural: 0
-  m_RayTracingAccelStructBuildFlagsOverride: 0
-  m_RayTracingAccelStructBuildFlags: 1
-  m_SmallMeshCulling: 1
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -1627,9 +1592,6 @@ SkinnedMeshRenderer:
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 3
   m_RayTraceProcedural: 0
-  m_RayTracingAccelStructBuildFlagsOverride: 0
-  m_RayTracingAccelStructBuildFlags: 1
-  m_SmallMeshCulling: 1
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -2471,9 +2433,6 @@ MeshRenderer:
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 2
   m_RayTraceProcedural: 0
-  m_RayTracingAccelStructBuildFlagsOverride: 0
-  m_RayTracingAccelStructBuildFlags: 1
-  m_SmallMeshCulling: 1
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -3143,9 +3102,6 @@ MeshRenderer:
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 2
   m_RayTraceProcedural: 0
-  m_RayTracingAccelStructBuildFlagsOverride: 0
-  m_RayTracingAccelStructBuildFlags: 1
-  m_SmallMeshCulling: 1
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -3220,9 +3176,6 @@ SkinnedMeshRenderer:
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 3
   m_RayTraceProcedural: 0
-  m_RayTracingAccelStructBuildFlagsOverride: 0
-  m_RayTracingAccelStructBuildFlags: 1
-  m_SmallMeshCulling: 1
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -3731,7 +3684,7 @@ Transform:
   m_GameObject: {fileID: 8088196843653105034}
   serializedVersion: 2
   m_LocalRotation: {x: 0.11854403, y: 0.110366866, z: 0.26601914, w: -0.95026326}
-  m_LocalPosition: {x: 0.08, y: -0.17, z: 0.11}
+  m_LocalPosition: {x: 0.079, y: -0.186, z: 0.109}
   m_LocalScale: {x: 0.099999994, y: 0.099999964, z: 0.09999997}
   m_ConstrainProportionsScale: 0
   m_Children:
