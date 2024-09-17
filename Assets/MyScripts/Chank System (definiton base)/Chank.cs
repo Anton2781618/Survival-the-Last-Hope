@@ -7,6 +7,8 @@ public class Chank : MonoBehaviour
     public Terrain Terrain;
     public Vector2Int ChankPosition;
 
+    public bool EnabledСhank = false;
+
     public void Init()
     {
         Terrain = transform.GetComponent<Terrain>();
