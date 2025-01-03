@@ -19,7 +19,7 @@ namespace InventoryDiablo
         {
             foreach (ItemGrid grid in grids)
             {
-                if(grid.FindSpaceForObject(item) != null) return grid;
+                if(grid.GridData.FindSpaceForObject(item) != null) return grid;
             }
 
             return null;
@@ -69,7 +69,7 @@ namespace InventoryDiablo
             {
                 foreach (UIInventoryItem item in grid.GetItems())
                 {
-                    grid.CleanGridReference(item);
+                    grid.GridData.CleanGridReference(item.InventoryItem);
 
                     item.DestructSelf();
                 }
@@ -78,7 +78,7 @@ namespace InventoryDiablo
             foreach (InventoryItem inventoryItem in owner.InventoryHandler.Inventory.GetInventoryItems())
             {
                 
-                ItemGrid grid = grids.FirstOrDefault(t => t.gridName == inventoryItem.GridName);
+                ItemGrid grid = grids.FirstOrDefault(t => t.GridData.gridName == inventoryItem.GridName);
 
                 CreateAndInsertItem(inventoryItem, grid);
             }
@@ -96,7 +96,7 @@ namespace InventoryDiablo
         {
             owner = newOwner;
 
-            grids.ForEach(t => t.owner = owner);
+            // grids.ForEach(t => t.owner = owner);
         }
 
         public void ShowInventory(bool value)

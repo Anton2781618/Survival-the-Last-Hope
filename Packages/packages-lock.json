@@ -6,6 +6,15 @@
       "source": "embedded",
       "dependencies": {}
     },
+    "com.gamedevlab.modular-event-architecture": {
+      "version": "https://github.com/Anton2781618/Modular-event-architecture.git",
+      "depth": 0,
+      "source": "git",
+      "dependencies": {
+        "com.unity.textmeshpro": "3.0.6"
+      },
+      "hash": "8abc7d100a044473ed4c1db68310c7762a7357d2"
+    },
     "com.tripolygon.umodeler-x": {
       "version": "file:com.tripolygon.umodeler-x-0.20.5/com.tripolygon.umodeler-x-0.20.5.tgz",
       "depth": 0,

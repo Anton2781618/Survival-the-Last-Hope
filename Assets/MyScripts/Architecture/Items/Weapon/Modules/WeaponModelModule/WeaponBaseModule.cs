@@ -1,0 +1,77 @@
+using System.Collections;
+using System.Collections.Generic;
+using InventoryDiablo;
+using UnityEngine;
+using Weapons;
+
+namespace ModularEventArchitecture
+{
+    [CompatibleUnit(typeof(WeaponEntity))]
+    public abstract class WeaponBaseModule : ModuleBase
+    {
+        [SerializeField] internal Transform muzzleFlashPoint;
+        [SerializeField] internal Transform shellPoint;
+        public WeaponModel WeaponModel;
+        internal ParticleSystem muzzleFlash;
+        internal GameObject hitEffect;
+        internal TrailRenderer tracerEffect;
+        public InventoryItem InventoryItem;
+        internal LayerMask layerMask;
+        internal float nextTimeToFire = 0f;
+        internal bool isReloading = false;
+        public WeaponType TypeWeapon;
+
+        public enum WeaponType
+        {
+            Pistol,
+            Rifle,
+            Shotgun,
+            SniperRifle,
+            MachineGun
+        }
+
+        private void Awake() 
+        {
+            muzzleFlash = Instantiate(WeaponModel.muzzleFlash, muzzleFlashPoint);
+
+            tracerEffect = WeaponModel.tracerEffect;
+
+            layerMask = WeaponModel.layerMask;
+        }
+
+        private void OnEnable() 
+        {
+            isReloading = false;
+        }
+
+        public abstract void Fire();
+        public abstract InventoryItem RemoveClip();
+        public abstract IEnumerator Reload(IInventorySystem inventorySystem);
+        public abstract void InsertClip(InventoryItem inventoryItem);
+        public abstract void StopFire();
+        public bool IsReloadingNow() => isReloading; 
+        public Transform GetWeaponTransform() => transform;
+
+        // убрать оружие в кабуру
+        public void HolsterWeapon(Transform holster)
+        {
+            transform.parent = holster;
+            
+            transform.localPosition = new Vector3(1.268438f, 0.4823954f, -0.2450715f);
+
+            transform.localRotation = Quaternion.Euler(-165.792f, -112.029f, 97.451f);
+        }
+
+        // выхватить оружие
+        public void DrawWeapon(Transform heand)
+        {
+            transform.parent = heand;
+
+            transform.localPosition = new Vector3(0.1287f, 0.0468f, -0.023f);            
+
+            transform.localRotation = Quaternion.Euler(-165.91f, -112.011f, 97.224f);
+        }
+
+        public void DestructSelf() => Destroy(gameObject);
+    }
+}

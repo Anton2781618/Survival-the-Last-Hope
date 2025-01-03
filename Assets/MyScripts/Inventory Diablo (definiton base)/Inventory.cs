@@ -167,7 +167,17 @@ namespace InventoryDiablo
             //     }
             // }
         }
-
         
+        //метод одевает предмет на персонажа
+        public void EquipItem(InventoryItem inventoryItem)
+        {
+            throw new NotImplementedException();
+        }
+
+        //метод снимает предмет с персонажа
+        public void TakeOffItem(InventoryItem inventoryItem)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

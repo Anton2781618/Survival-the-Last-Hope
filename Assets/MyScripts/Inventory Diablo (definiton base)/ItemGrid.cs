@@ -2,7 +2,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using UnityEditor;
 using UnityEngine;
 using static InventoryDiablo.ItemData;
 
@@ -13,134 +12,110 @@ namespace InventoryDiablo
     //устанавливается на UI сетки
     public class ItemGrid : MonoBehaviour
     {
-        public const float titleSizeWidth = 32;
-        public const float titleSizeHeight = 32;
-
-        //это ссылка на того чей инвентарь
-        public IInventorySystem owner {get; set;}
-        private UIInventoryItem[,] inventoryItemSlot;
+        public GridData GridData;
         private RectTransform rectTransform;
         private Vector2 positionOnTheGrid = new Vector2();
         private Vector2Int titeGridPosition = new Vector2Int();
-
-        [SerializeField] private int GridSizeWidth = 20; 
-        [SerializeField] private int GridSizeHeight = 10; 
-        [SerializeField] private ItemType gridForItemsType;
-
-        //поле определяет сетка для одного предмета или нет
-        public bool isSingle = false;
-        [SerializeField] internal GridName gridName = GridName.BackpackGrid;
-
-        public enum GridName
-        {
-            BackpackSlot,
-            BackpackGrid,
-            PistolSlot,
-            RifleSlot,
-            UnloadingSlot,
-            UnloadingGrid,
-            HelmetSlot,
-        }
+        public List<UIInventoryItem> InventoryItems;
 
         private void Awake() 
         {
             rectTransform = GetComponent<RectTransform>();    
             
-            Init(GridSizeWidth,GridSizeHeight);
+            Init(GridData.GridSizeWidth, GridData.GridSizeHeight);
         }
 
-        public ItemType GetGridForItemsType()
-        {
-            return gridForItemsType;
-        }
-
-        // [InventoryDiablo.Button] 
-        [ContextMenu("Обновить_размер_сетки")]
+        [InventoryDiablo.Button(ButtonMode.AlwaysEnabled)] 
         public void UpdateSizeGrid()
         {
             if(!rectTransform) rectTransform = GetComponent<RectTransform>();    
 
-            Init(GridSizeWidth,GridSizeHeight);
+            Init(GridData.GridSizeWidth, GridData.GridSizeHeight);
         }
+
+        //метод найти итем в сетке по координатам
+        public UIInventoryItem GetUIItem(int x, int y)
+        {
+            var InventoryItem = GridData.GetItem(x, y);
+
+            foreach (var item in InventoryItems)
+            {
+                if(item.InventoryItem == InventoryItem)
+                {
+                    return item;
+                }
+                
+            }
+            return null;
+        }
+
+        //найти итем в списке по InventoryItem
+        public UIInventoryItem GetUIItem(InventoryItem inventoryItem)
+        {
+            foreach (var item in InventoryItems)
+            {
+                if(item.InventoryItem == inventoryItem)
+                {
+                    return item;
+                }
+            }
+            return null;
+        }
+
+        public UIInventoryItem SelectIteme(int x, int y)
+        {
+            InventoryItem item = GridData.SelectIteme(x, y);
+
+            if (item == null) { return null; }
+
+            UIInventoryItem toReturn = GetUIItem(item);
+
+            InventoryItems.Remove(toReturn);
+
+            if (toReturn == null) { return null; }
+            
+            return toReturn;
+        }
+
 
         //устанавлмвает начальный размер сетки
         private void Init(int width, int height)
         {
-            inventoryItemSlot = new UIInventoryItem[width, height];
-            Vector2 size = new Vector2(width * titleSizeWidth, height * titleSizeHeight);
+            GridData.Init(width, height);
+
+            Vector2 size = new Vector2(width * GridData.titleSizeWidth, height * GridData.titleSizeHeight);
+            
             rectTransform.sizeDelta = size;
         }
 
-        internal UIInventoryItem GetItem(int x, int y)
-        {
-            return inventoryItemSlot[x, y];
-        }
-
-        //метод возвращает позицию на ячейки по сетке
+        //метод возвращает координаты ячейки на сетке над которой находится мышь
         public Vector2Int GetTitleGridPosition(Vector2 mousePosition)
         {
             positionOnTheGrid.x = mousePosition.x - rectTransform.position.x;
             positionOnTheGrid.y = rectTransform.position.y - mousePosition.y;
         
-            titeGridPosition.x = (int)((positionOnTheGrid.x / titleSizeWidth) / transform.localScale.x); 
-            titeGridPosition.y = (int)((positionOnTheGrid.y / titleSizeHeight) / transform.localScale.y );
+            titeGridPosition.x = (int)((positionOnTheGrid.x / GridData.titleSizeWidth) / transform.localScale.x); 
+            titeGridPosition.y = (int)((positionOnTheGrid.y / GridData.titleSizeHeight) / transform.localScale.y );
 
             return titeGridPosition;
-        }
-
-        public Vector2Int? FindSpaceForObject(UIInventoryItem itemToInsert)
-        {
-            int heght = GridSizeHeight - itemToInsert.HEIGHT + 1;
-            int wight = GridSizeWidth - itemToInsert.WIDTH + 1; 
-            
-            for (int y = 0; y < heght; y++)
-            {
-                for (int x = 0; x < wight ; x++)
-                {
-                    if(CheckAvailabeSpace(x, y, itemToInsert.WIDTH, itemToInsert.HEIGHT) == true)
-                    {
-                        return new Vector2Int(x, y); 
-                    }
-                }
-            }
-
-            return null;
-        }
-        public Vector2Int? FindSpaceForObject(InventoryItem itemToInsert)
-        {
-            int heght = GridSizeHeight - itemToInsert.ItemData.Height + 1;
-            int wight = GridSizeWidth - itemToInsert.ItemData.Width + 1; 
-            
-            for (int y = 0; y < heght; y++)
-            {
-                for (int x = 0; x < wight ; x++)
-                {
-                    if(CheckAvailabeSpace(x, y, itemToInsert.ItemData.Width, itemToInsert.ItemData.Height) == true)
-                    {
-                        return new Vector2Int(x, y); 
-                    }
-                }
-            }
-
-            return null;
         }
 
         //метод установить итем в слот
         public bool PlaceItem(UIInventoryItem inventoryItem, int posX, int posY, ref UIInventoryItem overlapItem)
         {
             // не можем расположить итем если он хотябы частично за сеткой
-            if (BoundryCheck(posX, posY, inventoryItem.WIDTH, inventoryItem.HEIGHT) == false)
+            if (BoundryCheck(posX, posY, inventoryItem.InventoryItem.WIDTH, inventoryItem.InventoryItem.HEIGHT) == false)
             {
                 return false;
             }
             
-            if(isSingle)
+            if(GridData.isSingle)
             {
-                GetFrestOverLap(inventoryItem.WIDTH, inventoryItem.HEIGHT, ref overlapItem);
+                GetFrestOverLap(inventoryItem.InventoryItem.WIDTH, inventoryItem.InventoryItem.HEIGHT, ref overlapItem);
             }
             else
             {
-                if (OverLapTheck(posX, posY, inventoryItem.WIDTH, inventoryItem.HEIGHT, ref overlapItem) == false)
+                if (OverLapTheck(posX, posY, inventoryItem.InventoryItem.WIDTH, inventoryItem.InventoryItem.HEIGHT, ref overlapItem) == false)
                 {
                     overlapItem = null;
 
@@ -200,10 +175,10 @@ namespace InventoryDiablo
                     }
                 }
 
-                CleanGridReference(overlapItem);
+                GridData.CleanGridReference(overlapItem.InventoryItem);
             }
 
-            PlaceItem(inventoryItem, isSingle ? 0 : posX, isSingle ? 0 : posY);
+            PlaceItem(inventoryItem, GridData.isSingle ? 0 : posX, GridData.isSingle ? 0 : posY);
 
             return true;
         }
@@ -272,44 +247,23 @@ namespace InventoryDiablo
 
             rectTransform.SetParent(this.rectTransform);
 
-            for (int x = 0; x < inventoryItem.WIDTH; x++)
-            {
-                for (int y = 0; y < inventoryItem.HEIGHT; y++)
-                {
-                    inventoryItemSlot[posX + x, posY + y] = inventoryItem;
-                }
-            }
+            InventoryItems.Add(inventoryItem);
 
-            inventoryItem.onGridPositionX = posX;
-            inventoryItem.onGridPositionY = posY;
+            GridData.PlaceItem(inventoryItem.InventoryItem, posX, posY);
+
             Vector2 positionItem = CalculatePositionOnGrid(inventoryItem, posX, posY);
 
             rectTransform.localPosition = positionItem;
 
-            inventoryItem.InventoryItem.GridName = gridName;
+            inventoryItem.InventoryItem.GridName = GridData.gridName;
         }
 
-        public Vector2 CalculatePositionOnGrid(UIInventoryItem inventoryItem, int posX, int posY)
+        public Vector2 CalculatePositionOnGrid(UIInventoryItem InventoryItemUI, int posX, int posY)
         {
             Vector2 positionItem = new Vector2();
-            positionItem.x = posX * titleSizeWidth + titleSizeWidth * inventoryItem.WIDTH / 2;
-            positionItem.y = -(posY * titleSizeHeight + titleSizeHeight * inventoryItem.HEIGHT / 2);
+            positionItem.x = posX * GridData.titleSizeWidth + GridData.titleSizeWidth * InventoryItemUI.InventoryItem.WIDTH / 2;
+            positionItem.y = -(posY * GridData.titleSizeHeight + GridData.titleSizeHeight * InventoryItemUI.InventoryItem.HEIGHT / 2);
             return positionItem;
-        }
-
-        private bool CheckAvailabeSpace(int posX, int posY, int width, int height)
-        {        
-            for (int x = 0; x < width; x++)
-            {
-                for (int y = 0; y < height; y++)
-                {
-                    if(inventoryItemSlot[posX + x, posY + y] != null)
-                    {
-                        return false;
-                    }
-                }
-            }
-            return true;
         }
 
         private void GetFrestOverLap(int width, int height, ref UIInventoryItem overlapItem)
@@ -318,9 +272,9 @@ namespace InventoryDiablo
             {
                 for (int y = 0; y < height; y++)
                 {
-                    if(inventoryItemSlot[x, y] != null)
+                    if(GridData.InventoryItemSlot[x, y] != null)
                     {
-                        overlapItem = inventoryItemSlot[x, y];
+                        overlapItem = GetUIItem(x, y);
                     }
                 }
             }
@@ -332,15 +286,15 @@ namespace InventoryDiablo
             {
                 for (int y = 0; y < height; y++)
                 {
-                    if(inventoryItemSlot[posX + x, posY + y] != null)
+                    if(GridData.InventoryItemSlot[posX + x, posY + y] != null)
                     {
                         if(overlapItem == null)
                         {
-                            overlapItem = inventoryItemSlot[posX + x, posY + y];
+                            overlapItem = GetUIItem(posX + x, posY + y);
                         }
                         else
                         {
-                            if(overlapItem != inventoryItemSlot[posX + x, posY + y])
+                            if(overlapItem != GetUIItem(posX + x, posY + y))
                             {
                                 return false;
                             }
@@ -351,30 +305,6 @@ namespace InventoryDiablo
             return true;
         }
 
-        //метод поднять итем
-        public UIInventoryItem SelectIteme(int x, int y)
-        {
-            UIInventoryItem toReturn = inventoryItemSlot[x, y];
-
-            if (toReturn == null) { return null; }
-
-            CleanGridReference(toReturn);
-
-            return toReturn;
-        }
-
-        //очистить сылки на итем в сетке
-        public void CleanGridReference(UIInventoryItem toReturn)
-        {
-            for (int ix = 0; ix < toReturn.WIDTH; ix++)
-            {
-                for (int iy = 0; iy < toReturn.HEIGHT; iy++)
-                {
-                    inventoryItemSlot[toReturn.onGridPositionX + ix, toReturn.onGridPositionY + iy] = null;
-                }
-            }
-        }
-
         //метод проверка на позицию итема что все его части внутри сетки
         private bool PositionCheck(int posX, int posY)
         {
@@ -383,7 +313,7 @@ namespace InventoryDiablo
                 return false;
             }
 
-            if(posX >= GridSizeWidth || posY >= GridSizeHeight)
+            if(posX >= GridData.GridSizeWidth || posY >= GridData.GridSizeHeight)
             {
                 return false;
             }
@@ -404,9 +334,9 @@ namespace InventoryDiablo
             return true;
         }
 
-        internal IEnumerable<UIInventoryItem> GetItems()
+        public IEnumerable<UIInventoryItem> GetItems()
         {
-            foreach (var item in inventoryItemSlot)
+            foreach (var item in InventoryItems)
             {
                 if(item != null)
                 {

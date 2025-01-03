@@ -1,18 +1,15 @@
-using System.Collections;
-using System.Collections.Generic;
+using ModularEventArchitecture;
 using UnityEngine;
 using UnityEngine.EventSystems;
-using Zenject;
 
 namespace InventoryDiablo
 {
     //класс представляет из себя систему определения ячейки для тыкания в нее
-    
+
     [RequireComponent(typeof(ItemGrid))]
     public class GridInteract : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
     {
-    [Inject] private InventoryManager InventoryManager;
-    [SerializeField] private ItemGrid itemGrid;
+        [SerializeField] private ItemGrid itemGrid;
 
         private void Start()
         {
@@ -21,12 +18,12 @@ namespace InventoryDiablo
 
         void IPointerEnterHandler.OnPointerEnter(PointerEventData eventData)
         {
-            InventoryManager.SelectedItemGrid = itemGrid;
+            GlobalEventBus.Instance.Publish(EventsInventory.SeletGrid, new SelectGridEventData{ItemGrid = itemGrid});
         }
 
         void IPointerExitHandler.OnPointerExit(PointerEventData eventData)
         {
-            InventoryManager.SelectedItemGrid = null;
+            GlobalEventBus.Instance.Publish(EventsInventory.SeletGrid, new SelectGridEventData{ItemGrid = null});
         }
     }
 }

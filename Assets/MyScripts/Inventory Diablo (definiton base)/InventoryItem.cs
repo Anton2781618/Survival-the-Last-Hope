@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 using static InventoryDiablo.ItemData;
-using static InventoryDiablo.ItemGrid;
 
 namespace InventoryDiablo
 {
@@ -16,8 +15,35 @@ namespace InventoryDiablo
         public Dictionary<ItemType, InventoryItem> CombinedItems;
         [SerializeField] private int amount = 0;
         [SerializeField] private int price = 0; 
-        public GridName GridName = GridName.BackpackGrid;
+        public GridData.GridName GridName = GridData.GridName.BackpackGrid;
         public UnityEvent OnItemsChanged;
+        public int onGridPositionX;  
+        public int onGridPositionY; 
+        public bool rotated = false;
+
+        public int HEIGHT
+        {
+            get
+            {
+                if(rotated == false)
+                {
+                    return ItemData.Height;
+                }
+                return ItemData.Width;
+            }
+        }
+
+        public int WIDTH
+        {
+            get
+            {
+                if(rotated == false)
+                {
+                    return ItemData.Width;
+                }
+                return ItemData.Height;
+            }
+        }
 
         public delegate void MyDelegate();
             //свойство для доступа к количеству предметов при обращении обновляет текст

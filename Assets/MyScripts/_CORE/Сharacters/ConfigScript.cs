@@ -8,21 +8,31 @@ using Weapons;
 // для разных оружий
 public class ConfigScript : MonoBehaviour
 {
+    [SerializeField] private Config config;
     [SerializeField] protected WeaponModel weaponModel;
     [SerializeField] private Transform rightHend;
 
-    [SerializeField] private WeaponStateConfig weaponStateConfig = WeaponStateConfig.Aim;
+    [SerializeField] private string weaponAnimationName;
+    [SerializeField] private int stage;
 
-    enum WeaponStateConfig
+    public enum Config
     {
-        weaponOn,
-        Aim,
+        rightHend,
+        leftHend
     }
 
 
+
     [InventoryDiablo.Button]
-    public void SetPositionsRightHand()
+    public void SetPositionsHand()
     {
-        weaponModel.WeaponStates[(int)weaponStateConfig].SetPositionsRightHand(rightHend);
+        if(config == Config.rightHend)
+        {
+            weaponModel.AnimationsLayers.Find(x => x.Name == weaponAnimationName).AnimationsPoints[stage].SetPositionsRightHand(rightHend);
+        }
+        else
+        {
+            weaponModel.AnimationsLayers.Find(x => x.Name == weaponAnimationName).AnimationsPoints[stage].SetPositionsLeftHand(rightHend);
+        }
     }
 }

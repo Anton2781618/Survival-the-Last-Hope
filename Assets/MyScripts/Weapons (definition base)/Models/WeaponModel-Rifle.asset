@@ -59,14 +59,11 @@ MonoBehaviour:
     m_PostInfinity: 2
     m_RotationOrder: 4
   LerpOffset: {x: -0.13, y: -0.1, z: 0.2}
+  HoleEffect: {fileID: 5872524546524126799, guid: df803f1c1246ef84797e2f4524569e3a,
+    type: 3}
   WeaponStates:
   - Name: At ready
-    RightHendPosition: {x: 0.07, y: -0.27, z: 0.05}
-    RightHendRotation: {x: -0.48520595, y: 0.42478785, z: -0.43044093, w: 0.6315467}
-    LeftHendPosition: {x: 0.17, y: 0.09, z: 0.03}
-    LeftHendRotation: {x: -0.5784522, y: -0.45100763, z: 0.51953673, w: 0.43825415}
+    AnimationsPoints: []
   - Name: Aim
-    RightHendPosition: {x: -0.02, y: -0.338, z: -0.084}
-    RightHendRotation: {x: 0.46375892, y: -0.39780286, z: 0.47017694, w: -0.6368785}
-    LeftHendPosition: {x: 0.183, y: 0.102, z: 0.01}
-    LeftHendRotation: {x: 0, y: 0, z: 0, w: 1}
+    AnimationsPoints: []
+  AnimationsLayers: []

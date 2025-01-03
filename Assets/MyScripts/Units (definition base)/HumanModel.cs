@@ -26,7 +26,13 @@ namespace Units
         // public Vector3 lerpOffset;
         public AnimationCurve lerpOffsetHend;
         
-        //установить вес левой руки плеера
+        //установить вес правой руки персонажа
+        public void SetWeightRightHand(float lerpRatio)
+        {
+            rigBuilder.layers[1].constraints[0].weight = Mathf.InverseLerp(0, 1, lerpOffsetHend.Evaluate(lerpRatio));
+        }
+
+        //установить вес левой руки персонажа
         public void SetWeightLeftHand(float lerpRatio)
         {
             rigBuilder.layers[1].constraints[1].weight = Mathf.InverseLerp(0, 1, lerpOffsetHend.Evaluate(lerpRatio));

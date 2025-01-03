@@ -72,7 +72,7 @@ namespace InventoryDiablo
                 return;
             }
             
-            if(UIselectedItem && (SelectedItemGrid.GetGridForItemsType() & UIselectedItem.InventoryItem.ItemData.TypeItem) == 0)
+            if(UIselectedItem && (SelectedItemGrid.GridData.GetGridForItemsType() & UIselectedItem.InventoryItem.ItemData.TypeItem) == 0)
             {
                 inventoryIHighLight.Show(false);
                 return;
@@ -121,7 +121,7 @@ namespace InventoryDiablo
         private void InsertItemOnGrid(UIInventoryItem itemToInsert, ItemGrid grid)
         {
             // Debug.Log($"Вставка предмета {itemToInsert.InventoryItem.ItemData.Title} на сетку {grid}");
-            Vector2Int? posOnGrid = grid.FindSpaceForObject(itemToInsert);
+            Vector2Int? posOnGrid = grid.GridData.FindSpaceForObject(itemToInsert);
 
             // if(gameObject.activeSelf) grid.owner.InventoryHandler.Inventory.AddItem(itemToInsert.InventoryItem);
             
@@ -164,7 +164,7 @@ namespace InventoryDiablo
             _oldPosition = positionOnGrid;
             if(UIselectedItem == null)
             {
-                _itemToHighLight = SelectedItemGrid.GetItem(positionOnGrid.x, positionOnGrid.y);
+                _itemToHighLight =  SelectedItemGrid.GetUIItem(SelectedItemGrid.GridData.GetItem(positionOnGrid.x, positionOnGrid.y));
                 
                 if(_itemToHighLight != null)
                 {
@@ -182,7 +182,7 @@ namespace InventoryDiablo
             }
             else
             {
-                inventoryIHighLight.Show(SelectedItemGrid.BoundryCheck(positionOnGrid.x, positionOnGrid.y, UIselectedItem.WIDTH, UIselectedItem.HEIGHT));
+                inventoryIHighLight.Show(SelectedItemGrid.BoundryCheck(positionOnGrid.x, positionOnGrid.y, UIselectedItem.InventoryItem.WIDTH, UIselectedItem.InventoryItem.HEIGHT));
                 inventoryIHighLight.SetSize(UIselectedItem);
                 inventoryIHighLight.SetPosition(SelectedItemGrid, UIselectedItem, positionOnGrid.x, positionOnGrid.y);
             }
@@ -259,7 +259,7 @@ namespace InventoryDiablo
             if (UIselectedItem != null) return;
 
             Vector2Int titleGridPosition = GetTitleGridPosition();
-            UIInventoryItem uiInventoryItem = SelectedItemGrid.GetItem(titleGridPosition.x, titleGridPosition.y);
+            UIInventoryItem uiInventoryItem = SelectedItemGrid.GetUIItem(SelectedItemGrid.GridData.GetItem(titleGridPosition.x, titleGridPosition.y));
             
             if(!uiInventoryItem)return;
             
@@ -273,8 +273,8 @@ namespace InventoryDiablo
             
             if (UIselectedItem != null)
             {
-                position.x -= (UIselectedItem.WIDTH - 1) * ItemGrid.titleSizeWidth / 2;
-                position.y += (UIselectedItem.HEIGHT - 1) * ItemGrid.titleSizeHeight / 2;
+                position.x -= (UIselectedItem.InventoryItem.WIDTH - 1) * GridData.titleSizeWidth / 2;
+                position.y += (UIselectedItem.InventoryItem.HEIGHT - 1) * GridData.titleSizeHeight / 2;
             }
 
             return SelectedItemGrid.GetTitleGridPosition(position);
@@ -284,12 +284,12 @@ namespace InventoryDiablo
         //поднять предмет с сетке
         private void PickUpItem(Vector2Int titleGridPosition)
         {
-            UIselectedItem = SelectedItemGrid.SelectIteme(titleGridPosition.x, titleGridPosition.y);
+            UIselectedItem = SelectedItemGrid.GetUIItem(SelectedItemGrid.GridData.SelectIteme(titleGridPosition.x, titleGridPosition.y));
 
-            if(SelectedItemGrid.isSingle)
+            if(SelectedItemGrid.GridData.isSingle)
             {
                 // TakeOffClothes(selectedItem.itemData.GetItemTypeIndex());
-                SelectedItemGrid.owner.TakeOffItem(UIselectedItem.InventoryItem);
+                SelectedItemGrid.GridData.owner.TakeOffItem(UIselectedItem.InventoryItem);
             }
 
             if (UIselectedItem)
@@ -300,7 +300,7 @@ namespace InventoryDiablo
 
                 buferGrid = SelectedItemGrid;
 
-                SelectedItemGrid.owner.InventoryHandler.Inventory.RemoveItem(UIselectedItem.InventoryItem);
+                // SelectedItemGrid.owner.InventoryHandler.Inventory.RemoveItem(UIselectedItem.InventoryItem);
             }
 
         }
@@ -308,7 +308,7 @@ namespace InventoryDiablo
         //расположить предмет на сетке 
         private void PlaceItem(Vector2Int titleGridPosition)
         {
-            if(IsTreid && buferGrid.owner != SelectedItemGrid.owner)
+            if(IsTreid && buferGrid.GridData.owner != SelectedItemGrid.GridData.owner)
             {
                 PlaceItemInTrade();
             }
@@ -325,11 +325,11 @@ namespace InventoryDiablo
             
             if(complete)
             {
-                SelectedItemGrid.owner.InventoryHandler.Inventory.AddItem(UIselectedItem.InventoryItem);
-                if(SelectedItemGrid.isSingle)
+                // SelectedItemGrid.owner.InventoryHandler.Inventory.AddItem(UIselectedItem.InventoryItem);
+                if(SelectedItemGrid.GridData.isSingle)
                 {
                     // PutOnClothesOnBody(selectedItem.itemData.GetItemTypeIndex());
-                    SelectedItemGrid.owner.EquipItem(UIselectedItem.InventoryItem);
+                    SelectedItemGrid.GridData.owner.EquipItem(UIselectedItem.InventoryItem);
                 }
                 
                 UIselectedItem = null;
@@ -351,7 +351,7 @@ namespace InventoryDiablo
         //расположить при торговли
         private void PlaceItemInTrade()
         {
-            if(SelectedItemGrid.owner.InventoryHandler.Inventory.money < UIselectedItem.InventoryItem.Price)
+            if(SelectedItemGrid.GridData.owner.money < UIselectedItem.InventoryItem.Price)
             {
                 // GameManager.Instance.UIManager.GetPlayerInventoryWindowUI().NotEnoughMoneyAnimation();
 
@@ -360,7 +360,7 @@ namespace InventoryDiablo
 
             // SelectedItemGrid.chest.money -= selectedItem.itemData.price;
 
-            buferGrid.owner.InventoryHandler.Inventory.money += UIselectedItem.InventoryItem.Price;
+            buferGrid.GridData.owner.money += UIselectedItem.InventoryItem.Price;
 
             // buferGrid.chest.UpdateMoney();
 
@@ -394,11 +394,13 @@ namespace InventoryDiablo
         //метод выкинуть предмет
         public void DropItem(InventoryItem item)
         {
-            buferGrid.owner.DropItem(item);
+            // buferGrid.owner.DropItem(item);
                 
             UIselectedItem.DestructSelf();
 
             UIselectedItem = null;
         }
+
+        //
     }
 }

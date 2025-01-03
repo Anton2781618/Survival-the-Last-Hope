@@ -6,7 +6,7 @@ namespace InventoryDiablo
     public class UIInventoryItem : MonoBehaviour
     {
         [SerializeField] private InventoryItem inventoryItem;
-        public bool rotated = false;
+        
         public int onGridPositionX;  
         public int onGridPositionY; 
         
@@ -24,29 +24,7 @@ namespace InventoryDiablo
             }
         }
 
-        public int HEIGHT
-        {
-            get
-            {
-                if(rotated == false)
-                {
-                    return InventoryItem.ItemData.Height;
-                }
-                return InventoryItem.ItemData.Width;
-            }
-        }
-
-        public int WIDTH
-        {
-            get
-            {
-                if(rotated == false)
-                {
-                    return InventoryItem.ItemData.Width;
-                }
-                return InventoryItem.ItemData.Height;
-            }
-        }
+        
 
         public void UpdateAmountText()
         {
@@ -69,7 +47,7 @@ namespace InventoryDiablo
 
         public void UpdateAmount(int sum) => amauntText.text = (inventoryItem.Amount += sum).ToString();
 
-        internal void Setup(InventoryItem item, ItemGrid grid, int amount)
+        public void Setup(InventoryItem item, ItemGrid grid, int amount)
         {
             inventoryItem = item;
 
@@ -77,9 +55,9 @@ namespace InventoryDiablo
 
             Vector2 size = new Vector2();
 
-            size.x = item.ItemData.Width * ItemGrid.titleSizeWidth;
+            size.x = item.ItemData.Width * GridData.titleSizeWidth;
 
-            size.y = item.ItemData.Height * ItemGrid.titleSizeHeight;
+            size.y = item.ItemData.Height * GridData.titleSizeHeight;
 
             rectTransform.sizeDelta = size; 
 
@@ -94,11 +72,11 @@ namespace InventoryDiablo
             InventoryItem.OnItemsChanged.AddListener(UpdateAmountText);
         }
 
-        internal void Rotated()
+        public void Rotated()
         {
-            rotated = !rotated;
+            inventoryItem.rotated = !inventoryItem.rotated;
 
-            rectTransform.rotation = Quaternion.Euler(0, 0, rotated ? 90f : 0f);
+            rectTransform.rotation = Quaternion.Euler(0, 0, inventoryItem.rotated ? 90f : 0f);
         }
 
         public void DestructSelf()

@@ -22,8 +22,8 @@ namespace InventoryDiablo
         public void SetSize(UIInventoryItem targetItem)
         {
             Vector2 size = new Vector2();
-            size.x = targetItem.WIDTH * ItemGrid.titleSizeWidth;
-            size.y = targetItem.HEIGHT * ItemGrid.titleSizeHeight;
+            size.x = targetItem.InventoryItem.WIDTH * GridData.titleSizeWidth;
+            size.y = targetItem.InventoryItem.HEIGHT * GridData.titleSizeHeight;
             highLighter.sizeDelta = size;
         }
 
