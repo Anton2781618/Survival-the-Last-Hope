@@ -1,12 +1,9 @@
 
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using InventoryDiablo;
-using UnityEditor;
 using UnityEngine;
 using static InventoryDiablo.ItemData;
-using static InventoryDiablo.ItemGrid;
 
 [Serializable]
 public class GridData
@@ -17,18 +14,20 @@ public class GridData
     //это ссылка на того чей инвентарь
     public Inventory owner {get; set;}
     
-    public InventoryItem[,] InventoryItemSlot;
-    private Vector2 positionOnTheGrid = new Vector2();
-    private Vector2Int titeGridPosition = new Vector2Int();
-
+    [NonSerialized] public InventoryItem[,] InventoryItems;
+    
+    [Header("Размер сетки")]
     public int GridSizeWidth = 20; 
     public int GridSizeHeight = 10; 
+
+    [Header("Зона определений возиможных предметов")]
     [SerializeField] private ItemType gridForItemsType;
 
     //поле определяет сетка для одного предмета или нет
     public bool isSingle = false;
-    public GridName gridName = GridName.BackpackGrid;
-    public enum GridName
+    // имя сетки
+    public GridInfo GridName = GridInfo.BackpackGrid;
+    public enum GridInfo
     {
         BackpackSlot,
         BackpackGrid,
@@ -39,40 +38,25 @@ public class GridData
         HelmetSlot,
     }
 
+    //устанавлмвает начальный размер сетки
+    public void Init(int width, int height)
+    {
+        InventoryItems = new InventoryItem[width, height];
+    }
+
+    public void Init()
+    {
+        InventoryItems = new InventoryItem[GridSizeWidth, GridSizeHeight];
+    }
 
     public ItemType GetGridForItemsType()
     {
         return gridForItemsType;
     }
 
-    //устанавлмвает начальный размер сетки
-    public void Init(int width, int height)
-    {
-        InventoryItemSlot = new InventoryItem[width, height];
-    }
-
     public InventoryItem GetItem(int x, int y)
     {
-        return InventoryItemSlot[x, y];
-    }
-
-    public Vector2Int? FindSpaceForObject(UIInventoryItem itemToInsert)
-    {
-        int heght = GridSizeHeight - itemToInsert.InventoryItem.HEIGHT + 1;
-        int wight = GridSizeWidth - itemToInsert.InventoryItem.WIDTH + 1; 
-        
-        for (int y = 0; y < heght; y++)
-        {
-            for (int x = 0; x < wight ; x++)
-            {
-                if(CheckAvailabeSpace(x, y, itemToInsert.InventoryItem.WIDTH, itemToInsert.InventoryItem.HEIGHT) == true)
-                {
-                    return new Vector2Int(x, y); 
-                }
-            }
-        }
-
-        return null;
+        return InventoryItems[x, y];
     }
 
     //находит свободное место на сетке для объекта
@@ -159,14 +143,14 @@ public class GridData
         {
             for (int y = 0; y < inventoryItem.HEIGHT; y++)
             {
-                InventoryItemSlot[posX + x, posY + y] = inventoryItem;
+                InventoryItems[posX + x, posY + y] = inventoryItem;
             }
         }
 
         inventoryItem.onGridPositionX = posX;
         inventoryItem.onGridPositionY = posY;
 
-        inventoryItem.GridName = gridName;
+        inventoryItem.GridName = GridName;
     }
 
     private bool CheckAvailabeSpace(int posX, int posY, int width, int height)
@@ -175,58 +159,19 @@ public class GridData
         {
             for (int y = 0; y < height; y++)
             {
-                if(InventoryItemSlot[posX + x, posY + y] != null)
+                if(InventoryItems[posX + x, posY + y] != null)
                 {
                     return false;
                 }
             }
         }
         return true;
-    }
-
-    // private void GetFrestOverLap(int width, int height, ref UIInventoryItem overlapItem)
-    // {
-    //     for (int x = 0; x < width; x++)
-    //     {
-    //         for (int y = 0; y < height; y++)
-    //         {
-    //             if(InventoryItemSlot[x, y] != null)
-    //             {
-    //                 overlapItem = InventoryItemSlot[x, y];
-    //             }
-    //         }
-    //     }
-    // }
-
-    // private bool OverLapTheck(int posX, int posY, int width, int height, ref UIInventoryItem overlapItem)
-    // {
-    //     for (int x = 0; x < width; x++)
-    //     {
-    //         for (int y = 0; y < height; y++)
-    //         {
-    //             if(InventoryItemSlot[posX + x, posY + y] != null)
-    //             {
-    //                 if(overlapItem == null)
-    //                 {
-    //                     overlapItem = InventoryItemSlot[posX + x, posY + y];
-    //                 }
-    //                 else
-    //                 {
-    //                     if(overlapItem != InventoryItemSlot[posX + x, posY + y])
-    //                     {
-    //                         return false;
-    //                     }
-    //                 }
-    //             }
-    //         }
-    //     }
-    //     return true;
-    // }
+    }    
 
     //метод поднять итем
     public InventoryItem SelectIteme(int x, int y)
     {
-        InventoryItem toReturn = InventoryItemSlot[x, y];
+        InventoryItem toReturn = InventoryItems[x, y];
 
         if (toReturn == null) { return null; }
 
@@ -242,8 +187,20 @@ public class GridData
         {
             for (int iy = 0; iy < toReturn.HEIGHT; iy++)
             {
-                InventoryItemSlot[toReturn.onGridPositionX + ix, toReturn.onGridPositionY + iy] = null;
+                InventoryItems[toReturn.onGridPositionX + ix, toReturn.onGridPositionY + iy] = null;
             }
         }
-    }    
+    }
+    
+    //полностьб очистить сетку
+    public void Clear()
+    {
+        for (int x = 0; x < GridSizeWidth; x++)
+        {
+            for (int y = 0; y < GridSizeHeight; y++)
+            {
+                InventoryItems[x, y] = null;
+            }
+        }
+    }
 }

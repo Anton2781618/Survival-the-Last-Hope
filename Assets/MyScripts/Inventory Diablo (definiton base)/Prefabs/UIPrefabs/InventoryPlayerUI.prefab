@@ -374,11 +374,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bae209eda2508f340bb2047a90f51cb7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  GridSizeWidth: 10
-  GridSizeHeight: 3
-  gridForItemsType: 32
-  isSingle: 1
-  gridName: 3
+  GridData:
+    GridSizeWidth: 20
+    GridSizeHeight: 10
+    gridForItemsType: 0
+    isSingle: 0
+    GridName: 1
 --- !u!114 &1384764936536346442
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -631,11 +632,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bae209eda2508f340bb2047a90f51cb7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  GridSizeWidth: 2
-  GridSizeHeight: 2
-  gridForItemsType: 1
-  isSingle: 1
-  gridName: 6
+  GridData:
+    GridSizeWidth: 20
+    GridSizeHeight: 10
+    gridForItemsType: 0
+    isSingle: 0
+    GridName: 1
 --- !u!114 &2724422521131893778
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -738,11 +740,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bae209eda2508f340bb2047a90f51cb7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  GridSizeWidth: 10
-  GridSizeHeight: 8
-  gridForItemsType: -1
-  isSingle: 0
-  gridName: 1
+  GridData:
+    GridSizeWidth: 20
+    GridSizeHeight: 10
+    gridForItemsType: 0
+    isSingle: 0
+    GridName: 1
 --- !u!114 &3907289966613989435
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1204,11 +1207,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bae209eda2508f340bb2047a90f51cb7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  GridSizeWidth: 4
-  GridSizeHeight: 4
-  gridForItemsType: 2
-  isSingle: 1
-  gridName: 4
+  GridData:
+    GridSizeWidth: 20
+    GridSizeHeight: 10
+    gridForItemsType: 0
+    isSingle: 0
+    GridName: 1
 --- !u!114 &4113434820445954452
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1387,11 +1391,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bae209eda2508f340bb2047a90f51cb7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  GridSizeWidth: 3
-  GridSizeHeight: 2
-  gridForItemsType: 32
-  isSingle: 1
-  gridName: 2
+  GridData:
+    GridSizeWidth: 20
+    GridSizeHeight: 10
+    gridForItemsType: 0
+    isSingle: 0
+    GridName: 1
 --- !u!114 &3202877623533743610
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1495,11 +1500,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bae209eda2508f340bb2047a90f51cb7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  GridSizeWidth: 4
-  GridSizeHeight: 5
-  gridForItemsType: 8
-  isSingle: 1
-  gridName: 0
+  GridData:
+    GridSizeWidth: 20
+    GridSizeHeight: 10
+    gridForItemsType: 0
+    isSingle: 0
+    GridName: 0
 --- !u!114 &4963109391637103567
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1602,11 +1608,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bae209eda2508f340bb2047a90f51cb7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  GridSizeWidth: 7
-  GridSizeHeight: 5
-  gridForItemsType: -1
-  isSingle: 0
-  gridName: 5
+  GridData:
+    GridSizeWidth: 20
+    GridSizeHeight: 10
+    gridForItemsType: 0
+    isSingle: 0
+    GridName: 1
 --- !u!114 &5885372669856951651
 MonoBehaviour:
   m_ObjectHideFlags: 0

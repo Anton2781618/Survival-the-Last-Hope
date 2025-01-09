@@ -10,7 +10,7 @@ namespace ModularEventArchitecture
         //класс является системой управления всех ивентарей, основной функцианал инвентарей находится тут
         [SerializeField] private UIContextMenu contextMenu;
 
-        private ItemGrid buferGrid;
+        private ItemGrid LastGrid;
         
         public bool IsTreid{get; set;} = false;
         private ItemGrid selectedItemGrid;
@@ -129,9 +129,8 @@ namespace ModularEventArchitecture
         private void InsertItemOnGrid(UIInventoryItem itemToInsert, ItemGrid grid)
         {
             // Debug.Log($"Вставка предмета {itemToInsert.InventoryItem.ItemData.Title} на сетку {grid}");
-            Vector2Int? posOnGrid = grid.GridData.FindSpaceForObject(itemToInsert);
-
-            // if(gameObject.activeSelf) grid.owner.InventoryHandler.Inventory.AddItem(itemToInsert.InventoryItem);
+            Debug.Log(grid);
+            Vector2Int? posOnGrid = grid.GridData.FindSpaceForObject(itemToInsert.InventoryItem);
             
             if(posOnGrid == null) 
             {
@@ -211,7 +210,7 @@ namespace ModularEventArchitecture
 
             UIselectedItem.Setup(items[selectedItemID], null, items[selectedItemID].ItemData.MaxAmount);
 
-            buferGrid = itemGrid;
+            LastGrid = itemGrid;
         }
 
         private void CreateItem(InventoryItem inventoryItem, ItemGrid grid, int amount)
@@ -307,7 +306,7 @@ namespace ModularEventArchitecture
                 itemRectTransform = UIselectedItem.rectTransform;
                 itemRectTransform.SetAsLastSibling();
 
-                buferGrid = SelectedItemGrid;
+                LastGrid = SelectedItemGrid;
 
                 SelectedItemGrid.GridData.owner.RemoveItem(UIselectedItem.InventoryItem);
             }
@@ -317,7 +316,7 @@ namespace ModularEventArchitecture
         //расположить предмет на сетке 
         private void PlaceItem(Vector2Int titleGridPosition)
         {
-            if(IsTreid && buferGrid.GridData.owner != SelectedItemGrid.GridData.owner)
+            if(IsTreid && LastGrid.GridData.owner != SelectedItemGrid.GridData.owner)
             {
                 PlaceItemInTrade();
             }
@@ -369,7 +368,7 @@ namespace ModularEventArchitecture
 
             // SelectedItemGrid.chest.money -= selectedItem.itemData.price;
 
-            buferGrid.GridData.owner.money += UIselectedItem.InventoryItem.Price;
+            LastGrid.GridData.owner.money += UIselectedItem.InventoryItem.Price;
 
             // buferGrid.chest.UpdateMoney();
 
@@ -405,7 +404,7 @@ namespace ModularEventArchitecture
         {
             // 1)вызвать спавн объекта на улице
             // 2)удалить предмет из инвентаря
-            // buferGrid.owner.DropItem(item);
+            // LastGrid.owner.DropItem(item);
                 
             UIselectedItem.DestructSelf();
 

@@ -121,7 +121,7 @@ namespace InventoryDiablo
         private void InsertItemOnGrid(UIInventoryItem itemToInsert, ItemGrid grid)
         {
             // Debug.Log($"Вставка предмета {itemToInsert.InventoryItem.ItemData.Title} на сетку {grid}");
-            Vector2Int? posOnGrid = grid.GridData.FindSpaceForObject(itemToInsert);
+            Vector2Int? posOnGrid = grid.GridData.FindSpaceForObject(itemToInsert.InventoryItem);
 
             // if(gameObject.activeSelf) grid.owner.InventoryHandler.Inventory.AddItem(itemToInsert.InventoryItem);
             

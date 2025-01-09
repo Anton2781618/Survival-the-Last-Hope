@@ -14,12 +14,14 @@ namespace InventoryDiablo
     {
         public GridData GridData;
         private RectTransform rectTransform;
-        private Vector2 positionOnTheGrid = new Vector2();
+        private Vector2 _mousePositionOnTheGrid = new Vector2();
         private Vector2Int titeGridPosition = new Vector2Int();
-        public List<UIInventoryItem> InventoryItems;
+        private List<UIInventoryItem> InventoryItems;
 
         private void Awake() 
         {
+            InventoryItems = new List<UIInventoryItem>();
+            
             rectTransform = GetComponent<RectTransform>();    
             
             Init(GridData.GridSizeWidth, GridData.GridSizeHeight);
@@ -61,7 +63,8 @@ namespace InventoryDiablo
             }
             return null;
         }
-
+    
+        //извлеч итем из сетки по координатам
         public UIInventoryItem SelectIteme(int x, int y)
         {
             InventoryItem item = GridData.SelectIteme(x, y);
@@ -77,7 +80,6 @@ namespace InventoryDiablo
             return toReturn;
         }
 
-
         //устанавлмвает начальный размер сетки
         private void Init(int width, int height)
         {
@@ -91,11 +93,11 @@ namespace InventoryDiablo
         //метод возвращает координаты ячейки на сетке над которой находится мышь
         public Vector2Int GetTitleGridPosition(Vector2 mousePosition)
         {
-            positionOnTheGrid.x = mousePosition.x - rectTransform.position.x;
-            positionOnTheGrid.y = rectTransform.position.y - mousePosition.y;
+            _mousePositionOnTheGrid.x = mousePosition.x - rectTransform.position.x;
+            _mousePositionOnTheGrid.y = rectTransform.position.y - mousePosition.y;
         
-            titeGridPosition.x = (int)((positionOnTheGrid.x / GridData.titleSizeWidth) / transform.localScale.x); 
-            titeGridPosition.y = (int)((positionOnTheGrid.y / GridData.titleSizeHeight) / transform.localScale.y );
+            titeGridPosition.x = (int)((_mousePositionOnTheGrid.x / GridData.titleSizeWidth) / transform.localScale.x); 
+            titeGridPosition.y = (int)((_mousePositionOnTheGrid.y / GridData.titleSizeHeight) / transform.localScale.y );
 
             return titeGridPosition;
         }
@@ -255,7 +257,7 @@ namespace InventoryDiablo
 
             rectTransform.localPosition = positionItem;
 
-            inventoryItem.InventoryItem.GridName = GridData.gridName;
+            inventoryItem.InventoryItem.GridName = GridData.GridName;
         }
 
         public Vector2 CalculatePositionOnGrid(UIInventoryItem InventoryItemUI, int posX, int posY)
@@ -272,7 +274,7 @@ namespace InventoryDiablo
             {
                 for (int y = 0; y < height; y++)
                 {
-                    if(GridData.InventoryItemSlot[x, y] != null)
+                    if(GridData.InventoryItems[x, y] != null)
                     {
                         overlapItem = GetUIItem(x, y);
                     }
@@ -286,7 +288,7 @@ namespace InventoryDiablo
             {
                 for (int y = 0; y < height; y++)
                 {
-                    if(GridData.InventoryItemSlot[posX + x, posY + y] != null)
+                    if(GridData.InventoryItems[posX + x, posY + y] != null)
                     {
                         if(overlapItem == null)
                         {

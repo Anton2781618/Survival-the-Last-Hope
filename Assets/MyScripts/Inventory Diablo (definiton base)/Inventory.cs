@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using ModularEventArchitecture;
 using UnityEngine;
 
 namespace InventoryDiablo
@@ -12,6 +13,7 @@ namespace InventoryDiablo
     {
         public int money = 500;
         [SerializeField] private List<InventoryItem> inventoryItems = new List<InventoryItem>();
+        public List<InventorySlot> Slots = new List<InventorySlot>();
 
         public void OpenChest()
         {
@@ -36,7 +38,17 @@ namespace InventoryDiablo
             return null;
         }
 
-        public List<InventoryItem> GetInventoryItems() => inventoryItems;
+        public List<InventoryItem> GetInventoryItems()
+        {
+            return Slots[0].SetupItems;
+            
+            // return inventoryItems;
+        }
+
+        public List<InventorySlot> GetSlots()
+        {
+            return Slots;
+        }
 
         //проверяет есть ли в инвентаре такой предмет по scriptable object
         public bool CheckInventoryForItems(ItemData itemData)

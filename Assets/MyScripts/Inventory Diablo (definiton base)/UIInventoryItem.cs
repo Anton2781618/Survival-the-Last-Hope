@@ -6,10 +6,6 @@ namespace InventoryDiablo
     public class UIInventoryItem : MonoBehaviour
     {
         [SerializeField] private InventoryItem inventoryItem;
-        
-        public int onGridPositionX;  
-        public int onGridPositionY; 
-        
         [SerializeField] private Image icon;
         public RectTransform rectItemHighLight;
         public RectTransform rectTransform;
@@ -23,8 +19,6 @@ namespace InventoryDiablo
                 inventoryItem = value;
             }
         }
-
-        
 
         public void UpdateAmountText()
         {

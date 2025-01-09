@@ -20,7 +20,10 @@ namespace InventoryDiablo
 
         //этот префаб одежды которая наденется непосредственно на
         // public GameObject prefabForPutOn;
+
+
         
+        public int Price = 0;
         public int Benefit = 0;
         public bool IsSingle = true; 
         public int MaxAmount = 1;
@@ -29,6 +32,9 @@ namespace InventoryDiablo
         // public ItemType canBeCombinedWith;
         public ItemType TypeItem;
         public ItemData[] CanBeCombined;
+
+        //сетки предмета
+        // public GridData[] Grids;
 
         [Flags]
         public enum ItemType

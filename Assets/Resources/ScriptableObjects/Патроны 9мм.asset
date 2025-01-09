@@ -17,9 +17,16 @@ MonoBehaviour:
   Description: 
   Prefab: {fileID: 688769618811775190, guid: 21e1fb2b21fb18147b9b2e0521bf6b7b, type: 3}
   Width: 1
-  Height: 1
+  Height: 2
+  Price: 0
   Benefit: 0
   IsSingle: 0
   MaxAmount: 1000
   TypeItem: 32768
   CanBeCombined: []
+  Grids:
+  - GridSizeWidth: 0
+    GridSizeHeight: 0
+    gridForItemsType: 0
+    isSingle: 0
+    gridName: 0

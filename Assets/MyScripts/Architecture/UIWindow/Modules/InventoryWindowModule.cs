@@ -96,20 +96,35 @@ namespace ModularEventArchitecture
                 }
             }
 
-            foreach (InventoryItem inventoryItem in owner.GetInventoryItems())
+            foreach (var slot in owner.GetSlots())
             {
-                ItemGrid grid = grids.FirstOrDefault(t => t.GridData.gridName == inventoryItem.GridName);
-
-                CreateAndInsertItem(inventoryItem, grid);
-            }
+                ItemGrid slotGrid = grids.FirstOrDefault(t => t.GridData.GridName == slot.SlotItem.GridName);
+                
+                Debug.Log((slotGrid == null) + " !!!!!!!!!!!!");
+                    
+                CreateAndInsertItem(slot.SlotItem, slotGrid);
             
-            // foreach (ItemGrid grid in grids)
+                foreach (var grid in slot.SlotItem.Grids)
+                {
+                    ItemGrid currgrid = grids.FirstOrDefault(t => t.GridData.GridName == grid.GridName);
+
+                    foreach (var item in grid.InventoryItems)
+                    {
+                        if(item == null) continue;
+                        
+                        CreateAndInsertItem(item, currgrid);
+                    }
+                }           
+            }
+
+            // foreach (InventoryItem inventoryItem in owner.GetInventoryItems())
             // {
-            //     foreach (UIInventoryItem item in grid.GetItems())
-            //     {
-            //         item.UpdateAmountText();
-            //     }
-            // }
+            //     ItemGrid grid = grids.FirstOrDefault(t => t.GridData.GridName == inventoryItem.GridName);
+            //     Debug.Log(grid == null);
+
+            //     CreateAndInsertItem(inventoryItem, grid);
+            // }           
+        
         }
 
         public void SetInventoryOwner(Inventory newOwner)

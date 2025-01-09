@@ -78,7 +78,7 @@ namespace InventoryDiablo
             foreach (InventoryItem inventoryItem in owner.InventoryHandler.Inventory.GetInventoryItems())
             {
                 
-                ItemGrid grid = grids.FirstOrDefault(t => t.GridData.gridName == inventoryItem.GridName);
+                ItemGrid grid = grids.FirstOrDefault(t => t.GridData.GridName == inventoryItem.GridName);
 
                 CreateAndInsertItem(inventoryItem, grid);
             }

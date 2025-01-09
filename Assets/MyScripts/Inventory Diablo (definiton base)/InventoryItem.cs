@@ -11,14 +11,14 @@ namespace InventoryDiablo
     public class InventoryItem
     {    
         [field: SerializeField] public ItemData ItemData { get; private set; }       
-        private Dictionary<ItemType,MyDelegate> delegatesDict;
-        public Dictionary<ItemType, InventoryItem> CombinedItems;
+        public GridData.GridInfo GridName = GridData.GridInfo.BackpackGrid;
         [SerializeField] private int amount = 0;
-        [SerializeField] private int price = 0; 
-        public GridData.GridName GridName = GridData.GridName.BackpackGrid;
-        public UnityEvent OnItemsChanged;
-        public int onGridPositionX;  
-        public int onGridPositionY; 
+        [field: NonSerialized] public GridData[] Grids {get; set;} 
+        public Dictionary<ItemType, InventoryItem> CombinedItems;
+        public UnityEvent OnItemsChanged; /* {get; set;} */
+        public int onGridPositionX {get; set;}  
+        public int onGridPositionY {get; set;} 
+        private Dictionary<ItemType,MyDelegate> delegatesDict;
         public bool rotated = false;
 
         public int HEIGHT
@@ -59,12 +59,7 @@ namespace InventoryDiablo
             }
         }
 
-        public int Price
-        {
-            get => price;
-
-            set => price = value;
-        }
+        public int Price {get => ItemData.Price;}
 
         public InventoryItem(ItemData itemData, int amount)
         {
@@ -75,7 +70,21 @@ namespace InventoryDiablo
             CombinedItems = new Dictionary<ItemType, InventoryItem>();
             
             Amount = amount;
+
+            InitGrid();
         }
+
+        public void InitGrid()
+        {
+            // Grids = new GridData[ItemData.Grids.Length];
+
+            // Array.Copy(ItemData.Grids, Grids, ItemData.Grids.Length);
+
+            foreach (var grid in Grids)
+            {
+                grid.Init();
+            }
+        } 
 
         private void Start() => InitDict();
 
@@ -100,6 +109,7 @@ namespace InventoryDiablo
             if(!CombinedItems.ContainsKey(itemType)) CombinedItems.Add(itemType, inventoryItem);
         }
 
+        
         public void InitDict() 
         {
             delegatesDict = new Dictionary<ItemType, MyDelegate>();
