@@ -13,11 +13,12 @@ MonoBehaviour:
   m_Name: "\u041F\u0438\u0441\u0442\u043E\u043B\u0435\u0442 Glock 17 9\u043C\u043C"
   m_EditorClassIdentifier: 
   ItemIcon: {fileID: -296320978, guid: da8074154281afb45bf7145579a1ae15, type: 3}
-  Title: "\u041F\u0438\u0441\u0442\u043E\u043B\u0435\u0442 9\u043C\u043C"
+  Title: "\u041F\u0438\u0441\u0442\u043E\u043B\u0435\u0442 Glock 17 9\u043C\u043C"
   Description: 
   Prefab: {fileID: -1152881421759394975, guid: 28c55101572547c42a314c7f2f8a6096, type: 3}
   Width: 3
   Height: 2
+  Price: 0
   Benefit: 0
   IsSingle: 0
   MaxAmount: 1

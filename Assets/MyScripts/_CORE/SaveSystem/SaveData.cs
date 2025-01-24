@@ -20,7 +20,7 @@ public class InventorySaveData
     
     public InventorySaveData(Inventory inventory)
     {
-        InventoryCount = inventory.GetInventoryItems().Count;
+        // InventoryCount = inventory.GetInventoryItems().Count;
 
         ItemDataNames = new string[InventoryCount];
 
@@ -28,9 +28,9 @@ public class InventorySaveData
 
         for (int i = 0; i < InventoryCount; i++)
         {
-            ItemDataNames[i] = inventory.GetInventoryItems()[i].ItemData.name;
+            // ItemDataNames[i] = inventory.GetInventoryItems()[i].ItemData.name;
 
-            InventoryItemsAmounts[i] = inventory.GetInventoryItems()[i].Amount;
+            // InventoryItemsAmounts[i] = inventory.GetInventoryItems()[i].Amount;
         }        
     }
 }

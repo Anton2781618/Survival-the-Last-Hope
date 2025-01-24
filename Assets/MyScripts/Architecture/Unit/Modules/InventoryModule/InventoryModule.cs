@@ -1,5 +1,7 @@
 using InventoryDiablo;
+using UnityEditor;
 using UnityEngine;
+using ModularEventArchitecture;
 
 namespace ModularEventArchitecture
 {
@@ -13,16 +15,28 @@ namespace ModularEventArchitecture
         {
             foreach (var item in Inventory.Slots)
             {
-                item.TryPlaceItems();
+                // item.TryPlaceItems();
+                // foreach (var grid in item.Grids2)
+                // {
+                //     if(grid.ValidateItemsPosition())
+                //     {
+                //         Debug.Log("Места хватает");
+                //     }
+                //     else
+                //     {
+                //         Debug.Log("Места не хватает");
+                //     }
+                    
+                // }
+                
             }
         }
 
+       
         public override void Initialize()
         {
             Entity.LocalEvents.Subscribe<EventBase>(EventsInventory.AddItem, OnAddItem);
             Entity.LocalEvents.Subscribe<EventBase>(EventsInventory.TurnInventory, OnShowInventory);
-
-            TryPlaceItems();
         }
 
         private void OnAddItem(EventBase @base)

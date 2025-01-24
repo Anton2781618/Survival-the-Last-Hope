@@ -1,5 +1,6 @@
 
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using InventoryDiablo;
 using UnityEngine;
@@ -12,7 +13,7 @@ public class GridData
     public const float titleSizeHeight = 32;
 
     //это ссылка на того чей инвентарь
-    public Inventory owner {get; set;}
+    public Inventory owner {get; set;}   
     
     [NonSerialized] public InventoryItem[,] InventoryItems;
     
@@ -58,6 +59,7 @@ public class GridData
     {
         return InventoryItems[x, y];
     }
+    
 
     //находит свободное место на сетке для объекта
     public Vector2Int? FindSpaceForObject(InventoryItem itemToInsert)
@@ -147,8 +149,8 @@ public class GridData
             }
         }
 
-        inventoryItem.onGridPositionX = posX;
-        inventoryItem.onGridPositionY = posY;
+        inventoryItem.OnGridPositionX = posX;
+        inventoryItem.OnGridPositionY = posY;
 
         inventoryItem.GridName = GridName;
     }
@@ -166,7 +168,8 @@ public class GridData
             }
         }
         return true;
-    }    
+    }
+    
 
     //метод поднять итем
     public InventoryItem SelectIteme(int x, int y)
@@ -187,7 +190,7 @@ public class GridData
         {
             for (int iy = 0; iy < toReturn.HEIGHT; iy++)
             {
-                InventoryItems[toReturn.onGridPositionX + ix, toReturn.onGridPositionY + iy] = null;
+                InventoryItems[toReturn.OnGridPositionX + ix, toReturn.OnGridPositionY + iy] = null;
             }
         }
     }
@@ -202,5 +205,109 @@ public class GridData
                 InventoryItems[x, y] = null;
             }
         }
+    }
+}
+
+[Serializable]
+public class GridData2
+{
+    [Header("Размер сетки")]
+
+    public Vector2Int GridSize = new Vector2Int(5, 5);
+
+    [Header("Позиция сетки")]
+    public Vector2 Position;
+    
+    // [SerializeField] public List<ItemPosition> activeItems = new List<ItemPosition>();
+    [SerializeField] public List<InventoryItem> activeItems = new List<InventoryItem>();
+    
+    public bool TryPlaceItem(InventoryItem item)
+    {
+        for (int x = 0; x < GridSize.x; x++)
+        {
+            for (int y = 0; y < GridSize.y; y++)
+            {
+                if (CheckAvailableSpace(x, y, item.WIDTH, item.HEIGHT))
+                {
+                    item.OnGridPositionX = x;
+                    item.OnGridPositionY = y;
+                    // activeItems.Add(new ItemPosition { Item = item, X = x, Y = y });
+                    activeItems.Add(item);
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+    
+
+    public bool CheckAvailableSpace(int posX, int posY, int width, int height)
+    {
+        // Проверка выхода за границы сетки
+        if (posX + width > GridSize.x || posY + height > GridSize.y)
+        {
+            return false;
+        }
+
+        foreach (var items in activeItems)
+        {
+            if (DoRectsIntersect(posX, posY, width, height, items.OnGridPositionX, items.OnGridPositionY, items.WIDTH, items.HEIGHT))
+            {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    private bool DoRectsIntersect(int x1, int y1, int w1, int h1,
+                                 int x2, int y2, int w2, int h2)
+    {
+        return x1 < x2 + w2 && x1 + w1 > x2 &&
+               y1 < y2 + h2 && y1 + h1 > y2;
+    }
+
+    public bool ValidateItemsPosition()
+    {
+        List<InventoryItem> tempItems = new List<InventoryItem>(activeItems);
+        activeItems.Clear();
+
+        foreach (var item in tempItems)
+        {
+            // Проверка размеров предмета
+            if (item.WIDTH > GridSize.x || item.HEIGHT > GridSize.y)
+            {
+                activeItems.Clear();
+                activeItems.AddRange(tempItems);
+                return false;
+            }
+
+            bool found = false;
+            for (int x = 0; x < GridSize.x && !found; x++)
+            {
+                for (int y = 0; y < GridSize.y && !found; y++)
+                {
+                    if (CheckAvailableSpace(x, y, item.WIDTH, item.HEIGHT))
+                    {
+                        activeItems.Add(item);
+                        found = true;
+                    }
+                }
+            }
+            
+            if (!found)
+            {
+                activeItems.Clear();
+                activeItems.AddRange(tempItems);
+                return false;
+            }
+        }
+        return true;
+    }
+
+    public void PlaceItem(int x, int y, InventoryItem item)
+    {
+        item.OnGridPositionX = x;
+        item.OnGridPositionY = y;
+        activeItems.Add(item);
     }
 }

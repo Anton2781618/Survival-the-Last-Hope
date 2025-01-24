@@ -14,11 +14,13 @@ MonoBehaviour:
     \u0436\u0435\u043B\u0435\u0442 \u0447\u0435\u0440\u043D\u044B\u0439"
   m_EditorClassIdentifier: 
   ItemIcon: {fileID: 21300000, guid: 93b1f16e0dcc28847a892daab3618a51, type: 3}
-  Title: 
+  Title: "\u0420\u0430\u0437\u0433\u0440\u0443\u0437\u043E\u0447\u043D\u044B\u0439
+    \u0436\u0435\u043B\u0435\u0442 \u0447\u0435\u0440\u043D\u044B\u0439"
   Description: 
   Prefab: {fileID: 2263946598004552975, guid: 737469d6143661c49a378f5e52d824fb, type: 3}
   Width: 4
   Height: 4
+  Price: 0
   Benefit: 0
   IsSingle: 0
   MaxAmount: 1

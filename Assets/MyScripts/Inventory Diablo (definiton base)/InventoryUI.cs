@@ -75,13 +75,13 @@ namespace InventoryDiablo
                 }
             }
 
-            foreach (InventoryItem inventoryItem in owner.InventoryHandler.Inventory.GetInventoryItems())
-            {
+            // foreach (InventoryItem inventoryItem in owner.InventoryHandler.Inventory.GetInventoryItems())
+            // {
                 
-                ItemGrid grid = grids.FirstOrDefault(t => t.GridData.GridName == inventoryItem.GridName);
+            //     ItemGrid grid = grids.FirstOrDefault(t => t.GridData.GridName == inventoryItem.GridName);
 
-                CreateAndInsertItem(inventoryItem, grid);
-            }
+            //     CreateAndInsertItem(inventoryItem, grid);
+            // }
             
             // foreach (ItemGrid grid in grids)
             // {

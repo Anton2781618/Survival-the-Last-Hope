@@ -96,35 +96,24 @@ namespace ModularEventArchitecture
                 }
             }
 
-            foreach (var slot in owner.GetSlots())
+            foreach (var slot in owner.Slots)
             {
-                ItemGrid slotGrid = grids.FirstOrDefault(t => t.GridData.GridName == slot.SlotItem.GridName);
-                
-                Debug.Log((slotGrid == null) + " !!!!!!!!!!!!");
-                    
-                CreateAndInsertItem(slot.SlotItem, slotGrid);
+                ItemGrid slotGrid = grids.FirstOrDefault(t => t.GridData.GridName == slot.SlotName);
+                    //! Я закоментил это потому тогда было не понятно где брать данные сетки
+                // CreateAndInsertItem(slot.SlotItem, slotGrid);
             
-                foreach (var grid in slot.SlotItem.Grids)
-                {
-                    ItemGrid currgrid = grids.FirstOrDefault(t => t.GridData.GridName == grid.GridName);
+                // foreach (var grid in slot.SlotItem.Grids2)
+                // {
+                //     ItemGrid currgrid = grids.FirstOrDefault(t => t.GridData.GridName == GridData.GridInfo.BackpackGrid);
 
-                    foreach (var item in grid.InventoryItems)
-                    {
-                        if(item == null) continue;
+                //     foreach (var item in grid.activeItems)
+                //     {
+                //         if(item == null) continue;
                         
-                        CreateAndInsertItem(item, currgrid);
-                    }
-                }           
+                //         CreateAndInsertItem(item, currgrid);
+                //     }
+                // }           
             }
-
-            // foreach (InventoryItem inventoryItem in owner.GetInventoryItems())
-            // {
-            //     ItemGrid grid = grids.FirstOrDefault(t => t.GridData.GridName == inventoryItem.GridName);
-            //     Debug.Log(grid == null);
-
-            //     CreateAndInsertItem(inventoryItem, grid);
-            // }           
-        
         }
 
         public void SetInventoryOwner(Inventory newOwner)

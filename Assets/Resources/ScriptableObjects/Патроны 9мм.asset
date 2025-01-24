@@ -24,9 +24,3 @@ MonoBehaviour:
   MaxAmount: 1000
   TypeItem: 32768
   CanBeCombined: []
-  Grids:
-  - GridSizeWidth: 0
-    GridSizeHeight: 0
-    gridForItemsType: 0
-    isSingle: 0
-    gridName: 0

@@ -14,18 +14,19 @@ namespace InventoryDiablo
         public GridData.GridInfo GridName = GridData.GridInfo.BackpackGrid;
         [SerializeField] private int amount = 0;
         [field: NonSerialized] public GridData[] Grids {get; set;} 
+        public GridData2[] Grids2;
         public Dictionary<ItemType, InventoryItem> CombinedItems;
         public UnityEvent OnItemsChanged; /* {get; set;} */
-        public int onGridPositionX {get; set;}  
-        public int onGridPositionY {get; set;} 
+        public int OnGridPositionX {get; set;}  
+        public int OnGridPositionY {get; set;} 
         private Dictionary<ItemType,MyDelegate> delegatesDict;
-        public bool rotated = false;
+        public bool Rotated = false;
 
         public int HEIGHT
         {
             get
             {
-                if(rotated == false)
+                if(Rotated == false)
                 {
                     return ItemData.Height;
                 }
@@ -37,7 +38,7 @@ namespace InventoryDiablo
         {
             get
             {
-                if(rotated == false)
+                if(Rotated == false)
                 {
                     return ItemData.Width;
                 }
@@ -61,6 +62,7 @@ namespace InventoryDiablo
 
         public int Price {get => ItemData.Price;}
 
+        public InventoryItem(){}
         public InventoryItem(ItemData itemData, int amount)
         {
             this.ItemData = itemData;
@@ -72,6 +74,31 @@ namespace InventoryDiablo
             Amount = amount;
 
             InitGrid();
+        }
+
+        //делаем копию итема
+        public InventoryItem(InventoryItem inventoryItem)
+        {
+            this.ItemData = inventoryItem.ItemData;
+
+            OnItemsChanged = new UnityEvent();
+         
+            CombinedItems = new Dictionary<ItemType, InventoryItem>();
+            
+            Amount = inventoryItem.Amount;
+            
+            if(inventoryItem.Grids2 != null)
+            {
+                Grids2 = new GridData2[inventoryItem.Grids2.Length];
+
+                for (int i = 0; i < inventoryItem.Grids2.Length; i++)
+                {
+                    Grids2[i] = new GridData2
+                    {
+                        GridSize = inventoryItem.Grids2[i].GridSize,
+                    };
+                }
+            }
         }
 
         public void InitGrid()

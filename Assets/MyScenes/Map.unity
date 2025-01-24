@@ -339,34 +339,29 @@ MonoBehaviour:
   <Entity>k__BackingField: {fileID: 65388990}
   Inventory:
     money: 500
-    inventoryItems:
-    - <ItemData>k__BackingField: {fileID: 11400000, guid: a8a975c236b17fe4f8642b000fb5b534,
-        type: 2}
-      GridName: 0
-      amount: 0
-      OnItemsChanged:
-        m_PersistentCalls:
-          m_Calls: []
-      rotated: 0
     Slots:
-    - SlotItem:
-        <ItemData>k__BackingField: {fileID: 11400000, guid: f41d2fa2dc48557439ac3e9a418765ae,
-          type: 2}
-        GridName: 0
-        amount: 0
-        OnItemsChanged:
-          m_PersistentCalls:
-            m_Calls: []
-        rotated: 0
-      <SetupItems>k__BackingField:
-      - <ItemData>k__BackingField: {fileID: 11400000, guid: c65f5e3e4f0fc5a4cba9d990faa6d337,
-          type: 2}
-        GridName: 1
-        amount: 0
-        OnItemsChanged:
-          m_PersistentCalls:
-            m_Calls: []
-        rotated: 0
+    - Icon: {fileID: 0}
+      SlotName: 0
+      TypeItem: 32
+      Grids2:
+        GridSize: {x: 5, y: 5}
+        Position: {x: 28, y: 36}
+        activeItems:
+        - <ItemData>k__BackingField: {fileID: 11400000, guid: ddcc013a94659bc4bb68e1f1fcf133cf,
+            type: 2}
+          GridName: 1
+          amount: 0
+          Grids2:
+          - GridSize: {x: 5, y: 5}
+            Position: {x: 0, y: 0}
+            activeItems: []
+          - GridSize: {x: 5, y: 5}
+            Position: {x: 0, y: 0}
+            activeItems: []
+          OnItemsChanged:
+            m_PersistentCalls:
+              m_Calls: []
+          Rotated: 0
 --- !u!4 &82083968 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 2284750880950391113, guid: 229474381bd9bcd4c84f9ae25e9b0536,
@@ -2271,111 +2266,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   inventory:
     money: 500
-    inventoryItems:
-    - <ItemData>k__BackingField: {fileID: 11400000, guid: 306fd59f34f7b1b4c948ed4e22653969,
-        type: 2}
-      GridName: 1
-      amount: 0
-      OnItemsChanged:
-        m_PersistentCalls:
-          m_Calls: []
-      rotated: 0
-    - <ItemData>k__BackingField: {fileID: 11400000, guid: ac88002b590d69347a03057e4563e671,
-        type: 2}
-      GridName: 1
-      amount: 0
-      OnItemsChanged:
-        m_PersistentCalls:
-          m_Calls: []
-      rotated: 0
-    - <ItemData>k__BackingField: {fileID: 11400000, guid: f41d2fa2dc48557439ac3e9a418765ae,
-        type: 2}
-      GridName: 1
-      amount: 0
-      OnItemsChanged:
-        m_PersistentCalls:
-          m_Calls: []
-      rotated: 0
-    - <ItemData>k__BackingField: {fileID: 11400000, guid: c65f5e3e4f0fc5a4cba9d990faa6d337,
-        type: 2}
-      GridName: 1
-      amount: 0
-      OnItemsChanged:
-        m_PersistentCalls:
-          m_Calls: []
-      rotated: 0
-    - <ItemData>k__BackingField: {fileID: 11400000, guid: bec202bb1c0c221419fdca3da00f3352,
-        type: 2}
-      GridName: 1
-      amount: 90
-      OnItemsChanged:
-        m_PersistentCalls:
-          m_Calls: []
-      rotated: 0
-    - <ItemData>k__BackingField: {fileID: 11400000, guid: ddcc013a94659bc4bb68e1f1fcf133cf,
-        type: 2}
-      GridName: 1
-      amount: 0
-      OnItemsChanged:
-        m_PersistentCalls:
-          m_Calls: []
-      rotated: 0
-    - <ItemData>k__BackingField: {fileID: 11400000, guid: 1940e62c6779fbe4b82ec52dadbc625b,
-        type: 2}
-      GridName: 1
-      amount: 50
-      OnItemsChanged:
-        m_PersistentCalls:
-          m_Calls: []
-      rotated: 0
-    - <ItemData>k__BackingField: {fileID: 11400000, guid: 0156facadb44fc244ac5036fd3335aee,
-        type: 2}
-      GridName: 1
-      amount: 7
-      OnItemsChanged:
-        m_PersistentCalls:
-          m_Calls: []
-      rotated: 0
-    - <ItemData>k__BackingField: {fileID: 11400000, guid: 0156facadb44fc244ac5036fd3335aee,
-        type: 2}
-      GridName: 1
-      amount: 7
-      OnItemsChanged:
-        m_PersistentCalls:
-          m_Calls: []
-      rotated: 0
-    - <ItemData>k__BackingField: {fileID: 11400000, guid: 0156facadb44fc244ac5036fd3335aee,
-        type: 2}
-      GridName: 1
-      amount: 7
-      OnItemsChanged:
-        m_PersistentCalls:
-          m_Calls: []
-      rotated: 0
-    - <ItemData>k__BackingField: {fileID: 11400000, guid: 65defc33165764a4687df65bc6be9884,
-        type: 2}
-      GridName: 1
-      amount: 30
-      OnItemsChanged:
-        m_PersistentCalls:
-          m_Calls: []
-      rotated: 0
-    - <ItemData>k__BackingField: {fileID: 11400000, guid: 65defc33165764a4687df65bc6be9884,
-        type: 2}
-      GridName: 1
-      amount: 30
-      OnItemsChanged:
-        m_PersistentCalls:
-          m_Calls: []
-      rotated: 0
-    - <ItemData>k__BackingField: {fileID: 11400000, guid: 65defc33165764a4687df65bc6be9884,
-        type: 2}
-      GridName: 1
-      amount: 30
-      OnItemsChanged:
-        m_PersistentCalls:
-          m_Calls: []
-      rotated: 0
     Slots: []
 --- !u!114 &899097166
 MonoBehaviour:
@@ -33502,98 +33392,110 @@ MonoBehaviour:
       type: 2}
     GridName: 0
     amount: 0
+    Grids2: []
     OnItemsChanged:
       m_PersistentCalls:
         m_Calls: []
-    rotated: 0
+    Rotated: 0
   - <ItemData>k__BackingField: {fileID: 11400000, guid: bec202bb1c0c221419fdca3da00f3352,
       type: 2}
     GridName: 0
     amount: 0
+    Grids2: []
     OnItemsChanged:
       m_PersistentCalls:
         m_Calls: []
-    rotated: 0
+    Rotated: 0
   - <ItemData>k__BackingField: {fileID: 11400000, guid: 1940e62c6779fbe4b82ec52dadbc625b,
       type: 2}
     GridName: 0
     amount: 0
+    Grids2: []
     OnItemsChanged:
       m_PersistentCalls:
         m_Calls: []
-    rotated: 0
+    Rotated: 0
   - <ItemData>k__BackingField: {fileID: 11400000, guid: 65defc33165764a4687df65bc6be9884,
       type: 2}
     GridName: 0
     amount: 0
+    Grids2: []
     OnItemsChanged:
       m_PersistentCalls:
         m_Calls: []
-    rotated: 0
+    Rotated: 0
   - <ItemData>k__BackingField: {fileID: 11400000, guid: 0156facadb44fc244ac5036fd3335aee,
       type: 2}
     GridName: 0
     amount: 0
+    Grids2: []
     OnItemsChanged:
       m_PersistentCalls:
         m_Calls: []
-    rotated: 0
+    Rotated: 0
   - <ItemData>k__BackingField: {fileID: 11400000, guid: 7d383013dd309bd41a8472cd1448f342,
       type: 2}
     GridName: 0
     amount: 0
+    Grids2: []
     OnItemsChanged:
       m_PersistentCalls:
         m_Calls: []
-    rotated: 0
+    Rotated: 0
   - <ItemData>k__BackingField: {fileID: 11400000, guid: a8a975c236b17fe4f8642b000fb5b534,
       type: 2}
     GridName: 0
     amount: 0
+    Grids2: []
     OnItemsChanged:
       m_PersistentCalls:
         m_Calls: []
-    rotated: 0
+    Rotated: 0
   - <ItemData>k__BackingField: {fileID: 11400000, guid: ddcc013a94659bc4bb68e1f1fcf133cf,
       type: 2}
     GridName: 0
     amount: 0
+    Grids2: []
     OnItemsChanged:
       m_PersistentCalls:
         m_Calls: []
-    rotated: 0
+    Rotated: 0
   - <ItemData>k__BackingField: {fileID: 11400000, guid: 965a5f462e52dbe47a2459c4610c789c,
       type: 2}
     GridName: 0
     amount: 0
+    Grids2: []
     OnItemsChanged:
       m_PersistentCalls:
         m_Calls: []
-    rotated: 0
+    Rotated: 0
   - <ItemData>k__BackingField: {fileID: 11400000, guid: ac88002b590d69347a03057e4563e671,
       type: 2}
     GridName: 0
     amount: 0
+    Grids2: []
     OnItemsChanged:
       m_PersistentCalls:
         m_Calls: []
-    rotated: 0
+    Rotated: 0
   - <ItemData>k__BackingField: {fileID: 11400000, guid: f41d2fa2dc48557439ac3e9a418765ae,
       type: 2}
     GridName: 0
     amount: 0
+    Grids2: []
     OnItemsChanged:
       m_PersistentCalls:
         m_Calls: []
-    rotated: 0
+    Rotated: 0
   - <ItemData>k__BackingField: {fileID: 11400000, guid: c65f5e3e4f0fc5a4cba9d990faa6d337,
       type: 2}
     GridName: 0
     amount: 0
+    Grids2: []
     OnItemsChanged:
       m_PersistentCalls:
         m_Calls: []
-    rotated: 0
+    Rotated: 0
   itemPrefab: {fileID: 3786321271830801994, guid: 211cbaeb343b3fa469149bc570354fe2,
     type: 3}
   inventoryIHighLight: {fileID: 5522348191436618556}
@@ -33609,8 +33511,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9ce0b0d308576f04292ce36b8989a46a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  modules:
-  - {fileID: 5522348191436618557}
+  Modules: []
 --- !u!114 &5539395553154286356
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -33890,9 +33791,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fcd04fc04c9d1e14099d4765ea242579, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  modules:
-  - {fileID: 6387686652974087299}
-  - {fileID: 6387686652974087301}
+  Modules: []
   text: {fileID: 0}
 --- !u!114 &6387686652974087301
 MonoBehaviour:
@@ -34412,8 +34311,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e699f9026a36df24f9830b84f1eb8d73, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  modules:
-  - {fileID: 7100305932924419555}
+  Modules: []
 --- !u!114 &7106135763112378184
 MonoBehaviour:
   m_ObjectHideFlags: 0

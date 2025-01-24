@@ -1,0 +1,93 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3bd9803a19476c7409c75d74fba0c7e6, type: 3}
+  m_Name: AvailableItems
+  m_EditorClassIdentifier: 
+  items:
+  - <ItemData>k__BackingField: {fileID: 11400000, guid: ddcc013a94659bc4bb68e1f1fcf133cf,
+      type: 2}
+    GridName: 0
+    amount: 0
+    Grids2:
+    - GridSize: {x: 5, y: 5}
+      Position: {x: 0, y: 0}
+      activeItems: []
+    OnItemsChanged:
+      m_PersistentCalls:
+        m_Calls: []
+    Rotated: 0
+  - <ItemData>k__BackingField: {fileID: 11400000, guid: 306fd59f34f7b1b4c948ed4e22653969,
+      type: 2}
+    GridName: 0
+    amount: 0
+    Grids2: []
+    OnItemsChanged:
+      m_PersistentCalls:
+        m_Calls: []
+    Rotated: 0
+  - <ItemData>k__BackingField: {fileID: 11400000, guid: ac88002b590d69347a03057e4563e671,
+      type: 2}
+    GridName: 0
+    amount: 0
+    Grids2:
+    - GridSize: {x: 5, y: 5}
+      Position: {x: 0, y: 0}
+      activeItems: []
+    OnItemsChanged:
+      m_PersistentCalls:
+        m_Calls: []
+    Rotated: 0
+  - <ItemData>k__BackingField: {fileID: 11400000, guid: 65defc33165764a4687df65bc6be9884,
+      type: 2}
+    GridName: 0
+    amount: 0
+    Grids2: []
+    OnItemsChanged:
+      m_PersistentCalls:
+        m_Calls: []
+    Rotated: 0
+  - <ItemData>k__BackingField: {fileID: 11400000, guid: 0156facadb44fc244ac5036fd3335aee,
+      type: 2}
+    GridName: 0
+    amount: 0
+    Grids2: []
+    OnItemsChanged:
+      m_PersistentCalls:
+        m_Calls: []
+    Rotated: 0
+  - <ItemData>k__BackingField: {fileID: 11400000, guid: 1940e62c6779fbe4b82ec52dadbc625b,
+      type: 2}
+    GridName: 0
+    amount: 0
+    Grids2: []
+    OnItemsChanged:
+      m_PersistentCalls:
+        m_Calls: []
+    Rotated: 0
+  - <ItemData>k__BackingField: {fileID: 11400000, guid: f41d2fa2dc48557439ac3e9a418765ae,
+      type: 2}
+    GridName: 0
+    amount: 0
+    Grids2:
+    - GridSize: {x: 9, y: 5}
+      Position: {x: 0, y: 0}
+      activeItems: []
+    - GridSize: {x: 7, y: 2}
+      Position: {x: 33, y: 166}
+      activeItems: []
+    - GridSize: {x: 7, y: 3}
+      Position: {x: 33, y: 235}
+      activeItems: []
+    OnItemsChanged:
+      m_PersistentCalls:
+        m_Calls: []
+    Rotated: 0

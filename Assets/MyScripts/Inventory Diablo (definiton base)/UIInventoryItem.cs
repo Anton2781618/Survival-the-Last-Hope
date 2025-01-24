@@ -68,9 +68,9 @@ namespace InventoryDiablo
 
         public void Rotated()
         {
-            inventoryItem.rotated = !inventoryItem.rotated;
+            inventoryItem.Rotated = !inventoryItem.Rotated;
 
-            rectTransform.rotation = Quaternion.Euler(0, 0, inventoryItem.rotated ? 90f : 0f);
+            rectTransform.rotation = Quaternion.Euler(0, 0, inventoryItem.Rotated ? 90f : 0f);
         }
 
         public void DestructSelf()

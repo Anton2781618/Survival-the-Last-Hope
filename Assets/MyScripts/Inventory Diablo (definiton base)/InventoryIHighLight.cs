@@ -31,7 +31,7 @@ namespace InventoryDiablo
         //установить позицию подсветки
         public void SetPosition(ItemGrid targetGrid, UIInventoryItem targetItem)
         {
-            Vector2 pos = targetGrid.CalculatePositionOnGrid(targetItem, targetItem.InventoryItem.onGridPositionX, targetItem.InventoryItem.onGridPositionY);
+            Vector2 pos = targetGrid.CalculatePositionOnGrid(targetItem, targetItem.InventoryItem.OnGridPositionX, targetItem.InventoryItem.OnGridPositionY);
 
             highLighter.localPosition = pos;
 
