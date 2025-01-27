@@ -140,7 +140,9 @@ namespace ModularEventArchitecture
                 GUI.backgroundColor = selectedItem == item ? Color.cyan : Color.white;
                 if (GUILayout.Button(item.ItemData.Title))
                 {
-                    selectedItem = item;
+                    InventoryItem newItem = new InventoryItem(item);
+
+                    selectedItem = newItem;
                 }
 
                 GUI.backgroundColor = Color.white;

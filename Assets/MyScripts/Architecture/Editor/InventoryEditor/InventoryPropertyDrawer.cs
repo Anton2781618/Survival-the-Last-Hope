@@ -3,7 +3,7 @@ using ModularEventArchitecture;
 using UnityEditor;
 using UnityEngine;
 
-[CustomPropertyDrawer(typeof(Inventory))]
+// [CustomPropertyDrawer(typeof(Inventory))]
 public class InventoryPropertyDrawer : PropertyDrawer
 {
     public GUISkin customSkin;

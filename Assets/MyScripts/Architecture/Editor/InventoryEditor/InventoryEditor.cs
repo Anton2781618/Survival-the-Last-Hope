@@ -30,8 +30,8 @@ namespace ModularEventArchitecture
         private Vector2 dragStartPosition;
         private Vector2 initialGridPosition;
         private GridData2 draggedGrid;
-        private GridData2 activeGrid;
         private InventorySlot _currentSlot;
+        private Vector2 dragOffset;
         
 
         [MenuItem("Tools/Inventory Editor")]
@@ -155,36 +155,38 @@ namespace ModularEventArchitecture
         private void DrawSlotsInfo()
         {
             EditorGUILayout.BeginVertical("box", GUILayout.Width(300));
-            if (GUILayout.Button("Добавить слот инвентаря"))            
-            {
-                targetInventory.Slots.Add(new InventorySlot());
-            }
-
-            foreach (var slot in targetInventory.Slots)
-            {
-                // Основные параметры предмета
-                EditorGUILayout.LabelField("Параметры слота", EditorStyles.boldLabel);
-
-                EditorGUILayout.BeginHorizontal();
-                if (GUILayout.Button("Cетка", GUILayout.Width(70), GUILayout.Height(60)))
+            
+                if (GUILayout.Button("Добавить слот инвентаря"))            
                 {
-                    _currentSlot = slot;
-                    editSlotGrid = true;
+                    targetInventory.Slots.Add(new InventorySlot());
                 }
 
-                slot.Icon = EditorGUILayout.ObjectField(" ", slot.Icon, typeof(Sprite), false) as Sprite;
-
-                EditorGUILayout.EndHorizontal();
-                
-                slot.TypeItem = (ItemType)EditorGUILayout.EnumFlagsField("Слот для предмета", slot.TypeItem);
-
-                if (GUILayout.Button("Удалиь слот"))            
+                foreach (var slot in targetInventory.Slots)
                 {
-                    targetInventory.Slots.Remove(slot);
+                    // Основные параметры предмета
+                    EditorGUILayout.LabelField("Параметры слота", EditorStyles.boldLabel);
+
+                    EditorGUILayout.BeginHorizontal();
+
+                        if (GUILayout.Button("Cетка", GUILayout.Width(70), GUILayout.Height(60)))
+                        {
+                            _currentSlot = slot;
+                            editSlotGrid = true;
+                        }
+                        
+                        slot.Icon = EditorGUILayout.ObjectField(" ", slot.Icon, typeof(Sprite), false) as Sprite;
+
+                    EditorGUILayout.EndHorizontal();
                     
-                    GUIUtility.ExitGUI();
+                    slot.TypeItem = (ItemType)EditorGUILayout.EnumFlagsField("Слот для предмета", slot.TypeItem);
+
+                    if (GUILayout.Button("Удалиь слот"))            
+                    {
+                        targetInventory.Slots.Remove(slot);
+                        
+                        GUIUtility.ExitGUI();
+                    }
                 }
-            }
 
             EditorGUILayout.EndVertical();
         }
@@ -320,7 +322,6 @@ namespace ModularEventArchitecture
                             }
                         }
 
-                        activeGrid = grid;
                         // Проверяем клик по существующему предмету
                         Vector2 gridPos = GetGridPosition(gridRect, mousePosition);
                         bool clickedEmptyCell = true;
@@ -339,6 +340,8 @@ namespace ModularEventArchitecture
                                 isDragging = true;
                                 draggedItem = item;
                                 originalPosition = item;
+                                // Вычисляем смещение между позицией мыши и левым верхним углом предмета
+                                dragOffset = new Vector2((mousePosition.x - itemRect.x) - (cellSize / 2), (mousePosition.y - itemRect.y) - (cellSize / 2));
                                 grid.activeItems.Remove(item);
                                 currentEvent.Use();
                                 return;
@@ -403,9 +406,9 @@ namespace ModularEventArchitecture
                         currentEvent.Use();
                     }
 
-                    if (isDragging && gridRect.Contains(mousePosition) && grid == activeGrid)
+                    if (isDragging && gridRect.Contains(mousePosition))
                     {
-                        Vector2 newPos = GetGridPosition(gridRect, mousePosition);
+                        Vector2 newPos = GetGridPosition(gridRect, mousePosition - dragOffset);
                         if (CanPlaceItem(grid, (int)newPos.x, (int)newPos.y))
                         {
                             grid.PlaceItem((int)newPos.x, (int)newPos.y, draggedItem);
@@ -414,7 +417,7 @@ namespace ModularEventArchitecture
                                 selectedItem = null;
                             }
                         }
-                        else if (originalPosition!= null && grid == activeGrid)
+                        else if (originalPosition!= null)
                         {
                             // Возвращаем предмет на исходную позицию
                             grid.activeItems.Add(originalPosition);
@@ -428,7 +431,7 @@ namespace ModularEventArchitecture
                     break;
             }
 
-            if (isDragging && draggedItem != null && grid == activeGrid)
+            if (isDragging && draggedItem != null)
             {
                 DrawDragPreview(gridRect, grid);
             }
@@ -436,7 +439,7 @@ namespace ModularEventArchitecture
 
         private void DrawDragPreview(Rect gridRect, GridData2 grid)
         {
-            Vector2 gridPosition = GetGridPosition(gridRect, mousePosition);
+            Vector2 gridPosition = GetGridPosition(gridRect, mousePosition - dragOffset);
             bool canPlace = CanPlaceItem(grid, (int)gridPosition.x, (int)gridPosition.y);
 
             Rect previewRect = new Rect(
@@ -512,7 +515,7 @@ namespace ModularEventArchitecture
 
         private void PlaceItemInGrid(Rect gridRect, GridData2 grid)
         {
-            Vector2 gridPosition = GetGridPosition(gridRect, mousePosition);
+            Vector2 gridPosition = GetGridPosition(gridRect, mousePosition - dragOffset);
             if (CanPlaceItem(grid, (int)gridPosition.x, (int)gridPosition.y))
             {
                 grid.PlaceItem((int)gridPosition.x, (int)gridPosition.y, selectedItem);

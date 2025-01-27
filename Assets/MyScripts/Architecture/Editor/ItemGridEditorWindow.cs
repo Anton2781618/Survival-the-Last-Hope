@@ -19,8 +19,8 @@ namespace ModularEventArchitecture
         private InventoryItem originalPosition;
 
         private List<ItemData> _currCombinedItems;
-        private GridData2 activeGrid;
         private Vector2 itemListScroll;
+        private Vector2 dragOffset;
 
         public void Initialize(InventoryItem item)
         {
@@ -234,7 +234,6 @@ namespace ModularEventArchitecture
                             }
                         }
 
-                        activeGrid = grid;
                         // Проверяем клик по существующему предмету
                         Vector2 gridPos = GetGridPosition(gridRect, mousePosition);
                         foreach (var item in grid.activeItems)
@@ -251,6 +250,10 @@ namespace ModularEventArchitecture
                                 isDragging = true;
                                 draggedItem = item;
                                 originalPosition = item;
+                                
+                                // Вычисляем смещение между позицией мыши и левым верхним углом предмета
+                                dragOffset = new Vector2((mousePosition.x - itemRect.x) - (cellSize / 2), (mousePosition.y - itemRect.y) - (cellSize / 2));
+                                
                                 grid.activeItems.Remove(item);
                                 currentEvent.Use();
                                 return;
@@ -270,16 +273,15 @@ namespace ModularEventArchitecture
                 case EventType.MouseDrag:
                     if (isDragging)
                     {
-                        
                         Repaint();
                         currentEvent.Use();
                     }
                     break;
 
                 case EventType.MouseUp:
-                    if (isDragging && gridRect.Contains(mousePosition)/* && grid == activeGrid */)
+                    if (isDragging && gridRect.Contains(mousePosition))
                     {
-                        Vector2 newPos = GetGridPosition(gridRect, mousePosition);
+                        Vector2 newPos = GetGridPosition(gridRect, mousePosition - dragOffset);
                         if (CanPlaceItem(grid, (int)newPos.x, (int)newPos.y))
                         {
                             grid.PlaceItem((int)newPos.x, (int)newPos.y, draggedItem);
@@ -288,7 +290,7 @@ namespace ModularEventArchitecture
                                 selectedItem = null;
                             }
                         }
-                        else if (originalPosition != null/* && grid == activeGrid */)
+                        else if (originalPosition != null)
                         {
                             // Возвращаем предмет на исходную позицию
                             grid.activeItems.Add(originalPosition);
@@ -296,12 +298,13 @@ namespace ModularEventArchitecture
                         isDragging = false;
                         draggedItem = null;
                         originalPosition = null;
+                        dragOffset = Vector2.zero;
                         currentEvent.Use();
                     }
                     break;
             }
             
-            if (isDragging && draggedItem != null /* && grid == activeGrid */)
+            if (isDragging && draggedItem != null)
             {
                 DrawDragPreview(gridRect, grid);
             }
@@ -319,7 +322,8 @@ namespace ModularEventArchitecture
         {            
             if (gridRect.Contains(mousePosition))
             {
-                Vector2 gridPosition = GetGridPosition(gridRect, mousePosition);
+                Vector2 gridPosition = GetGridPosition(gridRect, mousePosition - dragOffset);
+
                 bool canPlace = CanPlaceItem(grid, (int)gridPosition.x, (int)gridPosition.y);
 
                 Rect previewRect = new Rect(
