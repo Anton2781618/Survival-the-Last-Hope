@@ -18,8 +18,10 @@ MonoBehaviour:
     GridName: 0
     amount: 0
     Grids2:
-    - GridSize: {x: 5, y: 5}
+    - GridSize: {x: 1, y: 2}
       Position: {x: 0, y: 0}
+      CanBeCombined:
+      - {fileID: 11400000, guid: 0156facadb44fc244ac5036fd3335aee, type: 2}
       activeItems: []
     OnItemsChanged:
       m_PersistentCalls:
@@ -41,6 +43,7 @@ MonoBehaviour:
     Grids2:
     - GridSize: {x: 5, y: 5}
       Position: {x: 0, y: 0}
+      CanBeCombined: []
       activeItems: []
     OnItemsChanged:
       m_PersistentCalls:
@@ -59,7 +62,25 @@ MonoBehaviour:
       type: 2}
     GridName: 0
     amount: 0
-    Grids2: []
+    Grids2:
+    - GridSize: {x: 1, y: 2}
+      Position: {x: 0, y: 0}
+      CanBeCombined:
+      - {fileID: 11400000, guid: 1940e62c6779fbe4b82ec52dadbc625b, type: 2}
+      activeItems:
+      - <ItemData>k__BackingField: {fileID: 11400000, guid: 1940e62c6779fbe4b82ec52dadbc625b,
+          type: 2}
+        GridName: 1
+        amount: 0
+        Grids2:
+        - GridSize: {x: 2, y: 2}
+          Position: {x: 0, y: 0}
+          CanBeCombined: []
+          activeItems: []
+        OnItemsChanged:
+          m_PersistentCalls:
+            m_Calls: []
+        Rotated: 0
     OnItemsChanged:
       m_PersistentCalls:
         m_Calls: []
@@ -68,7 +89,11 @@ MonoBehaviour:
       type: 2}
     GridName: 0
     amount: 0
-    Grids2: []
+    Grids2:
+    - GridSize: {x: 2, y: 2}
+      Position: {x: 0, y: 0}
+      CanBeCombined: []
+      activeItems: []
     OnItemsChanged:
       m_PersistentCalls:
         m_Calls: []
@@ -78,14 +103,18 @@ MonoBehaviour:
     GridName: 0
     amount: 0
     Grids2:
-    - GridSize: {x: 9, y: 5}
+    - GridSize: {x: 10, y: 5}
       Position: {x: 0, y: 0}
+      CanBeCombined: []
       activeItems: []
     - GridSize: {x: 7, y: 2}
-      Position: {x: 33, y: 166}
+      Position: {x: 50, y: 163}
+      CanBeCombined:
+      - {fileID: 11400000, guid: ddcc013a94659bc4bb68e1f1fcf133cf, type: 2}
       activeItems: []
     - GridSize: {x: 7, y: 3}
-      Position: {x: 33, y: 235}
+      Position: {x: 50, y: 229}
+      CanBeCombined: []
       activeItems: []
     OnItemsChanged:
       m_PersistentCalls:

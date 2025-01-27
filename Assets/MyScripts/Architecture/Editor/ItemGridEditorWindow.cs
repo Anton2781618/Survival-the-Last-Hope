@@ -1,5 +1,7 @@
+using System.Collections.Generic;
 using System.Linq;
 using InventoryDiablo;
+using Unity.VisualScripting;
 using UnityEditor;
 using UnityEngine;
 
@@ -16,6 +18,10 @@ namespace ModularEventArchitecture
         private InventoryItem draggedItem;
         private InventoryItem originalPosition;
 
+        private List<ItemData> _currCombinedItems;
+        private GridData2 activeGrid;
+        private Vector2 itemListScroll;
+
         public void Initialize(InventoryItem item)
         {
             targetItem = item;
@@ -26,6 +32,7 @@ namespace ModularEventArchitecture
             if (targetItem == null) return;
 
             EditorGUILayout.BeginHorizontal();
+            
             
             // Левая панель - доступные предметы
             DrawAvailableItems();
@@ -38,8 +45,16 @@ namespace ModularEventArchitecture
 
         private void DrawAvailableItems()
         {
-            EditorGUILayout.BeginVertical("box", GUILayout.Width(200));
-            EditorGUILayout.LabelField("Available Items", EditorStyles.boldLabel);
+            EditorGUILayout.BeginVertical("box", GUILayout.Width(230));
+
+            if (GUILayout.Button("Сбросить фильтр", GUILayout.Height(30)))
+            {
+                _currCombinedItems = null;
+            }
+
+            itemListScroll = EditorGUILayout.BeginScrollView(itemListScroll);
+
+            EditorGUILayout.LabelField("Предметы", EditorStyles.boldLabel);
             
             // Фильтруем предметы которые можно комбинировать
             var availableItems = AssetDatabase.LoadAssetAtPath<AvailableItems>("Assets/MyScripts/Architecture/Editor/AvailableItems.asset");
@@ -47,21 +62,53 @@ namespace ModularEventArchitecture
             // var availableItems = AssetDatabase.FindAssets("t:InventoryItem")
             //     .Select(guid => AssetDatabase.LoadAssetAtPath<InventoryItem>(AssetDatabase.GUIDToAssetPath(guid)))
             //     .Where(item => item.ItemData.CanBeCombined);
-
+            
             foreach (InventoryItem item in availableItems.items)
             {
-                foreach (var combinedItemDatas in targetItem.ItemData.CanBeCombined)
+                // foreach (var combinedItemDatas in targetItem.ItemData.CanBeCombined)
+                // {
+                GUI.backgroundColor = selectedItem != null && selectedItem.ItemData.Title == item.ItemData.Title ? Color.cyan : Color.white;
+                if(_currCombinedItems != null)
                 {
-                    if (item.ItemData == combinedItemDatas)
+                    foreach (var combineditem in _currCombinedItems)
                     {
-                        if (GUILayout.Button(item.ItemData.Title))
+                        if(item.ItemData == combineditem)
                         {
-                            InventoryItem newItem = new InventoryItem(item);
 
-                            selectedItem = newItem;
+                            if (GUILayout.Button(item.ItemData.Title))
+                            {
+                                InventoryItem newItem = new InventoryItem(item);
+
+                                selectedItem = newItem;
+                            }
                         }
                     }
                 }
+                else
+                {
+                    if (GUILayout.Button(item.ItemData.Title))
+                    {
+                        InventoryItem newItem = new InventoryItem(item);
+
+                        selectedItem = newItem;
+                    }
+
+                }
+                    // if (_currCombinedItems != null && item.ItemData.CanBeCombined != _currCombinedItems) continue;
+                    // {
+                    // }
+                // }
+                GUI.backgroundColor = Color.white;
+            }
+
+            EditorGUILayout.EndScrollView();
+
+            if (selectedItem != null)
+            {
+                EditorGUILayout.Space();
+                EditorGUILayout.LabelField("Selected Item:", EditorStyles.boldLabel);
+                EditorGUILayout.LabelField($"Name: {selectedItem.ItemData.Title}");
+                EditorGUILayout.LabelField($"Size: {selectedItem.WIDTH}x{selectedItem.HEIGHT}");
             }
             
             EditorGUILayout.EndVertical();
@@ -88,9 +135,10 @@ namespace ModularEventArchitecture
     
             // Добавляем поля для редактирования позиции сетки
             EditorGUILayout.BeginHorizontal();
-            EditorGUILayout.LabelField("Grid Position", GUILayout.Width(100));
-            grid.Position.x = EditorGUILayout.FloatField("X", grid.Position.x);
-            grid.Position.y = EditorGUILayout.FloatField("Y", grid.Position.y);
+            if(GUILayout.Button("Отсеять предметы по типу сетки",GUILayout.Width(220), GUILayout.Height(44))) 
+            {
+                _currCombinedItems = grid.CanBeCombined;
+            }
             EditorGUILayout.EndHorizontal();
 
             // Создаем область для сетки с учетом позиции
@@ -98,8 +146,8 @@ namespace ModularEventArchitecture
                 grid.GridSize.x * cellSize,
                 grid.GridSize.y * cellSize
             );
-            gridRect.x += grid.Position.x;
-            gridRect.y += grid.Position.y;
+            // gridRect.x += grid.Position.x;
+            // gridRect.y += grid.Position.y;
 
             DrawGrid(gridRect, grid);
             DrawItems(gridRect, grid);
@@ -165,7 +213,6 @@ namespace ModularEventArchitecture
                 case EventType.MouseDown:
                     if (gridRect.Contains(mousePosition))
                     {
-
                         // Обработка правого клика
                         if (currentEvent.button == 1)
                         {
@@ -186,6 +233,8 @@ namespace ModularEventArchitecture
                                 }
                             }
                         }
+
+                        activeGrid = grid;
                         // Проверяем клик по существующему предмету
                         Vector2 gridPos = GetGridPosition(gridRect, mousePosition);
                         foreach (var item in grid.activeItems)
@@ -221,13 +270,14 @@ namespace ModularEventArchitecture
                 case EventType.MouseDrag:
                     if (isDragging)
                     {
+                        
                         Repaint();
                         currentEvent.Use();
                     }
                     break;
 
                 case EventType.MouseUp:
-                    if (isDragging && gridRect.Contains(mousePosition))
+                    if (isDragging && gridRect.Contains(mousePosition)/* && grid == activeGrid */)
                     {
                         Vector2 newPos = GetGridPosition(gridRect, mousePosition);
                         if (CanPlaceItem(grid, (int)newPos.x, (int)newPos.y))
@@ -238,20 +288,20 @@ namespace ModularEventArchitecture
                                 selectedItem = null;
                             }
                         }
-                        else if (originalPosition != null)
+                        else if (originalPosition != null/* && grid == activeGrid */)
                         {
                             // Возвращаем предмет на исходную позицию
                             grid.activeItems.Add(originalPosition);
                         }
                         isDragging = false;
                         draggedItem = null;
-                        originalPosition = new InventoryItem();
+                        originalPosition = null;
                         currentEvent.Use();
                     }
                     break;
             }
-
-            if (isDragging && draggedItem != null)
+            
+            if (isDragging && draggedItem != null /* && grid == activeGrid */)
             {
                 DrawDragPreview(gridRect, grid);
             }
@@ -266,26 +316,29 @@ namespace ModularEventArchitecture
         }
 
         private void DrawDragPreview(Rect gridRect, GridData2 grid)
-        {
-            Vector2 gridPosition = GetGridPosition(gridRect, mousePosition);
-            bool canPlace = CanPlaceItem(grid, (int)gridPosition.x, (int)gridPosition.y);
+        {            
+            if (gridRect.Contains(mousePosition))
+            {
+                Vector2 gridPosition = GetGridPosition(gridRect, mousePosition);
+                bool canPlace = CanPlaceItem(grid, (int)gridPosition.x, (int)gridPosition.y);
 
-            Rect previewRect = new Rect(
-                gridRect.x + gridPosition.x * cellSize,
-                gridRect.y + gridPosition.y * cellSize,
-                draggedItem.WIDTH * cellSize,
-                draggedItem.HEIGHT * cellSize
-            );
+                Rect previewRect = new Rect(
+                    gridRect.x + gridPosition.x * cellSize,
+                    gridRect.y + gridPosition.y * cellSize,
+                    draggedItem.WIDTH * cellSize,
+                    draggedItem.HEIGHT * cellSize
+                );
 
-            Color previewColor = canPlace ? new Color(0, 1, 0, 0.3f) : new Color(1, 0, 0, 0.3f);
-            EditorGUI.DrawRect(previewRect, previewColor);
+                Color previewColor = canPlace ? new Color(0, 1, 0, 0.3f) : new Color(1, 0, 0, 0.3f);
+                EditorGUI.DrawRect(previewRect, previewColor);
 
-            // Отображаем иконку предмета при перетаскивании
-            GUIStyle itemStyle = new GUIStyle();
-            itemStyle.normal.background = draggedItem.ItemData.ItemIcon.texture;
-            itemStyle.stretchWidth = true;
-            itemStyle.stretchHeight = true;
-            GUI.Box(previewRect, "", itemStyle);
+                // Отображаем иконку предмета при перетаскивании
+                GUIStyle itemStyle = new GUIStyle();
+                itemStyle.normal.background = draggedItem.ItemData.ItemIcon.texture;
+                itemStyle.stretchWidth = true;
+                itemStyle.stretchHeight = true;
+                GUI.Box(previewRect, "", itemStyle);
+            }
         }
 
         private bool CanPlaceItem(GridData2 grid, int x, int y)

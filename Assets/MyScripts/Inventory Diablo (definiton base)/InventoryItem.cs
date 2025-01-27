@@ -99,6 +99,8 @@ namespace InventoryDiablo
                     };
                 }
             }
+            
+            Array.Copy(inventoryItem.Grids2, Grids2, inventoryItem.Grids2.Length); 
         }
 
         public void InitGrid()

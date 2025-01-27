@@ -1,11 +1,9 @@
 using InventoryDiablo;
 using ModularEventArchitecture;
 using UnityEditor;
-using UnityEditor.UIElements;
 using UnityEngine;
-using UnityEngine.UIElements;
 
-// [CustomPropertyDrawer(typeof(Inventory))]
+[CustomPropertyDrawer(typeof(Inventory))]
 public class InventoryPropertyDrawer : PropertyDrawer
 {
     public GUISkin customSkin;

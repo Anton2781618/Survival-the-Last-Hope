@@ -117,7 +117,7 @@ namespace ModularEventArchitecture
                 }
             }
 
-            EditorGUILayout.LabelField("Available Items", EditorStyles.boldLabel);
+            EditorGUILayout.LabelField("Предметы", EditorStyles.boldLabel);
             
             itemListScroll = EditorGUILayout.BeginScrollView(itemListScroll);
             
@@ -474,7 +474,8 @@ namespace ModularEventArchitecture
             });
 
             // Добавляем пункт только если предмет имеет сетку и поддерживает комбинирование
-            if (item.Grids2 != null && item.Grids2.Length > 0 && item.ItemData.CanBeCombined != null && item.ItemData.CanBeCombined.Length > 0)
+            // if (item.Grids2 != null && item.Grids2.Length > 0 && item.ItemData.CanBeCombined != null && item.ItemData.CanBeCombined.Length > 0)
+            if (item.Grids2 != null && item.Grids2.Length > 0)
             {
                 menu.AddItem(new GUIContent("Добавить предмет на сетку"), false, () => {
                     OpenItemGridEditor(item);

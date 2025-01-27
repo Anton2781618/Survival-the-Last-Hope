@@ -212,13 +212,16 @@ public class GridData
 public class GridData2
 {
     [Header("Размер сетки")]
-
     public Vector2Int GridSize = new Vector2Int(5, 5);
 
     [Header("Позиция сетки")]
     public Vector2 Position;
+
+    [Header("Блок с фильтрами")]
+    public List<ItemData> CanBeCombined = new List<ItemData>();
+
+    //-------------------------------------------------------------------------------------
     
-    // [SerializeField] public List<ItemPosition> activeItems = new List<ItemPosition>();
     [SerializeField] public List<InventoryItem> activeItems = new List<InventoryItem>();
     
     public bool TryPlaceItem(InventoryItem item)

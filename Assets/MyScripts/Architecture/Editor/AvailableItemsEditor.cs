@@ -1,13 +1,8 @@
 using UnityEditor;
 using UnityEngine;
 using InventoryDiablo;
-using System.Collections.Generic;
 using System;
 using System.Linq;
-using Unity.VisualScripting;
-using UnityEditorInternal;
-using UnityEditor.Experimental.GraphView;
-using UnityEngine.UIElements;
 
 namespace ModularEventArchitecture
 {
@@ -20,10 +15,7 @@ namespace ModularEventArchitecture
         private bool isDragging;
         private Vector2 mousePosition;
         private Vector2 dragStartPosition;
-        private Vector2 dragOffset;
         private GridData2 activeGrid;
-        private Color validPlacementColor = new Color(0, 1, 0, 0.3f);
-        private Color invalidPlacementColor = new Color(1, 0, 0, 0.3f);
 
         private bool needToRemoveGrid = false;
         private int gridIndexToRemove = -1;
@@ -44,25 +36,30 @@ namespace ModularEventArchitecture
             
             EditorGUILayout.BeginHorizontal();
             
-            DrawConfigSelection();
+                DrawConfigSelection();
             
-            // Левая панель - список предметов
-            DrawItemsList();
-            
-            // Правая панель - редактор выбранного предмета
-            DrawSelectedItemEditor();
-            
-            EditorGUILayout.EndHorizontal();
+                // Левая панель - список предметов
+                DrawItemsList();
 
-            if (Event.current.type == EventType.Layout)
-            {
-                if (needToRemoveGrid)
+                if(selectedItem != null)
                 {
-                    RemoveGrid(gridIndexToRemove);
-                    needToRemoveGrid = false;
-                    Repaint();
+                    DrawItemInfo();
+                
+                    // Правая панель - редактор выбранного предмета
+                    DrawSelectedItemEditor();
+                    
+
+                    if (Event.current.type == EventType.Layout)
+                    {
+                        if (needToRemoveGrid)
+                        {
+                            RemoveGrid(gridIndexToRemove);
+                            needToRemoveGrid = false;
+                            Repaint();
+                        }
+                    }
                 }
-            }
+            EditorGUILayout.EndHorizontal();
         }
 
         private void DrawConfigSelection()
@@ -85,7 +82,29 @@ namespace ModularEventArchitecture
             }
             EditorGUILayout.EndVertical();
         }
+        
+        //блок и информацией по сеткам
+        private void DrawItemInfo()
+        {
+            if (selectedItem == null) return;
+            
+            EditorGUILayout.BeginVertical("box", GUILayout.Width(400));
+            
+                // Основные параметры предмета
+                EditorGUILayout.LabelField("Параметры итема", EditorStyles.boldLabel);
 
+                foreach (var item in selectedItem.Grids2)
+                {
+                    if (item.CanBeCombined != null) EditorGUILayout.LabelField("Комбинируется", item.CanBeCombined.Count.ToString());
+                    
+                }
+
+                selectedItem.ItemData.Title = EditorGUILayout.TextField("Title", selectedItem.ItemData.Title);
+                selectedItem.ItemData.ItemIcon = EditorGUILayout.ObjectField("Icon", selectedItem.ItemData.ItemIcon, typeof(Sprite), false) as Sprite;
+                
+                DrawGridEditor();
+            EditorGUILayout.EndVertical();
+        }
 
         private void DrawAssetSelection()
         {
@@ -93,7 +112,7 @@ namespace ModularEventArchitecture
             EditorGUILayout.HelpBox("Select AvailableItems Asset", MessageType.Info);
             targetAsset = EditorGUILayout.ObjectField("Asset", targetAsset, typeof(AvailableItems), false) as AvailableItems;
             
-            if (GUILayout.Button("Create New Asset"))
+            if (GUILayout.Button("Создать новый ассет"))
             {
                 string path = EditorUtility.SaveFilePanelInProject("Create AvailableItems","AvailableItems","asset","Create a new AvailableItems asset");
                 
@@ -109,7 +128,7 @@ namespace ModularEventArchitecture
         private void DrawItemsList()
         {
             EditorGUILayout.BeginVertical("box", GUILayout.Width(200));
-            EditorGUILayout.LabelField("Available Items", EditorStyles.boldLabel);
+            EditorGUILayout.LabelField("Список итемов:", EditorStyles.boldLabel);
 
             scrollPosition = EditorGUILayout.BeginScrollView(scrollPosition);
             
@@ -123,95 +142,108 @@ namespace ModularEventArchitecture
                 {
                     selectedItem = item;
                 }
+
+                GUI.backgroundColor = Color.white;
                 
                 EditorGUILayout.EndHorizontal();
             }
             
             EditorGUILayout.EndScrollView();
+            if (selectedItem != null)
+            {
+                EditorGUILayout.Space();
+                EditorGUILayout.LabelField("Выбранный итем:", EditorStyles.boldLabel);
+                EditorGUILayout.LabelField($"Название: {selectedItem.ItemData.Title}");
+                EditorGUILayout.LabelField($"Размер: {selectedItem.WIDTH}x{selectedItem.HEIGHT}");
+            }
             EditorGUILayout.EndVertical();
         }
 
         private void DrawSelectedItemEditor()
         {
-            if (selectedItem == null)
-                return;
-            EditorGUILayout.BeginHorizontal();
-            EditorGUILayout.BeginVertical("box", GUILayout.Width(400));
-            
-            // Основные параметры предмета
-            EditorGUILayout.LabelField("Параметры итема", EditorStyles.boldLabel);
-            selectedItem.ItemData.Title = EditorGUILayout.TextField("Title", selectedItem.ItemData.Title);
-            selectedItem.ItemData.ItemIcon = EditorGUILayout.ObjectField("Icon", selectedItem.ItemData.ItemIcon, typeof(Sprite), false) as Sprite;
-            
-            DrawGridEditor();
-            EditorGUILayout.EndVertical();
+            EditorGUILayout.BeginVertical("box"/* , GUILayout.Width(600) */);
 
-                EditorGUILayout.BeginVertical("box"/* , GUILayout.Width(600) */);
+                scrollPosition = EditorGUILayout.BeginScrollView(scrollPosition);
 
-                    scrollPosition = EditorGUILayout.BeginScrollView(scrollPosition);
+                    // Редактор сеток предмета
+                    foreach (var grid in selectedItem.Grids2)
+                    {
+                        // Отрисовка сетки
+                        Rect gridRect = new Rect(grid.Position.x, grid.Position.y, grid.GridSize.x * cellSize, grid.GridSize.y * cellSize);
 
-            // Редактор сеток предмета
-            foreach (var grid in selectedItem.Grids2)
-            {
+                        DrawGrid(gridRect, grid);
+
+                        HandleDragAndDrop(gridRect, grid);
+                    }
                 
-                // Отрисовка сетки
-                Rect gridRect = new Rect(
-                     grid.Position.x,
-                    grid.Position.y,
-                    grid.GridSize.x * cellSize,
-                    grid.GridSize.y * cellSize
-                );
-
-
-                DrawGrid(gridRect, grid);
-                HandleDragAndDrop(gridRect, grid);
-            }
-            
-                    EditorGUILayout.EndScrollView();
-                EditorGUILayout.EndVertical();
-            EditorGUILayout.EndHorizontal();
+                EditorGUILayout.EndScrollView();
+            EditorGUILayout.EndVertical();
         }        
 
+            bool open = false;
         private void DrawGridEditor()
         {
-            EditorGUILayout.Space(10);
-            EditorGUILayout.LabelField("Grid Editor", EditorStyles.boldLabel);
+            // EditorGUILayout.Space(150);
+
+            EditorGUILayout.LabelField("Настройки сетки", EditorStyles.boldLabel);
 
             if (GUILayout.Button("Добавить сетку"))
             {
                 AddNewGrid();
             }
 
+
             // Отображаем все сетки
             for (int i = 0; i < selectedItem.Grids2.Length; i++)
             {
                 EditorGUILayout.BeginVertical("box");
                 
-                EditorGUILayout.BeginHorizontal();
-                EditorGUILayout.LabelField($"Сетка {i}", GUILayout.Width(100));
-                
-                if (GUILayout.Button("Удалить", GUILayout.Width(100)))
-                {
-                    gridIndexToRemove = i;
-                    needToRemoveGrid = true;
-                }
+                    EditorGUILayout.LabelField($"Сетка {i}", GUILayout.Width(100));
 
-                EditorGUILayout.EndHorizontal();
+                    if (GUILayout.Button("Удалить", GUILayout.Width(100)))
+                    {
+                        gridIndexToRemove = i;
+                        needToRemoveGrid = true;
+                    }
 
-                var grid = selectedItem.Grids2[i];
+                    var grid = selectedItem.Grids2[i];
+                    grid.Position = EditorGUILayout.Vector2Field("Позиция сетки", grid.Position);
+                    grid.GridSize = EditorGUILayout.Vector2IntField("Размер сетки", grid.GridSize);
 
-                // Размеры сетки
-                EditorGUILayout.BeginHorizontal();
-                grid.GridSize = EditorGUILayout.Vector2IntField("Grid Size", grid.GridSize);
-                EditorGUILayout.EndHorizontal();
+                    open = EditorGUILayout.BeginFoldoutHeaderGroup(open, "Итемы которые можно расположить на сетку");
+                        if(open)
+                        {
+                            for (int i1 = 0; i1 < selectedItem.Grids2[i].CanBeCombined.Count; i1++)
+                            {
+                                ItemData item = selectedItem.Grids2[i].CanBeCombined[i1];
+                                
+                                EditorGUILayout.BeginHorizontal();
 
-                // Позиция сетки
+                                    selectedItem.Grids2[i].CanBeCombined[i1] = (ItemData)EditorGUILayout.ObjectField("Element " + i1, item, typeof(ItemData), false);
+                                    if (GUILayout.Button("-", GUILayout.Width(20)))
+                                    {
+                                        selectedItem.Grids2[i].CanBeCombined.RemoveAt(i1);
+                                    }
+
+                                EditorGUILayout.EndHorizontal();
+                            }
+
+                            EditorGUILayout.BeginHorizontal();
+                            if (GUILayout.Button("+", GUILayout.Width(20)))
+                            {
+                                selectedItem.Grids2[i].CanBeCombined.Add(new ItemData());
+                            }
+                            if (GUILayout.Button("-", GUILayout.Width(20)))
+                            {
+                                selectedItem.Grids2[i].CanBeCombined.RemoveAt(selectedItem.Grids2[i].CanBeCombined.Count - 1);
+                            }
+                            EditorGUILayout.EndHorizontal();
+                        }
+                        
+                    EditorGUILayout.EndFoldoutHeaderGroup();
 
                 EditorGUILayout.EndVertical();
-                grid.Position = EditorGUILayout.Vector2Field("Position", grid.Position);
-                
             }
-
         }
 
         private void AddNewGrid()
