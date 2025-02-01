@@ -2,12 +2,19 @@ using InventoryDiablo;
 using UnityEditor;
 using UnityEngine;
 using ModularEventArchitecture;
+using System;
 
 namespace ModularEventArchitecture
 {
     [CompatibleUnit(typeof(UnitEntity))]
     public class InventoryModule : ModuleBase
     {
+        [Serializable]
+        public class weapon
+        {
+            public string name;
+            public int damage;
+        }
         public Inventory Inventory;
 
         [Tools.Button("Проверить хватает ли места для предметов")]

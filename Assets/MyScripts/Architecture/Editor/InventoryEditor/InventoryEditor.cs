@@ -9,6 +9,7 @@ using MyProject;
 
 namespace ModularEventArchitecture
 {
+    //Эдитор инвентаря
     public class InventoryEditor : EditorWindow
     {
         // private InventoryModule targetModule;
@@ -32,20 +33,18 @@ namespace ModularEventArchitecture
         private GridData2 draggedGrid;
         private InventorySlot _currentSlot;
         private Vector2 dragOffset;
-        
+        private InventoryModule inventoryModule;
 
-        [MenuItem("Tools/Inventory Editor")]
-        public static void ShowWindow()
-        {
-            GetWindow<InventoryEditor>("Inventory Editor");
-        }
+
+        [MenuItem("Tools/Редактор Инвентарей")]
+        public static void ShowWindow() => GetWindow<InventoryEditor>("Inventory Editor");
 
         private void OnGUI()
         {
             if (targetInventory == null)
             {
                 Debug.Log("Target inventory is null");
-                DrawModuleSelection();
+                DrawModuleSelectionBlock();
                 return;
             }
 
@@ -72,14 +71,21 @@ namespace ModularEventArchitecture
             }
             else
             {
+                test();
                 DrawSlotsInfo();
             }
-            
 
             EditorGUILayout.EndHorizontal();
         }
-        private InventoryModule inventoryModule;
-        private void DrawModuleSelection()
+        public int index = 0;
+        private string[] itemsTitles = new string[]{"1","2","3","4",};
+        public void test()
+        {
+            index = EditorGUILayout.Popup(index, itemsTitles, GUILayout.Width(120f));
+        }
+
+        
+        private void DrawModuleSelectionBlock()
         {
             EditorGUILayout.HelpBox("Выберите инвентарь", MessageType.Info);
             inventoryModule = EditorGUILayout.ObjectField("Module", inventoryModule, typeof(InventoryModule), true) as InventoryModule;
@@ -97,7 +103,7 @@ namespace ModularEventArchitecture
 
         private void DrawItemsList()
         {
-            EditorGUILayout.BeginVertical("box", GUILayout.Width(200));
+            EditorGUILayout.BeginVertical("box", GUILayout.Width(210));
             
             if (availableItems == null)
             {
@@ -119,26 +125,24 @@ namespace ModularEventArchitecture
 
             EditorGUILayout.LabelField("Предметы", EditorStyles.boldLabel);
             
-            itemListScroll = EditorGUILayout.BeginScrollView(itemListScroll);
+            itemListScroll = EditorGUILayout.BeginScrollView(itemListScroll, "Box");
             
-            foreach (var item in availableItems.items)
-            {
-                if (Helper.AreHasFlag(item.ItemData.TypeItem, _currentSlot.TypeItem)) continue;
-                // if (!item.ItemData.TypeItem.HasFlag(_currentSlot.TypeItem)) continue;
-                // if (_currentSlot.TypeItem != item.ItemData.TypeItem) continue;
-
-                GUI.backgroundColor = selectedItem != null && selectedItem.ItemData.Title == item.ItemData.Title ? Color.cyan : Color.white;
-
-                if (GUILayout.Button(item.ItemData.Title))
+                foreach (var item in availableItems.items)
                 {
-                    InventoryItem newItem = new InventoryItem(item);
+                    if (Helper.AreHasFlag(item.ItemData.TypeItem, _currentSlot.TypeItem)) continue;
 
-                    selectedItem = newItem;
+                    GUI.backgroundColor = selectedItem != null && selectedItem.ItemData.Title == item.ItemData.Title ? Color.cyan : Color.white;
+
+                    if (GUILayout.Button(item.ItemData.Title))
+                    {
+                        InventoryItem newItem = new InventoryItem(item);
+
+                        selectedItem = newItem;
+                    }
+
+                    GUI.backgroundColor = Color.white;
                 }
-
-                GUI.backgroundColor = Color.white;
-            }
-            
+                
             EditorGUILayout.EndScrollView();
             
             if (selectedItem != null)
@@ -250,7 +254,7 @@ namespace ModularEventArchitecture
 
         private void DrawInventoryGrid()
         {
-            scrollPosition = EditorGUILayout.BeginScrollView(scrollPosition);
+            scrollPosition = EditorGUILayout.BeginScrollView(scrollPosition, "Box");
     
             // Создаем общий контейнер для всех сеток
             Rect totalRect = GUILayoutUtility.GetRect(
@@ -270,7 +274,6 @@ namespace ModularEventArchitecture
 
         private void DrawGridData(Rect gridRect, GridData2 grid)
         {
-
             DrawGrid(gridRect, grid);
             DrawItems(gridRect, grid);
             HandleDragAndDrop(gridRect, grid);

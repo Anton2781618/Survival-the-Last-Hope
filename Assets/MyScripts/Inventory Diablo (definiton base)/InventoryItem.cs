@@ -98,9 +98,10 @@ namespace InventoryDiablo
                         GridSize = inventoryItem.Grids2[i].GridSize,
                     };
                 }
+
+                Array.Copy(Grids2, inventoryItem.Grids2, inventoryItem.Grids2.Length); 
             }
             
-            Array.Copy(inventoryItem.Grids2, Grids2, inventoryItem.Grids2.Length); 
         }
 
         public void InitGrid()

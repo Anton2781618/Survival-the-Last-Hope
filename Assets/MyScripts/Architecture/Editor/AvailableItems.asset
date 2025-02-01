@@ -20,8 +20,7 @@ MonoBehaviour:
     Grids2:
     - GridSize: {x: 1, y: 2}
       Position: {x: 0, y: 0}
-      CanBeCombined:
-      - {fileID: 11400000, guid: 0156facadb44fc244ac5036fd3335aee, type: 2}
+      CanBeCombined: []
       activeItems: []
     OnItemsChanged:
       m_PersistentCalls:
@@ -65,22 +64,8 @@ MonoBehaviour:
     Grids2:
     - GridSize: {x: 1, y: 2}
       Position: {x: 0, y: 0}
-      CanBeCombined:
-      - {fileID: 11400000, guid: 1940e62c6779fbe4b82ec52dadbc625b, type: 2}
-      activeItems:
-      - <ItemData>k__BackingField: {fileID: 11400000, guid: 1940e62c6779fbe4b82ec52dadbc625b,
-          type: 2}
-        GridName: 1
-        amount: 0
-        Grids2:
-        - GridSize: {x: 2, y: 2}
-          Position: {x: 0, y: 0}
-          CanBeCombined: []
-          activeItems: []
-        OnItemsChanged:
-          m_PersistentCalls:
-            m_Calls: []
-        Rotated: 0
+      CanBeCombined: []
+      activeItems: []
     OnItemsChanged:
       m_PersistentCalls:
         m_Calls: []
@@ -108,12 +93,11 @@ MonoBehaviour:
       CanBeCombined: []
       activeItems: []
     - GridSize: {x: 7, y: 2}
-      Position: {x: 50, y: 163}
-      CanBeCombined:
-      - {fileID: 11400000, guid: ddcc013a94659bc4bb68e1f1fcf133cf, type: 2}
+      Position: {x: 50, y: 263}
+      CanBeCombined: []
       activeItems: []
     - GridSize: {x: 7, y: 3}
-      Position: {x: 50, y: 229}
+      Position: {x: 50, y: 163}
       CanBeCombined: []
       activeItems: []
     OnItemsChanged:

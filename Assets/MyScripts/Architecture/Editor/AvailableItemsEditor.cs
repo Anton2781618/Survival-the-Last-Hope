@@ -20,11 +20,8 @@ namespace ModularEventArchitecture
         private bool needToRemoveGrid = false;
         private int gridIndexToRemove = -1;
 
-        [MenuItem("Tools/Items Editor")]
-        public static void ShowWindow()
-        {
-            GetWindow<AvailableItemsEditor>("Available Items Editor");
-        }
+        [MenuItem("Tools/Редактор предметов")]
+        public static void ShowWindow() => GetWindow<AvailableItemsEditor>("Available Items Editor");
 
         private void OnGUI()
         {
@@ -93,13 +90,8 @@ namespace ModularEventArchitecture
                 // Основные параметры предмета
                 EditorGUILayout.LabelField("Параметры итема", EditorStyles.boldLabel);
 
-                foreach (var item in selectedItem.Grids2)
-                {
-                    if (item.CanBeCombined != null) EditorGUILayout.LabelField("Комбинируется", item.CanBeCombined.Count.ToString());
-                    
-                }
-
                 selectedItem.ItemData.Title = EditorGUILayout.TextField("Title", selectedItem.ItemData.Title);
+
                 selectedItem.ItemData.ItemIcon = EditorGUILayout.ObjectField("Icon", selectedItem.ItemData.ItemIcon, typeof(Sprite), false) as Sprite;
                 
                 DrawGridEditor();
@@ -108,8 +100,8 @@ namespace ModularEventArchitecture
 
         private void DrawAssetSelection()
         {
-            
             EditorGUILayout.HelpBox("Select AvailableItems Asset", MessageType.Info);
+            
             targetAsset = EditorGUILayout.ObjectField("Asset", targetAsset, typeof(AvailableItems), false) as AvailableItems;
             
             if (GUILayout.Button("Создать новый ассет"))
@@ -128,36 +120,36 @@ namespace ModularEventArchitecture
         private void DrawItemsList()
         {
             EditorGUILayout.BeginVertical("box", GUILayout.Width(200));
-            EditorGUILayout.LabelField("Список итемов:", EditorStyles.boldLabel);
+                EditorGUILayout.LabelField("Список итемов:", EditorStyles.boldLabel);
 
-            scrollPosition = EditorGUILayout.BeginScrollView(scrollPosition);
-            
-            for (int i = 0; i < targetAsset.items.Count; i++)
-            {
-                var item = targetAsset.items[i];
-                EditorGUILayout.BeginHorizontal();
+                scrollPosition = EditorGUILayout.BeginScrollView(scrollPosition);
                 
-                GUI.backgroundColor = selectedItem == item ? Color.cyan : Color.white;
-                if (GUILayout.Button(item.ItemData.Title))
-                {
-                    InventoryItem newItem = new InventoryItem(item);
+                    for (int i = 0; i < targetAsset.items.Count; i++)
+                    {
+                        var item = targetAsset.items[i];
+                        
+                        GUI.backgroundColor = selectedItem != null && selectedItem.ItemData.Title == item.ItemData.Title ? Color.cyan : Color.white;
+                        
+                        if (GUILayout.Button(item.ItemData.Title))
+                        {
+                            InventoryItem newItem = new InventoryItem(item);
 
-                    selectedItem = newItem;
+                            selectedItem = newItem;
+                        }
+
+                        GUI.backgroundColor = Color.white;
+                    }
+                
+                EditorGUILayout.EndScrollView();
+
+                if (selectedItem != null)
+                {
+                    EditorGUILayout.Space();
+                    EditorGUILayout.LabelField("Выбранный итем:", EditorStyles.boldLabel);
+                    EditorGUILayout.LabelField($"Название: {selectedItem.ItemData.Title}");
+                    EditorGUILayout.LabelField($"Размер: {selectedItem.WIDTH}x{selectedItem.HEIGHT}");
                 }
 
-                GUI.backgroundColor = Color.white;
-                
-                EditorGUILayout.EndHorizontal();
-            }
-            
-            EditorGUILayout.EndScrollView();
-            if (selectedItem != null)
-            {
-                EditorGUILayout.Space();
-                EditorGUILayout.LabelField("Выбранный итем:", EditorStyles.boldLabel);
-                EditorGUILayout.LabelField($"Название: {selectedItem.ItemData.Title}");
-                EditorGUILayout.LabelField($"Размер: {selectedItem.WIDTH}x{selectedItem.HEIGHT}");
-            }
             EditorGUILayout.EndVertical();
         }
 

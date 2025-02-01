@@ -8,20 +8,16 @@ using System.Linq;
 using UnityEngine;
 using System.Net;
 using ModestTree;
+using System.IO;
 
-//класс для отображения дерева в редакторе 
-//переопределяет методы для создания нод и контекстного меню
-//подключает файл стилей
-//переопределяет метод создания ноды
-//
-public class BehaviorTreeView : GraphView
+public class MainScreenView : GraphView
 {
     //событие выбора ноды
-    public Action<NodeView> OnNodeSelected;
-    public new class UxmlFactory : UxmlFactory<BehaviorTreeView, GraphView.UxmlTraits> { }
+    public Action<WindowNodeView> OnNodeSelected;
+    public new class UxmlFactory : UxmlFactory<MainScreenView, GraphView.UxmlTraits> { }
     public BehavioureTree treeModel;
 
-    public BehaviorTreeView()
+    public MainScreenView()
     {
         // добавить бэкграунд
         Insert(0, new GridBackground());
@@ -39,11 +35,12 @@ public class BehaviorTreeView : GraphView
         this.AddManipulator(new RectangleSelector());
         
         //подключить файл стилей
-        var styleSheet = AssetDatabase.LoadAssetAtPath<StyleSheet>("Assets/Graph/Edtor/BehavioureTreeEdtor.uss");
+        var styleSheet = AssetDatabase.LoadAssetAtPath<StyleSheet>("Assets/MyScripts/Architecture/Editor/ControlPanel/ControlPanelEditor/BehavioureTreeEdtor.uss");
         styleSheets.Add(styleSheet);
 
         Undo.undoRedoPerformed += OnUndoRedo;
     }
+
 
     // метод для проверки отмены действия
     private void OnUndoRedo()
@@ -71,14 +68,6 @@ public class BehaviorTreeView : GraphView
         
         //создать связи между нодами(ребра)
         tree.nodes.ForEach(node => СreateСonnections(tree, node));
-        
-        
-        for (int i = 0; i < tree.groups.Count; i++)
-        {
-            Debug.Log("Группа " + i + " | " + tree.groups[i].title);
-            
-            // tree.groups[i].SetPosition(new Rect(tree.groups[i].contentRect.x + (i * 500), tree.groups[i].contentRect.y , tree.groups[i].contentRect.width, tree.groups[i].contentRect.height ) );
-        }
     }
 
     // метод сохранить дерево
@@ -131,11 +120,6 @@ public class BehaviorTreeView : GraphView
     //получить порт ноды по имени порта 
     private NodeView FindNodeView(Node node) => GetNodeByGuid(node.guid) as NodeView;
 
-    //переопределить метод получения совместимых портов для того чтобы нельзя было соединять ноды с одинаковыми портами типа вход к входу
-    public override List<Port> GetCompatiblePorts(Port startPort, NodeAdapter nodeAdapter)
-    {
-        return ports.ToList().Where(EndPoint => EndPoint.direction != startPort.direction && EndPoint.node != startPort.node).ToList();
-    }
 
     //метод изменения графа для того чтобы удалять ноды из модели дерева
     private GraphViewChange OnGraphViewChanged(GraphViewChange graphViewChange)
@@ -255,7 +239,8 @@ public class BehaviorTreeView : GraphView
     //переопределить метод создания ноды
     public void CreateNodeView(Node node)
     {
-        NodeView nodeView = new NodeView(node);
+        // NodeView nodeView = new NodeView(node);
+        WindowNodeView nodeView = new WindowNodeView(node);
 
         nodeView.OnNodeSelected = OnNodeSelected;
 

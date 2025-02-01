@@ -7,6 +7,7 @@ using static InventoryDiablo.ItemData;
 
 namespace MyProject
 {
+    //класс с вспомогательными методами
     public static class Helper
     {
         [Inject] public static Spawner Spawner;

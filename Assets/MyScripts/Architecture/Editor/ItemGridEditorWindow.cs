@@ -65,9 +65,8 @@ namespace ModularEventArchitecture
             
             foreach (InventoryItem item in availableItems.items)
             {
-                // foreach (var combinedItemDatas in targetItem.ItemData.CanBeCombined)
-                // {
                 GUI.backgroundColor = selectedItem != null && selectedItem.ItemData.Title == item.ItemData.Title ? Color.cyan : Color.white;
+
                 if(_currCombinedItems != null)
                 {
                     foreach (var combineditem in _currCombinedItems)
@@ -94,10 +93,7 @@ namespace ModularEventArchitecture
                     }
 
                 }
-                    // if (_currCombinedItems != null && item.ItemData.CanBeCombined != _currCombinedItems) continue;
-                    // {
-                    // }
-                // }
+
                 GUI.backgroundColor = Color.white;
             }
 

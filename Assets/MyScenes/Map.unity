@@ -1345,7 +1345,7 @@ PrefabInstance:
     - target: {fileID: 890183413791616370, guid: 325c2a72f558d4e419ec4f9ea74e54f5,
         type: 3}
       propertyPath: Modules.Array.size
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 890183413791616370, guid: 325c2a72f558d4e419ec4f9ea74e54f5,
         type: 3}
@@ -1356,7 +1356,7 @@ PrefabInstance:
         type: 3}
       propertyPath: Modules.Array.data[0]
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 448086459}
     - target: {fileID: 890183413791616370, guid: 325c2a72f558d4e419ec4f9ea74e54f5,
         type: 3}
       propertyPath: modules.Array.data[3]
@@ -1404,6 +1404,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 6368747424741964549, guid: 325c2a72f558d4e419ec4f9ea74e54f5, type: 3}
+    - {fileID: 1381678125649777800, guid: 325c2a72f558d4e419ec4f9ea74e54f5, type: 3}
     m_RemovedGameObjects:
     - {fileID: 6614158348858824782, guid: 325c2a72f558d4e419ec4f9ea74e54f5, type: 3}
     m_AddedGameObjects:
@@ -1411,8 +1412,109 @@ PrefabInstance:
         type: 3}
       insertIndex: 3
       addedObject: {fileID: 2774143534874677326}
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 1513220350763136, guid: 325c2a72f558d4e419ec4f9ea74e54f5,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 448086459}
   m_SourcePrefab: {fileID: 100100000, guid: 325c2a72f558d4e419ec4f9ea74e54f5, type: 3}
+--- !u!114 &448086452 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 890183413791616370, guid: 325c2a72f558d4e419ec4f9ea74e54f5,
+    type: 3}
+  m_PrefabInstance: {fileID: 448086451}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 448086453}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d9562f52123287940b7ea90bc3c1d631, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!1 &448086453 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1513220350763136, guid: 325c2a72f558d4e419ec4f9ea74e54f5,
+    type: 3}
+  m_PrefabInstance: {fileID: 448086451}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &448086459
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 448086453}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ae505447b18ad884696a651bddd3ee9a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  <Entity>k__BackingField: {fileID: 448086452}
+  Inventory:
+    money: 500
+    Slots:
+    - Icon: {fileID: -916100036, guid: 7a3318582f10cc74294796c9f8cbab55, type: 3}
+      SlotName: 0
+      TypeItem: 40
+      Grids2:
+        GridSize: {x: 4, y: 5}
+        Position: {x: 0, y: 0}
+        CanBeCombined: []
+        activeItems:
+        - <ItemData>k__BackingField: {fileID: 11400000, guid: f41d2fa2dc48557439ac3e9a418765ae,
+            type: 2}
+          GridName: 1
+          amount: 0
+          Grids2:
+          - GridSize: {x: 10, y: 5}
+            Position: {x: 0, y: 0}
+            CanBeCombined: []
+            activeItems:
+            - <ItemData>k__BackingField: {fileID: 11400000, guid: ddcc013a94659bc4bb68e1f1fcf133cf,
+                type: 2}
+              GridName: 1
+              amount: 0
+              Grids2:
+              - GridSize: {x: 1, y: 2}
+                Position: {x: 0, y: 0}
+                CanBeCombined: []
+                activeItems:
+                - <ItemData>k__BackingField: {fileID: 11400000, guid: 0156facadb44fc244ac5036fd3335aee,
+                    type: 2}
+                  GridName: 1
+                  amount: 0
+                  Grids2:
+                  - GridSize: {x: 1, y: 2}
+                    Position: {x: 0, y: 0}
+                    CanBeCombined: []
+                    activeItems:
+                    - <ItemData>k__BackingField: {fileID: 11400000, guid: 1940e62c6779fbe4b82ec52dadbc625b,
+                        type: 2}
+                      GridName: 1
+                      amount: 0
+                      Grids2:
+                      - GridSize: {x: 2, y: 2}
+                        Position: {x: 0, y: 0}
+                      Rotated: 0
+                  OnItemsChanged:
+                    m_PersistentCalls:
+                      m_Calls: []
+                  Rotated: 0
+              OnItemsChanged:
+                m_PersistentCalls:
+                  m_Calls: []
+              Rotated: 0
+          - GridSize: {x: 7, y: 2}
+            Position: {x: 0, y: 0}
+            CanBeCombined: []
+            activeItems: []
+          - GridSize: {x: 7, y: 3}
+            Position: {x: 0, y: 0}
+            CanBeCombined: []
+            activeItems: []
+          OnItemsChanged:
+            m_PersistentCalls:
+              m_Calls: []
+          Rotated: 0
 --- !u!4 &454871831 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4541507114229605499, guid: cdd8877cd3e02f34c941ab1dc3b421e3,
