@@ -77,7 +77,7 @@ public class BehaviorTreeView : GraphView
         {
             Debug.Log("Группа " + i + " | " + tree.groups[i].title);
             
-            // tree.groups[i].SetPosition(new Rect(tree.groups[i].contentRect.x + (i * 500), tree.groups[i].contentRect.y , tree.groups[i].contentRect.width, tree.groups[i].contentRect.height ) );
+            tree.groups[i].SetPosition(new Rect(tree.groups[i].contentRect.x + (i * 500), tree.groups[i].contentRect.y , tree.groups[i].contentRect.width, tree.groups[i].contentRect.height ) );
         }
     }
 

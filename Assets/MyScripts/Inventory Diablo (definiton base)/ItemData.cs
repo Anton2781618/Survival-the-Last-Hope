@@ -1,5 +1,6 @@
 using System;
 using UnityEngine;
+using ModularEventArchitecture;
 
 namespace InventoryDiablo
 {
@@ -30,8 +31,11 @@ namespace InventoryDiablo
 
         //список типов предметов которые могут быть совмещены с этим предметом
         // public ItemType canBeCombinedWith;
+        [Header("Тип предмета")]
         public ItemType TypeItem;
+        [Tools.Popup] public int ItemGroup = 0;
         public ItemData[] CanBeCombined;
+        
 
         //сетки предмета
         // public GridData[] Grids;

@@ -12,7 +12,7 @@ public class BehavioureTree : ScriptableObject
     public List<Node> nodes = new List<Node>();
     public List<Group> groups = new List<Group>();
 
-    public void SaveTree()
+    public void SaveAssets()
     {
         // Undo.RegisterCreatedObjectUndo(node, "Behavior Tree (CreateNode)");
         
@@ -42,13 +42,10 @@ public class BehavioureTree : ScriptableObject
         AssetDatabase.AddObjectToAsset(node, this);
 
         // Undo.RegisterCreatedObjectUndo(node, "Behavior Tree (CreateNode)");
-        
-        // сохранить изменения
         // AssetDatabase.SaveAssets();
 
         return node;
     }
-    
 
     // удалить ноду из скриптового объекта
     public void DeleteNode(Node node)
@@ -59,7 +56,7 @@ public class BehavioureTree : ScriptableObject
         nodes.Remove(node);
 
         // удалить ноду из корня скриптового объекта
-        // AssetDatabase.RemoveObjectFromAsset(node);
+        AssetDatabase.RemoveObjectFromAsset(node);
 
         Undo.DestroyObjectImmediate(node);
         
@@ -67,6 +64,7 @@ public class BehavioureTree : ScriptableObject
         AssetDatabase.SaveAssets();
     }
 
+    //добавить дочернюю ноду
     public void AddChild(Node parent, Node child)
     {
         Undo.RecordObject(parent, "Behavior Tree (AddChild)");
@@ -75,6 +73,8 @@ public class BehavioureTree : ScriptableObject
 
         child.parents.Add(parent);
     }
+
+    //добавить зависимость между нодами
     public void AddDependencie(Node parent, Node child)
     {
         Undo.RecordObject(parent, "Behavior Tree (AddChild)");

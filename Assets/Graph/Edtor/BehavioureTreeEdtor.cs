@@ -107,9 +107,9 @@ public class BehavioureTreeEdtor : EditorWindow
 
                 node.name = classesArray[i].Name;
 
-                node.nodeName = classesArray[i].FullName.ToString(); 
+                node.NodeName = classesArray[i].FullName.ToString(); 
 
-                node.position = new Vector2(0, i * 120); 
+                node.Position = new Vector2(0, i * 120); 
 
                 nodes.Add(node);
             }
@@ -124,7 +124,7 @@ public class BehavioureTreeEdtor : EditorWindow
                 {
                     for (int ii = 0; ii < nodes.Count; ii++)
                     {
-                        if (field.FieldType.ToString() == nodes[ii].nodeName) 
+                        if (field.FieldType.ToString() == nodes[ii].NodeName) 
                         {
                             treeView.treeModel.AddDependencie(nodes[i], nodes[ii]);
                         }

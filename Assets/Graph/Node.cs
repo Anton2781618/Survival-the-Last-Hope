@@ -6,10 +6,11 @@ using UnityEngine;
 //класс для отображения ноды в скриптовом объекте
 public abstract class Node : ScriptableObject
 {
-    public string nodeName;
+    public string NodeName;
     public Type nodeType;
     public string guid;
-    public Vector2 position;
+    public Vector2 Position;
+    public Color ColorNode = new Color(0.2627451f , 0.2627451f, 0.2627451f);
 
     public Group group;
     public List<Node> parentsDependencies = new List<Node>();

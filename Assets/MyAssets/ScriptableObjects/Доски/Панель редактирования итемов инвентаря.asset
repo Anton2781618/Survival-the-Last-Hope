@@ -1,0 +1,61 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 17c6816d518723843a90881d932f7671, type: 3}
+  m_Name: "\u041F\u0430\u043D\u0435\u043B\u044C \u0440\u0435\u0434\u0430\u043A\u0442\u0438\u0440\u043E\u0432\u0430\u043D\u0438\u044F
+    \u0438\u0442\u0435\u043C\u043E\u0432 \u0438\u043D\u0432\u0435\u043D\u0442\u0430\u0440\u044F"
+  m_EditorClassIdentifier: 
+  rootNode: {fileID: 0}
+  nodes:
+  - {fileID: 5594283918156161566}
+  - {fileID: 6567591974509805148}
+--- !u!114 &5594283918156161566
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c9f34a83ca6d7ca468db7c5866197191, type: 3}
+  m_Name: WnidowNode
+  m_EditorClassIdentifier: 
+  NodeName: 
+  guid: 5848ac524e0d1aa40b371e09153f0b45
+  Position: {x: -425.78085, y: -1240}
+  ColorNode: {r: 0.0034709796, g: 0.19530165, b: 0.24528301, a: 1}
+  parentsDependencies: []
+  childrenDependencies: []
+  parents: []
+  childrens: []
+  data: {fileID: 11400000, guid: 312efaaf9d770874d8adc25b42904de7, type: 2}
+--- !u!114 &6567591974509805148
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c9f34a83ca6d7ca468db7c5866197191, type: 3}
+  m_Name: WnidowNode
+  m_EditorClassIdentifier: 
+  NodeName: 
+  guid: 73caa2be8b5eed14188b209874448ef7
+  Position: {x: 383.1385, y: -980.99994}
+  ColorNode: {r: 0.254717, g: 0.061276253, b: 0.061276253, a: 1}
+  parentsDependencies: []
+  childrenDependencies: []
+  parents: []
+  childrens: []
+  data: {fileID: 11400000, guid: 306fd59f34f7b1b4c948ed4e22653969, type: 2}

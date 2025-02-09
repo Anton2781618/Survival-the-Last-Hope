@@ -19,9 +19,9 @@ public class TreeController : MonoBehaviour
         // запросить текущую сборку без указания типа
         Assembly assembly = Assembly.GetExecutingAssembly();
         
-        tree.rootNode.nodeName = assembly.GetName().ToString(); 
+        tree.rootNode.NodeName = assembly.GetName().ToString(); 
 
-        tree.rootNode.name = tree.rootNode.nodeName;
+        tree.rootNode.name = tree.rootNode.NodeName;
 
         // List<Type> classes = assembly.GetTypes().Where(a => a.Namespace == "MyProject").ToList();
         Type[] classes = assembly.GetTypes();
@@ -35,7 +35,7 @@ public class TreeController : MonoBehaviour
             
             node.name = item.Name.ToString(); 
 
-            node.nodeName = item.FullName.ToString(); 
+            node.NodeName = item.FullName.ToString(); 
             
             node.nodeType = item; 
 
@@ -50,9 +50,9 @@ public class TreeController : MonoBehaviour
             {
                 for (int i1 = 0; i1 < nodes.Count; i1++)
                 {
-                    Debug.Log(property.FieldType.ToString() == nodes[i1].nodeName);
+                    Debug.Log(property.FieldType.ToString() == nodes[i1].NodeName);
 
-                    if (property.FieldType.ToString() == nodes[i1].nodeName)
+                    if (property.FieldType.ToString() == nodes[i1].NodeName)
                     {
                         tree.AddDependencie(nodes[i], nodes[i1]);
                     }
@@ -76,11 +76,11 @@ public class TreeController : MonoBehaviour
             {
                 if(node.parentsDependencies.Count > 0 && node.parentsDependencies.Count < 2)
                 {
-                    node.position = new Vector2(1000, node.parentsDependencies[0].position.y);
+                    node.Position = new Vector2(1000, node.parentsDependencies[0].Position.y);
                 }
                 else
                 {
-                    node.position = new Vector2(1000, i * 50);
+                    node.Position = new Vector2(1000, i * 50);
                 }
             }
             else
@@ -89,17 +89,17 @@ public class TreeController : MonoBehaviour
             {
                 if(node.parentsDependencies.Count > 0 && node.parentsDependencies.Count < 2)
                 {
-                    node.position = new Vector2(500, node.parentsDependencies[0].position.y);
+                    node.Position = new Vector2(500, node.parentsDependencies[0].Position.y);
                 }
                 else
                 {
-                    node.position = new Vector2(500, i * 50);
+                    node.Position = new Vector2(500, i * 50);
                 }
 
             }
             else
             {
-                node.position = new Vector2(0, i * 50);
+                node.Position = new Vector2(0, i * 50);
             }
         }
     }

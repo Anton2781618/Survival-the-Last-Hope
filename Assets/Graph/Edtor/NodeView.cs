@@ -84,26 +84,25 @@ public class NodeView : UnityEditor.Experimental.GraphView.Node
 
     private void StyleNode(Node node)
     {
-        style.left = node.position.x;
+        style.left = node.Position.x;
 
-        style.top = node.position.y;
+        style.top = node.Position.y;
     }
 
     //переопределить метод установки позиции ноды
     public override void SetPosition(Rect newPos)
     {
         base.SetPosition(newPos);
-
+        
         // для отмены действия
         Undo.RecordObject(node, "Behvior Tree (Set Position)");
         
-        node.position = newPos.position;
-        // node.position.x = newPos.xMin;
-
-        // node.position.y = newPos.yMin;
+        node.Position = newPos.position;
         
         // сохранить изменения
         EditorUtility.SetDirty(node);
+
+        Debug.Log("d;asdk");
     }
 
     // выделить ноду
