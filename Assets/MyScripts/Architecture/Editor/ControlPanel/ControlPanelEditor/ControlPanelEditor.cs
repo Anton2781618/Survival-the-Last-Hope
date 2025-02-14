@@ -19,6 +19,7 @@ public class ControlPanelEditor : EditorWindow
 
     public void CreateGUI()
     {
+        Debug.Log("CreateGUI");
         VisualElement root = rootVisualElement;
 
         var visualTree = AssetDatabase.LoadAssetAtPath<VisualTreeAsset>("Assets/MyScripts/Architecture/Editor/ControlPanel/ControlPanelEditor/DesignMainScreen.uxml");
@@ -34,7 +35,6 @@ public class ControlPanelEditor : EditorWindow
         populateBUtton.clicked += populateBUttonClick;
 
         SetupControlPanel();
-
         
         OnSelectionChange();
     }

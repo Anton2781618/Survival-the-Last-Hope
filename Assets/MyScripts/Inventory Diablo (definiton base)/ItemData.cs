@@ -1,44 +1,49 @@
 using System;
 using UnityEngine;
-using ModularEventArchitecture;
 
 namespace InventoryDiablo
 {
 
     [CreateAssetMenu] [Serializable]
-    public class ItemData : ScriptableObject
+    public class ItemData : ScriptableObject, ISerializationCallbackReceiver
     {
+        [Header("Основные настройки")]
         public Sprite ItemIcon;
         public string Title;
         public string Description;
         public ItemOnstreet Prefab;
-
-        //показатель пользы. Например для зелья лечения это сколько хп востановит, а для брони это какая защита
-
+        
+        [Header("Размер итема на сетке")]
         public int Width = 1;
         public int Height = 1;
 
-
-        //этот префаб одежды которая наденется непосредственно на
-        // public GameObject prefabForPutOn;
-
+        [Header("Размер стека предмета")]
+        public int MaxStackSize = 1;
 
         
+        [Header("Прочие")]
         public int Price = 0;
-        public int Benefit = 0;
-        public bool IsSingle = true; 
-        public int MaxAmount = 1;
 
         //список типов предметов которые могут быть совмещены с этим предметом
         // public ItemType canBeCombinedWith;
-        [Header("Тип предмета")]
+        [Header("Предметры типа итема")]
         public ItemType TypeItem;
-        [Tools.Popup] public int ItemGroup = 0;
+        [Tools.Popup] public string ItemGroup = "Default";
         public ItemData[] CanBeCombined;
-        
 
-        //сетки предмета
-        // public GridData[] Grids;
+        //-------------------------------------------------------------------------------------
+        [Header("Блок Настройки сетки" )]
+        public GridData2[] Grids;
+
+        //-------------------------------------------------------------------------------------
+        //настройки сериалиации
+        // Указываем максимальную глубину сериализации
+        private const int MaxDepth = 3;
+        //поле для хранения текущей глубины
+        [NonSerialized] private int currentDepth;
+        
+    //-------------------------------------------------------------------------------------
+
 
         [Flags]
         public enum ItemType
@@ -63,22 +68,28 @@ namespace InventoryDiablo
             
         }
 
-        public int GetItemTypeIndex()
+        //вызывается перед сериализацией
+        public void OnBeforeSerialize()
         {
-            return TypeItem switch
+            if (currentDepth >= MaxDepth)
             {
-                ItemType.Шлем => 0,
-                ItemType.Разгрузка => 1,
-                ItemType.Ремень => 2,
-                ItemType.Рюкзак => 3,
-                ItemType.Сапоги => 4,
-                ItemType.Оружие => 5,
-                ItemType.Щит => 6,
-                ItemType.Кольцо => 7,
-                ItemType.Ожерелье => 8,
-                ItemType.Наплечники => 9,
-                ItemType => throw new ArgumentException("Передан недопустимый аргумент")
-            };
+                CanBeCombined = null;
+                Grids = null;
+            }
+            else
+            {
+                // Увеличиваем текущую глубину
+                currentDepth++;
+            }
+        }
+
+        //вызывается после десериализации
+        public void OnAfterDeserialize()
+        {
+            // Сбрасываем текущую глубину
+            currentDepth = 0;
         }
     }
+
+    
 }

@@ -90,26 +90,26 @@ public class GridData
         {
             if(!CombineSlotIsFree(to, ItemType.Обойма_патронов))
             {
-                to.InventoryItem.ItemData.MaxAmount = to.InventoryItem.CombinedItems[ItemType.Обойма_патронов].ItemData.MaxAmount;
+                to.InventoryItem.ItemData.MaxStackSize = to.InventoryItem.CombinedItems[ItemType.Обойма_патронов].ItemData.MaxStackSize;
                 
-                Debug.Log(to.InventoryItem.CombinedItems[ItemType.Обойма_патронов].ItemData.MaxAmount + " ! " + to.InventoryItem.Amount);
+                Debug.Log(to.InventoryItem.CombinedItems[ItemType.Обойма_патронов].ItemData.MaxStackSize + " ! " + to.InventoryItem.Amount);
                 
                 //если у оружия есть обойма патронов, то надо расчитать сколько патронов можно вставить и сколько останется, в случае если патронов больше чем влезет в обойму
-                if(to.InventoryItem.CombinedItems[ItemType.Обойма_патронов].ItemData.MaxAmount <= to.InventoryItem.Amount)
+                if(to.InventoryItem.CombinedItems[ItemType.Обойма_патронов].ItemData.MaxStackSize <= to.InventoryItem.Amount)
                 {
                     return;
                 }
                 else
-                if(to.InventoryItem.CombinedItems[ItemType.Обойма_патронов].ItemData.MaxAmount < to.InventoryItem.CombinedItems[ItemType.Обойма_патронов].Amount + amount)
+                if(to.InventoryItem.CombinedItems[ItemType.Обойма_патронов].ItemData.MaxStackSize < to.InventoryItem.CombinedItems[ItemType.Обойма_патронов].Amount + amount)
                 {
-                    amount = to.InventoryItem.CombinedItems[ItemType.Обойма_патронов].ItemData.MaxAmount - to.InventoryItem.CombinedItems[ItemType.Обойма_патронов].Amount;          
+                    amount = to.InventoryItem.CombinedItems[ItemType.Обойма_патронов].ItemData.MaxStackSize - to.InventoryItem.CombinedItems[ItemType.Обойма_патронов].Amount;          
                 }
             }
         }
         else
-        if(to.InventoryItem.ItemData.MaxAmount < to.InventoryItem.Amount + amount)
+        if(to.InventoryItem.ItemData.MaxStackSize < to.InventoryItem.Amount + amount)
         {
-            amount = to.InventoryItem.ItemData.MaxAmount - to.InventoryItem.Amount;
+            amount = to.InventoryItem.ItemData.MaxStackSize - to.InventoryItem.Amount;
         }
 
         from.UpdateAmount(-amount);
@@ -209,20 +209,53 @@ public class GridData
 }
 
 [Serializable]
-public class GridData2
+public class GridData2 : ISerializationCallbackReceiver
 {
+    //-------------------------------------------------------------------------------------
     [Header("Размер сетки")]
     public Vector2Int GridSize = new Vector2Int(5, 5);
+    
+    //-------------------------------------------------------------------------------------
+    [Header("Максимальный размер стека")]
+    public int MaxStackSize; // Максимальный размер стека для предметов на этой сетке
 
+    //-------------------------------------------------------------------------------------
     [Header("Позиция сетки")]
     public Vector2 Position;
 
-    [Header("Блок с фильтрами")]
-    public List<ItemData> CanBeCombined = new List<ItemData>();
+    //-------------------------------------------------------------------------------------
+    [Header("Блок совместимости с предметами")]
+    
+    //поле указывает какие методы проверки совместимости необходимо исользовать при расположении итема на сетку
+    public Compatibility CompatibilityGridMod = Compatibility.Access_public; 
+    //в случае если сетка предназначена только для конкретного итема
+    public List<ItemData> specificItemCombined = new List<ItemData>(); 
+
+    //в случае если сетка предназначена для группы итемов
+    public string CompatibleGroup = "default";
+
+    public enum Compatibility
+    {
+        Access_public, //сетка публичная
+        Access_by_item_groups,//дать доступ к сетке только выбранной группе итемов
+        Access_by_specific_item //дать доступ к сетке только конкретному итему
+    }
 
     //-------------------------------------------------------------------------------------
-    
+    [Header("Блок итемов размещенных на сетке")]
     [SerializeField] public List<InventoryItem> activeItems = new List<InventoryItem>();
+
+    //-------------------------------------------------------------------------------------
+        //настройки сериалиации
+        // Указываем максимальную глубину сериализации
+        private const int MaxDepth = 3;
+        //поле для хранения текущей глубины
+        [NonSerialized] private int currentDepth;
+        
+    //-------------------------------------------------------------------------------------
+
+    
+    
     
     public bool TryPlaceItem(InventoryItem item)
     {
@@ -242,7 +275,6 @@ public class GridData2
         }
         return false;
     }
-    
 
     public bool CheckAvailableSpace(int posX, int posY, int width, int height)
     {
@@ -262,8 +294,7 @@ public class GridData2
         return true;
     }
 
-    private bool DoRectsIntersect(int x1, int y1, int w1, int h1,
-                                 int x2, int y2, int w2, int h2)
+    private bool DoRectsIntersect(int x1, int y1, int w1, int h1, int x2, int y2, int w2, int h2)
     {
         return x1 < x2 + w2 && x1 + w1 > x2 &&
                y1 < y2 + h2 && y1 + h1 > y2;
@@ -312,5 +343,26 @@ public class GridData2
         item.OnGridPositionX = x;
         item.OnGridPositionY = y;
         activeItems.Add(item);
+    }
+
+    //вызывается перед сериализацией
+    public void OnBeforeSerialize()
+    {
+        if (currentDepth >= MaxDepth)
+        {
+            // activeItems = null;
+        }
+        else 
+        {
+            // Увеличиваем текущую глубину
+            currentDepth++;
+        }
+    }
+
+    //вызывается после десериализации
+    public void OnAfterDeserialize()
+    {
+        // Сбрасываем текущую глубину
+        currentDepth = 0;
     }
 }

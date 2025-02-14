@@ -71,19 +71,11 @@ namespace ModularEventArchitecture
             }
             else
             {
-                test();
                 DrawSlotsInfo();
             }
 
             EditorGUILayout.EndHorizontal();
         }
-        public int index = 0;
-        private string[] itemsTitles = new string[]{"1","2","3","4",};
-        public void test()
-        {
-            index = EditorGUILayout.Popup(index, itemsTitles, GUILayout.Width(120f));
-        }
-
         
         private void DrawModuleSelectionBlock()
         {
@@ -107,7 +99,7 @@ namespace ModularEventArchitecture
             
             if (availableItems == null)
             {
-                availableItems = AssetDatabase.LoadAssetAtPath<AvailableItems>("Assets/MyScripts/Architecture/Editor/AvailableItems.asset");
+                availableItems = AssetDatabase.LoadAssetAtPath<AvailableItems>("Assets/MyAssets/ScriptableObjects/AvailableItems.asset");
                 if (availableItems == null)
                 {
                     EditorGUILayout.HelpBox("Create AvailableItems asset", MessageType.Warning);
@@ -135,9 +127,7 @@ namespace ModularEventArchitecture
 
                     if (GUILayout.Button(item.ItemData.Title))
                     {
-                        InventoryItem newItem = new InventoryItem(item);
-
-                        selectedItem = newItem;
+                        selectedItem = item.Clone();
                     }
 
                     GUI.backgroundColor = Color.white;
@@ -480,10 +470,11 @@ namespace ModularEventArchitecture
             });
 
             // Добавляем пункт только если предмет имеет сетку и поддерживает комбинирование
-            // if (item.Grids2 != null && item.Grids2.Length > 0 && item.ItemData.CanBeCombined != null && item.ItemData.CanBeCombined.Length > 0)
-            if (item.Grids2 != null && item.Grids2.Length > 0)
+            Debug.Log(item.Grids != null);
+            Debug.Log(item.Grids.Length);
+            if (item.Grids != null && item.Grids.Length > 0)
             {
-                menu.AddItem(new GUIContent("Добавить предмет на сетку"), false, () => {
+                menu.AddItem(new GUIContent("Открыть сетку"), false, () => {
                     OpenItemGridEditor(item);
                 });
             }
@@ -493,7 +484,7 @@ namespace ModularEventArchitecture
 
         private void OpenItemGridEditor(InventoryItem item)
         {
-            ItemGridEditorWindow window = EditorWindow.GetWindow<ItemGridEditorWindow>("Item Grid Editor");
+            ItemGridEditorWindow window = EditorWindow.GetWindow<ItemGridEditorWindow>($"Редактор Предмета {item.ItemData.Title}");
             window.Initialize(item);
             window.Show();
         }

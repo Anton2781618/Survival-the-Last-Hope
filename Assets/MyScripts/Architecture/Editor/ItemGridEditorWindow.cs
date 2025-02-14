@@ -7,6 +7,7 @@ using UnityEngine;
 
 namespace ModularEventArchitecture
 {
+    //настройка на сетке предмета
     public class ItemGridEditorWindow : EditorWindow
     {
         private InventoryItem targetItem;
@@ -57,7 +58,7 @@ namespace ModularEventArchitecture
             EditorGUILayout.LabelField("Предметы", EditorStyles.boldLabel);
             
             // Фильтруем предметы которые можно комбинировать
-            var availableItems = AssetDatabase.LoadAssetAtPath<AvailableItems>("Assets/MyScripts/Architecture/Editor/AvailableItems.asset");
+            var availableItems = AssetDatabase.LoadAssetAtPath<AvailableItems>("Assets/MyAssets/ScriptableObjects/AvailableItems.asset");
             
             // var availableItems = AssetDatabase.FindAssets("t:InventoryItem")
             //     .Select(guid => AssetDatabase.LoadAssetAtPath<InventoryItem>(AssetDatabase.GUIDToAssetPath(guid)))
@@ -74,12 +75,12 @@ namespace ModularEventArchitecture
                         if(item.ItemData == combineditem)
                         {
 
-                            if (GUILayout.Button(item.ItemData.Title))
-                            {
-                                InventoryItem newItem = new InventoryItem(item);
+                            // if (GUILayout.Button(item.ItemData.Title))
+                            // {
+                            //     // InventoryItem newItem = new InventoryItem(item);
 
-                                selectedItem = newItem;
-                            }
+                            //     // selectedItem = newItem;
+                            // }
                         }
                     }
                 }
@@ -87,9 +88,9 @@ namespace ModularEventArchitecture
                 {
                     if (GUILayout.Button(item.ItemData.Title))
                     {
-                        InventoryItem newItem = new InventoryItem(item);
+                        InventoryItem clone = item.Clone();
 
-                        selectedItem = newItem;
+                        selectedItem = clone;
                     }
 
                 }
@@ -114,7 +115,7 @@ namespace ModularEventArchitecture
         {
             scrollPosition = EditorGUILayout.BeginScrollView(scrollPosition);
             
-            foreach (var grid in targetItem.Grids2)
+            foreach (var grid in targetItem.Grids)
             {
                 EditorGUILayout.BeginVertical("box");
                 DrawGridData(grid);
@@ -133,7 +134,7 @@ namespace ModularEventArchitecture
             EditorGUILayout.BeginHorizontal();
             if(GUILayout.Button("Отсеять предметы по типу сетки",GUILayout.Width(220), GUILayout.Height(44))) 
             {
-                _currCombinedItems = grid.CanBeCombined;
+                _currCombinedItems = grid.specificItemCombined;
             }
             EditorGUILayout.EndHorizontal();
 
@@ -168,36 +169,7 @@ namespace ModularEventArchitecture
                     GUI.Box(cellRect, "", EditorStyles.helpBox);
                 }
             }
-        }
-
-        private void DrawItems(Rect gridRect, GridData2 grid)
-        {
-            foreach (var item in grid.activeItems)
-            {
-                // Вычисляем прямоугольник для предмета
-                Rect itemRect = new Rect(
-                    gridRect.x + item.OnGridPositionX * cellSize,
-                    gridRect.y + item.OnGridPositionY * cellSize,
-                    item.WIDTH * cellSize,
-                    item.HEIGHT * cellSize 
-                );
-
-                // Создаем стиль с текстурой
-                GUIStyle itemStyle = new GUIStyle();
-                itemStyle.normal.background = item.ItemData.ItemIcon.texture;
-                itemStyle.stretchWidth = true;
-                itemStyle.stretchHeight = true;
-
-                // Рисуем предмет с текстурой
-                GUI.Box(itemRect, "", itemStyle);
-
-                // Рисуем рамку
-                GUI.Box(itemRect, "", EditorStyles.helpBox);
-
-                // Отображаем название предмета (опционально)
-                // GUI.Label(itemRect, itemPos.Item.ItemData.Title, EditorStyles.centeredGreyMiniLabel);
-            }
-        }
+        }        
 
         private void HandleDragAndDrop(Rect gridRect, GridData2 grid)
         {
@@ -275,8 +247,54 @@ namespace ModularEventArchitecture
                     break;
 
                 case EventType.MouseUp:
-                    if (isDragging && gridRect.Contains(mousePosition))
+                if (isDragging && draggedItem != null)
+                {
+                    if (gridRect.Contains(mousePosition))
                     {
+                        // Проверяем, не отпустили ли мы предмет над другим предметом
+                        InventoryItem targetItem = null;
+                        foreach (var item in grid.activeItems)
+                        {
+                            Rect itemRect = new Rect(
+                                gridRect.x + item.OnGridPositionX * cellSize,
+                                gridRect.y + item.OnGridPositionY * cellSize,
+                                item.WIDTH * cellSize,
+                                item.HEIGHT * cellSize
+                            );
+
+                            if (itemRect.Contains(mousePosition))
+                            {
+                                targetItem = item;
+                                break;
+                            }
+                        }
+
+                        if (targetItem != null && CanCombineItems(targetItem, draggedItem))
+                        {
+                            // Пытаемся добавить предмет в первую подходящую сетку
+                            foreach (var targetGrid in targetItem.Grids)
+                            {
+                                // if (targetGrid.specificItemCombined.Contains(draggedItem.ItemData))
+                                {
+                                    // Проверяем есть ли место в сетке
+                                    if (targetGrid.CheckAvailableSpace(0, 0, draggedItem.WIDTH, draggedItem.HEIGHT))
+                                    {
+                                        targetGrid.PlaceItem(0, 0, draggedItem);
+                                        if (draggedItem == selectedItem)
+                                        {
+                                            selectedItem = null;
+                                        }
+                                        isDragging = false;
+                                        draggedItem = null;
+                                        originalPosition = null;
+                                        dragOffset = Vector2.zero;
+                                        currentEvent.Use();
+                                        return;
+                                    }
+                                }
+                            }
+                        }
+                
                         Vector2 newPos = GetGridPosition(gridRect, mousePosition - dragOffset);
                         if (CanPlaceItem(grid, (int)newPos.x, (int)newPos.y))
                         {
@@ -297,13 +315,53 @@ namespace ModularEventArchitecture
                         dragOffset = Vector2.zero;
                         currentEvent.Use();
                     }
-                    break;
+                }
+                break;
             }
             
             if (isDragging && draggedItem != null)
             {
                 DrawDragPreview(gridRect, grid);
             }
+        }
+
+        // Добавляем метод проверки возможности комбинации
+        private bool CanCombineItems(InventoryItem targetItem, InventoryItem draggedItem)
+        {
+            if (targetItem == null || draggedItem == null) return false;
+            
+            // Проверяем есть ли у целевого предмета сетка
+            if (targetItem.Grids == null || targetItem.Grids.Length == 0) return false;
+            
+            // Проверяем разрешенные типы предметов для комбинации
+            foreach (var grid in targetItem.Grids)
+            {
+                if(grid.CompatibilityGridMod == GridData2.Compatibility.Access_public)
+                {
+                        return true;
+
+                }
+                else
+                if(grid.CompatibilityGridMod == GridData2.Compatibility.Access_by_specific_item)
+                {
+                    if (grid.specificItemCombined.Contains(draggedItem.ItemData))
+                    {
+                        return true;
+                    }
+                }
+                else
+                if(grid.CompatibilityGridMod == GridData2.Compatibility.Access_by_item_groups)
+                {
+                    if(targetItem.ItemData.ItemGroup == grid.CompatibleGroup)
+                    {
+                        return true;
+                    }
+                    
+                }
+
+            }
+            
+            return false;
         }
 
         private Vector2 GetGridPosition(Rect gridRect, Vector2 mousePos)
@@ -358,6 +416,7 @@ namespace ModularEventArchitecture
             menu.AddItem(new GUIContent("Удалить"), false, () => {
                 grid.activeItems.Remove(item);
             });
+
             
             menu.AddItem(new GUIContent("Информация"), false, () => {
                 EditorUtility.DisplayDialog("Информация о предмете", 
@@ -367,14 +426,61 @@ namespace ModularEventArchitecture
                     "OK");
             });
 
-            // Добавляем пункт только если предмет имеет сетку и поддерживает комбинирование
-            if (item.Grids2 != null && item.Grids2.Length > 0 && 
-            item.ItemData.CanBeCombined != null && item.ItemData.CanBeCombined.Length > 0)
+            if (item.ItemData.MaxStackSize > 0)
             {
-                menu.AddItem(new GUIContent("Добавить предмет на сетку"), false, () => {
+                menu.AddItem(new GUIContent("Добавить 5 штук"), false, () => {
+                    // Проверяем максимальное количество, вычеслиь сколько недастает до максимального стека и если оно больше 0, то добавляем 
+                    if(item.Amount < item.ItemData.MaxStackSize)
+                    {
+                        Debug.Log(grid.MaxStackSize);
+                        item.Amount += 5;
+                        if(item.Amount > grid.MaxStackSize)
+                        {
+                            item.Amount = grid.MaxStackSize;
+                        }
+                        else
+                        if(item.Amount > item.ItemData.MaxStackSize)
+                        {
+                            item.Amount = item.ItemData.MaxStackSize;
+                        }
+                    }
+                });
+            }
+
+            if (item.ItemData.MaxStackSize > 0 && item.Amount > 0)
+            {
+                menu.AddItem(new GUIContent("Отнять 5 штук"), false, () => {
+                    item.Amount -= 5;
+                    if(item.Amount < 0)item.Amount = 0;
+                });
+            }
+
+            // Добавляем пункт только если предмет имеет сетку и поддерживает комбинирование
+            if (item.Grids != null && item.Grids.Length > 0)
+            {
+                menu.AddItem(new GUIContent("Открыть сетку"), false, () => 
+                {
                     OpenItemGridEditor(item);
                 });
             }
+            
+            // пройтись по всем сеткам предмета и если есть сетка с предметами, то добавить пункт меню
+            foreach (var itemGrid in item.Grids)
+            {
+                foreach (var activeItem in itemGrid.activeItems)
+                {
+                    menu.AddItem(new GUIContent($"Извлечь {activeItem.ItemData.Title}"), false, () => 
+                    {
+                        itemGrid.activeItems.Remove(activeItem);
+                        // Добавляем activeItem в целевую сетку или в выбранные предметы
+                        grid.activeItems.Add(activeItem); // Пример добавления в первую сетку
+                    });
+                    
+                }
+            }
+
+            
+
 
             menu.ShowAsContext();
         }
@@ -384,6 +490,80 @@ namespace ModularEventArchitecture
             ItemGridEditorWindow window = EditorWindow.GetWindow<ItemGridEditorWindow>("Item Grid Editor");
             window.Initialize(item);
             window.Show();
+        }
+
+        //----------------------------------
+        // Изменяем метод DrawItems
+        private void DrawItems(Rect gridRect, GridData2 grid)
+        {
+            foreach (var item in grid.activeItems)
+            {
+                // Вычисляем прямоугольник для предмета
+                Rect itemRect = new Rect(
+                    gridRect.x + item.OnGridPositionX * cellSize,
+                    gridRect.y + item.OnGridPositionY * cellSize,
+                    item.WIDTH * cellSize,
+                    item.HEIGHT * cellSize 
+                );
+
+                // Создаем стиль с текстурой
+                GUIStyle itemStyle = new GUIStyle();
+                itemStyle.normal.background = item.ItemData.ItemIcon.texture;
+                itemStyle.stretchWidth = true;
+                itemStyle.stretchHeight = true;
+
+                // Рисуем предмет с текстурой
+                GUI.Box(itemRect, "", itemStyle);
+
+                // Рисуем рамку
+                GUI.Box(itemRect, "", EditorStyles.helpBox);
+
+                // Проверяем и отображаем количество
+                int amount = FindDeepAmount(item);
+                if (amount > 0)
+                {
+                    // Создаем прямоугольник для текста в правом нижнем углу
+                    Rect amountRect = new Rect(
+                        itemRect.x + itemRect.width - 20,
+                        itemRect.y + itemRect.height - 15,
+                        20,
+                        15
+                    );
+
+                    // Настраиваем стиль для текста
+                    GUIStyle amountStyle = new GUIStyle(EditorStyles.boldLabel);
+                    amountStyle.normal.textColor = Color.white;
+                    amountStyle.alignment = TextAnchor.LowerRight;
+
+                    // Рисуем фон для текста
+                    EditorGUI.DrawRect(amountRect, new Color(0, 0, 0, 0.5f));
+                    
+                    // Отображаем количество
+                    EditorGUI.LabelField(amountRect, amount.ToString(), amountStyle);
+                }
+            }
+        }
+
+        // Добавляем метод поиска вложенных предметов с amount
+        private int FindDeepAmount(InventoryItem item)
+        {
+            if (item == null || item.Grids == null) return 0;
+            
+            int totalAmount = item.Amount;
+            
+            foreach (var grid in item.Grids)
+            {
+                foreach (var activeItem in grid.activeItems)
+                {
+                    int deepAmount = FindDeepAmount(activeItem);
+                    if (deepAmount > 0)
+                    {
+                        return deepAmount; // Возвращаем первое найденное количество
+                    }
+                }
+            }
+            
+            return totalAmount;
         }
     }
 }

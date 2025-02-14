@@ -201,7 +201,7 @@ namespace InventoryDiablo
             
             int selectedItemID = UnityEngine.Random.Range(0, items.Count);
 
-            UIselectedItem.Setup(items[selectedItemID], null, items[selectedItemID].ItemData.MaxAmount);
+            UIselectedItem.Setup(items[selectedItemID], null, items[selectedItemID].ItemData.MaxStackSize);
 
             buferGrid = itemGrid;
         }

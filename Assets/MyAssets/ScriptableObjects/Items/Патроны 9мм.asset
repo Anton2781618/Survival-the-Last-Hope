@@ -12,17 +12,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 899338d7b8ba7504faaf588374590522, type: 3}
   m_Name: "\u041F\u0430\u0442\u0440\u043E\u043D\u044B 9\u043C\u043C"
   m_EditorClassIdentifier: 
-  ItemIcon: {fileID: 0}
+  ItemIcon: {fileID: 21300000, guid: 50e1099ee44b67c4584778201f9a69fa, type: 3}
   Title: "\u041F\u0430\u0442\u0440\u043E\u043D\u044B 9\u043C\u043C"
   Description: 
   Prefab: {fileID: 688769618811775190, guid: 21e1fb2b21fb18147b9b2e0521bf6b7b, type: 3}
-  Width: 1
+  Width: 2
   Height: 2
+  MaxStackSize: 100
   Price: 0
-  Benefit: 0
-  IsSingle: 0
-  MaxAmount: 1000
   TypeItem: 32768
+  ItemGroup: "\u041E\u0440\u0443\u0436\u0438\u0435/\u041F\u0430\u0442\u0440\u043E\u043D\u044B/\u041F\u0430\u0442\u0440\u043E\u043D\u044B
+    9\u043C\u043C"
   CanBeCombined: []
-  HierarchyItemTypesBuilder: {fileID: 11400000, guid: 312efaaf9d770874d8adc25b42904de7,
-    type: 2}

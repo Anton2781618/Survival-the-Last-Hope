@@ -3,9 +3,11 @@ using UnityEngine;
 using InventoryDiablo;
 using System;
 using System.Linq;
+using static GridData2;
 
 namespace ModularEventArchitecture
 {
+    // Редактор настрока итемов
     public class AvailableItemsEditor : EditorWindow
     {
         
@@ -152,9 +154,7 @@ namespace ModularEventArchitecture
                         
                         if (GUILayout.Button(item.ItemData.Title))
                         {
-                            InventoryItem newItem = new InventoryItem(item);
-
-                            selectedItem = newItem;
+                            selectedItem = item;
                         }
 
                         GUI.backgroundColor = Color.white;
@@ -180,7 +180,7 @@ namespace ModularEventArchitecture
                 scrollPosition = EditorGUILayout.BeginScrollView(scrollPosition);
 
                     // Редактор сеток предмета
-                    foreach (var grid in selectedItem.Grids2)
+                    foreach (var grid in selectedItem.Grids)
                     {
                         // Отрисовка сетки
                         Rect gridRect = new Rect(grid.Position.x, grid.Position.y, grid.GridSize.x * cellSize, grid.GridSize.y * cellSize);
@@ -208,7 +208,7 @@ namespace ModularEventArchitecture
 
 
             // Отображаем все сетки
-            for (int i = 0; i < selectedItem.Grids2.Length; i++)
+            for (int i = 0; i < selectedItem.Grids.Length; i++)
             {
                 EditorGUILayout.BeginVertical("box");
                 
@@ -220,43 +220,53 @@ namespace ModularEventArchitecture
                         needToRemoveGrid = true;
                     }
 
-                    var grid = selectedItem.Grids2[i];
+                    var grid = selectedItem.Grids[i];
                     grid.Position = EditorGUILayout.Vector2Field("Позиция сетки", grid.Position);
                     grid.GridSize = EditorGUILayout.Vector2IntField("Размер сетки", grid.GridSize);
 
-                    ItemsIndexTypes = EditorGUILayout.Popup(ItemsIndexTypes, Asset.HierarchyItemsTypes.ToArray());
+                    selectedItem.Grids[i].CompatibilityGridMod = (Compatibility)EditorGUILayout.EnumPopup("Тип совместимости", selectedItem.Grids[i].CompatibilityGridMod);
 
-                    open = EditorGUILayout.BeginFoldoutHeaderGroup(open, "Итемы которые можно расположить на сетку");
-                        if(open)
-                        {
-                            for (int i1 = 0; i1 < selectedItem.Grids2[i].CanBeCombined.Count; i1++)
+                    if(selectedItem.Grids[i].CompatibilityGridMod == Compatibility.Access_by_item_groups)
+                    {
+                        ItemsIndexTypes = EditorGUILayout.Popup("Совместима с группой", ItemsIndexTypes, Asset.HierarchyItemsTypes.ToArray());
+                        selectedItem.Grids[i].CompatibleGroup = Asset.HierarchyItemsTypes[ItemsIndexTypes];
+                    }
+                    else
+                    if(selectedItem.Grids[i].CompatibilityGridMod == Compatibility.Access_by_specific_item)
+                    {
+                        open = EditorGUILayout.BeginFoldoutHeaderGroup(open, "Итемы которые можно расположить на сетку");
+                            if(open)
                             {
-                                ItemData item = selectedItem.Grids2[i].CanBeCombined[i1];
-                                
+                                for (int i1 = 0; i1 < selectedItem.Grids[i].specificItemCombined.Count; i1++)
+                                {
+                                    ItemData item = selectedItem.Grids[i].specificItemCombined[i1];
+                                    
+                                    EditorGUILayout.BeginHorizontal();
+
+                                        selectedItem.Grids[i].specificItemCombined[i1] = (ItemData)EditorGUILayout.ObjectField("Element " + i1, item, typeof(ItemData), false);
+                                        if (GUILayout.Button("-", GUILayout.Width(20)))
+                                        {
+                                            selectedItem.Grids[i].specificItemCombined.RemoveAt(i1);
+                                        }
+
+                                    EditorGUILayout.EndHorizontal();
+                                }
+
                                 EditorGUILayout.BeginHorizontal();
-
-                                    selectedItem.Grids2[i].CanBeCombined[i1] = (ItemData)EditorGUILayout.ObjectField("Element " + i1, item, typeof(ItemData), false);
-                                    if (GUILayout.Button("-", GUILayout.Width(20)))
-                                    {
-                                        selectedItem.Grids2[i].CanBeCombined.RemoveAt(i1);
-                                    }
-
+                                if (GUILayout.Button("+", GUILayout.Width(20)))
+                                {
+                                    selectedItem.Grids[i].specificItemCombined.Add(new ItemData());
+                                }
+                                if (GUILayout.Button("-", GUILayout.Width(20)))
+                                {
+                                    selectedItem.Grids[i].specificItemCombined.RemoveAt(selectedItem.Grids[i].specificItemCombined.Count - 1);
+                                }
                                 EditorGUILayout.EndHorizontal();
                             }
 
-                            EditorGUILayout.BeginHorizontal();
-                            if (GUILayout.Button("+", GUILayout.Width(20)))
-                            {
-                                selectedItem.Grids2[i].CanBeCombined.Add(new ItemData());
-                            }
-                            if (GUILayout.Button("-", GUILayout.Width(20)))
-                            {
-                                selectedItem.Grids2[i].CanBeCombined.RemoveAt(selectedItem.Grids2[i].CanBeCombined.Count - 1);
-                            }
-                            EditorGUILayout.EndHorizontal();
-                        }
+                        EditorGUILayout.EndFoldoutHeaderGroup();
+                    }
                         
-                    EditorGUILayout.EndFoldoutHeaderGroup();
 
                 EditorGUILayout.EndVertical();
             }
@@ -267,17 +277,17 @@ namespace ModularEventArchitecture
             GridData2 newGrid = new GridData2
             {
                 GridSize = new Vector2Int(5, 5),
-                Position = new Vector2(0, selectedItem.Grids2.Length * 200)
+                Position = new Vector2(0, selectedItem.Grids.Length * 200)
             };
-            Array.Resize(ref selectedItem.Grids2, selectedItem.Grids2.Length + 1);
-            selectedItem.Grids2[selectedItem.Grids2.Length - 1] = newGrid;
+            Array.Resize(ref selectedItem.Grids, selectedItem.Grids.Length + 1);
+            selectedItem.Grids[selectedItem.Grids.Length - 1] = newGrid;
         }
 
         private void RemoveGrid(int index)
         {
-            var tempList = selectedItem.Grids2.ToList();
+            var tempList = selectedItem.Grids.ToList();
             tempList.RemoveAt(index);
-            selectedItem.Grids2 = tempList.ToArray();
+            selectedItem.Grids = tempList.ToArray();
         }
 
         private void DrawGrid(Rect gridRect, GridData2 grid)

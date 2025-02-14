@@ -1,5 +1,7 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
+using Newtonsoft.Json;
 using UnityEngine;
 using UnityEngine.Events;
 using static InventoryDiablo.ItemData;
@@ -11,16 +13,40 @@ namespace InventoryDiablo
     public class InventoryItem
     {    
         [field: SerializeField] public ItemData ItemData { get; private set; }       
-        public GridData.GridInfo GridName = GridData.GridInfo.BackpackGrid;
+        
+        //-------------------------------------------------------------------------------------
+        [Header("Блок Настройки сетки" )]
+        public GridData2[] Grids;
+
+        //-------------------------------------------------------------------------------------
+        [Header("Блок Настройки количества в стеке" )]
         [SerializeField] private int amount = 0;
-        [field: NonSerialized] public GridData[] Grids {get; set;} 
-        public GridData2[] Grids2;
+
+        //-------------------------------------------------------------------------------------
+        //! легаси
+        [Header("легаси")]
+        public GridData.GridInfo GridName = GridData.GridInfo.BackpackGrid;
         public Dictionary<ItemType, InventoryItem> CombinedItems;
-        public UnityEvent OnItemsChanged; /* {get; set;} */
+
+        //-------------------------------------------------------------------------------------
+        [NonSerialized] public UnityEvent OnItemsChanged; // {get; set;}
         public int OnGridPositionX {get; set;}  
         public int OnGridPositionY {get; set;} 
-        private Dictionary<ItemType,MyDelegate> delegatesDict;
+        private Dictionary<ItemType,MyDelegate> delegatesDict; 
+
+        //-------------------------------------------------------------------------------------
+        [Header("Блок настроек повороте итема")]
         public bool Rotated = false;
+
+        //-------------------------------------------------------------------------------------
+        //настройки сериалиации
+        // Указываем максимальную глубину сериализации
+        private const int MaxDepth = 3;
+        //поле для хранения текущей глубины
+        [NonSerialized] private int currentDepth;
+        
+        //-------------------------------------------------------------------------------------
+
 
         public int HEIGHT
         {
@@ -46,6 +72,7 @@ namespace InventoryDiablo
             }
         }
 
+        //-------------------------------------------------------------------------------------
         public delegate void MyDelegate();
             //свойство для доступа к количеству предметов при обращении обновляет текст
         public int Amount 
@@ -87,21 +114,50 @@ namespace InventoryDiablo
             
             Amount = inventoryItem.Amount;
             
-            if(inventoryItem.Grids2 != null)
+            if(inventoryItem.Grids != null)
             {
-                Grids2 = new GridData2[inventoryItem.Grids2.Length];
+                Grids = new GridData2[inventoryItem.Grids.Length];
 
-                for (int i = 0; i < inventoryItem.Grids2.Length; i++)
+                for (int i = 0; i < inventoryItem.Grids.Length; i++)
                 {
-                    Grids2[i] = new GridData2
+                    Grids[i] = new GridData2
                     {
-                        GridSize = inventoryItem.Grids2[i].GridSize,
+                        GridSize = inventoryItem.Grids[i].GridSize,
                     };
                 }
 
-                Array.Copy(Grids2, inventoryItem.Grids2, inventoryItem.Grids2.Length); 
+                Array.Copy(Grids, inventoryItem.Grids, inventoryItem.Grids.Length); 
             }
             
+        }
+
+        public InventoryItem Clone()
+        {
+            var clone = new InventoryItem();
+            
+            clone.ItemData = this.ItemData;
+            clone.OnItemsChanged = new UnityEvent();
+            if (this.CombinedItems != null) clone.CombinedItems = new Dictionary<ItemType, InventoryItem>(this.CombinedItems);
+            clone.Amount = this.Amount;
+            clone.Rotated = this.Rotated;
+            clone.OnGridPositionX = this.OnGridPositionX;
+            clone.OnGridPositionY = this.OnGridPositionY;
+            
+            if (this.Grids != null)
+            {
+                clone.Grids = new GridData2[this.Grids.Length];
+                for (int i = 0; i < this.Grids.Length; i++)
+                {
+                    clone.Grids[i] = new GridData2
+                    {
+                        GridSize = this.Grids[i].GridSize,
+                        activeItems = new List<InventoryItem>(this.Grids[i].activeItems.Select(item => item.Clone())),
+                        MaxStackSize = this.Grids[i].MaxStackSize
+                    };
+                }
+            }
+            
+            return clone;
         }
 
         public void InitGrid()
@@ -109,11 +165,6 @@ namespace InventoryDiablo
             // Grids = new GridData[ItemData.Grids.Length];
 
             // Array.Copy(ItemData.Grids, Grids, ItemData.Grids.Length);
-
-            foreach (var grid in Grids)
-            {
-                grid.Init();
-            }
         } 
 
         private void Start() => InitDict();

@@ -17,29 +17,6 @@ namespace ModularEventArchitecture
         }
         public Inventory Inventory;
 
-        [Tools.Button("Проверить хватает ли места для предметов")]
-        private void TryPlaceItems()
-        {
-            foreach (var item in Inventory.Slots)
-            {
-                // item.TryPlaceItems();
-                // foreach (var grid in item.Grids2)
-                // {
-                //     if(grid.ValidateItemsPosition())
-                //     {
-                //         Debug.Log("Места хватает");
-                //     }
-                //     else
-                //     {
-                //         Debug.Log("Места не хватает");
-                //     }
-                    
-                // }
-                
-            }
-        }
-
-       
         public override void Initialize()
         {
             Entity.LocalEvents.Subscribe<EventBase>(EventsInventory.AddItem, OnAddItem);

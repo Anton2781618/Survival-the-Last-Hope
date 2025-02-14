@@ -194,26 +194,26 @@ namespace InventoryDiablo
             {
                 if(!CombineSlotIsFree(to, ItemType.Обойма_патронов))
                 {
-                    to.InventoryItem.ItemData.MaxAmount = to.InventoryItem.CombinedItems[ItemType.Обойма_патронов].ItemData.MaxAmount;
+                    to.InventoryItem.ItemData.MaxStackSize = to.InventoryItem.CombinedItems[ItemType.Обойма_патронов].ItemData.MaxStackSize;
                     
-                    Debug.Log(to.InventoryItem.CombinedItems[ItemType.Обойма_патронов].ItemData.MaxAmount + " ! " + to.InventoryItem.Amount);
+                    Debug.Log(to.InventoryItem.CombinedItems[ItemType.Обойма_патронов].ItemData.MaxStackSize + " ! " + to.InventoryItem.Amount);
                     
                     //если у оружия есть обойма патронов, то надо расчитать сколько патронов можно вставить и сколько останется, в случае если патронов больше чем влезет в обойму
-                    if(to.InventoryItem.CombinedItems[ItemType.Обойма_патронов].ItemData.MaxAmount <= to.InventoryItem.Amount)
+                    if(to.InventoryItem.CombinedItems[ItemType.Обойма_патронов].ItemData.MaxStackSize <= to.InventoryItem.Amount)
                     {
                         return;
                     }
                     else
-                    if(to.InventoryItem.CombinedItems[ItemType.Обойма_патронов].ItemData.MaxAmount < to.InventoryItem.CombinedItems[ItemType.Обойма_патронов].Amount + amount)
+                    if(to.InventoryItem.CombinedItems[ItemType.Обойма_патронов].ItemData.MaxStackSize < to.InventoryItem.CombinedItems[ItemType.Обойма_патронов].Amount + amount)
                     {
-                        amount = to.InventoryItem.CombinedItems[ItemType.Обойма_патронов].ItemData.MaxAmount - to.InventoryItem.CombinedItems[ItemType.Обойма_патронов].Amount;          
+                        amount = to.InventoryItem.CombinedItems[ItemType.Обойма_патронов].ItemData.MaxStackSize - to.InventoryItem.CombinedItems[ItemType.Обойма_патронов].Amount;          
                     }
                 }
             }
             else
-            if(to.InventoryItem.ItemData.MaxAmount < to.InventoryItem.Amount + amount)
+            if(to.InventoryItem.ItemData.MaxStackSize < to.InventoryItem.Amount + amount)
             {
-                amount = to.InventoryItem.ItemData.MaxAmount - to.InventoryItem.Amount;
+                amount = to.InventoryItem.ItemData.MaxStackSize - to.InventoryItem.Amount;
             }
 
             from.UpdateAmount(-amount);

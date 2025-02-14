@@ -10,13 +10,10 @@ using UnityEditor.UIElements;
 public class ControlPanelView : VisualElement
 {
     public new class UxmlFactory : UxmlFactory<ControlPanelView, VisualElement.UxmlTraits> { }
-    private Editor _editor;
     private BehavioureTree _targetAsset;
     private ScrollView _scrollView;
-    private Vector2 _scrollPosition;
     private Button _selectedButton;
 
-    VisualElement containerBtn;
     private ControlPanelEditor _controlPanelEditor;
 
     public ControlPanelView()
@@ -96,7 +93,6 @@ public class ControlPanelView : VisualElement
 
     private void DrawItemsList(VisualElement container)
     {
-        Debug.Log("DrawItemsList");
         
         // EditorGUILayout.LabelField("Список досок:", EditorStyles.boldLabel);
 

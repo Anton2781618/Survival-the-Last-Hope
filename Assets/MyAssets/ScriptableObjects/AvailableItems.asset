@@ -15,92 +15,63 @@ MonoBehaviour:
   items:
   - <ItemData>k__BackingField: {fileID: 11400000, guid: ddcc013a94659bc4bb68e1f1fcf133cf,
       type: 2}
-    GridName: 0
+    Grids: []
     amount: 0
-    Grids2:
-    - GridSize: {x: 1, y: 2}
-      Position: {x: 0, y: 0}
-      CanBeCombined: []
-      activeItems: []
-    OnItemsChanged:
-      m_PersistentCalls:
-        m_Calls: []
+    GridName: 0
     Rotated: 0
   - <ItemData>k__BackingField: {fileID: 11400000, guid: 306fd59f34f7b1b4c948ed4e22653969,
       type: 2}
-    GridName: 0
+    Grids: []
     amount: 0
-    Grids2: []
-    OnItemsChanged:
-      m_PersistentCalls:
-        m_Calls: []
+    GridName: 0
     Rotated: 0
   - <ItemData>k__BackingField: {fileID: 11400000, guid: ac88002b590d69347a03057e4563e671,
       type: 2}
-    GridName: 0
+    Grids: []
     amount: 0
-    Grids2:
-    - GridSize: {x: 5, y: 5}
-      Position: {x: 0, y: 0}
-      CanBeCombined: []
-      activeItems: []
-    OnItemsChanged:
-      m_PersistentCalls:
-        m_Calls: []
+    GridName: 0
     Rotated: 0
   - <ItemData>k__BackingField: {fileID: 11400000, guid: 65defc33165764a4687df65bc6be9884,
       type: 2}
-    GridName: 0
+    Grids: []
     amount: 0
-    Grids2: []
-    OnItemsChanged:
-      m_PersistentCalls:
-        m_Calls: []
+    GridName: 0
     Rotated: 0
   - <ItemData>k__BackingField: {fileID: 11400000, guid: 0156facadb44fc244ac5036fd3335aee,
       type: 2}
-    GridName: 0
+    Grids: []
     amount: 0
-    Grids2:
-    - GridSize: {x: 1, y: 2}
-      Position: {x: 0, y: 0}
-      CanBeCombined: []
-      activeItems: []
-    OnItemsChanged:
-      m_PersistentCalls:
-        m_Calls: []
+    GridName: 0
     Rotated: 0
   - <ItemData>k__BackingField: {fileID: 11400000, guid: 1940e62c6779fbe4b82ec52dadbc625b,
       type: 2}
-    GridName: 0
+    Grids: []
     amount: 0
-    Grids2:
-    - GridSize: {x: 2, y: 2}
-      Position: {x: 0, y: 0}
-      CanBeCombined: []
-      activeItems: []
-    OnItemsChanged:
-      m_PersistentCalls:
-        m_Calls: []
+    GridName: 0
     Rotated: 0
   - <ItemData>k__BackingField: {fileID: 11400000, guid: f41d2fa2dc48557439ac3e9a418765ae,
       type: 2}
-    GridName: 0
+    Grids:
+    - GridSize: {x: 7, y: 5}
+      MaxStackSize: 100
+      Position: {x: 0, y: 17}
+      CompatibilityGridMod: 0
+      specificItemCombined: []
+      CompatibleGroup: default
+      activeItems: []
+    - GridSize: {x: 5, y: 5}
+      MaxStackSize: 100
+      Position: {x: 32, y: 181}
+      CompatibilityGridMod: 0
+      specificItemCombined: []
+      CompatibleGroup: default
+      activeItems: []
     amount: 0
-    Grids2:
-    - GridSize: {x: 10, y: 5}
-      Position: {x: 0, y: 0}
-      CanBeCombined: []
-      activeItems: []
-    - GridSize: {x: 7, y: 2}
-      Position: {x: 50, y: 263}
-      CanBeCombined: []
-      activeItems: []
-    - GridSize: {x: 7, y: 3}
-      Position: {x: 50, y: 163}
-      CanBeCombined: []
-      activeItems: []
-    OnItemsChanged:
-      m_PersistentCalls:
-        m_Calls: []
+    GridName: 0
+    Rotated: 0
+  - <ItemData>k__BackingField: {fileID: 11400000, guid: a8a975c236b17fe4f8642b000fb5b534,
+      type: 2}
+    Grids: []
+    amount: 0
+    GridName: 0
     Rotated: 0

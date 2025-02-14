@@ -13,6 +13,7 @@ public class TreeController : MonoBehaviour
 {
     public BehavioureTree tree;
 
+    
     [ContextMenu("Refletion")]
     private void Refletion()
     {

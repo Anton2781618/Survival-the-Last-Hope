@@ -7,7 +7,6 @@ namespace Tools
     [CustomPropertyDrawer(typeof(PopupAttribute))]
     public class PopupDrawer : PropertyDrawer
     {
-        int selectedIndex = 0;
         private HierarchyItemTypesBuilder _asset;
         private HierarchyItemTypesBuilder Asset
         {
@@ -28,11 +27,29 @@ namespace Tools
 
         public override void OnGUI(Rect position, SerializedProperty property, GUIContent label)
         {
+            EditorGUI.BeginProperty(position, label, property);
+
             // Получаем атрибут
             PopupAttribute popupAttribute = attribute as PopupAttribute;
             
-            // Отрисовываем popup с полученными опциями
-            selectedIndex = EditorGUI.Popup(position, label.text, selectedIndex, Asset.HierarchyItemsTypes.ToArray());
+            if (Asset != null && Asset.HierarchyItemsTypes != null)
+            {
+                // Получаем текущий индекс из property
+                int currentIndex =  Asset.HierarchyItemsTypes.IndexOf(property.stringValue);
+                if (currentIndex == -1) currentIndex = 0;
+                
+                // Отрисовываем popup и получаем новый индекс
+                int newIndex = EditorGUI.Popup(position, label.text, currentIndex, Asset.HierarchyItemsTypes.ToArray());
+                
+                // Если индекс изменился, обновляем значение в property
+                if (newIndex != currentIndex)
+                {
+                    property.stringValue = Asset.HierarchyItemsTypes[newIndex];
+                    property.serializedObject.ApplyModifiedProperties();
+                }
+            }
+            
+            EditorGUI.EndProperty();
         }
     }
 }

@@ -18,6 +18,9 @@ scopes = {
 	"last_search.45F317DD" = "st:1 "
 	"OpenInspectorPreview.45F317DD" = "0"
 	"currentGroup.45F317DD" = "all"
+	"last_search.E8DA1663" = "PackageManagerProjectSettings"
+	"OpenInspectorPreview.E8DA1663" = "0"
+	"currentGroup.E8DA1663" = "all"
 }
 providers = {
 	adb = {
@@ -79,6 +82,7 @@ providers = {
 objectSelectors = {
 }
 recentSearches = [
+	"PackageManagerProjectSettings"
 	"st: "
 	"st: dynamic"
 	""

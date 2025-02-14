@@ -9,7 +9,6 @@ namespace ModularEventArchitecture
     [CreateAssetMenu(fileName = "HierarchyIitemTypesBuilder", menuName = "HierarchyIitemTypesBuilder", order = 0)]
     public class HierarchyItemTypesBuilder : ScriptableObject 
     {
-        // [Tools.Popup]
         public List<string> HierarchyItemsTypes;
         public HierarchyItem[] hierarchyItems; 
 

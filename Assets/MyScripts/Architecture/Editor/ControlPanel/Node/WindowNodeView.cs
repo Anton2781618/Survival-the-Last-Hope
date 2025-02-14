@@ -33,7 +33,6 @@ public class WindowNodeView : UnityEditor.Experimental.GraphView.Node
 
     public WindowNodeView(Node node, MainScreenView mainScreenView) : base(Path.Combine(GetScriptPath(), "WindowNodeView.uxml"))
     {
-        Debug.Log("WindowNodeView");
         wnidowNode = node as WnidowNode;
         this.node = node;
         this.title = node.name;

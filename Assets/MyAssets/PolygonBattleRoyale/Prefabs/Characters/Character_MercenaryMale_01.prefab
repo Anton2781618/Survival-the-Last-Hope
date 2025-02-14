@@ -1656,7 +1656,6 @@ GameObject:
   - component: {fileID: 95880590792931522}
   - component: {fileID: 7410907725967975510}
   - component: {fileID: 890183413791616370}
-  - component: {fileID: 1381678125649777800}
   - component: {fileID: 9221943971289168380}
   - component: {fileID: 667330858374900806}
   m_Layer: 0
@@ -1773,23 +1772,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d9562f52123287940b7ea90bc3c1d631, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  modules:
-  - {fileID: 1381678125649777800}
-  - {fileID: 667330858374900806}
-  - {fileID: 9221943971289168380}
---- !u!114 &1381678125649777800
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1513220350763136}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: da04557e3ee377d49b0dc9a3b7fd5a2b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  <Entity>k__BackingField: {fileID: 890183413791616370}
+  Modules: []
 --- !u!114 &9221943971289168380
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5671,7 +5654,8 @@ PrefabInstance:
       propertyPath: modules.Array.data[0]
       value: 
       objectReference: {fileID: 7431929353371022628}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 264760886601912185, guid: ee2cb268404949a4fbaadcf58acb29c5, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []

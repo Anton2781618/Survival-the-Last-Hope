@@ -57,7 +57,7 @@ namespace InventoryDiablo
 
             rectItemHighLight.sizeDelta = size;
 
-            amauntText.gameObject.SetActive(!item.ItemData.IsSingle);
+            amauntText.gameObject.SetActive(item.ItemData.MaxStackSize > 1);
 
             amauntText.rectTransform.sizeDelta = size;
 

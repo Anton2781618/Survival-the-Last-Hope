@@ -55,12 +55,13 @@ public class MainScreenView : GraphView
     {
         PopulateView(treeModel);
 
-        // AssetDatabase.SaveAssets();
+        AssetDatabase.SaveAssets();
     }
 
     //перезаполнить дерево каждый раз когда мы его выделяем или открываем
     internal void PopulateView(BehavioureTree tree)
     {
+        Debug.Log("PopulateView");
         this.treeModel = tree;
         
         //отписаться от события изменения графа для того чтобы не вызывалось при удалении нод

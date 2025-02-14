@@ -18,12 +18,9 @@ MonoBehaviour:
   Prefab: {fileID: -1152881421759394975, guid: 28c55101572547c42a314c7f2f8a6096, type: 3}
   Width: 3
   Height: 2
+  MaxStackSize: 0
   Price: 0
-  Benefit: 0
-  IsSingle: 0
-  MaxAmount: 1
   TypeItem: 32
+  ItemGroup: Default
   CanBeCombined:
   - {fileID: 11400000, guid: 0156facadb44fc244ac5036fd3335aee, type: 2}
-  HierarchyItemTypesBuilder: {fileID: 11400000, guid: 312efaaf9d770874d8adc25b42904de7,
-    type: 2}
