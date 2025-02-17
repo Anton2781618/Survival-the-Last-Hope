@@ -4,7 +4,7 @@ using UnityEngine.AI;
 using Weapons;
 using Zenject;
 
-namespace MyProject
+namespace Tool
 {
     public class Spider : Unit, IDestroyable, IMoveSystem
     {

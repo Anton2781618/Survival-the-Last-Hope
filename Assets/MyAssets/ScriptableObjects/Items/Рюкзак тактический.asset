@@ -18,8 +18,9 @@ MonoBehaviour:
   Prefab: {fileID: 6928130851219517087, guid: c62a84f4af1f9ba49b60276c8480f509, type: 3}
   Width: 4
   Height: 5
-  MaxStackSize: 0
+  MaxStackSize: 100
   Price: 0
   TypeItem: 8
   ItemGroup: Default
   CanBeCombined: []
+  Grids: []

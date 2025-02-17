@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.AI;
 
-namespace MyProject
+namespace Tool
 {
     public interface IMuveHandler
     {

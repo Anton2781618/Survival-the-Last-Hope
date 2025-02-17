@@ -14,7 +14,7 @@ using System;
 /// Класс представляет из себя обертку над юнитом, позволяет управлять юнитом через один класс
 /// </summary>
 /// 
-namespace MyProject
+namespace Tool
 {
     public class Player : UnitHuman, IDestroyable, IInventorySystem, IMoveSystem, IWeaponStateSystem, IRaycastSysytem
     {

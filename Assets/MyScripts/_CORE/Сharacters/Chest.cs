@@ -3,7 +3,7 @@ using Units;
 using UnityEngine;
 using Zenject;
 
-namespace MyProject
+namespace Tool
 {
     public class Chest : Unit, IInventorySystem
     {

@@ -5,7 +5,7 @@ using System;
 using static InventoryDiablo.ItemData;
 using Unity.VisualScripting;
 using UnityEditor.Graphs;
-using MyProject;
+using Tool;
 
 namespace ModularEventArchitecture
 {
@@ -235,8 +235,8 @@ namespace ModularEventArchitecture
                 // }
 
             // }
-            _currentSlot.Grids2.Position = EditorGUILayout.Vector2Field("Позиция ", _currentSlot.Grids2.Position);
-            _currentSlot.Grids2.GridSize = EditorGUILayout.Vector2IntField("Размер: ", _currentSlot.Grids2.GridSize);
+            _currentSlot.SlotGrid.Position = EditorGUILayout.Vector2Field("Позиция ", _currentSlot.SlotGrid.Position);
+            _currentSlot.SlotGrid.GridSize = EditorGUILayout.Vector2IntField("Размер: ", _currentSlot.SlotGrid.GridSize);
 
             EditorGUILayout.EndVertical();
             // Отрисовка позиции сетки
@@ -253,11 +253,11 @@ namespace ModularEventArchitecture
             );
 
             Rect gridRect = new Rect(
-                totalRect.x + _currentSlot.Grids2.Position.x,totalRect.y + _currentSlot.Grids2.Position.y,
-                _currentSlot.Grids2.GridSize.x * cellSize, _currentSlot.Grids2.GridSize.y * cellSize
+                totalRect.x + _currentSlot.SlotGrid.Position.x,totalRect.y + _currentSlot.SlotGrid.Position.y,
+                _currentSlot.SlotGrid.GridSize.x * cellSize, _currentSlot.SlotGrid.GridSize.y * cellSize
             );
 
-            DrawGridData(gridRect, _currentSlot.Grids2);
+            DrawGridData(gridRect, _currentSlot.SlotGrid);
         
             EditorGUILayout.EndScrollView();
         }
@@ -300,8 +300,8 @@ namespace ModularEventArchitecture
                             foreach (var item in grid.activeItems)
                             {
                                 Rect itemRect = new Rect(
-                                    gridRect.x + item.OnGridPositionX * cellSize,
-                                    gridRect.y + item.OnGridPositionY * cellSize,
+                                    gridRect.x + item.OnGridPosition.x * cellSize,
+                                    gridRect.y + item.OnGridPosition.y * cellSize,
                                     item.WIDTH * cellSize,
                                     item.HEIGHT * cellSize
                                 );
@@ -322,8 +322,8 @@ namespace ModularEventArchitecture
                         foreach (var item in grid.activeItems)
                         {
                             Rect itemRect = new Rect(
-                                gridRect.x + item.OnGridPositionX * cellSize,
-                                gridRect.y + item.OnGridPositionY * cellSize,
+                                gridRect.x + item.OnGridPosition.x * cellSize,
+                                gridRect.y + item.OnGridPosition.y * cellSize,
                                 item.WIDTH * cellSize,
                                 item.HEIGHT * cellSize
                             );
@@ -404,7 +404,7 @@ namespace ModularEventArchitecture
                         Vector2 newPos = GetGridPosition(gridRect, mousePosition - dragOffset);
                         if (CanPlaceItem(grid, (int)newPos.x, (int)newPos.y))
                         {
-                            grid.PlaceItem((int)newPos.x, (int)newPos.y, draggedItem);
+                            grid.PlaceItem(draggedItem, (int)newPos.x, (int)newPos.y);
                             if (draggedItem == selectedItem)
                             {
                                 selectedItem = null;
@@ -465,13 +465,11 @@ namespace ModularEventArchitecture
                 EditorUtility.DisplayDialog("Информация о предмете", 
                     $"Название: {item.ItemData.Title}\n" +
                     $"Размер: {item.WIDTH}x{item.HEIGHT}\n" +
-                    $"Позиция: ({item.OnGridPositionX}, {item.OnGridPositionY})", 
+                    $"Позиция: ({item.OnGridPosition.x}, {item.OnGridPosition.y})", 
                     "OK");
             });
 
             // Добавляем пункт только если предмет имеет сетку и поддерживает комбинирование
-            Debug.Log(item.Grids != null);
-            Debug.Log(item.Grids.Length);
             if (item.Grids != null && item.Grids.Length > 0)
             {
                 menu.AddItem(new GUIContent("Открыть сетку"), false, () => {
@@ -512,7 +510,7 @@ namespace ModularEventArchitecture
             Vector2 gridPosition = GetGridPosition(gridRect, mousePosition - dragOffset);
             if (CanPlaceItem(grid, (int)gridPosition.x, (int)gridPosition.y))
             {
-                grid.PlaceItem((int)gridPosition.x, (int)gridPosition.y, selectedItem);
+                grid.PlaceItem(selectedItem, (int)gridPosition.x, (int)gridPosition.y);
                 selectedItem = null;
             }
         }        
@@ -523,8 +521,8 @@ namespace ModularEventArchitecture
             {
                 // Вычисляем прямоугольник для предмета
                 Rect itemRect = new Rect(
-                    gridRect.x + item.OnGridPositionX * cellSize,
-                    gridRect.y + item.OnGridPositionY * cellSize,
+                    gridRect.x + item.OnGridPosition.x * cellSize,
+                    gridRect.y + item.OnGridPosition.y * cellSize,
                     item.WIDTH * cellSize,
                     item.HEIGHT * cellSize 
                 );

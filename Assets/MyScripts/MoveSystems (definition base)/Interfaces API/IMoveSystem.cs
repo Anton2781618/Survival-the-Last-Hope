@@ -1,5 +1,5 @@
 
-namespace MyProject
+namespace Tool
 {
     public interface IMoveSystem
     {

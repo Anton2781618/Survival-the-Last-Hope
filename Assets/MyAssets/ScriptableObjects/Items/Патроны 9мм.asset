@@ -18,7 +18,7 @@ MonoBehaviour:
   Prefab: {fileID: 688769618811775190, guid: 21e1fb2b21fb18147b9b2e0521bf6b7b, type: 3}
   Width: 2
   Height: 2
-  MaxStackSize: 100
+  MaxStackSize: 50
   Price: 0
   TypeItem: 32768
   ItemGroup: "\u041E\u0440\u0443\u0436\u0438\u0435/\u041F\u0430\u0442\u0440\u043E\u043D\u044B/\u041F\u0430\u0442\u0440\u043E\u043D\u044B

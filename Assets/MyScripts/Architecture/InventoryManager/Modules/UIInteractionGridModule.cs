@@ -5,7 +5,7 @@ using UnityEngine;
 namespace ModularEventArchitecture
 {
     [CompatibleUnit(typeof(InventoryManager))]
-    public class InventoryGridUIModule : ModuleBase
+    public class UIInteractionGridModule : ModuleBase
     {
         //класс является системой управления всех ивентарей, основной функцианал инвентарей находится тут
         [SerializeField] private UIContextMenu contextMenu;
@@ -32,7 +32,8 @@ namespace ModularEventArchitecture
         [SerializeField] private Canvas canvas;
 
         // [SerializeField] private List<ItemData> items;
-        [SerializeField] private List<InventoryItem> items;
+        // [SerializeField] private List<InventoryItem> items;
+        [SerializeField] private AvailableItems availableItems;
         [SerializeField] private UIInventoryItem itemPrefab;
 
         public InventoryIHighLight inventoryIHighLight;
@@ -80,11 +81,11 @@ namespace ModularEventArchitecture
                 return;
             }
             
-            if(UIselectedItem && (SelectedItemGrid.GridData.GetGridForItemsType() & UIselectedItem.InventoryItem.ItemData.TypeItem) == 0)
-            {
-                inventoryIHighLight.Show(false);
-                return;
-            }
+            // if(UIselectedItem && SelectedItemGrid.GridData.CompatibleGroup != UIselectedItem.InventoryItem.ItemData.ItemGroup)
+            // {
+                // inventoryIHighLight.Show(false);
+                // return;
+            // }
 
             HandleHighlight();
             
@@ -130,7 +131,7 @@ namespace ModularEventArchitecture
         {
             // Debug.Log($"Вставка предмета {itemToInsert.InventoryItem.ItemData.Title} на сетку {grid}");
             Debug.Log(grid);
-            Vector2Int? posOnGrid = grid.GridData.FindSpaceForObject(itemToInsert.InventoryItem);
+            Vector2Int? posOnGrid = grid.GridDataInfo.FindSpaceForObject(itemToInsert.InventoryItem);
             
             if(posOnGrid == null) 
             {
@@ -166,6 +167,7 @@ namespace ModularEventArchitecture
         private void HandleHighlight()
         {
             Vector2Int positionOnGrid = GetTitleGridPosition();
+            Debug.Log(positionOnGrid + " координаты я");
             if(_oldPosition == positionOnGrid){return;}
             
             _oldPosition = positionOnGrid;
@@ -206,9 +208,9 @@ namespace ModularEventArchitecture
             itemRectTransform.SetAsLastSibling();
 
             
-            int selectedItemID = UnityEngine.Random.Range(0, items.Count);
+            int selectedItemID = UnityEngine.Random.Range(0, availableItems.items.Count);
 
-            UIselectedItem.Setup(items[selectedItemID], null, items[selectedItemID].ItemData.MaxStackSize);
+            UIselectedItem.Setup(availableItems.items[selectedItemID], null, availableItems.items[selectedItemID].ItemData.MaxStackSize);
 
             LastGrid = itemGrid;
         }
@@ -273,7 +275,7 @@ namespace ModularEventArchitecture
             contextMenu.Setup(uiInventoryItem);
         }
 
-        //тут мы устанавливаем итем на сетку со смещением. Это для того что бы распологать итем по центру а не с краю мышки
+        //тут мы устанавливаем итем на сетку со смещением. Это для того что бы распологать итем по центру а не с краю мышки 
         private Vector2Int GetTitleGridPosition()
         {
             Vector2 position = Input.mousePosition;
@@ -294,10 +296,11 @@ namespace ModularEventArchitecture
             UIselectedItem = SelectedItemGrid.SelectIteme(titleGridPosition.x, titleGridPosition.y);
             
 
-            if(SelectedItemGrid.GridData.isSingle)
+            if(SelectedItemGrid.GridDataInfo.isSingle)
             {
                 // TakeOffClothes(selectedItem.itemData.GetItemTypeIndex());
-                SelectedItemGrid.GridData.owner.TakeOffItem(UIselectedItem.InventoryItem);
+                //снять одежду
+                // SelectedItemGrid.GridData.OwnerInventory.TakeOffItem(UIselectedItem.InventoryItem);
             }
 
             if (UIselectedItem)
@@ -308,7 +311,7 @@ namespace ModularEventArchitecture
 
                 LastGrid = SelectedItemGrid;
 
-                SelectedItemGrid.GridData.owner.RemoveItem(UIselectedItem.InventoryItem);
+                // SelectedItemGrid.GridData.owner.RemoveItem(UIselectedItem.InventoryItem);
             }
 
         }
@@ -316,11 +319,11 @@ namespace ModularEventArchitecture
         //расположить предмет на сетке 
         private void PlaceItem(Vector2Int titleGridPosition)
         {
-            if(IsTreid && LastGrid.GridData.owner != SelectedItemGrid.GridData.owner)
-            {
-                PlaceItemInTrade();
-            }
-            else
+            // if(IsTreid && LastGrid.GridData.OwnerInventory != SelectedItemGrid.GridData.OwnerInventory)
+            // {
+            //     PlaceItemInTrade();
+            // }
+            // else
             {
                 PlaceItemIsNotTraded(titleGridPosition);
             }
@@ -333,11 +336,12 @@ namespace ModularEventArchitecture
             
             if(complete)
             {
-                SelectedItemGrid.GridData.owner.AddItem(UIselectedItem.InventoryItem);
-                if(SelectedItemGrid.GridData.isSingle)
+                // SelectedItemGrid.inv.Add(UIselectedItem.InventoryItem);
+                if(SelectedItemGrid.GridDataInfo.isSingle)
                 {
                     // PutOnClothesOnBody(selectedItem.itemData.GetItemTypeIndex());
-                    SelectedItemGrid.GridData.owner.EquipItem(UIselectedItem.InventoryItem);
+                    //надеть одежду
+                    // SelectedItemGrid.GridData.OwnerInventory.EquipItem(UIselectedItem.InventoryItem);
                 }
                 
                 UIselectedItem = null;
@@ -359,7 +363,7 @@ namespace ModularEventArchitecture
         //расположить при торговли
         private void PlaceItemInTrade()
         {
-            if(SelectedItemGrid.GridData.owner.money < UIselectedItem.InventoryItem.Price)
+            // if(SelectedItemGrid.GridData.OwnerInventory.money < UIselectedItem.InventoryItem.Price)
             {
                 // GameManager.Instance.UIManager.GetPlayerInventoryWindowUI().NotEnoughMoneyAnimation();
 
@@ -368,7 +372,7 @@ namespace ModularEventArchitecture
 
             // SelectedItemGrid.chest.money -= selectedItem.itemData.price;
 
-            LastGrid.GridData.owner.money += UIselectedItem.InventoryItem.Price;
+            // LastGrid.GridData.OwnerInventory.money += UIselectedItem.InventoryItem.Price;
 
             // buferGrid.chest.UpdateMoney();
 

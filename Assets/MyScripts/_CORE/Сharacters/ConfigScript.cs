@@ -23,7 +23,7 @@ public class ConfigScript : MonoBehaviour
 
 
 
-    [InventoryDiablo.Button]
+    [Tools.Button("SetPositionsHand")]
     public void SetPositionsHand()
     {
         if(config == Config.rightHend)

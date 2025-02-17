@@ -1,7 +1,7 @@
 using UnityEngine;
 using Zenject;
 using StarterAssets;
-using MyProject;
+using Tool;
 using UnityEngine.EventSystems;
 using InventoryDiablo;
 
@@ -16,7 +16,7 @@ public class GameplaySceneInstaller : MonoInstaller
     {
         Container.Bind<StarterAssetsInputs>().FromComponentInHierarchy().AsSingle();
 
-        Container.Bind<InventoryManager>().FromComponentInHierarchy().AsSingle();
+        // Container.Bind<InventoryManager>().FromComponentInHierarchy().AsSingle();
         
         
 

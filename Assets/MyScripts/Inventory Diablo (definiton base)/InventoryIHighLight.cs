@@ -13,7 +13,7 @@ namespace InventoryDiablo
         //показать подсветку
         public void Show(bool value)
         {
-            Debug.Log("Show highLighter");
+            Debug.Log("Show highLighter " + value);
             highLighter.gameObject.SetActive(value);
             
             highLighter.SetAsFirstSibling();
@@ -31,7 +31,7 @@ namespace InventoryDiablo
         //установить позицию подсветки
         public void SetPosition(ItemGrid targetGrid, UIInventoryItem targetItem)
         {
-            Vector2 pos = targetGrid.CalculatePositionOnGrid(targetItem, targetItem.InventoryItem.OnGridPositionX, targetItem.InventoryItem.OnGridPositionY);
+            Vector2 pos = targetGrid.CalculatePositionOnGrid(targetItem, targetItem.InventoryItem.OnGridPosition.x, targetItem.InventoryItem.OnGridPosition.y);
 
             highLighter.localPosition = pos;
 

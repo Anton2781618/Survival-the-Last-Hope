@@ -3,7 +3,7 @@ using UnityEngine;
 using UnityEngine.AI;
 using Zenject;
 
-namespace MyProject
+namespace Tool
 {
     public class PLayerMoveSystem : IMuveHandler
     {

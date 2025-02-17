@@ -1,37 +1,31 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using Newtonsoft.Json;
 using UnityEngine;
 using UnityEngine.Events;
 using static InventoryDiablo.ItemData;
 
 namespace InventoryDiablo
 {
-
     [Serializable]
     public class InventoryItem
     {    
-        [field: SerializeField] public ItemData ItemData { get; private set; }       
+        [field: SerializeField] public ItemData ItemData { get; set; }       
         
         //-------------------------------------------------------------------------------------
         [Header("Блок Настройки сетки" )]
-        public GridData2[] Grids;
+        public GridData2[] Grids = new GridData2[0];
 
         //-------------------------------------------------------------------------------------
         [Header("Блок Настройки количества в стеке" )]
         [SerializeField] private int amount = 0;
 
         //-------------------------------------------------------------------------------------
-        //! легаси
-        [Header("легаси")]
-        public GridData.GridInfo GridName = GridData.GridInfo.BackpackGrid;
         public Dictionary<ItemType, InventoryItem> CombinedItems;
 
         //-------------------------------------------------------------------------------------
-        [NonSerialized] public UnityEvent OnItemsChanged; // {get; set;}
-        public int OnGridPositionX {get; set;}  
-        public int OnGridPositionY {get; set;} 
+        public UnityEvent OnItemsChanged; // {get; set;}
+        public Vector2Int OnGridPosition;
         private Dictionary<ItemType,MyDelegate> delegatesDict; 
 
         //-------------------------------------------------------------------------------------
@@ -80,7 +74,7 @@ namespace InventoryDiablo
             get => amount;
             set
             {
-                Debug.Log($"Обновлено количество предметов у {ItemData.Title} {value}");
+                // Debug.Log($"Обновлено количество предметов у {ItemData.Title} {value}");
                 amount = value;
 
                 OnItemsChanged?.Invoke();
@@ -140,8 +134,7 @@ namespace InventoryDiablo
             if (this.CombinedItems != null) clone.CombinedItems = new Dictionary<ItemType, InventoryItem>(this.CombinedItems);
             clone.Amount = this.Amount;
             clone.Rotated = this.Rotated;
-            clone.OnGridPositionX = this.OnGridPositionX;
-            clone.OnGridPositionY = this.OnGridPositionY;
+            clone.OnGridPosition = this.OnGridPosition;
             
             if (this.Grids != null)
             {
@@ -152,7 +145,11 @@ namespace InventoryDiablo
                     {
                         GridSize = this.Grids[i].GridSize,
                         activeItems = new List<InventoryItem>(this.Grids[i].activeItems.Select(item => item.Clone())),
-                        MaxStackSize = this.Grids[i].MaxStackSize
+                        MaxStackSize = this.Grids[i].MaxStackSize,
+                        CompatibilityGridMod = this.Grids[i].CompatibilityGridMod,
+                        specificItemCombined = this.Grids[i].specificItemCombined,
+                        CompatibleGroup = this.Grids[i].CompatibleGroup,
+
                     };
                 }
             }

@@ -1284,7 +1284,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4675232436007860, guid: 325c2a72f558d4e419ec4f9ea74e54f5, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 72.2
+      value: 72.189
       objectReference: {fileID: 0}
     - target: {fileID: 4675232436007860, guid: 325c2a72f558d4e419ec4f9ea74e54f5, type: 3}
       propertyPath: m_LocalPosition.y
@@ -1292,7 +1292,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4675232436007860, guid: 325c2a72f558d4e419ec4f9ea74e54f5, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 33.349876
+      value: 33.493
       objectReference: {fileID: 0}
     - target: {fileID: 4675232436007860, guid: 325c2a72f558d4e419ec4f9ea74e54f5, type: 3}
       propertyPath: m_LocalRotation.w
@@ -1430,12 +1430,12 @@ PrefabInstance:
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 1513220350763136, guid: 325c2a72f558d4e419ec4f9ea74e54f5,
         type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 448086459}
+      insertIndex: 5
+      addedObject: {fileID: 448086463}
     - targetCorrespondingSourceObject: {fileID: 1513220350763136, guid: 325c2a72f558d4e419ec4f9ea74e54f5,
         type: 3}
       insertIndex: -1
-      addedObject: {fileID: 448086463}
+      addedObject: {fileID: 448086459}
   m_SourcePrefab: {fileID: 100100000, guid: 325c2a72f558d4e419ec4f9ea74e54f5, type: 3}
 --- !u!114 &448086452 stripped
 MonoBehaviour:
@@ -1495,110 +1495,17 @@ MonoBehaviour:
   Inventory:
     money: 500
     Slots:
-    - Icon: {fileID: -916100036, guid: 7a3318582f10cc74294796c9f8cbab55, type: 3}
+    - Icon: {fileID: 442799280, guid: 67f527bbb203651438aac26594ddc4e6, type: 3}
       SlotName: 0
-      TypeItem: 40
-      Grids2:
+      TypeItem: 8
+      SlotGrid:
         GridSize: {x: 4, y: 5}
         MaxStackSize: 0
         Position: {x: 0, y: 0}
-        CompatibilityGrid: 0
+        CompatibilityGridMod: 0
         specificItemCombined: []
         CompatibleGroup: default
-        activeItems:
-        - <ItemData>k__BackingField: {fileID: 11400000, guid: f41d2fa2dc48557439ac3e9a418765ae,
-            type: 2}
-          GridName: 1
-          amount: 0
-          OnItemsChanged:
-            m_PersistentCalls:
-              m_Calls: []
-          Rotated: 0
-          Grids2:
-          - GridSize: {x: 10, y: 5}
-            MaxStackSize: 0
-            Position: {x: 0, y: 0}
-            CompatibilityGrid: 0
-            specificItemCombined: []
-            CompatibleGroup: default
-            activeItems:
-            - <ItemData>k__BackingField: {fileID: 11400000, guid: 1940e62c6779fbe4b82ec52dadbc625b,
-                type: 2}
-              GridName: 1
-              amount: 0
-              OnItemsChanged:
-                m_PersistentCalls:
-                  m_Calls: []
-              Rotated: 0
-              Grids2:
-              - GridSize: {x: 2, y: 2}
-                MaxStackSize: 0
-                Position: {x: 0, y: 0}
-                CompatibilityGrid: 0
-                specificItemCombined: []
-                CompatibleGroup: default
-                activeItems: []
-            - <ItemData>k__BackingField: {fileID: 11400000, guid: ddcc013a94659bc4bb68e1f1fcf133cf,
-                type: 2}
-              GridName: 1
-              amount: 0
-              OnItemsChanged:
-                m_PersistentCalls:
-                  m_Calls: []
-              Rotated: 0
-              Grids2:
-              - GridSize: {x: 1, y: 2}
-                MaxStackSize: 0
-                Position: {x: 0, y: 0}
-                CompatibilityGrid: 0
-                specificItemCombined: []
-                CompatibleGroup: default
-                activeItems:
-                - <ItemData>k__BackingField: {fileID: 11400000, guid: 0156facadb44fc244ac5036fd3335aee,
-                    type: 2}
-                  GridName: 1
-                  amount: 0
-                  OnItemsChanged:
-                    m_PersistentCalls:
-                      m_Calls: []
-                  Rotated: 0
-                  Grids2:
-                  - GridSize: {x: 2, y: 2}
-                    MaxStackSize: 8
-                    Position: {x: 0, y: 0}
-                    CompatibilityGrid: 0
-                    specificItemCombined: []
-                    CompatibleGroup: default
-                    activeItems:
-                    - <ItemData>k__BackingField: {fileID: 11400000, guid: a8a975c236b17fe4f8642b000fb5b534,
-                        type: 2}
-                      GridName: 1
-                      amount: 5
-                      Rotated: 0
-                      Grids2: []
-            - <ItemData>k__BackingField: {fileID: 11400000, guid: a8a975c236b17fe4f8642b000fb5b534,
-                type: 2}
-              GridName: 1
-              amount: 0
-              OnItemsChanged:
-                m_PersistentCalls:
-                  m_Calls: []
-              Rotated: 0
-              Grids2: []
-          - GridSize: {x: 7, y: 2}
-            MaxStackSize: 0
-            Position: {x: 0, y: 0}
-            CompatibilityGrid: 0
-            specificItemCombined: []
-            CompatibleGroup: default
-            activeItems: []
-          - GridSize: {x: 7, y: 3}
-            MaxStackSize: 0
-            Position: {x: 0, y: 0}
-            CompatibilityGrid: 0
-            specificItemCombined: []
-            CompatibleGroup: default
-            activeItems: []
+        activeItems: []
 --- !u!114 &448086463
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4280,7 +4187,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1842084896
 Transform:
   m_ObjectHideFlags: 0
@@ -4331,7 +4238,7 @@ MeshRenderer:
   m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0
   m_StitchLightmapSeams: 1
-  m_SelectedEditorRenderState: 0
+  m_SelectedEditorRenderState: 2
   m_MinimumChartSize: 4
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
@@ -6854,18 +6761,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 4706640828703503422}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &369307487797542039
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2119342903545080567}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b4c208550477ad148a1fec51a6a8c651, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &718211944367454698
 GameObject:
   m_ObjectHideFlags: 0
@@ -7295,7 +7190,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1002241429613667596}
-  - component: {fileID: 369307487797542039}
   m_Layer: 0
   m_Name: CameraController
   m_TagString: Untagged
@@ -16495,6 +16389,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: "\u0410\u043C\u0431\u0430\u0440"
+      objectReference: {fileID: 0}
+    - target: {fileID: 3412092525763902113, guid: cdd8877cd3e02f34c941ab1dc3b421e3,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3436698582146536005, guid: cdd8877cd3e02f34c941ab1dc3b421e3,
         type: 3}
@@ -32854,17 +32753,17 @@ PrefabInstance:
     - target: {fileID: 2070925441746177912, guid: a1a802ecaf6775746bb2a929fb554ad8,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 67.65481
+      value: 67.643814
       objectReference: {fileID: 0}
     - target: {fileID: 2070925441746177912, guid: a1a802ecaf6775746bb2a929fb554ad8,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 9.035442
+      value: 9.035443
       objectReference: {fileID: 0}
     - target: {fileID: 2070925441746177912, guid: a1a802ecaf6775746bb2a929fb554ad8,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: 28.804686
+      value: 28.94781
       objectReference: {fileID: 0}
     - target: {fileID: 2070925441746177912, guid: a1a802ecaf6775746bb2a929fb554ad8,
         type: 3}
@@ -33282,17 +33181,17 @@ PrefabInstance:
     - target: {fileID: 7070496729686134626, guid: 20a4e2f20577b9d46b44d0323e0129ea,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 67.65481
+      value: 67.643814
       objectReference: {fileID: 0}
     - target: {fileID: 7070496729686134626, guid: 20a4e2f20577b9d46b44d0323e0129ea,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 9.035442
+      value: 9.035443
       objectReference: {fileID: 0}
     - target: {fileID: 7070496729686134626, guid: 20a4e2f20577b9d46b44d0323e0129ea,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: 28.804686
+      value: 28.94781
       objectReference: {fileID: 0}
     - target: {fileID: 7070496729686134626, guid: 20a4e2f20577b9d46b44d0323e0129ea,
         type: 3}
@@ -33562,112 +33461,87 @@ MonoBehaviour:
   items:
   - <ItemData>k__BackingField: {fileID: 11400000, guid: 306fd59f34f7b1b4c948ed4e22653969,
       type: 2}
-    GridName: 0
+    Grids: []
     amount: 0
-    OnItemsChanged:
-      m_PersistentCalls:
-        m_Calls: []
+    GridName: 0
+    OnGridPosition: {x: 0, y: 0}
     Rotated: 0
-    Grids2: []
   - <ItemData>k__BackingField: {fileID: 11400000, guid: bec202bb1c0c221419fdca3da00f3352,
       type: 2}
-    GridName: 0
+    Grids: []
     amount: 0
-    OnItemsChanged:
-      m_PersistentCalls:
-        m_Calls: []
+    GridName: 0
+    OnGridPosition: {x: 0, y: 0}
     Rotated: 0
-    Grids2: []
   - <ItemData>k__BackingField: {fileID: 11400000, guid: 1940e62c6779fbe4b82ec52dadbc625b,
       type: 2}
-    GridName: 0
+    Grids: []
     amount: 0
-    OnItemsChanged:
-      m_PersistentCalls:
-        m_Calls: []
+    GridName: 0
+    OnGridPosition: {x: 0, y: 0}
     Rotated: 0
-    Grids2: []
   - <ItemData>k__BackingField: {fileID: 11400000, guid: 65defc33165764a4687df65bc6be9884,
       type: 2}
-    GridName: 0
+    Grids: []
     amount: 0
-    OnItemsChanged:
-      m_PersistentCalls:
-        m_Calls: []
+    GridName: 0
+    OnGridPosition: {x: 0, y: 0}
     Rotated: 0
-    Grids2: []
   - <ItemData>k__BackingField: {fileID: 11400000, guid: 0156facadb44fc244ac5036fd3335aee,
       type: 2}
-    GridName: 0
+    Grids: []
     amount: 0
-    OnItemsChanged:
-      m_PersistentCalls:
-        m_Calls: []
+    GridName: 0
+    OnGridPosition: {x: 0, y: 0}
     Rotated: 0
-    Grids2: []
   - <ItemData>k__BackingField: {fileID: 11400000, guid: 7d383013dd309bd41a8472cd1448f342,
       type: 2}
-    GridName: 0
+    Grids: []
     amount: 0
-    OnItemsChanged:
-      m_PersistentCalls:
-        m_Calls: []
+    GridName: 0
+    OnGridPosition: {x: 0, y: 0}
     Rotated: 0
-    Grids2: []
   - <ItemData>k__BackingField: {fileID: 11400000, guid: a8a975c236b17fe4f8642b000fb5b534,
       type: 2}
-    GridName: 0
+    Grids: []
     amount: 0
-    OnItemsChanged:
-      m_PersistentCalls:
-        m_Calls: []
-    Rotated: 0
-    Grids2: []
-  - <ItemData>k__BackingField: {fileID: 11400000, guid: ddcc013a94659bc4bb68e1f1fcf133cf,
-      type: 2}
     GridName: 0
-    amount: 0
-    OnItemsChanged:
-      m_PersistentCalls:
-        m_Calls: []
+    OnGridPosition: {x: 0, y: 0}
     Rotated: 0
-    Grids2: []
+  - <ItemData>k__BackingField: {fileID: 0}
+    Grids: []
+    amount: 0
+    GridName: 0
+    OnGridPosition: {x: 0, y: 0}
+    Rotated: 0
   - <ItemData>k__BackingField: {fileID: 11400000, guid: 965a5f462e52dbe47a2459c4610c789c,
       type: 2}
-    GridName: 0
+    Grids: []
     amount: 0
-    OnItemsChanged:
-      m_PersistentCalls:
-        m_Calls: []
+    GridName: 0
+    OnGridPosition: {x: 0, y: 0}
     Rotated: 0
-    Grids2: []
   - <ItemData>k__BackingField: {fileID: 11400000, guid: ac88002b590d69347a03057e4563e671,
       type: 2}
-    GridName: 0
+    Grids: []
     amount: 0
-    OnItemsChanged:
-      m_PersistentCalls:
-        m_Calls: []
+    GridName: 0
+    OnGridPosition: {x: 0, y: 0}
     Rotated: 0
-    Grids2: []
   - <ItemData>k__BackingField: {fileID: 11400000, guid: f41d2fa2dc48557439ac3e9a418765ae,
       type: 2}
-    GridName: 0
+    Grids: []
     amount: 0
-    OnItemsChanged:
-      m_PersistentCalls:
-        m_Calls: []
+    GridName: 0
+    OnGridPosition: {x: 0, y: 0}
     Rotated: 0
-    Grids2: []
   - <ItemData>k__BackingField: {fileID: 11400000, guid: c65f5e3e4f0fc5a4cba9d990faa6d337,
       type: 2}
-    GridName: 0
+    Grids: []
     amount: 0
-    OnItemsChanged:
-      m_PersistentCalls:
-        m_Calls: []
+    GridName: 0
+    OnGridPosition: {x: 0, y: 0}
     Rotated: 0
-    Grids2: []
   itemPrefab: {fileID: 3786321271830801994, guid: 211cbaeb343b3fa469149bc570354fe2,
     type: 3}
   inventoryIHighLight: {fileID: 5522348191436618556}
@@ -33888,6 +33762,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: "\u0413\u0430\u0440\u0430\u0436"
+      objectReference: {fileID: 0}
+    - target: {fileID: 2184637383244476974, guid: 93bf7eb9fe528214aa77ca06e87adb08,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3757617772926968484, guid: 93bf7eb9fe528214aa77ca06e87adb08,
         type: 3}
@@ -34256,181 +34135,26 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 1384764936536346447, guid: 17a23a8815281af4996dbf42b8c6db18,
-        type: 3}
-      propertyPath: GridData.gridName
-      value: 3
-      objectReference: {fileID: 0}
-    - target: {fileID: 1384764936536346447, guid: 17a23a8815281af4996dbf42b8c6db18,
-        type: 3}
-      propertyPath: GridData.isSingle
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1384764936536346447, guid: 17a23a8815281af4996dbf42b8c6db18,
-        type: 3}
-      propertyPath: GridData.GridSizeWidth
-      value: 10
-      objectReference: {fileID: 0}
-    - target: {fileID: 1384764936536346447, guid: 17a23a8815281af4996dbf42b8c6db18,
-        type: 3}
-      propertyPath: GridData.GridSizeHeight
-      value: 3
-      objectReference: {fileID: 0}
-    - target: {fileID: 1384764936536346447, guid: 17a23a8815281af4996dbf42b8c6db18,
-        type: 3}
-      propertyPath: GridData.gridForItemsType
-      value: 32
-      objectReference: {fileID: 0}
     - target: {fileID: 2418744923333232499, guid: 17a23a8815281af4996dbf42b8c6db18,
         type: 3}
       propertyPath: m_Name
       value: InventoryPlayerUI
-      objectReference: {fileID: 0}
-    - target: {fileID: 2724422521131893783, guid: 17a23a8815281af4996dbf42b8c6db18,
-        type: 3}
-      propertyPath: GridData.gridName
-      value: 6
-      objectReference: {fileID: 0}
-    - target: {fileID: 2724422521131893783, guid: 17a23a8815281af4996dbf42b8c6db18,
-        type: 3}
-      propertyPath: GridData.isSingle
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 2724422521131893783, guid: 17a23a8815281af4996dbf42b8c6db18,
-        type: 3}
-      propertyPath: GridData.GridSizeWidth
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 2724422521131893783, guid: 17a23a8815281af4996dbf42b8c6db18,
-        type: 3}
-      propertyPath: GridData.GridSizeHeight
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 2724422521131893783, guid: 17a23a8815281af4996dbf42b8c6db18,
-        type: 3}
-      propertyPath: GridData.gridForItemsType
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4113434820445954449, guid: 17a23a8815281af4996dbf42b8c6db18,
-        type: 3}
-      propertyPath: GridData.gridName
-      value: 4
-      objectReference: {fileID: 0}
-    - target: {fileID: 4113434820445954449, guid: 17a23a8815281af4996dbf42b8c6db18,
-        type: 3}
-      propertyPath: GridData.isSingle
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4113434820445954449, guid: 17a23a8815281af4996dbf42b8c6db18,
-        type: 3}
-      propertyPath: GridData.GridSizeWidth
-      value: 4
-      objectReference: {fileID: 0}
-    - target: {fileID: 4113434820445954449, guid: 17a23a8815281af4996dbf42b8c6db18,
-        type: 3}
-      propertyPath: GridData.GridSizeHeight
-      value: 4
-      objectReference: {fileID: 0}
-    - target: {fileID: 4113434820445954449, guid: 17a23a8815281af4996dbf42b8c6db18,
-        type: 3}
-      propertyPath: GridData.gridForItemsType
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 4691444676186420981, guid: 17a23a8815281af4996dbf42b8c6db18,
-        type: 3}
-      propertyPath: GridData.gridName
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 4691444676186420981, guid: 17a23a8815281af4996dbf42b8c6db18,
-        type: 3}
-      propertyPath: GridData.isSingle
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4691444676186420981, guid: 17a23a8815281af4996dbf42b8c6db18,
-        type: 3}
-      propertyPath: GridData.GridSizeWidth
-      value: 3
-      objectReference: {fileID: 0}
-    - target: {fileID: 4691444676186420981, guid: 17a23a8815281af4996dbf42b8c6db18,
-        type: 3}
-      propertyPath: GridData.GridSizeHeight
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 4691444676186420981, guid: 17a23a8815281af4996dbf42b8c6db18,
-        type: 3}
-      propertyPath: GridData.gridForItemsType
-      value: 32
-      objectReference: {fileID: 0}
-    - target: {fileID: 4963109391637103562, guid: 17a23a8815281af4996dbf42b8c6db18,
-        type: 3}
-      propertyPath: GridData.gridName
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4963109391637103562, guid: 17a23a8815281af4996dbf42b8c6db18,
-        type: 3}
-      propertyPath: GridData.isSingle
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4963109391637103562, guid: 17a23a8815281af4996dbf42b8c6db18,
-        type: 3}
-      propertyPath: GridData.GridSizeWidth
-      value: 4
-      objectReference: {fileID: 0}
-    - target: {fileID: 4963109391637103562, guid: 17a23a8815281af4996dbf42b8c6db18,
-        type: 3}
-      propertyPath: GridData.GridSizeHeight
-      value: 5
-      objectReference: {fileID: 0}
-    - target: {fileID: 4963109391637103562, guid: 17a23a8815281af4996dbf42b8c6db18,
-        type: 3}
-      propertyPath: GridData.gridForItemsType
-      value: 8
-      objectReference: {fileID: 0}
-    - target: {fileID: 5885372669856951654, guid: 17a23a8815281af4996dbf42b8c6db18,
-        type: 3}
-      propertyPath: GridData.gridName
-      value: 5
-      objectReference: {fileID: 0}
-    - target: {fileID: 5885372669856951654, guid: 17a23a8815281af4996dbf42b8c6db18,
-        type: 3}
-      propertyPath: GridData.GridSizeWidth
-      value: 7
-      objectReference: {fileID: 0}
-    - target: {fileID: 5885372669856951654, guid: 17a23a8815281af4996dbf42b8c6db18,
-        type: 3}
-      propertyPath: GridData.GridSizeHeight
-      value: 5
-      objectReference: {fileID: 0}
-    - target: {fileID: 5885372669856951654, guid: 17a23a8815281af4996dbf42b8c6db18,
-        type: 3}
-      propertyPath: GridData.gridForItemsType
-      value: -1
-      objectReference: {fileID: 0}
-    - target: {fileID: 5947163696579240325, guid: 17a23a8815281af4996dbf42b8c6db18,
-        type: 3}
-      propertyPath: GridData.GridSizeWidth
-      value: 10
-      objectReference: {fileID: 0}
-    - target: {fileID: 5947163696579240325, guid: 17a23a8815281af4996dbf42b8c6db18,
-        type: 3}
-      propertyPath: GridData.GridSizeHeight
-      value: 8
-      objectReference: {fileID: 0}
-    - target: {fileID: 5947163696579240325, guid: 17a23a8815281af4996dbf42b8c6db18,
-        type: 3}
-      propertyPath: GridData.gridForItemsType
-      value: -1
-      objectReference: {fileID: 0}
-    - target: {fileID: 7565811099558481904, guid: 17a23a8815281af4996dbf42b8c6db18,
-        type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
-      value: 
       objectReference: {fileID: 0}
     - target: {fileID: 8070400807667008697, guid: 17a23a8815281af4996dbf42b8c6db18,
         type: 3}
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8781952364813665001, guid: 17a23a8815281af4996dbf42b8c6db18,
+        type: 3}
+      propertyPath: Modules.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8781952364813665001, guid: 17a23a8815281af4996dbf42b8c6db18,
+        type: 3}
+      propertyPath: Modules.Array.data[0]
+      value: 
+      objectReference: {fileID: 6990521005991791939}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -34448,6 +34172,18 @@ RectTransform:
     type: 3}
   m_PrefabInstance: {fileID: 6990521005991791934}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &6990521005991791939 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 9203442005408936597, guid: 17a23a8815281af4996dbf42b8c6db18,
+    type: 3}
+  m_PrefabInstance: {fileID: 6990521005991791934}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 68a2c0764e6411f4ba531368693cacf3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &7100305932924419554
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -12,47 +12,21 @@ public class GridData
     public const float titleSizeWidth = 32;
     public const float titleSizeHeight = 32;
 
-    //это ссылка на того чей инвентарь
-    public Inventory owner {get; set;}   
-    
     [NonSerialized] public InventoryItem[,] InventoryItems;
     
     [Header("Размер сетки")]
-    public int GridSizeWidth = 20; 
-    public int GridSizeHeight = 10; 
+    public Vector2Int GridSize = new Vector2Int(5, 5);
 
     [Header("Зона определений возиможных предметов")]
     [SerializeField] private ItemType gridForItemsType;
 
     //поле определяет сетка для одного предмета или нет
     public bool isSingle = false;
-    // имя сетки
-    public GridInfo GridName = GridInfo.BackpackGrid;
-    public enum GridInfo
-    {
-        BackpackSlot,
-        BackpackGrid,
-        PistolSlot,
-        RifleSlot,
-        UnloadingSlot,
-        UnloadingGrid,
-        HelmetSlot,
-    }
 
     //устанавлмвает начальный размер сетки
     public void Init(int width, int height)
     {
         InventoryItems = new InventoryItem[width, height];
-    }
-
-    public void Init()
-    {
-        InventoryItems = new InventoryItem[GridSizeWidth, GridSizeHeight];
-    }
-
-    public ItemType GetGridForItemsType()
-    {
-        return gridForItemsType;
     }
 
     public InventoryItem GetItem(int x, int y)
@@ -64,14 +38,14 @@ public class GridData
     //находит свободное место на сетке для объекта
     public Vector2Int? FindSpaceForObject(InventoryItem itemToInsert)
     {
-        int heght = GridSizeHeight - itemToInsert.ItemData.Height + 1;
-        int wight = GridSizeWidth - itemToInsert.ItemData.Width + 1; 
+        int heght = GridSize.x - itemToInsert.ItemData.Height + 1;
+        int wight = GridSize.y - itemToInsert.ItemData.Width + 1; 
         
         for (int y = 0; y < heght; y++)
         {
             for (int x = 0; x < wight ; x++)
             {
-                if(CheckAvailabeSpace(x, y, itemToInsert.ItemData.Width, itemToInsert.ItemData.Height) == true)
+                if(CheckAvailableSpace(x, y, itemToInsert.ItemData.Width, itemToInsert.ItemData.Height) == true)
                 {
                     return new Vector2Int(x, y); 
                 }
@@ -149,13 +123,11 @@ public class GridData
             }
         }
 
-        inventoryItem.OnGridPositionX = posX;
-        inventoryItem.OnGridPositionY = posY;
-
-        inventoryItem.GridName = GridName;
+        inventoryItem.OnGridPosition.x = posX;
+        inventoryItem.OnGridPosition.y = posY;
     }
 
-    private bool CheckAvailabeSpace(int posX, int posY, int width, int height)
+    private bool CheckAvailableSpace(int posX, int posY, int width, int height)
     {        
         for (int x = 0; x < width; x++)
         {
@@ -171,7 +143,7 @@ public class GridData
     }
     
 
-    //метод поднять итем
+    //метод поднять итем из сетки и вернуть его
     public InventoryItem SelectIteme(int x, int y)
     {
         InventoryItem toReturn = InventoryItems[x, y];
@@ -190,7 +162,7 @@ public class GridData
         {
             for (int iy = 0; iy < toReturn.HEIGHT; iy++)
             {
-                InventoryItems[toReturn.OnGridPositionX + ix, toReturn.OnGridPositionY + iy] = null;
+                InventoryItems[toReturn.OnGridPosition.x + ix, toReturn.OnGridPosition.y + iy] = null;
             }
         }
     }
@@ -198,9 +170,9 @@ public class GridData
     //полностьб очистить сетку
     public void Clear()
     {
-        for (int x = 0; x < GridSizeWidth; x++)
+        for (int x = 0; x < GridSize.x; x++)
         {
-            for (int y = 0; y < GridSizeHeight; y++)
+            for (int y = 0; y < GridSize.y; y++)
             {
                 InventoryItems[x, y] = null;
             }
@@ -232,7 +204,7 @@ public class GridData2 : ISerializationCallbackReceiver
     public List<ItemData> specificItemCombined = new List<ItemData>(); 
 
     //в случае если сетка предназначена для группы итемов
-    public string CompatibleGroup = "default";
+    public string CompatibleGroup = "Default/default";
 
     public enum Compatibility
     {
@@ -246,17 +218,26 @@ public class GridData2 : ISerializationCallbackReceiver
     [SerializeField] public List<InventoryItem> activeItems = new List<InventoryItem>();
 
     //-------------------------------------------------------------------------------------
-        //настройки сериалиации
-        // Указываем максимальную глубину сериализации
-        private const int MaxDepth = 3;
-        //поле для хранения текущей глубины
-        [NonSerialized] private int currentDepth;
+    //настройки сериалиации
+    // Указываем максимальную глубину сериализации
+    private const int MaxDepth = 3;
+    //поле для хранения текущей глубины
+    [NonSerialized] private int currentDepth;
         
     //-------------------------------------------------------------------------------------
-
+    //размеры тайтла
+    public const float titleSizeWidth = 32;
+    public const float titleSizeHeight = 32;
     
+    //-------------------------------------------------------------------------------------
+    //!удалить
+    public bool isSingle = false;
+    //-------------------------------------------------------------------------------------
     
-    
+    public void Init(int width, int height)
+    {
+        GridSize = new Vector2Int(width, height);
+    }
     public bool TryPlaceItem(InventoryItem item)
     {
         for (int x = 0; x < GridSize.x; x++)
@@ -265,8 +246,8 @@ public class GridData2 : ISerializationCallbackReceiver
             {
                 if (CheckAvailableSpace(x, y, item.WIDTH, item.HEIGHT))
                 {
-                    item.OnGridPositionX = x;
-                    item.OnGridPositionY = y;
+                    item.OnGridPosition.x = x;
+                    item.OnGridPosition.y = y;
                     // activeItems.Add(new ItemPosition { Item = item, X = x, Y = y });
                     activeItems.Add(item);
                     return true;
@@ -286,7 +267,7 @@ public class GridData2 : ISerializationCallbackReceiver
 
         foreach (var items in activeItems)
         {
-            if (DoRectsIntersect(posX, posY, width, height, items.OnGridPositionX, items.OnGridPositionY, items.WIDTH, items.HEIGHT))
+            if (DoRectsIntersect(posX, posY, width, height, items.OnGridPosition.x, items.OnGridPosition.y, items.WIDTH, items.HEIGHT))
             {
                 return false;
             }
@@ -300,6 +281,7 @@ public class GridData2 : ISerializationCallbackReceiver
                y1 < y2 + h2 && y1 + h1 > y2;
     }
 
+    // Проверка позиций всех предметов
     public bool ValidateItemsPosition()
     {
         List<InventoryItem> tempItems = new List<InventoryItem>(activeItems);
@@ -338,11 +320,75 @@ public class GridData2 : ISerializationCallbackReceiver
         return true;
     }
 
-    public void PlaceItem(int x, int y, InventoryItem item)
+    public void PlaceItem(InventoryItem item, int x, int y)
     {
-        item.OnGridPositionX = x;
-        item.OnGridPositionY = y;
+        item.OnGridPosition.x = x;
+        item.OnGridPosition.y = y;
         activeItems.Add(item);
+    }
+
+    //метод поднять итем из сетки и вернуть его
+    public InventoryItem SelectIteme(int x, int y)
+    {
+        foreach (var item in activeItems)
+        {
+            if (item.OnGridPosition.x == x && item.OnGridPosition.y == y)
+            {
+                activeItems.Remove(item);
+                return item;
+            }
+        }
+
+        return null;
+    }
+
+    public InventoryItem GetItem(int x, int y)
+    {
+        foreach (var item in activeItems)
+        {
+            if (item.OnGridPosition.x == x && item.OnGridPosition.y == y)
+            {
+                return item;
+            }
+        }
+
+        return null;
+    }
+    
+    //находит свободное место на сетке для объекта
+    public Vector2Int? FindSpaceForObject(InventoryItem itemToInsert)
+    {
+        // Вычисляем границы поиска с учетом размера предмета
+        int height = GridSize.y - itemToInsert.HEIGHT + 1;
+        int width = GridSize.x - itemToInsert.WIDTH + 1;
+
+        // Перебираем все возможные позиции
+        for (int y = 0; y < height; y++)
+        {
+            for (int x = 0; x < width; x++)
+            {
+                // Проверяем, доступно ли место для предмета
+                if (CheckAvailableSpace(x, y, itemToInsert.WIDTH, itemToInsert.HEIGHT))
+                {
+                    return new Vector2Int(x, y);
+                }
+            }
+        }
+
+        // Если место не найдено, возвращаем null
+        return null;
+    }
+    //очистить сылки на итем в сетке
+    public void CleanGridReference(InventoryItem toReturn)
+    {
+        foreach (var item in activeItems)
+        {
+            if (item == toReturn)
+            {
+                activeItems.Remove(item);
+                return;
+            }
+        }
     }
 
     //вызывается перед сериализацией

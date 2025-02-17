@@ -3,7 +3,7 @@ using UnityEngine;
 using Weapons;
 using Zenject;
 
-namespace MyProject
+namespace Tool
 {
     public class Spawner : MonoBehaviour
     {        

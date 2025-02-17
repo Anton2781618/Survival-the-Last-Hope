@@ -5,7 +5,7 @@ using Zenject;
 using static InventoryDiablo.ItemData;
 
 
-namespace MyProject
+namespace Tool
 {
     //класс с вспомогательными методами
     public static class Helper

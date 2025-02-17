@@ -2,7 +2,7 @@ using System;
 using UnityEngine;
 using UnityEngine.Animations.Rigging;
 
-namespace MyProject
+namespace Tool
 {
     [Serializable]
     public class PlayerModel

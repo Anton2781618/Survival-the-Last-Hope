@@ -1,9 +1,9 @@
 using System.Collections;
 using InventoryDiablo;
-using MyProject;
+using Tool;
 using UnityEngine;
 
-namespace MyProject
+namespace Tool
 {
     public class SaveManager : MonoBehaviour
     {

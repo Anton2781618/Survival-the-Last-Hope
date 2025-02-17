@@ -1,8 +1,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using InventoryDiablo;
+using Unity.Mathematics;
 using Unity.VisualScripting;
 using UnityEditor;
+using UnityEditor.SceneManagement;
 using UnityEngine;
 
 namespace ModularEventArchitecture
@@ -187,8 +189,8 @@ namespace ModularEventArchitecture
                             foreach (var item in grid.activeItems)
                             {
                                 Rect itemRect = new Rect(
-                                    gridRect.x + item.OnGridPositionX * cellSize,
-                                    gridRect.y + item.OnGridPositionY * cellSize,
+                                    gridRect.x + item.OnGridPosition.x * cellSize,
+                                    gridRect.y + item.OnGridPosition.y * cellSize,
                                     item.WIDTH * cellSize,
                                     item.HEIGHT * cellSize
                                 );
@@ -207,8 +209,8 @@ namespace ModularEventArchitecture
                         foreach (var item in grid.activeItems)
                         {
                             Rect itemRect = new Rect(
-                                gridRect.x + item.OnGridPositionX * cellSize,
-                                gridRect.y + item.OnGridPositionY * cellSize,
+                                gridRect.x + item.OnGridPosition.x * cellSize,
+                                gridRect.y + item.OnGridPosition.y * cellSize,
                                 item.WIDTH * cellSize,
                                 item.HEIGHT * cellSize
                             );
@@ -243,6 +245,7 @@ namespace ModularEventArchitecture
                     {
                         Repaint();
                         currentEvent.Use();
+                        EditorSceneManager.MarkSceneDirty(EditorSceneManager.GetActiveScene()); // Помечаем сцену как измененную
                     }
                     break;
 
@@ -256,8 +259,8 @@ namespace ModularEventArchitecture
                         foreach (var item in grid.activeItems)
                         {
                             Rect itemRect = new Rect(
-                                gridRect.x + item.OnGridPositionX * cellSize,
-                                gridRect.y + item.OnGridPositionY * cellSize,
+                                gridRect.x + item.OnGridPosition.x * cellSize,
+                                gridRect.y + item.OnGridPosition.y * cellSize,
                                 item.WIDTH * cellSize,
                                 item.HEIGHT * cellSize
                             );
@@ -269,36 +272,113 @@ namespace ModularEventArchitecture
                             }
                         }
 
+                        // Проверяем можно ли вставить предмет в целевой предмет
                         if (targetItem != null && CanCombineItems(targetItem, draggedItem))
                         {
                             // Пытаемся добавить предмет в первую подходящую сетку
                             foreach (var targetGrid in targetItem.Grids)
                             {
-                                // if (targetGrid.specificItemCombined.Contains(draggedItem.ItemData))
+                                // Проверяем есть ли место в сетке
+                                if (targetGrid.CheckAvailableSpace(0, 0, draggedItem.WIDTH, draggedItem.HEIGHT))
                                 {
-                                    // Проверяем есть ли место в сетке
-                                    if (targetGrid.CheckAvailableSpace(0, 0, draggedItem.WIDTH, draggedItem.HEIGHT))
+                                    targetGrid.PlaceItem(draggedItem, 0, 0);
+                                    if (draggedItem == selectedItem)
                                     {
-                                        targetGrid.PlaceItem(0, 0, draggedItem);
-                                        if (draggedItem == selectedItem)
-                                        {
-                                            selectedItem = null;
-                                        }
-                                        isDragging = false;
-                                        draggedItem = null;
-                                        originalPosition = null;
-                                        dragOffset = Vector2.zero;
-                                        currentEvent.Use();
-                                        return;
+                                        selectedItem = null;
                                     }
+                                    isDragging = false;
+                                    draggedItem = null;
+                                    originalPosition = null;
+                                    dragOffset = Vector2.zero;
+                                    currentEvent.Use();
                                 }
                             }
                         }
-                
+                        else
+                        {
+                            // Если предмет не может быть вставлен в целевой предмет, то проверяем сетки предмета на наличие предметов которые подходят для комбинации с целевым предметом
+                            foreach (var draggedItemGrid in draggedItem.Grids)
+                            {
+                                foreach (var draggedActiveItem in draggedItemGrid.activeItems)
+                                {
+                                    if (targetItem != null && CanCombineItems(targetItem, draggedActiveItem))
+                                    {
+                                        // Пытаемся добавить предмет в первую подходящую сетку
+                                        foreach (var targetGrid in targetItem.Grids)
+                                        {
+                                            // Проверяем есть ли место в сетке
+                                            if (targetGrid.CheckAvailableSpace(0, 0, draggedActiveItem.WIDTH, draggedActiveItem.HEIGHT))
+                                            {
+                                                InventoryItem cloneItem = draggedActiveItem.Clone();
+                                                //вычитаем из 
+                                                
+                                                draggedActiveItem.Amount -= targetGrid.MaxStackSize;
+                                                cloneItem.Amount = targetGrid.MaxStackSize;
+                                                
+                                                // cloneItem.Amount = diff;
+                                                targetGrid.PlaceItem(cloneItem, 0, 0);
+                                                if (draggedActiveItem == selectedItem)
+                                                {
+                                                    selectedItem = null;
+                                                }
+
+                                                // Возвращаем предмет на исходную позицию
+                                                grid.activeItems.Add(originalPosition);
+                                                isDragging = false;
+                                                originalPosition = null;
+                                                draggedItem = null;
+                                                dragOffset = Vector2.zero;
+                                                currentEvent.Use();
+                                            }
+                                            else
+                                            {
+                                                Debug.Log("Нет места в сетке");
+                                                foreach (var targetActiveItem in targetGrid.activeItems)
+                                                {
+                                                    if(targetActiveItem.ItemData == draggedActiveItem.ItemData)
+                                                    {
+                                                        int diff = math.abs(targetActiveItem.Amount - targetGrid.MaxStackSize); 
+
+                                                        if(diff > 0)
+                                                        {
+                                                            if(draggedActiveItem.Amount > diff)
+                                                            {
+                                                                Debug.Log("1");
+                                                                targetActiveItem.Amount += diff;
+                                                                draggedActiveItem.Amount -= diff;
+                                                            }
+                                                            else
+                                                            {
+                                                                Debug.Log("2");
+                                                                Debug.Log($"target {targetActiveItem.Amount} : eragg {draggedActiveItem.Amount}" );
+                                                                targetActiveItem.Amount += draggedActiveItem.Amount;
+                                                                
+                                                                draggedItemGrid.activeItems.Remove(draggedActiveItem);
+                                                                grid.activeItems.Add(originalPosition);
+                                                                isDragging = false;
+                                                                originalPosition = null;
+                                                                draggedItem = null;
+                                                                dragOffset = Vector2.zero;
+                                                                currentEvent.Use();
+                                                                return;
+                                                            }
+                                                            
+                                                        }
+
+                                                    }
+                                                    
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }                        
+                                       
                         Vector2 newPos = GetGridPosition(gridRect, mousePosition - dragOffset);
                         if (CanPlaceItem(grid, (int)newPos.x, (int)newPos.y))
                         {
-                            grid.PlaceItem((int)newPos.x, (int)newPos.y, draggedItem);
+                            grid.PlaceItem(draggedItem, (int)newPos.x, (int)newPos.y);
                             if (draggedItem == selectedItem)
                             {
                                 selectedItem = null;
@@ -338,8 +418,7 @@ namespace ModularEventArchitecture
             {
                 if(grid.CompatibilityGridMod == GridData2.Compatibility.Access_public)
                 {
-                        return true;
-
+                    return true;
                 }
                 else
                 if(grid.CompatibilityGridMod == GridData2.Compatibility.Access_by_specific_item)
@@ -352,13 +431,11 @@ namespace ModularEventArchitecture
                 else
                 if(grid.CompatibilityGridMod == GridData2.Compatibility.Access_by_item_groups)
                 {
-                    if(targetItem.ItemData.ItemGroup == grid.CompatibleGroup)
+                    if(draggedItem.ItemData.ItemGroup == grid.CompatibleGroup)
                     {
                         return true;
                     }
-                    
                 }
-
             }
             
             return false;
@@ -422,7 +499,7 @@ namespace ModularEventArchitecture
                 EditorUtility.DisplayDialog("Информация о предмете", 
                     $"Название: {item.ItemData.Title}\n" +
                     $"Размер: {item.WIDTH}x{item.HEIGHT}\n" +
-                    $"Позиция: ({item.OnGridPositionX}, {item.OnGridPositionY})", 
+                    $"Позиция: ({item.OnGridPosition.x}, {item.OnGridPosition.y})", 
                     "OK");
             });
 
@@ -500,8 +577,8 @@ namespace ModularEventArchitecture
             {
                 // Вычисляем прямоугольник для предмета
                 Rect itemRect = new Rect(
-                    gridRect.x + item.OnGridPositionX * cellSize,
-                    gridRect.y + item.OnGridPositionY * cellSize,
+                    gridRect.x + item.OnGridPosition.x * cellSize,
+                    gridRect.y + item.OnGridPosition.y * cellSize,
                     item.WIDTH * cellSize,
                     item.HEIGHT * cellSize 
                 );

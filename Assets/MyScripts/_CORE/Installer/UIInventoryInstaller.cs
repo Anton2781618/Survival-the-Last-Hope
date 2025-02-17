@@ -2,7 +2,7 @@ using ModestTree;
 using UnityEngine;
 using Zenject;
 
-namespace MyProject
+namespace Tool
 {
     public class UIInventoryInstaller : MonoInstaller
     {

@@ -1,4 +1,4 @@
-using MyProject;
+using Tool;
 using States;
 using UnityEngine;
 using UnityEngine.AI;
@@ -21,7 +21,7 @@ public class Mk3Installer : MonoInstaller
     
 }
 
-namespace MyProject
+namespace Tool
 {
     public class MoveSpiderSystem : MoveSpiderHanler, IMuveHandler
     {

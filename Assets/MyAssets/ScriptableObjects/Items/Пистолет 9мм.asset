@@ -12,15 +12,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 899338d7b8ba7504faaf588374590522, type: 3}
   m_Name: "\u041F\u0438\u0441\u0442\u043E\u043B\u0435\u0442 9\u043C\u043C"
   m_EditorClassIdentifier: 
-  ItemIcon: {fileID: 69552275, guid: a12529b02c8fa5e4ebc777bbb409d105, type: 3}
+  ItemIcon: {fileID: -296320978, guid: da8074154281afb45bf7145579a1ae15, type: 3}
   Title: "\u041F\u0438\u0441\u0442\u043E\u043B\u0435\u0442 9\u043C\u043C"
   Description: 
-  Prefab: {fileID: -1152881421759394975, guid: 28c55101572547c42a314c7f2f8a6096, type: 3}
+  Prefab: {fileID: 0}
   Width: 3
   Height: 2
   MaxStackSize: 0
   Price: 0
-  TypeItem: 32
-  ItemGroup: Default
-  CanBeCombined:
-  - {fileID: 11400000, guid: 0156facadb44fc244ac5036fd3335aee, type: 2}
+  TypeItem: 0
+  ItemGroup: Default/default
+  CanBeCombined: []

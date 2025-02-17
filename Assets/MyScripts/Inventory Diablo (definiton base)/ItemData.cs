@@ -7,33 +7,37 @@ namespace InventoryDiablo
     [CreateAssetMenu] [Serializable]
     public class ItemData : ScriptableObject, ISerializationCallbackReceiver
     {
+        //-------------------------------------------------------------------------------------
         [Header("Основные настройки")]
         public Sprite ItemIcon;
         public string Title;
         public string Description;
         public ItemOnstreet Prefab;
         
+        //-------------------------------------------------------------------------------------
         [Header("Размер итема на сетке")]
         public int Width = 1;
         public int Height = 1;
 
+        //-------------------------------------------------------------------------------------
         [Header("Размер стека предмета")]
-        public int MaxStackSize = 1;
-
+        public int MaxStackSize = 0;
         
+        //-------------------------------------------------------------------------------------
         [Header("Прочие")]
         public int Price = 0;
 
         //список типов предметов которые могут быть совмещены с этим предметом
         // public ItemType canBeCombinedWith;
+        //-------------------------------------------------------------------------------------
         [Header("Предметры типа итема")]
         public ItemType TypeItem;
-        [Tools.Popup] public string ItemGroup = "Default";
+        [Tools.Popup] public string ItemGroup = "Default/default";
         public ItemData[] CanBeCombined;
 
         //-------------------------------------------------------------------------------------
         [Header("Блок Настройки сетки" )]
-        public GridData2[] Grids;
+        // public GridData2[] Grids;
 
         //-------------------------------------------------------------------------------------
         //настройки сериалиации
@@ -74,7 +78,7 @@ namespace InventoryDiablo
             if (currentDepth >= MaxDepth)
             {
                 CanBeCombined = null;
-                Grids = null;
+                // Grids = null;
             }
             else
             {

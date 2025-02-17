@@ -4,7 +4,7 @@ using InventoryDiablo;
 using Units;
 using UnityEngine;
 
-namespace MyProject
+namespace Tool
 {
     public class GameDataBase : MonoBehaviour
     {
