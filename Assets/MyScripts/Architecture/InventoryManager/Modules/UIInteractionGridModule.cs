@@ -167,7 +167,6 @@ namespace ModularEventArchitecture
         private void HandleHighlight()
         {
             Vector2Int positionOnGrid = GetTitleGridPosition();
-            Debug.Log(positionOnGrid + " координаты я");
             if(_oldPosition == positionOnGrid){return;}
             
             _oldPosition = positionOnGrid;
@@ -184,10 +183,7 @@ namespace ModularEventArchitecture
                 else
                 {
                     inventoryIHighLight.Show(false);
-                    
                 }
-
-                // GameManager.singleton.SwithInfoItem(false);
             }
             else
             {

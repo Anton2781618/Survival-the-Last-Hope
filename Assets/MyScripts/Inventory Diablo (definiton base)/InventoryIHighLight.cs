@@ -13,7 +13,6 @@ namespace InventoryDiablo
         //показать подсветку
         public void Show(bool value)
         {
-            Debug.Log("Show highLighter " + value);
             highLighter.gameObject.SetActive(value);
             
             highLighter.SetAsFirstSibling();

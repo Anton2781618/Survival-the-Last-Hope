@@ -13,7 +13,7 @@ namespace InventoryDiablo
     public class ItemGrid : MonoBehaviour
     {
         [SerializeField] private UISlotBuilder _uISlotBuilder;
-        public GridData GridDataInfo;
+        public GridData2 GridDataInfo;
         public RectTransform rectTransform;
         private Vector2 _mousePositionOnTheGrid = new Vector2();
         private Vector2Int titeGridPosition = new Vector2Int();
@@ -331,6 +331,7 @@ namespace InventoryDiablo
         //проверка границ сетки, если позиция итема + его самая дальяя часть за сеткой то фалс
         public bool BoundryCheck(int posX, int posY, int width, int height)
         {
+            Debug.Log("BoundryCheck " + posX + " " + posY + " " + width + " " + height);
             if(PositionCheck(posX, posY) == false) {return false;}
 
             posX += width - 1;

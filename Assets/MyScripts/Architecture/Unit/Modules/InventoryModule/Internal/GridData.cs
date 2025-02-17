@@ -9,10 +9,11 @@ using static InventoryDiablo.ItemData;
 [Serializable]
 public class GridData
 {
+    //!! Легаси
     public const float titleSizeWidth = 32;
     public const float titleSizeHeight = 32;
 
-    [NonSerialized] public InventoryItem[,] InventoryItems;
+    [NonSerialized] public InventoryItem[,] activeItems;
     
     [Header("Размер сетки")]
     public Vector2Int GridSize = new Vector2Int(5, 5);
@@ -26,12 +27,12 @@ public class GridData
     //устанавлмвает начальный размер сетки
     public void Init(int width, int height)
     {
-        InventoryItems = new InventoryItem[width, height];
+        activeItems = new InventoryItem[width, height];
     }
 
     public InventoryItem GetItem(int x, int y)
     {
-        return InventoryItems[x, y];
+        return activeItems[x, y];
     }
     
 
@@ -119,7 +120,7 @@ public class GridData
         {
             for (int y = 0; y < inventoryItem.HEIGHT; y++)
             {
-                InventoryItems[posX + x, posY + y] = inventoryItem;
+                activeItems[posX + x, posY + y] = inventoryItem;
             }
         }
 
@@ -133,7 +134,7 @@ public class GridData
         {
             for (int y = 0; y < height; y++)
             {
-                if(InventoryItems[posX + x, posY + y] != null)
+                if(activeItems[posX + x, posY + y] != null)
                 {
                     return false;
                 }
@@ -146,7 +147,7 @@ public class GridData
     //метод поднять итем из сетки и вернуть его
     public InventoryItem SelectIteme(int x, int y)
     {
-        InventoryItem toReturn = InventoryItems[x, y];
+        InventoryItem toReturn = activeItems[x, y];
 
         if (toReturn == null) { return null; }
 
@@ -162,7 +163,7 @@ public class GridData
         {
             for (int iy = 0; iy < toReturn.HEIGHT; iy++)
             {
-                InventoryItems[toReturn.OnGridPosition.x + ix, toReturn.OnGridPosition.y + iy] = null;
+                activeItems[toReturn.OnGridPosition.x + ix, toReturn.OnGridPosition.y + iy] = null;
             }
         }
     }
@@ -174,7 +175,7 @@ public class GridData
         {
             for (int y = 0; y < GridSize.y; y++)
             {
-                InventoryItems[x, y] = null;
+                activeItems[x, y] = null;
             }
         }
     }
@@ -332,13 +333,16 @@ public class GridData2 : ISerializationCallbackReceiver
     {
         foreach (var item in activeItems)
         {
-            if (item.OnGridPosition.x == x && item.OnGridPosition.y == y)
+            // Проверяем, попадают ли координаты в область предмета
+            bool isInsideItemX = x >= item.OnGridPosition.x && x < item.OnGridPosition.x + item.WIDTH;
+            bool isInsideItemY = y >= item.OnGridPosition.y && y < item.OnGridPosition.y + item.HEIGHT;
+            
+            if (isInsideItemX && isInsideItemY)
             {
-                activeItems.Remove(item);
+                activeItems.Remove(item); // Удаляем предмет из списка
                 return item;
             }
         }
-
         return null;
     }
 
@@ -346,12 +350,15 @@ public class GridData2 : ISerializationCallbackReceiver
     {
         foreach (var item in activeItems)
         {
-            if (item.OnGridPosition.x == x && item.OnGridPosition.y == y)
+            // Проверяем, попадают ли координаты в область предмета
+            bool isInsideItemX = x >= item.OnGridPosition.x && x < item.OnGridPosition.x + item.WIDTH;
+            bool isInsideItemY = y >= item.OnGridPosition.y && y < item.OnGridPosition.y + item.HEIGHT;
+            
+            if (isInsideItemX && isInsideItemY)
             {
                 return item;
             }
         }
-
         return null;
     }
     
