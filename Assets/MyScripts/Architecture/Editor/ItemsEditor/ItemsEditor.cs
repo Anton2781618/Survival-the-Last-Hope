@@ -4,33 +4,39 @@ using InventoryDiablo;
 using System;
 using System.Linq;
 using static GridData2;
-using System.Reflection.Emit;
-using NUnit.Framework;
+using static InventoryDiablo.ItemData;
 
 namespace ModularEventArchitecture
 {
     // Редактор настрока итемов
     public class ItemsEditor : EditorWindow
     {
+        //-----------------------------------------------------------
+        private AvailableItems _targetAsset;
+        private Vector2 _centrScrollPosition;
+        private Vector2 _scrollPosition;
+
+        //-----------------------------------------------------------
+        private float _cellSize = 32f;
+        private float _gridCellSize = 16f;
+        private Vector2 initialGridPosition;
         
-        private AvailableItems targetAsset;
-        private Vector2 CentrScrollPosition;
-        private Vector2 scrollPosition;
-        private float cellSize = 32f;
-        private InventoryItem selectedItem;
-        private bool isDragging;
-        private Vector2 mousePosition;
-        private Vector2 dragStartPosition;
-        private GridData2 activeGrid;
+        //-----------------------------------------------------------
+        private InventoryItem _selectedItem;
+        private bool _isDragging;
+        private Vector2 _mousePosition;
+        private Vector2 _dragStartPosition;
+        private GridData2 _activeGrid;
         
         //-----------------------------------------------------------
         public int ItemsIndexTypes = 0;
         public int ItemGroupIndex = 0;
         
+        //-----------------------------------------------------------
+        private bool _needToRemoveGrid = false;
+        private int _gridIndexToRemove = -1;
 
         //-----------------------------------------------------------
-        private bool needToRemoveGrid = false;
-        private int gridIndexToRemove = -1;
         private HierarchyItemTypesBuilder _asset;
         private HierarchyItemTypesBuilder Asset
         {
@@ -49,12 +55,14 @@ namespace ModularEventArchitecture
             }
         }
 
+        //!-----------------------------------------------------------
+
         [MenuItem("Tools/Редактор предметов")]
         public static void ShowWindow() => GetWindow<ItemsEditor>("Available Items Editor");
 
         private void OnGUI()
         {
-            if (targetAsset == null)
+            if (_targetAsset == null)
             {
                 DrawAssetSelection();
                 return;
@@ -67,7 +75,7 @@ namespace ModularEventArchitecture
                 // Левая панель - список предметов
                 DrawItemsList();
 
-                if(selectedItem != null)
+                if(_selectedItem != null)
                 {
                     //центральная часть - информация о выбранном предмете
                     DrawItemInfo();
@@ -78,10 +86,10 @@ namespace ModularEventArchitecture
 
                     if (Event.current.type == EventType.Layout)
                     {
-                        if (needToRemoveGrid)
+                        if (_needToRemoveGrid)
                         {
-                            RemoveGrid(gridIndexToRemove);
-                            needToRemoveGrid = false;
+                            RemoveGrid(_gridIndexToRemove);
+                            _needToRemoveGrid = false;
                             Repaint();
                         }
                     }
@@ -95,15 +103,20 @@ namespace ModularEventArchitecture
             EditorGUILayout.BeginVertical("box", GUILayout.Width(100));
             if (GUILayout.Button("Сохранить изменения", GUILayout.Height(30)))
             {
-                EditorUtility.SetDirty(targetAsset);
+                // Помечаем все измененные объекты как "грязные"
+                EditorUtility.SetDirty(_targetAsset);
+                EditorUtility.SetDirty(_selectedItem.ItemData);
+                
+                // Сохраняем все изменения
                 AssetDatabase.SaveAssets();
+                AssetDatabase.Refresh();
             }
 
             EditorGUILayout.Space(20);
 
             if (GUILayout.Button("Выбрать другой ассет", GUILayout.Height(30)))
             {
-                targetAsset = null;
+                _targetAsset = null;
 
                 GUIUtility.ExitGUI();
             }
@@ -113,32 +126,32 @@ namespace ModularEventArchitecture
         //блок и информацией по сеткам
         private void DrawItemInfo()
         {
-            if (selectedItem == null) return;
-            CentrScrollPosition = EditorGUILayout.BeginScrollView(CentrScrollPosition, GUILayout.Width(450));
+            if (_selectedItem == null) return;
+            _centrScrollPosition = EditorGUILayout.BeginScrollView(_centrScrollPosition, GUILayout.Width(450));
             
                 EditorGUILayout.BeginVertical(GUILayout.Width(400));
                     EditorGUILayout.BeginVertical("box", GUILayout.Width(400));
                     
                         EditorGUILayout.BeginHorizontal();
-                            EditorGUILayout.LabelField(selectedItem.ItemData.name, EditorStyles.boldLabel);
+                            EditorGUILayout.LabelField(_selectedItem.ItemData.name, EditorStyles.boldLabel);
                             if (GUILayout.Button("Обновиь название ассета", GUILayout.Width(200)))
                             {
                                 //сменить название итема на название ассета
-                                string assetPath = AssetDatabase.GetAssetPath(selectedItem.ItemData);
-                                selectedItem.ItemData.name = selectedItem.ItemData.Title;
-                                AssetDatabase.RenameAsset(assetPath, selectedItem.ItemData.name);
-                                EditorUtility.SetDirty(selectedItem.ItemData);
+                                string assetPath = AssetDatabase.GetAssetPath(_selectedItem.ItemData);
+                                _selectedItem.ItemData.name = _selectedItem.ItemData.Title;
+                                AssetDatabase.RenameAsset(assetPath, _selectedItem.ItemData.name);
+                                EditorUtility.SetDirty(_selectedItem.ItemData);
                                 AssetDatabase.SaveAssets();
                             }
 
                             //удалить ассет
                             if (GUILayout.Button("X", GUILayout.Width(20)))
                             {
-                                targetAsset.items.Remove(selectedItem);
-                                string assetPath = AssetDatabase.GetAssetPath(selectedItem.ItemData);
+                                _targetAsset.items.Remove(_selectedItem);
+                                string assetPath = AssetDatabase.GetAssetPath(_selectedItem.ItemData);
                                 AssetDatabase.DeleteAsset(assetPath);
 
-                                selectedItem = null;
+                                _selectedItem = null;
                                 GUIUtility.ExitGUI();
                             }
                         EditorGUILayout.EndHorizontal();
@@ -148,23 +161,25 @@ namespace ModularEventArchitecture
                     // Основные параметры предмета
                     EditorGUILayout.LabelField("Параметры итема", EditorStyles.boldLabel);
 
-                    selectedItem.ItemData.ItemIcon = EditorGUILayout.ObjectField("Иконка", selectedItem.ItemData.ItemIcon, typeof(Sprite), false) as Sprite;
+                    _selectedItem.ItemData.ItemIcon = EditorGUILayout.ObjectField("Иконка", _selectedItem.ItemData.ItemIcon, typeof(Sprite), false) as Sprite;
 
-                    selectedItem.ItemData.Title = EditorGUILayout.TextField("Название", selectedItem.ItemData.Title);
-                    selectedItem.ItemData.Description = EditorGUILayout.TextField("Описание", selectedItem.ItemData.Description, GUILayout.Height(50));
+                    _selectedItem.ItemData.Title = EditorGUILayout.TextField("Название", _selectedItem.ItemData.Title);
+                    _selectedItem.ItemData.Description = EditorGUILayout.TextField("Описание", _selectedItem.ItemData.Description, GUILayout.Height(50));
+
+                    _selectedItem.ItemData.TypeItem = (ItemType)EditorGUILayout.EnumFlagsField("Тип предмета", _selectedItem.ItemData.TypeItem);
 
                     //префаб
-                    selectedItem.ItemData.Prefab = EditorGUILayout.ObjectField("Префаб", selectedItem.ItemData.Prefab, typeof(ItemOnstreet), false) as ItemOnstreet;
+                    _selectedItem.ItemData.Prefab = EditorGUILayout.ObjectField("Префаб", _selectedItem.ItemData.Prefab, typeof(ItemOnstreet), false) as ItemOnstreet;
 
                     EditorGUILayout.LabelField("размеры", EditorStyles.boldLabel);
-                    selectedItem.ItemData.Width = EditorGUILayout.IntField("Ширина", selectedItem.ItemData.Width);
-                    selectedItem.ItemData.Height = EditorGUILayout.IntField("Высота", selectedItem.ItemData.Height);
+                    _selectedItem.ItemData.Width = EditorGUILayout.IntField("Ширина", _selectedItem.ItemData.Width);
+                    _selectedItem.ItemData.Height = EditorGUILayout.IntField("Высота", _selectedItem.ItemData.Height);
 
-                    ItemGroupIndex = EditorGUILayout.Popup("группа итема", Array.IndexOf(Asset.HierarchyItemsTypes.ToArray(), selectedItem.ItemData.ItemGroup), Asset.HierarchyItemsTypes.ToArray());
-                    selectedItem.ItemData.ItemGroup = Asset.HierarchyItemsTypes[ItemGroupIndex];
+                    ItemGroupIndex = EditorGUILayout.Popup("группа итема", Array.IndexOf(Asset.HierarchyItemsTypes.ToArray(), _selectedItem.ItemData.ItemGroup), Asset.HierarchyItemsTypes.ToArray());
+                    _selectedItem.ItemData.ItemGroup = Asset.HierarchyItemsTypes[ItemGroupIndex];
 
-                    selectedItem.ItemData.MaxStackSize = EditorGUILayout.IntField("Максимальный стак", selectedItem.ItemData.MaxStackSize);
-                    selectedItem.Amount = EditorGUILayout.IntField("Количество", selectedItem.Amount);
+                    _selectedItem.ItemData.MaxStackSize = EditorGUILayout.IntField("Максимальный стак", _selectedItem.ItemData.MaxStackSize);
+                    _selectedItem.Amount = EditorGUILayout.IntField("Количество", _selectedItem.Amount);
                     
                     EditorGUILayout.EndVertical();
                     DrawGridEditor();
@@ -177,7 +192,7 @@ namespace ModularEventArchitecture
         {
             EditorGUILayout.HelpBox("Select AvailableItems Asset", MessageType.Info);
             
-            targetAsset = EditorGUILayout.ObjectField("Asset", targetAsset, typeof(AvailableItems), false) as AvailableItems;
+            _targetAsset = EditorGUILayout.ObjectField("Asset", _targetAsset, typeof(AvailableItems), false) as AvailableItems;
             
             if (GUILayout.Button("Создать новый ассет"))
             {
@@ -185,8 +200,8 @@ namespace ModularEventArchitecture
                 
                 if (!string.IsNullOrEmpty(path))
                 {
-                    targetAsset = CreateInstance<AvailableItems>();
-                    AssetDatabase.CreateAsset(targetAsset, path);
+                    _targetAsset = CreateInstance<AvailableItems>();
+                    AssetDatabase.CreateAsset(_targetAsset, path);
                     AssetDatabase.SaveAssets();
                 }
             }
@@ -208,22 +223,22 @@ namespace ModularEventArchitecture
                 InventoryItem newItem = new InventoryItem();
                 newItem.ItemData = itemData;
                 
-                targetAsset.items.Add(newItem);
+                _targetAsset.items.Add(newItem);
             }
 
                 EditorGUILayout.LabelField("Список итемов:", EditorStyles.boldLabel);
 
-                scrollPosition = EditorGUILayout.BeginScrollView(scrollPosition);
+                _scrollPosition = EditorGUILayout.BeginScrollView(_scrollPosition);
                 
-                    for (int i = 0; i < targetAsset.items.Count; i++)
+                    for (int i = 0; i < _targetAsset.items.Count; i++)
                     {
-                        var item = targetAsset.items[i];
+                        var item = _targetAsset.items[i];
                         
-                        GUI.backgroundColor = selectedItem != null && selectedItem.ItemData.Title == item.ItemData.Title ? Color.cyan : Color.white;
+                        GUI.backgroundColor = _selectedItem != null && _selectedItem.ItemData.Title == item.ItemData.Title ? Color.cyan : Color.white;
                         
                         if (GUILayout.Button(item.ItemData.Title))
                         {
-                            selectedItem = item;
+                            _selectedItem = item;
                         }
 
                         GUI.backgroundColor = Color.white;
@@ -231,12 +246,12 @@ namespace ModularEventArchitecture
                 
                 EditorGUILayout.EndScrollView();
 
-                if (selectedItem != null)
+                if (_selectedItem != null)
                 {
                     EditorGUILayout.Space();
                     EditorGUILayout.LabelField("Выбранный итем:", EditorStyles.boldLabel);
-                    EditorGUILayout.LabelField($"Название: {selectedItem.ItemData.Title}");
-                    EditorGUILayout.LabelField($"Размер: {selectedItem.WIDTH}x{selectedItem.HEIGHT}");
+                    EditorGUILayout.LabelField($"Название: {_selectedItem.ItemData.Title}");
+                    EditorGUILayout.LabelField($"Размер: {_selectedItem.WIDTH}x{_selectedItem.HEIGHT}");
                 }
 
             EditorGUILayout.EndVertical();
@@ -244,22 +259,24 @@ namespace ModularEventArchitecture
 
         private void DrawSelectedItemEditor()
         {
-            scrollPosition = EditorGUILayout.BeginScrollView(scrollPosition);
+            _scrollPosition = EditorGUILayout.BeginScrollView(_scrollPosition);
 
-            EditorGUI.DrawRect(new Rect(0, 0, 650, 265), new Color(0.1803922f, 0.1803922f, 0.1803922f));
+            Vector2 sizeItem = InventoryEditor.GetContainerSize(_selectedItem.ItemData.TypeItem);
 
-            if(selectedItem.Grids == null) return;
+            EditorGUI.DrawRect(new Rect(0, 0, sizeItem.x, sizeItem.y), new Color(0.1803922f, 0.1803922f, 0.1803922f));
+
+            if(_selectedItem.Grids == null) return;
 
             // Редактор сеток предмета
-            for (int i = 0; i < selectedItem.Grids.Length; i++)
+            for (int i = 0; i < _selectedItem.Grids.Length; i++)
             {
-                GridData2 grid = selectedItem.Grids[i];
+                GridData2 grid = _selectedItem.Grids[i];
                 // Отрисовка сетки
-                Rect gridRect = new Rect(grid.Position.x, grid.Position.y, grid.GridSize.x * cellSize, grid.GridSize.y * cellSize);
+                Rect gridRect = new Rect(grid.Position.x, grid.Position.y, grid.Size.x * _cellSize, grid.Size.y * _cellSize);
 
                 DrawGrid(gridRect, grid);
                 // Рисуем текст с номером сетки посередине сетки белого цвета
-                Handles.Label(gridRect.min + new Vector2(5, 5), $"Сетка №{i} {grid.Position}", new GUIStyle { normal = new GUIStyleState { textColor = Color.white} });
+                Handles.Label(gridRect.min + new Vector2(5, 5), $"Сетка №{i}", new GUIStyle { normal = new GUIStyleState { textColor = Color.white} });
 
                 HandleDragAndDrop(gridRect, grid);
             }
@@ -278,25 +295,25 @@ namespace ModularEventArchitecture
             }
 
             // Отображаем все сетки
-            for (int i = 0; i < selectedItem.Grids.Length; i++)
+            for (int i = 0; i < _selectedItem.Grids.Length; i++)
             {
                 EditorGUILayout.Space(5);
-                var grid = selectedItem.Grids[i];
+                var grid = _selectedItem.Grids[i];
 
                 var gridRect = EditorGUILayout.BeginVertical();
 
-                    EditorGUI.DrawRect(gridRect, new Color(0.3f, 0.3f, 0.3f));
+                    EditorGUI.DrawRect(gridRect, new Color(0.2627451f, 0.2627451f, 0.2627451f));
                 
                     EditorGUILayout.LabelField($"Сетка {i}", GUILayout.Width(100));
 
                     if (GUILayout.Button("Удалить", GUILayout.Width(100)))
                     {
-                        gridIndexToRemove = i;
-                        needToRemoveGrid = true;
+                        _gridIndexToRemove = i;
+                        _needToRemoveGrid = true;
                     }
 
                     grid.Position = EditorGUILayout.Vector2Field("Позиция сетки", grid.Position);
-                    grid.GridSize = EditorGUILayout.Vector2IntField("Размер сетки", grid.GridSize);
+                    grid.Size = EditorGUILayout.Vector2IntField("Размер сетки", grid.Size);
 
                     grid.MaxStackSize = EditorGUILayout.IntField("Максимальный стак итемов", grid.MaxStackSize);
 
@@ -352,32 +369,32 @@ namespace ModularEventArchitecture
         {
             GridData2 newGrid = new GridData2
             {
-                GridSize = new Vector2Int(5, 5),
-                Position = new Vector2(0, selectedItem.Grids.Length * 200)
+                Size = new Vector2Int(5, 5),
+                Position = new Vector2(0, 0)
             };
-            Array.Resize(ref selectedItem.Grids, selectedItem.Grids.Length + 1);
-            selectedItem.Grids[selectedItem.Grids.Length - 1] = newGrid;
+            Array.Resize(ref _selectedItem.Grids, _selectedItem.Grids.Length + 1);
+            _selectedItem.Grids[_selectedItem.Grids.Length - 1] = newGrid;
         }
 
         private void RemoveGrid(int index)
         {
-            var tempList = selectedItem.Grids.ToList();
+            var tempList = _selectedItem.Grids.ToList();
             tempList.RemoveAt(index);
-            selectedItem.Grids = tempList.ToArray();
+            _selectedItem.Grids = tempList.ToArray();
         }
 
         private void DrawGrid(Rect gridRect, GridData2 grid)
         {            
             // Рисуем ячейки с учетом смещения
-            for (int x = 0; x < grid.GridSize.x; x++)
+            for (int x = 0; x < grid.Size.x; x++)
             {
-                for (int y = 0; y < grid.GridSize.y; y++)
+                for (int y = 0; y < grid.Size.y; y++)
                 {
                     Rect cellRect = new Rect(
-                        gridRect.x + x * cellSize,
-                        gridRect.y + y * cellSize,
-                        cellSize,
-                        cellSize
+                        gridRect.x + x * _cellSize,
+                        gridRect.y + y * _cellSize,
+                        _cellSize,
+                        _cellSize
                     );
 
                     // Рисуем фон ячейки
@@ -391,36 +408,52 @@ namespace ModularEventArchitecture
         private void HandleDragAndDrop(Rect gridRect, GridData2 grid)
         {
             Event currentEvent = Event.current;
-            mousePosition = currentEvent.mousePosition;
+            _mousePosition = currentEvent.mousePosition;
 
             switch (currentEvent.type)
             {
                 case EventType.MouseDown:
-                    if (gridRect.Contains(mousePosition))
+                    if (gridRect.Contains(_mousePosition))
                     {
-                        isDragging = true;
-                        dragStartPosition = mousePosition;
-                        activeGrid = grid;
+                        _isDragging = true;
+                        _dragStartPosition = _mousePosition;
+                        _activeGrid = grid;
+                        // Сохраняем начальную позицию сетки
+                        initialGridPosition = grid.Position;
                         currentEvent.Use();
                     }
                     break;
 
                 case EventType.MouseDrag:
-                    if (isDragging && activeGrid == grid)
+                    if (_isDragging && _activeGrid == grid)
                     {
-                        Vector2 delta = mousePosition - dragStartPosition;
-                        grid.Position += delta;
-                        dragStartPosition = mousePosition;
+                        // Вычисляем дельту с учетом размера ячейки
+                        Vector2 delta = _mousePosition - _dragStartPosition;
+                        
+                        // Привязываем позицию к сетке
+                        Vector2 snappedPosition = new Vector2(
+                            initialGridPosition.x + Mathf.Round(delta.x / _gridCellSize) * _gridCellSize,
+                            initialGridPosition.y + Mathf.Round(delta.y / _gridCellSize) * _gridCellSize
+                        );
+                        
+                        grid.Position = snappedPosition;
                         Repaint();
                         currentEvent.Use();
                     }
                     break;
 
                 case EventType.MouseUp:
-                    if (isDragging)
+                    if (_isDragging)
                     {
-                        isDragging = false;
-                        activeGrid = null;
+                                // Финальная привязка к сетке
+                        Vector2 finalPosition = new Vector2(
+                            Mathf.Round(grid.Position.x / _gridCellSize) * _gridCellSize,
+                            Mathf.Round(grid.Position.y / _gridCellSize) * _gridCellSize
+                        );
+                        
+                        grid.Position = finalPosition;
+                        _isDragging = false;
+                        _activeGrid = null;
                         currentEvent.Use();
                     }
                     break;

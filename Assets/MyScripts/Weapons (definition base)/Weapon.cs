@@ -159,7 +159,7 @@ namespace Weapons
 
             if(clip != null) 
             {
-                ItemGrid grid = IInventorySystem.InventoryHandler.InventoryUI.CheckFreeSpaceForItem(clip);
+                UIItemGrid grid = IInventorySystem.InventoryHandler.InventoryUI.CheckFreeSpaceForItem(clip);
 
                 if(!grid)
                 {

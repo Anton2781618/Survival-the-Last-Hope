@@ -46,13 +46,13 @@ namespace ModularEventArchitecture
     [System.Serializable]
     public class SelectGridEventData  : EventBase 
     {
-        public ItemGrid ItemGrid;
+        public UIItemGrid ItemGrid;
     }
 
     [System.Serializable]
     public class CreateAndInsertItemEventData  : EventBase 
     {
         public InventoryItem InventoryItem;
-        public ItemGrid ItemGrid;
+        public UIItemGrid ItemGrid;
     }
 }    

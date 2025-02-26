@@ -12,6 +12,7 @@ namespace ModularEventArchitecture
     //настройка на сетке предмета
     public class ItemGridEditorWindow : EditorWindow
     {
+        //-----------------------------------------------------------
         private InventoryItem targetItem;
         private Vector2 scrollPosition;
         private float cellSize = 32f;
@@ -24,6 +25,7 @@ namespace ModularEventArchitecture
         private List<ItemData> _currCombinedItems;
         private Vector2 itemListScroll;
         private Vector2 dragOffset;
+        //!-----------------------------------------------------------
 
         public void Initialize(InventoryItem item)
         {
@@ -142,8 +144,8 @@ namespace ModularEventArchitecture
 
             // Создаем область для сетки с учетом позиции
             Rect gridRect = GUILayoutUtility.GetRect(
-                grid.GridSize.x * cellSize,
-                grid.GridSize.y * cellSize
+                grid.Size.x * cellSize,
+                grid.Size.y * cellSize
             );
             // gridRect.x += grid.Position.x;
             // gridRect.y += grid.Position.y;
@@ -157,9 +159,9 @@ namespace ModularEventArchitecture
 
         private void DrawGrid(Rect gridRect, GridData2 grid)
         {
-            for (int x = 0; x < grid.GridSize.x; x++)
+            for (int x = 0; x < grid.Size.x; x++)
             {
-                for (int y = 0; y < grid.GridSize.y; y++)
+                for (int y = 0; y < grid.Size.y; y++)
                 {
                     Rect cellRect = new Rect(
                         gridRect.x + x * cellSize,
@@ -480,8 +482,8 @@ namespace ModularEventArchitecture
         {
             if (draggedItem == null) return false;
             if (x < 0 || y < 0) return false;
-            if (x + draggedItem.WIDTH > grid.GridSize.x) return false;
-            if (y + draggedItem.HEIGHT > grid.GridSize.y) return false;
+            if (x + draggedItem.WIDTH > grid.Size.x) return false;
+            if (y + draggedItem.HEIGHT > grid.Size.y) return false;
 
             return grid.CheckAvailableSpace(x, y, draggedItem.WIDTH, draggedItem.HEIGHT);
         }

@@ -188,7 +188,7 @@ namespace Entitys.Weapon.Modules.WeaponModelModule
 
             if(clip != null) 
             {
-                ItemGrid grid = IInventorySystem.InventoryHandler.InventoryUI.CheckFreeSpaceForItem(clip);
+                UIItemGrid grid = IInventorySystem.InventoryHandler.InventoryUI.CheckFreeSpaceForItem(clip);
 
                 if(!grid)
                 {

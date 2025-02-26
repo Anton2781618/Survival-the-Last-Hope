@@ -11,9 +11,14 @@ namespace InventoryDiablo
     [Serializable]
     public class Inventory
     {
+        //---------------------------------------------------
         public int money = 500;
-        public List<InventorySlot> Slots = new List<InventorySlot>();
+        public List<InventoryContainer> InventoryContainers = new List<InventoryContainer>();
+        //---------------------------------------------------
+        //Размер окна инвентаря
+        public Vector2 InventoryWindowSize = new Vector2(500, 500);
 
+        //!---------------------------------------------------
 
         //взять любой предмет инвентаря по типу предмета 
         public InventoryItem GetInventoryForItemType(ItemData.ItemType itemType)

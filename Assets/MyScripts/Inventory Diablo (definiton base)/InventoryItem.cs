@@ -116,7 +116,7 @@ namespace InventoryDiablo
                 {
                     Grids[i] = new GridData2
                     {
-                        GridSize = inventoryItem.Grids[i].GridSize,
+                        Size = inventoryItem.Grids[i].Size,
                     };
                 }
 
@@ -143,7 +143,7 @@ namespace InventoryDiablo
                 {
                     clone.Grids[i] = new GridData2
                     {
-                        GridSize = this.Grids[i].GridSize,
+                        Size = this.Grids[i].Size,
                         activeItems = new List<InventoryItem>(this.Grids[i].activeItems.Select(item => item.Clone())),
                         MaxStackSize = this.Grids[i].MaxStackSize,
                         CompatibilityGridMod = this.Grids[i].CompatibilityGridMod,

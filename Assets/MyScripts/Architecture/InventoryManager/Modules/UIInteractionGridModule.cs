@@ -1,20 +1,21 @@
-using System.Collections;
-using System.Collections.Generic;
 using InventoryDiablo;
 using UnityEngine;
+
 namespace ModularEventArchitecture
 {
     [CompatibleUnit(typeof(InventoryManager))]
     public class UIInteractionGridModule : ModuleBase
     {
+        //---------------------------------------------------
         //класс является системой управления всех ивентарей, основной функцианал инвентарей находится тут
         [SerializeField] private UIContextMenu contextMenu;
+        //---------------------------------------------------
 
-        private ItemGrid LastGrid;
+        private UIItemGrid LastGrid;
         
         public bool IsTreid{get; set;} = false;
-        private ItemGrid selectedItemGrid;
-        public ItemGrid SelectedItemGrid 
+        private UIItemGrid selectedItemGrid;
+        public UIItemGrid SelectedItemGrid 
         {
             get => selectedItemGrid; 
             
@@ -39,12 +40,16 @@ namespace ModularEventArchitecture
         public InventoryIHighLight inventoryIHighLight;
 
         [HideInInspector] public SetCharacter Clothes{get; set;}
+        
+        //!---------------------------------------------------
 
         public override void Initialize()
         {
             Entity.Globalevents.Add((EventsInventory.SeletGrid, (data) => SelectedItemGrid = ((SelectGridEventData)data).ItemGrid));
             
             Entity.Globalevents.Add((EventsInventory.CreateAndInsertItem, (data) => OnCreateAndInsertItem(((CreateAndInsertItemEventData)data).InventoryItem, ((CreateAndInsertItemEventData)data).ItemGrid)));
+            
+            Entity.Globalevents.Add((EventsInventory.Item_Spawned_InHand, (data) => CreateRandomItem(((UIItemGridEvent)data).grid)));
         }
 
         public override void UpdateMe() 
@@ -127,7 +132,7 @@ namespace ModularEventArchitecture
             InsertItemOnGrid(itemToInsert, selectedItemGrid);
         }
 
-        private void InsertItemOnGrid(UIInventoryItem itemToInsert, ItemGrid grid)
+        private void InsertItemOnGrid(UIInventoryItem itemToInsert, UIItemGrid grid)
         {
             // Debug.Log($"Вставка предмета {itemToInsert.InventoryItem.ItemData.Title} на сетку {grid}");
             Debug.Log(grid);
@@ -147,7 +152,7 @@ namespace ModularEventArchitecture
 
         //!!!Этот метод создает итем и устанавливает его на сетку ОБРАЩАТЬСЯ ЧЕРЕЗ НЕГО
         //создать физически итем и установить его на сетку 
-        public void OnCreateAndInsertItem(InventoryItem inventoryItem, ItemGrid grid, int amount = 0)
+        public void OnCreateAndInsertItem(InventoryItem inventoryItem, UIItemGrid grid, int amount = 0)
         {
             Debug.Log($"Создан предмет {inventoryItem.ItemData.Title} {amount} штук");
             
@@ -194,7 +199,7 @@ namespace ModularEventArchitecture
         }
 
         //создать случайный итем
-        public void CreateRandomItem(ItemGrid itemGrid)
+        public void CreateRandomItem(UIItemGrid itemGrid)
         {
             UIInventoryItem inventoryItem = Instantiate(itemPrefab);
             UIselectedItem = inventoryItem;
@@ -211,7 +216,7 @@ namespace ModularEventArchitecture
             LastGrid = itemGrid;
         }
 
-        private void CreateItem(InventoryItem inventoryItem, ItemGrid grid, int amount)
+        private void CreateItem(InventoryItem inventoryItem, UIItemGrid grid, int amount)
         {
             UIInventoryItem uiInventoryItem = Instantiate(itemPrefab);
             UIselectedItem = uiInventoryItem;

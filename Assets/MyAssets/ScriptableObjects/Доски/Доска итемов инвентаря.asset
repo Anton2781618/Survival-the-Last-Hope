@@ -98,7 +98,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   NodeName: 
   guid: 812d12bd992a5094896a9745c84fcfcc
-  Position: {x: 2661.4468, y: 302}
+  Position: {x: 2676.9995, y: 291.84998}
   ColorNode: {r: 0.2717604, g: 0.2924528, b: 0.28514904, a: 1}
   parentsDependencies: []
   childrenDependencies: []

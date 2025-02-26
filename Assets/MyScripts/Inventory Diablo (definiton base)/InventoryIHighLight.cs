@@ -1,14 +1,27 @@
-using System.Collections;
-using System.Collections.Generic;
+using InventoryDiablo;
 using UnityEngine;
 
-namespace InventoryDiablo
+namespace ModularEventArchitecture
 {
-
     //класс занимается подсветкой зоны куда мы будем помещать итем
-    public class InventoryIHighLight : MonoBehaviour
+    [CompatibleUnit(typeof(InventoryManager))]
+    public class InventoryIHighLight : ModuleBase
     {
+        //---------------------------------------------------
+        //сюда ставить объект подсветки который находится внутри инвентаря
         [SerializeField] private RectTransform highLighter;
+
+        //!---------------------------------------------------
+
+        public override void Initialize()
+        {
+            
+        }
+
+        public override void UpdateMe()
+        {
+            
+        }
 
         //показать подсветку
         public void Show(bool value)
@@ -28,7 +41,7 @@ namespace InventoryDiablo
         }
 
         //установить позицию подсветки
-        public void SetPosition(ItemGrid targetGrid, UIInventoryItem targetItem)
+        public void SetPosition(UIItemGrid targetGrid, UIInventoryItem targetItem)
         {
             Vector2 pos = targetGrid.CalculatePositionOnGrid(targetItem, targetItem.InventoryItem.OnGridPosition.x, targetItem.InventoryItem.OnGridPosition.y);
 
@@ -37,7 +50,7 @@ namespace InventoryDiablo
         }
 
         //установить позицию подсветки
-        public void SetPosition(ItemGrid targetGrid, UIInventoryItem targetItem, int posX, int posY)
+        public void SetPosition(UIItemGrid targetGrid, UIInventoryItem targetItem, int posX, int posY)
         {
             Vector2 pos = targetGrid.CalculatePositionOnGrid(targetItem, posX, posY);
 
@@ -45,7 +58,7 @@ namespace InventoryDiablo
         }
 
         //установить родителя подсветки
-        public void SetParent(ItemGrid targetGrid)
+        public void SetParent(UIItemGrid targetGrid)
         {
             if(targetGrid == null){return; }
             highLighter.SetParent(targetGrid.GetComponent<RectTransform>());

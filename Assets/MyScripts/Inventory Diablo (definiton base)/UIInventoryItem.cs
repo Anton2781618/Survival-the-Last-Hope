@@ -41,7 +41,7 @@ namespace InventoryDiablo
 
         public void UpdateAmount(int sum) => amauntText.text = (inventoryItem.Amount += sum).ToString();
 
-        public void Setup(InventoryItem item, ItemGrid grid, int amount)
+        public void Setup(InventoryItem item, UIItemGrid grid, int amount)
         {
             inventoryItem = item;
 

@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using InventoryDiablo;
@@ -11,20 +12,18 @@ namespace ModularEventArchitecture
         //-----------------------------------------------------------
         [Header("Блок настройки окна инвентаря")]
         [SerializeField] private GameObject windowContent;
-        public List<ItemGrid> grids;
+        public List<UIItemGrid> grids;
 
         //-----------------------------------------------------------
-        [Header("Блок Префабов")]
-        [SerializeField] private UISlotBuilder _itemPrefab;
+        //пулл 
+        [SerializeField] private UIInventoryContainer _containerPrefabs;
+        private List<UIInventoryContainer> _containerList = new List<UIInventoryContainer>();
+        private List<UIInventoryContainer> _containerPool = new List<UIInventoryContainer>();
 
         //-----------------------------------------------------------
-        //прочее
         private Inventory _selectInventory;
-        private List<UISlotBuilder> _slotsList = new List<UISlotBuilder>();
-        private List<UISlotBuilder> _slotsPool = new List<UISlotBuilder>();
 
-        //-----------------------------------------------------------
-
+        //!-----------------------------------------------------------
         public override void Initialize()
         {
             Entity.Globalevents.Add((EventsInventory.TurnInventory, (data) => OnTurnInventory((ShowInventoryEventData)data)));
@@ -43,9 +42,9 @@ namespace ModularEventArchitecture
         }
 
         //проверить есть ли свободное место на одной из сетке
-        public ItemGrid CheckFreeSpaceForItem(InventoryItem item)
+        public UIItemGrid CheckFreeSpaceForItem(InventoryItem item)
         {
-            foreach (ItemGrid grid in grids)
+            foreach (UIItemGrid grid in grids)
             {
                 if(grid.GridDataInfo.FindSpaceForObject(item) != null) return grid;
             }
@@ -53,7 +52,7 @@ namespace ModularEventArchitecture
             return null;
         }
 
-        public void CreateAndInsertItem(InventoryItem inventoryItem, ItemGrid grid)
+        public void CreateAndInsertItem(InventoryItem inventoryItem, UIItemGrid grid)
         {
             GlobalEventBus.Instance.Publish(EventsInventory.CreateAndInsertItem, new CreateAndInsertItemEventData
             {
@@ -64,7 +63,7 @@ namespace ModularEventArchitecture
 
         public void DestroyInventoryItem(InventoryItem inventoryItem)
         {
-            foreach (ItemGrid grid in grids)
+            foreach (UIItemGrid grid in grids)
             {
                 foreach (UIInventoryItem item in grid.GetItems())
                 {
@@ -82,7 +81,7 @@ namespace ModularEventArchitecture
 
         public void DestroyAllInventoryItem()
         {
-            foreach (ItemGrid grid in grids)
+            foreach (UIItemGrid grid in grids)
             {
                 foreach (UIInventoryItem item in grid.GetItems())
                 {
@@ -97,7 +96,7 @@ namespace ModularEventArchitecture
         {
             if(!gameObject.activeSelf) return;
 
-            foreach (ItemGrid grid in grids)
+            foreach (UIItemGrid grid in grids)
             {
                 foreach (UIInventoryItem item in grid.GetItems())
                 {
@@ -107,43 +106,42 @@ namespace ModularEventArchitecture
                 }
             }
 
-            foreach (var slot in _selectInventory.Slots)
-            {
-                // ItemGrid slotGrid = grids.FirstOrDefault(t => t.GridData.GridName == slot.SlotName);
-                    //! Я закоментил это потому тогда было не понятно где брать данные сетки
-                // CreateAndInsertItem(slot.SlotItem, slotGrid);
+            // foreach (var slot in _selectInventory.Slots)
+            // {
+            //     // ItemGrid slotGrid = grids.FirstOrDefault(t => t.GridData.GridName == slot.SlotName);
+            //         //! Я закоментил это потому тогда было не понятно где брать данные сетки
+            //     CreateAndInsertItem(slot.SlotItem, slotGrid);
             
-                // foreach (var grid in slot.SlotItem.Grids2)
-                // {
-                //     ItemGrid currgrid = grids.FirstOrDefault(t => t.GridData.GridName == GridData.GridInfo.BackpackGrid);
+            //     foreach (var grid in slot.SlotItem.Grids2)
+            //     {
+            //         ItemGrid currgrid = grids.FirstOrDefault(t => t.GridData.GridName == GridData.GridInfo.BackpackGrid);
 
-                //     foreach (var item in grid.activeItems)
-                //     {
-                //         if(item == null) continue;
+            //         foreach (var item in grid.activeItems)
+            //         {
+            //             if(item == null) continue;
                         
-                //         CreateAndInsertItem(item, currgrid);
-                //     }
-                // }           
-            }
+            //             CreateAndInsertItem(item, currgrid);
+            //         }
+            //     }           
+            // }
         }
 
         public void ConstructWindow(Inventory inventory)
         {
-            _selectInventory = inventory;
+            _selectInventory = inventory;            
 
-            // Tool.Helper.ResetCards(_slotsList, _slotsPool);
+            Tool.Helper.ResetCards(_containerList, _containerPool);
 
-            // foreach (var item in _selectInventory.Slots)
-            // {
-            //     var newSlot = Tool.Helper.GetFreeCard(_itemPrefab, _slotsPool);
+            foreach (InventoryContainer container in _selectInventory.InventoryContainers)
+            {
+                var newContainer = Tool.Helper.GetFreeCard(_containerPrefabs, _containerPool);
 
-            //     _slotsList.Add(newSlot);
+                newContainer.Setup(container);
 
-            //     newSlot.gameObject.SetActive(true);
-                
-            // }
+                _containerList.Add(newContainer);
 
-
+                newContainer.gameObject.SetActive(true);
+            }
             // grids.ForEach(t => t.GridData.OwnerInventory = _selectInventory);
         }
 
@@ -155,9 +153,20 @@ namespace ModularEventArchitecture
             // if(value) RefreshUI();
         }
 
-        public void CreateRandomItem()
+        //вызыватся снаружи кнопкой 
+        public void CreateRandomItem(UIItemGrid grid)
         {
-            // inventoryManager.CreateRandomItem(grids[0]);
+            GlobalEventBus.Instance.Publish(EventsInventory.Item_Spawned_InHand, new UIItemGridEvent
+            {
+                grid = grid
+            });
         }
+
+
     }
+        [Serializable]
+        public class UIItemGridEvent : IEventData
+        {    
+            public UIItemGrid grid;
+        }
 }

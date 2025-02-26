@@ -2,7 +2,9 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using ModularEventArchitecture;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using static InventoryDiablo.ItemData;
 
 
@@ -10,9 +12,8 @@ namespace InventoryDiablo
 {
     //класс представляет из себя сетку с ячейками и данные о размерах
     //устанавливается на UI сетки
-    public class ItemGrid : MonoBehaviour
+    public class UIItemGrid : MonoBehaviour
     {
-        [SerializeField] private UISlotBuilder _uISlotBuilder;
         public GridData2 GridDataInfo;
         public RectTransform rectTransform;
         private Vector2 _mousePositionOnTheGrid = new Vector2();
@@ -25,7 +26,7 @@ namespace InventoryDiablo
             
             rectTransform = GetComponent<RectTransform>();    
             
-            Init(GridDataInfo.GridSize.x, GridDataInfo.GridSize.y);
+            Setup(GridDataInfo.Size.x, GridDataInfo.Size.y);
         }
 
         [Tools.Button("Обновить сетку")] 
@@ -33,7 +34,7 @@ namespace InventoryDiablo
         {
             if(!rectTransform) rectTransform = GetComponent<RectTransform>();    
 
-            Init(GridDataInfo.GridSize.x, GridDataInfo.GridSize.y);
+            Setup(GridDataInfo.Size.x, GridDataInfo.Size.y);
         }
 
         //метод найти итем в сетке по координатам
@@ -66,7 +67,7 @@ namespace InventoryDiablo
         }
     
         //извлеч итем из сетки по координатам
-        public UIInventoryItem SelectIteme(int x, int y)
+        public virtual UIInventoryItem SelectIteme(int x, int y)
         {
             InventoryItem item = GridDataInfo.SelectIteme(x, y);
 
@@ -82,10 +83,10 @@ namespace InventoryDiablo
         }
 
         //устанавлмвает начальный размер сетки
-        public void Init(int width, int height)
+        public void Setup(int width, int height)
         {
-            GridDataInfo.GridSize.x = width;
-            GridDataInfo.GridSize.y = height;
+            GridDataInfo.Size.x = width;
+            GridDataInfo.Size.y = height;
             GridDataInfo.Init(width, height);
 
             Vector2 size = new Vector2(width * GridData.titleSizeWidth, height * GridData.titleSizeHeight);
@@ -246,10 +247,8 @@ namespace InventoryDiablo
             return false;
         }
 
-        public void PlaceItem(UIInventoryItem inventoryItem, int posX, int posY)
+        public virtual void PlaceItem(UIInventoryItem inventoryItem, int posX, int posY)
         {
-            if (_uISlotBuilder) _uISlotBuilder.InsertItemInSlot(inventoryItem.InventoryItem);
-
             RectTransform rectTransform = inventoryItem.rectTransform;
 
             rectTransform.SetParent(this.rectTransform);
@@ -320,7 +319,7 @@ namespace InventoryDiablo
                 return false;
             }
 
-            if(posX >= GridDataInfo.GridSize.x || posY >= GridDataInfo.GridSize.y)
+            if(posX >= GridDataInfo.Size.x || posY >= GridDataInfo.Size.y)
             {
                 return false;
             }

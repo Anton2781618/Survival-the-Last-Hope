@@ -17,7 +17,6 @@ MonoBehaviour:
       type: 2}
     Grids: []
     amount: 0
-    GridName: 1
     OnItemsChanged:
       m_PersistentCalls:
         m_Calls: []
@@ -25,23 +24,37 @@ MonoBehaviour:
     Rotated: 0
   - <ItemData>k__BackingField: {fileID: 11400000, guid: ac88002b590d69347a03057e4563e671,
       type: 2}
-    Grids: []
+    Grids:
+    - GridSize: {x: 3, y: 4}
+      MaxStackSize: 0
+      Position: {x: 336, y: 32}
+      CompatibilityGridMod: 0
+      specificItemCombined: []
+      CompatibleGroup: Default/default
+      activeItems: []
+      isSingle: 0
+    - GridSize: {x: 5, y: 4}
+      MaxStackSize: 0
+      Position: {x: 160, y: 32}
+      CompatibilityGridMod: 0
+      specificItemCombined: []
+      CompatibleGroup: Default/default
+      activeItems: []
+      isSingle: 0
     amount: 0
-    GridName: 1
     OnItemsChanged:
       m_PersistentCalls:
         m_Calls: []
-    OnGridPosition: {x: 5, y: 1}
+    OnGridPosition: {x: 0, y: 0}
     Rotated: 0
   - <ItemData>k__BackingField: {fileID: 11400000, guid: 65defc33165764a4687df65bc6be9884,
       type: 2}
     Grids: []
     amount: 0
-    GridName: 1
     OnItemsChanged:
       m_PersistentCalls:
         m_Calls: []
-    OnGridPosition: {x: 0, y: 3}
+    OnGridPosition: {x: 8, y: 3}
     Rotated: 0
   - <ItemData>k__BackingField: {fileID: 11400000, guid: 0156facadb44fc244ac5036fd3335aee,
       type: 2}
@@ -54,12 +67,12 @@ MonoBehaviour:
       CompatibleGroup: "\u041E\u0440\u0443\u0436\u0438\u0435/\u041F\u0430\u0442\u0440\u043E\u043D\u044B/\u041F\u0430\u0442\u0440\u043E\u043D\u044B
         9\u043C\u043C"
       activeItems: []
+      isSingle: 0
     amount: 0
-    GridName: 1
     OnItemsChanged:
       m_PersistentCalls:
         m_Calls: []
-    OnGridPosition: {x: 0, y: 0}
+    OnGridPosition: {x: 1, y: 0}
     Rotated: 0
   - <ItemData>k__BackingField: {fileID: 11400000, guid: 1940e62c6779fbe4b82ec52dadbc625b,
       type: 2}
@@ -72,60 +85,21 @@ MonoBehaviour:
       CompatibleGroup: "\u041E\u0440\u0443\u0436\u0438\u0435/\u041F\u0430\u0442\u0440\u043E\u043D\u044B/\u041F\u0430\u0442\u0440\u043E\u043D\u044B
         9\u043C\u043C"
       activeItems: []
+      isSingle: 0
     amount: 0
-    GridName: 1
     OnItemsChanged:
       m_PersistentCalls:
         m_Calls: []
     OnGridPosition: {x: 10, y: 3}
     Rotated: 0
-  - <ItemData>k__BackingField: {fileID: 11400000, guid: f41d2fa2dc48557439ac3e9a418765ae,
-      type: 2}
-    Grids:
-    - GridSize: {x: 4, y: 5}
-      MaxStackSize: 0
-      Position: {x: 162, y: 44}
-      CompatibilityGridMod: 0
-      specificItemCombined: []
-      CompatibleGroup: Default/default
-      activeItems: []
-    - GridSize: {x: 4, y: 3}
-      MaxStackSize: 0
-      Position: {x: 0, y: 164}
-      CompatibilityGridMod: 0
-      specificItemCombined: []
-      CompatibleGroup: Default/default
-      activeItems: []
-    - GridSize: {x: 4, y: 3}
-      MaxStackSize: 0
-      Position: {x: 478, y: 158}
-      CompatibilityGridMod: 0
-      specificItemCombined: []
-      CompatibleGroup: Default/default
-      activeItems: []
-    - GridSize: {x: 5, y: 1}
-      MaxStackSize: 0
-      Position: {x: 292, y: 0}
-      CompatibilityGridMod: 0
-      specificItemCombined: []
-      CompatibleGroup: Default/default
-      activeItems: []
-    amount: 0
-    GridName: 1
-    OnItemsChanged:
-      m_PersistentCalls:
-        m_Calls: []
-    OnGridPosition: {x: 1, y: 0}
-    Rotated: 0
   - <ItemData>k__BackingField: {fileID: 11400000, guid: a8a975c236b17fe4f8642b000fb5b534,
       type: 2}
     Grids: []
     amount: 50
-    GridName: 1
     OnItemsChanged:
       m_PersistentCalls:
         m_Calls: []
-    OnGridPosition: {x: 5, y: 1}
+    OnGridPosition: {x: 3, y: 2}
     Rotated: 0
   - <ItemData>k__BackingField: {fileID: 11400000, guid: abe440b9914b2544594336bd6575e694,
       type: 2}
@@ -138,10 +112,78 @@ MonoBehaviour:
       CompatibleGroup: "\u041E\u0440\u0443\u0436\u0438\u0435/\u041E\u0431\u043E\u0439\u043C\u044B/\u041E\u0431\u043E\u0439\u043C\u0430
         9\u043C\u043C"
       activeItems: []
+      isSingle: 0
     amount: 0
-    GridName: 1
     OnItemsChanged:
       m_PersistentCalls:
         m_Calls: []
-    OnGridPosition: {x: 0, y: 1}
+    OnGridPosition: {x: 1, y: 0}
+    Rotated: 0
+  - <ItemData>k__BackingField: {fileID: 11400000, guid: eb8cce62ec1e83348bde6542709a5625,
+      type: 2}
+    Grids:
+    - GridSize: {x: 17, y: 7}
+      MaxStackSize: 0
+      Position: {x: 160, y: 16}
+      CompatibilityGridMod: 0
+      specificItemCombined: []
+      CompatibleGroup: Default/default
+      activeItems: []
+      isSingle: 0
+    amount: 0
+    OnItemsChanged:
+      m_PersistentCalls:
+        m_Calls: []
+    OnGridPosition: {x: 0, y: 0}
+    Rotated: 0
+  - <ItemData>k__BackingField: {fileID: 11400000, guid: f0f7aad7b182f4f4bbb78bb14189e94f,
+      type: 2}
+    Grids:
+    - GridSize: {x: 2, y: 3}
+      MaxStackSize: 0
+      Position: {x: 160, y: 48}
+      CompatibilityGridMod: 0
+      specificItemCombined: []
+      CompatibleGroup: Default/default
+      activeItems: []
+      isSingle: 0
+    amount: 0
+    OnItemsChanged:
+      m_PersistentCalls:
+        m_Calls: []
+    OnGridPosition: {x: 0, y: 0}
+    Rotated: 0
+  - <ItemData>k__BackingField: {fileID: 11400000, guid: b128c3c01274be847812ae7550148ece,
+      type: 2}
+    Grids:
+    - GridSize: {x: 3, y: 1}
+      MaxStackSize: 0
+      Position: {x: 16, y: 112}
+      CompatibilityGridMod: 0
+      specificItemCombined: []
+      CompatibleGroup: Default/default
+      activeItems: []
+      isSingle: 0
+    amount: 0
+    OnItemsChanged:
+      m_PersistentCalls:
+        m_Calls: []
+    OnGridPosition: {x: 0, y: 0}
+    Rotated: 0
+  - <ItemData>k__BackingField: {fileID: 11400000, guid: 51a024545d8de0645b6e5a1a339d3901,
+      type: 2}
+    Grids:
+    - GridSize: {x: 2, y: 2}
+      MaxStackSize: 0
+      Position: {x: 32, y: 16}
+      CompatibilityGridMod: 0
+      specificItemCombined: []
+      CompatibleGroup: Default/default
+      activeItems: []
+      isSingle: 0
+    amount: 0
+    OnItemsChanged:
+      m_PersistentCalls:
+        m_Calls: []
+    OnGridPosition: {x: 0, y: 0}
     Rotated: 0

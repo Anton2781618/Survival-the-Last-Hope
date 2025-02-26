@@ -20,11 +20,9 @@ MonoBehaviour:
   Prefab: {fileID: 2263946598004552975, guid: 737469d6143661c49a378f5e52d824fb, type: 3}
   Width: 4
   Height: 4
+  MaxStackSize: 0
   Price: 0
-  Benefit: 0
-  IsSingle: 0
-  MaxAmount: 1
   TypeItem: 2
+  ItemGroup: "\u0410\u043C\u0443\u043D\u0438\u0446\u0438\u044F/\u0420\u0430\u0437\u0433\u0440\u0443\u0437\u043E\u0447\u043D\u044B\u0435
+    \u0436\u0435\u043B\u0435\u0442\u044B"
   CanBeCombined: []
-  HierarchyItemTypesBuilder: {fileID: 11400000, guid: 312efaaf9d770874d8adc25b42904de7,
-    type: 2}

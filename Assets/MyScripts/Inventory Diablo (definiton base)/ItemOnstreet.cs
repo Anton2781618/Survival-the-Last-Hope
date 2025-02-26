@@ -32,7 +32,7 @@ namespace InventoryDiablo
         {
             IInventorySystem inventorySystem = unit as IInventorySystem;
 
-            ItemGrid grid = inventorySystem.InventoryHandler.InventoryUI.CheckFreeSpaceForItem(_item);
+            UIItemGrid grid = inventorySystem.InventoryHandler.InventoryUI.CheckFreeSpaceForItem(_item);
 
             if(!grid)
             {

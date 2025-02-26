@@ -186,7 +186,7 @@ public class GridData2 : ISerializationCallbackReceiver
 {
     //-------------------------------------------------------------------------------------
     [Header("Размер сетки")]
-    public Vector2Int GridSize = new Vector2Int(5, 5);
+    public Vector2Int Size = new Vector2Int(5, 5);
     
     //-------------------------------------------------------------------------------------
     [Header("Максимальный размер стека")]
@@ -237,13 +237,13 @@ public class GridData2 : ISerializationCallbackReceiver
     
     public void Init(int width, int height)
     {
-        GridSize = new Vector2Int(width, height);
+        Size = new Vector2Int(width, height);
     }
     public bool TryPlaceItem(InventoryItem item)
     {
-        for (int x = 0; x < GridSize.x; x++)
+        for (int x = 0; x < Size.x; x++)
         {
-            for (int y = 0; y < GridSize.y; y++)
+            for (int y = 0; y < Size.y; y++)
             {
                 if (CheckAvailableSpace(x, y, item.WIDTH, item.HEIGHT))
                 {
@@ -261,7 +261,7 @@ public class GridData2 : ISerializationCallbackReceiver
     public bool CheckAvailableSpace(int posX, int posY, int width, int height)
     {
         // Проверка выхода за границы сетки
-        if (posX + width > GridSize.x || posY + height > GridSize.y)
+        if (posX + width > Size.x || posY + height > Size.y)
         {
             return false;
         }
@@ -291,7 +291,7 @@ public class GridData2 : ISerializationCallbackReceiver
         foreach (var item in tempItems)
         {
             // Проверка размеров предмета
-            if (item.WIDTH > GridSize.x || item.HEIGHT > GridSize.y)
+            if (item.WIDTH > Size.x || item.HEIGHT > Size.y)
             {
                 activeItems.Clear();
                 activeItems.AddRange(tempItems);
@@ -299,9 +299,9 @@ public class GridData2 : ISerializationCallbackReceiver
             }
 
             bool found = false;
-            for (int x = 0; x < GridSize.x && !found; x++)
+            for (int x = 0; x < Size.x && !found; x++)
             {
-                for (int y = 0; y < GridSize.y && !found; y++)
+                for (int y = 0; y < Size.y && !found; y++)
                 {
                     if (CheckAvailableSpace(x, y, item.WIDTH, item.HEIGHT))
                     {
@@ -366,8 +366,8 @@ public class GridData2 : ISerializationCallbackReceiver
     public Vector2Int? FindSpaceForObject(InventoryItem itemToInsert)
     {
         // Вычисляем границы поиска с учетом размера предмета
-        int height = GridSize.y - itemToInsert.HEIGHT + 1;
-        int width = GridSize.x - itemToInsert.WIDTH + 1;
+        int height = Size.y - itemToInsert.HEIGHT + 1;
+        int width = Size.x - itemToInsert.WIDTH + 1;
 
         // Перебираем все возможные позиции
         for (int y = 0; y < height; y++)

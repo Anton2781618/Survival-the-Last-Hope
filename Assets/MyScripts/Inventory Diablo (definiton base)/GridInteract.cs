@@ -6,14 +6,14 @@ namespace InventoryDiablo
 {
     //класс представляет из себя систему определения ячейки для тыкания в нее
 
-    [RequireComponent(typeof(ItemGrid))]
+    [RequireComponent(typeof(UIItemGrid))]
     public class GridInteract : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
     {
-        [SerializeField] private ItemGrid itemGrid;
+        [SerializeField] private UIItemGrid itemGrid;
 
         private void Start()
         {
-            if(!itemGrid) itemGrid = GetComponent<ItemGrid>();
+            if(!itemGrid) itemGrid = GetComponent<UIItemGrid>();
         }
 
         void IPointerEnterHandler.OnPointerEnter(PointerEventData eventData)
