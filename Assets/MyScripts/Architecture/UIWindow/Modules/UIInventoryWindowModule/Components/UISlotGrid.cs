@@ -1,89 +1,65 @@
 using System.Collections.Generic;
 using InventoryDiablo;
+using Microsoft.Unity.VisualStudio.Editor;
 using UnityEngine;
-using static InventoryDiablo.ItemData;
+
 
 namespace ModularEventArchitecture
 {
     public class UISlotGrid : UIItemGrid
     {
         //-----------------------------------------------------------
-        [SerializeField] private UIInventoryContainer uIInventoryContainer;
+        public UnityEngine.UI.Image Icon;
 
         //-----------------------------------------------------------
         [Header("Блок префабов")]
         //префаб сетки
         [SerializeField] private UIItemGrid _gridPrefab;
-        //префаб итема на сетки
-        [SerializeField] private UIInventoryItem _itemPrefab;
 
         //-----------------------------------------------------------
-        //пулл слотов
-        private List<UIItemGrid> _itemGridsList = new List<UIItemGrid>();
-        private List<UIItemGrid> _itemGridsPool = new List<UIItemGrid>();
+        //пулл сеток которые находятся внутри итема лежащего в слоте
+        private List<UIItemGrid> _UIitemGridsList = new List<UIItemGrid>();
+        private List<UIItemGrid> _UIitemGridsPool = new List<UIItemGrid>();
         
         //-----------------------------------------------------------
-        //пулл итемов
-        [SerializeField]private List<UIInventoryItem> _itemList = new List<UIInventoryItem>();
-        private List<UIInventoryItem> _itemPool = new List<UIInventoryItem>();
+        //пулл итемов которые находятся внутри всех сеток _UIitemGridsList
+        private List<UIInventoryItem> _UIInventoryItemList = new List<UIInventoryItem>();
+        private List<UIInventoryItem> _UIInventoryItemPool = new List<UIInventoryItem>();
 
         //!-----------------------------------------------------------
 
-        public override void PlaceItem(UIInventoryItem inventoryItem, int posX, int posY)
+        public override void PlaceItem(UIInventoryItem UIInventoryItem, int posX, int posY)
         {
-            CreateGrids(inventoryItem.InventoryItem);
+            CreateGridsForItems(UIInventoryItem.InventoryItem);
 
-            base.PlaceItem(inventoryItem, posX, posY);
+            base.PlaceItem(UIInventoryItem, posX, posY);
         }
 
         public override UIInventoryItem SelectIteme(int x, int y)
         {
             DeactiveGrids();
+            
+            Tool.Helper.ResetCards(_UIInventoryItemList, _UIInventoryItemPool);
 
             return base.SelectIteme(x, y);
         }
 
-        //создать сетки
-        public void CreateGrids(InventoryItem item)
+        //создать сетки которые находятся в итеме который положиле в слот
+        public void CreateGridsForItems(InventoryItem item)
         {
-            Debug.Log("CreateGrids!!!!!!!!!!!!!");
-            Tool.Helper.ResetCards(_itemGridsList, _itemGridsPool);
+            Tool.Helper.ResetCards(_UIitemGridsList, _UIitemGridsPool);
 
-            foreach (var grid in item.Grids)
+            foreach (var itemGrid in item.Grids)
             {
-                UIItemGrid newUIGrid = Tool.Helper.GetFreeCard(_gridPrefab, _itemGridsPool);
+                UIItemGrid newUIGrid = Tool.Helper.GetFreeCard(_gridPrefab, _UIitemGridsPool);
 
-                _itemGridsList.Add(newUIGrid);
+                _UIitemGridsList.Add(newUIGrid);
 
-                newUIGrid.rectTransform.localPosition = new Vector2(grid.Position.x, -grid.Position.y);
+                newUIGrid.RectTransform.localPosition = new Vector2(itemGrid.Position.x, -itemGrid.Position.y);
 
-                newUIGrid.Setup(grid.Size.x, grid.Size.y);
-
-                CreateItemsOnGrids(newUIGrid);
+                newUIGrid.Setup(itemGrid);
 
                 newUIGrid.gameObject.SetActive(true);
-            }
-        }
-
-        //создать итемы на сетке
-        private void CreateItemsOnGrids(UIItemGrid Grid)
-        {
-            Tool.Helper.ResetCards(_itemList, _itemPool);
-
-            foreach (InventoryItem item in Grid.GridDataInfo.activeItems)
-            {
-                UIInventoryItem newInventoryItem = Tool.Helper.GetFreeCard(_itemPrefab, _itemPool);
-
-                _itemList.Add(newInventoryItem);
-
-                //парент
-                newInventoryItem.transform.SetParent(Grid.transform, false);
-
-                newInventoryItem.rectTransform.localPosition = new Vector2(item.OnGridPosition.x, -item.OnGridPosition.y);
-
-                newInventoryItem.Setup(item, Grid, item.Amount);
-
-                newInventoryItem.gameObject.SetActive(true);
             }
         }
 
@@ -91,9 +67,9 @@ namespace ModularEventArchitecture
         public void DeactiveGrids()
         {
             Debug.Log("DeactiveGrids!!!!!!!!!!!!!");
-            foreach (var grid in _itemGridsList)
+            foreach (var grid in _UIitemGridsList)
             {
-                grid.gameObject.SetActive(false);
+                grid.DeactiveGrid();
             }
         }
     }

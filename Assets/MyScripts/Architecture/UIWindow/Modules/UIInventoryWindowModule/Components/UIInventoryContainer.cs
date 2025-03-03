@@ -39,19 +39,24 @@ namespace ModularEventArchitecture
             CreateSlotGrid(container);
         }
 
-        private void CreateSlotGrid(InventoryContainer inventoryContainer)
+        public void CreateSlotGrid(InventoryContainer inventoryContainer)
         {
             Tool.Helper.ResetCards(_slotGridsList, _slotGridsPool);
 
-            foreach (var slot in inventoryContainer.Slots)
+            foreach (InventorySlot slot in inventoryContainer.Slots)
             {
                 UISlotGrid newUISlotGrid = Tool.Helper.GetFreeCard(_slotGridPrefab, _slotGridsPool);
 
                 _slotGridsList.Add(newUISlotGrid);
 
-                newUISlotGrid.rectTransform.localPosition = new Vector2(slot.SlotGrid.Position.x, -slot.SlotGrid.Position.y) ;
+                newUISlotGrid.RectTransform.localPosition = new Vector2(slot.SlotGrid.Position.x, -slot.SlotGrid.Position.y);
 
-                newUISlotGrid.Setup(slot.SlotGrid.Size.x, slot.SlotGrid.Size.y);
+                newUISlotGrid.Icon.sprite = slot.Icon;
+                
+                newUISlotGrid.Setup(slot.SlotGrid);
+
+                //показ сетки если в слоте есть предметы
+                // if(newUISlotGrid.GridDataInfo.activeItems.Count > 0) newUISlotGrid.CreateGridsForItems(newUISlotGrid.GridDataInfo.activeItems[0]);
 
                 newUISlotGrid.gameObject.SetActive(true);
             }

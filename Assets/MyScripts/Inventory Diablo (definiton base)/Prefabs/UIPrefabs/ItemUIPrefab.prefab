@@ -110,9 +110,9 @@ RectTransform:
   - {fileID: 6706663939839754738}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 960, y: -540}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 32, y: 64}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &6510329722764955142
@@ -167,15 +167,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   inventoryItem:
     <ItemData>k__BackingField: {fileID: 0}
+    Grids: []
+    amount: 0
     OnItemsChanged:
       m_PersistentCalls:
         m_Calls: []
-    amount: 0
-    price: 0
-    gridName: 0
-  rotated: 0
-  onGridPositionX: 0
-  onGridPositionY: 0
+    OnGridPosition: {x: 0, y: 0}
+    Rotated: 0
   icon: {fileID: 6834327102686624170}
   rectItemHighLight: {fileID: 5313792492706573072}
   rectTransform: {fileID: 6510329722764955141}

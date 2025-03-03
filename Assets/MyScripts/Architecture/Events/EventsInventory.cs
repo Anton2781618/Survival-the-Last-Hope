@@ -1,39 +1,26 @@
-using System.Collections;
-using System.Collections.Generic;
 using InventoryDiablo;
-using UnityEngine;
 
 namespace ModularEventArchitecture
 {
     public class EventsInventory : IEventType
     {
-        private InventoryActionsEnum _type;
-        private EventsInventory(InventoryActionsEnum type) => _type = type;
+        public int Id { get; }
+        public string EventName { get; }
 
-        public int GetEventId() => (int)_type;
-        public string GetEventName() => _type.ToString();
-
-        public static IEventType AddItem => new EventsInventory(InventoryActionsEnum.AddItem);
-        public static IEventType TurnInventory => new EventsInventory(InventoryActionsEnum.Turn_Inventory);
-        public static IEventType SeletGrid => new EventsInventory(InventoryActionsEnum.Selet_Grid);
-        public static IEventType CreateAndInsertItem => new EventsInventory(InventoryActionsEnum.Create_And_Insert_Item);
-        public static IEventType Item_Spawned_OnGround => new EventsInventory(InventoryActionsEnum.Item_Spawned_OnGround);
-        public static IEventType Item_Spawned_InHand => new EventsInventory(InventoryActionsEnum.Item_Spawned_InHand);
-
-        public enum InventoryActionsEnum
+        private EventsInventory(string eventName)
         {
-            AddItem,
-            RemoveItem,
-            UseItem,
-            DropItem,
-            ShowInventory,
-            Hide_Inventory,
-            Turn_Inventory,
-            Selet_Grid,
-            Create_And_Insert_Item,
-            Item_Spawned_OnGround,
-            Item_Spawned_InHand,
+            EventName = eventName;
+            // Получаем хеш-код имени события, который будет уникален
+            // Добавляем префикс чтобы еще больше избежать коллизий
+            Id = ("EventsInventory_" + eventName).GetHashCode();
         }
+
+        public static IEventType AddItem => new EventsInventory("AddItem");
+        public static IEventType TurnInventory => new EventsInventory("Turn_Inventory");
+        public static IEventType SeletGrid => new EventsInventory("Selet_Grid");
+        public static IEventType CreateAndInsertItem => new EventsInventory("Create_And_Insert_Item");
+        public static IEventType Item_Spawned_OnGround => new EventsInventory("Item_Spawned_OnGround");
+        public static IEventType Item_Spawned_InHand => new EventsInventory("Item_Spawned_InHand");
     }
 
     [System.Serializable]
@@ -55,4 +42,6 @@ namespace ModularEventArchitecture
         public InventoryItem InventoryItem;
         public UIItemGrid ItemGrid;
     }
+
+    
 }    

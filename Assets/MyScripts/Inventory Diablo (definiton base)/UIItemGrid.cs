@@ -14,27 +14,73 @@ namespace InventoryDiablo
     //устанавливается на UI сетки
     public class UIItemGrid : MonoBehaviour
     {
+        //-----------------------------------------------------------
         public GridData2 GridDataInfo;
-        public RectTransform rectTransform;
-        private Vector2 _mousePositionOnTheGrid = new Vector2();
-        private Vector2Int titeGridPosition = new Vector2Int();
-        private List<UIInventoryItem> InventoryItems;
 
-        private void Awake() 
-        {
-            InventoryItems = new List<UIInventoryItem>();
-            
-            rectTransform = GetComponent<RectTransform>();    
-            
-            Setup(GridDataInfo.Size.x, GridDataInfo.Size.y);
-        }
+        //-----------------------------------------------------------
+        public RectTransform RectTransform;
+
+        //-----------------------------------------------------------
+        private Vector2 _mousePositionOnTheGrid = new Vector2();
+        private Vector2Int _titeGridPosition = new Vector2Int();
+
+        //-----------------------------------------------------------
+        //префаб итема на сетки
+        [SerializeField] private UIInventoryItem _itemPrefab;
+
+        //-----------------------------------------------------------
+        //пулл UI итемов 
+        private List<UIInventoryItem> _uIInventoryItemsList = new List<UIInventoryItem>();
+        private List<UIInventoryItem> _uIInventoryItemPool = new List<UIInventoryItem>();
+
+        //!-----------------------------------------------------------
 
         [Tools.Button("Обновить сетку")] 
         public void UpdateSizeGrid()
         {
-            if(!rectTransform) rectTransform = GetComponent<RectTransform>();    
+            Vector2 size = new Vector2(GridDataInfo.Size.x * global::GridData.titleSizeWidth, GridDataInfo.Size.y * global::GridData.titleSizeHeight);
+            
+            RectTransform.sizeDelta = size;
+        }
 
-            Setup(GridDataInfo.Size.x, GridDataInfo.Size.y);
+        public void Setup(GridData2 gridData)
+        {
+            GridDataInfo = gridData;
+
+            Vector2 size = new Vector2(gridData.Size.x * global::GridData.titleSizeWidth, gridData.Size.y * global::GridData.titleSizeHeight);
+            
+            RectTransform.sizeDelta = size;
+
+            CreateItemsOnGrids();
+        }
+
+        //создать итемы на сетке. вызывается только когда предмет с сеткой размещаетсяя в слот
+        private void CreateItemsOnGrids()
+        {
+            Tool.Helper.ResetCards(_uIInventoryItemsList, _uIInventoryItemPool);
+
+            foreach (InventoryItem item in GridDataInfo.activeItems)
+            {
+                UIInventoryItem newUIInventoryItem = Tool.Helper.GetFreeCard(_itemPrefab, _uIInventoryItemPool);
+
+                _uIInventoryItemsList.Add(newUIInventoryItem);
+
+                newUIInventoryItem.transform.SetParent(transform, false);
+
+                GridDataInfo.SetItemPosition(item, item.OnGridPosition);
+
+                newUIInventoryItem.Setup(item);
+
+                newUIInventoryItem.gameObject.SetActive(true);
+            }
+        }
+
+        //выключить сетку, предварительно выключив все итемы на ней
+        public void DeactiveGrid()
+        {
+            Tool.Helper.ResetCards(_uIInventoryItemsList, _uIInventoryItemPool);
+
+            gameObject.SetActive(false);
         }
 
         //метод найти итем в сетке по координатам
@@ -42,7 +88,7 @@ namespace InventoryDiablo
         {
             var InventoryItem = GridDataInfo.GetItem(x, y);
 
-            foreach (var item in InventoryItems)
+            foreach (var item in _uIInventoryItemsList)
             {
                 if(item.InventoryItem == InventoryItem)
                 {
@@ -56,7 +102,7 @@ namespace InventoryDiablo
         //найти итем в списке по InventoryItem
         public UIInventoryItem GetUIItem(InventoryItem inventoryItem)
         {
-            foreach (var item in InventoryItems)
+            foreach (var item in _uIInventoryItemsList)
             {
                 if(item.InventoryItem == inventoryItem)
                 {
@@ -75,35 +121,23 @@ namespace InventoryDiablo
 
             UIInventoryItem toReturn = GetUIItem(item);
 
-            InventoryItems.Remove(toReturn);
+            _uIInventoryItemsList.Remove(toReturn);
 
             if (toReturn == null) { return null; }
             
             return toReturn;
         }
 
-        //устанавлмвает начальный размер сетки
-        public void Setup(int width, int height)
-        {
-            GridDataInfo.Size.x = width;
-            GridDataInfo.Size.y = height;
-            GridDataInfo.Init(width, height);
-
-            Vector2 size = new Vector2(width * GridData.titleSizeWidth, height * GridData.titleSizeHeight);
-            
-            rectTransform.sizeDelta = size;
-        }
-
         //метод возвращает координаты ячейки на сетке над которой находится мышь
         public Vector2Int GetTitleGridPosition(Vector2 mousePosition)
         {
-            _mousePositionOnTheGrid.x = mousePosition.x - rectTransform.position.x;
-            _mousePositionOnTheGrid.y = rectTransform.position.y - mousePosition.y;
-        
-            titeGridPosition.x = (int)((_mousePositionOnTheGrid.x / GridData.titleSizeWidth) / transform.localScale.x); 
-            titeGridPosition.y = (int)((_mousePositionOnTheGrid.y / GridData.titleSizeHeight) / transform.localScale.y );
+            _mousePositionOnTheGrid.x = mousePosition.x - RectTransform.position.x;
+            _mousePositionOnTheGrid.y = RectTransform.position.y - mousePosition.y;
 
-            return titeGridPosition;
+            _titeGridPosition.x = (int)((_mousePositionOnTheGrid.x / global::GridData.titleSizeWidth) / transform.localScale.x);
+            _titeGridPosition.y = (int)((_mousePositionOnTheGrid.y / global::GridData.titleSizeHeight) / transform.localScale.y );
+
+            return _titeGridPosition;
         }
 
         //метод установить итем в слот
@@ -251,9 +285,9 @@ namespace InventoryDiablo
         {
             RectTransform rectTransform = inventoryItem.rectTransform;
 
-            rectTransform.SetParent(this.rectTransform);
+            rectTransform.SetParent(this.RectTransform);
 
-            InventoryItems.Add(inventoryItem);
+            _uIInventoryItemsList.Add(inventoryItem);
 
             GridDataInfo.PlaceItem(inventoryItem.InventoryItem, posX, posY);
 
@@ -265,8 +299,8 @@ namespace InventoryDiablo
         public Vector2 CalculatePositionOnGrid(UIInventoryItem InventoryItemUI, int posX, int posY)
         {
             Vector2 positionItem = new Vector2();
-            positionItem.x = posX * GridData.titleSizeWidth + GridData.titleSizeWidth * InventoryItemUI.InventoryItem.WIDTH / 2;
-            positionItem.y = -(posY * GridData.titleSizeHeight + GridData.titleSizeHeight * InventoryItemUI.InventoryItem.HEIGHT / 2);
+            positionItem.x = posX * global::GridData.titleSizeWidth + global::GridData.titleSizeWidth * InventoryItemUI.InventoryItem.WIDTH / 2;
+            positionItem.y = -(posY * global::GridData.titleSizeHeight + global::GridData.titleSizeHeight * InventoryItemUI.InventoryItem.HEIGHT / 2);
             return positionItem;
         }
 
@@ -330,7 +364,7 @@ namespace InventoryDiablo
         //проверка границ сетки, если позиция итема + его самая дальяя часть за сеткой то фалс
         public bool BoundryCheck(int posX, int posY, int width, int height)
         {
-            Debug.Log("BoundryCheck " + posX + " " + posY + " " + width + " " + height);
+            // Debug.Log("BoundryCheck " + posX + " " + posY + " " + width + " " + height);
             if(PositionCheck(posX, posY) == false) {return false;}
 
             posX += width - 1;
@@ -343,7 +377,7 @@ namespace InventoryDiablo
 
         public IEnumerable<UIInventoryItem> GetItems()
         {
-            foreach (var item in InventoryItems)
+            foreach (var item in _uIInventoryItemsList)
             {
                 if(item != null)
                 {

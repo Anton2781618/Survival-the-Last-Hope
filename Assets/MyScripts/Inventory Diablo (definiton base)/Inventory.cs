@@ -39,6 +39,29 @@ namespace InventoryDiablo
             // inventoryItems.Add(item);
         }
 
+        public bool TryPlaceItem(InventoryItem item)
+        {
+            foreach (var container in InventoryContainers)
+            {
+                foreach (var slot in container.Slots)
+                {
+                    foreach (var activeItem in slot.SlotGrid.activeItems)
+                    {
+                        if(activeItem.Grids.Length == 0) continue;
+                        
+                        foreach (var grid in activeItem.Grids)
+                        {
+                            if(!grid.TryPlaceItem(item)) continue;
+                            
+                            return true;
+                        }                        
+                    }                    
+                }
+            }
+
+            return false;
+        }
+
 
         // метод убирает из списка итемов в инвентаре определенный итем 
         public void RemoveItem(InventoryItem item)

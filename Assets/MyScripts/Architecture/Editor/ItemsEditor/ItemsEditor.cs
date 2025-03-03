@@ -18,7 +18,7 @@ namespace ModularEventArchitecture
 
         //-----------------------------------------------------------
         private float _cellSize = 32f;
-        private float _gridCellSize = 16f;
+        private float _gridCellSize = 10f;
         private Vector2 initialGridPosition;
         
         //-----------------------------------------------------------
@@ -330,16 +330,16 @@ namespace ModularEventArchitecture
                         open = EditorGUILayout.BeginFoldoutHeaderGroup(open, "Итемы которые можно расположить на сетку");
                             if(open)
                             {
-                                for (int i1 = 0; i1 < grid.specificItemCombined.Count; i1++)
+                                for (int i1 = 0; i1 < grid.SpecificItemCombined.Count; i1++)
                                 {
-                                    ItemData item = grid.specificItemCombined[i1];
+                                    ItemData item = grid.SpecificItemCombined[i1];
                                     
                                     EditorGUILayout.BeginHorizontal();
 
-                                        grid.specificItemCombined[i1] = (ItemData)EditorGUILayout.ObjectField("Element " + i1, item, typeof(ItemData), false);
+                                        grid.SpecificItemCombined[i1] = (ItemData)EditorGUILayout.ObjectField("Element " + i1, item, typeof(ItemData), false);
                                         if (GUILayout.Button("-", GUILayout.Width(20)))
                                         {
-                                            grid.specificItemCombined.RemoveAt(i1);
+                                            grid.SpecificItemCombined.RemoveAt(i1);
                                         }
 
                                     EditorGUILayout.EndHorizontal();
@@ -348,11 +348,11 @@ namespace ModularEventArchitecture
                                 EditorGUILayout.BeginHorizontal();
                                 if (GUILayout.Button("+", GUILayout.Width(20)))
                                 {
-                                    grid.specificItemCombined.Add(new ItemData());
+                                    grid.SpecificItemCombined.Add(new ItemData());
                                 }
                                 if (GUILayout.Button("-", GUILayout.Width(20)))
                                 {
-                                    grid.specificItemCombined.RemoveAt(grid.specificItemCombined.Count - 1);
+                                    grid.SpecificItemCombined.RemoveAt(grid.SpecificItemCombined.Count - 1);
                                 }
                                 EditorGUILayout.EndHorizontal();
                             }

@@ -145,9 +145,10 @@ namespace InventoryDiablo
                     {
                         Size = this.Grids[i].Size,
                         activeItems = new List<InventoryItem>(this.Grids[i].activeItems.Select(item => item.Clone())),
+                        Position = this.Grids[i].Position,
                         MaxStackSize = this.Grids[i].MaxStackSize,
                         CompatibilityGridMod = this.Grids[i].CompatibilityGridMod,
-                        specificItemCombined = this.Grids[i].specificItemCombined,
+                        SpecificItemCombined = this.Grids[i].SpecificItemCombined,
                         CompatibleGroup = this.Grids[i].CompatibleGroup,
 
                     };

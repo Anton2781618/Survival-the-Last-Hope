@@ -7,6 +7,7 @@ using Unity.VisualScripting;
 using UnityEditor.Graphs;
 using Tool;
 using System.Collections.Generic;
+using static GridData2;
 
 namespace ModularEventArchitecture
 {
@@ -23,6 +24,8 @@ namespace ModularEventArchitecture
         private Vector2 SlotScroll;
 
         //---------------------------------------------------
+        public int ItemGroupIndex = 0;
+        //---------------------------------------------------
         private float cellSize = 32f;
         private float gridCellSize = 10f;
         private InventoryItem selectedItem;
@@ -33,11 +36,11 @@ namespace ModularEventArchitecture
         // Добавьте в класс InventoryEditor
         private static Dictionary<ItemType, Vector2Int> slotSizes = new Dictionary<ItemType, Vector2Int>
         {
-            { ItemType.Шлем, new Vector2Int(140, 180) },
+            { ItemType.Шлем, new Vector2Int(144, 184) },
             { ItemType.Оружие, new Vector2Int(320, 100) },
             { ItemType.Разгрузка, new Vector2Int(480, 180) },
             { ItemType.Рюкзак, new Vector2Int(800, 270) },
-            { ItemType.Ремень, new Vector2Int(140, 180) },
+            { ItemType.Ремень, new Vector2Int(150, 180) },
             // Добавьте другие типы предметов и их размеры
         };
 
@@ -63,6 +66,27 @@ namespace ModularEventArchitecture
         private int draggedSlotIndex = -1;
         private bool isDraggingSlot = false;
         private Vector2 slotDragOffset;
+
+        //---------------------------------------------------
+        bool open = false;
+        //---------------------------------------------------
+        private HierarchyItemTypesBuilder _asset;
+        private HierarchyItemTypesBuilder Asset
+        {
+            get
+            {
+                if (_asset == null)
+                {
+                    string[] guids = AssetDatabase.FindAssets("t:HierarchyItemTypesBuilder");
+                    if (guids.Length > 0)
+                    {
+                        string path = AssetDatabase.GUIDToAssetPath(guids[0]);
+                        _asset = AssetDatabase.LoadAssetAtPath<HierarchyItemTypesBuilder>(path);
+                    }
+                }
+                return _asset;
+            }
+        }
         //!---------------------------------------------------
 
 
@@ -98,6 +122,7 @@ namespace ModularEventArchitecture
             }
             else
             {
+                
                 //рисуем окно инвентаря
                 DrawInventoryWindow();
             }
@@ -206,6 +231,17 @@ namespace ModularEventArchitecture
 
         private void DrawContainerInfo()
         {
+            if (GUILayout.Button("Сохранить")) 
+            {  
+                EditorUtility.SetDirty(inventoryModule);
+
+                // Сохраняем ассеты
+                AssetDatabase.SaveAssets();
+                
+                // Обновляем базу ассетов
+                AssetDatabase.Refresh();
+                
+            }
             if (GUILayout.Button("Добавить Контейнер инвентаря"))            
             {
                 targetInventory.InventoryContainers.Add(new InventoryContainer());
@@ -366,7 +402,7 @@ namespace ModularEventArchitecture
                     _currentInventoryContainer.Slots.Add(new InventorySlot());
                 }
 
-                foreach (var slot in _currentInventoryContainer.Slots)
+                foreach (InventorySlot slot in _currentInventoryContainer.Slots)
                 {
                     EditorGUILayout.Space(10);
                     
@@ -375,8 +411,55 @@ namespace ModularEventArchitecture
                     EditorGUI.DrawRect(gridRect, new Color(0.2627451f, 0.2627451f, 0.2627451f));
                     
                     slot.SlotGrid.Size = EditorGUILayout.Vector2IntField("Размер: ", slot.SlotGrid.Size);
+
+                    slot.SlotGrid.Position = EditorGUILayout.Vector2Field("Позиция слота", slot.SlotGrid.Position);
                     
                     slot.Icon = EditorGUILayout.ObjectField("Иконка", slot.Icon, typeof(Sprite), false) as Sprite;
+
+                    slot.SlotGrid.CompatibilityGridMod = (Compatibility)EditorGUILayout.EnumPopup("Тип совместимости", slot.SlotGrid.CompatibilityGridMod);
+
+                    if(slot.SlotGrid.CompatibilityGridMod == Compatibility.Access_by_item_groups)
+                    {
+                        ItemGroupIndex = EditorGUILayout.Popup("Совместима с группой", Array.IndexOf(Asset.HierarchyItemsTypes.ToArray(), slot.SlotGrid.CompatibleGroup), Asset.HierarchyItemsTypes.ToArray());
+
+                        slot.SlotGrid.CompatibleGroup = Asset.HierarchyItemsTypes[ItemGroupIndex];
+                    }
+                    else
+                    if(slot.SlotGrid.CompatibilityGridMod == Compatibility.Access_by_specific_item)
+                    {
+                        open = EditorGUILayout.BeginFoldoutHeaderGroup(open, "Итемы которые можно вставить в слот");
+                            if(open)
+                            {
+                                for (int i1 = 0; i1 < slot.SlotGrid.SpecificItemCombined.Count; i1++)
+                                {
+                                    ItemData item = slot.SlotGrid.SpecificItemCombined[i1];
+                                    
+                                    EditorGUILayout.BeginHorizontal();
+
+                                        slot.SlotGrid.SpecificItemCombined[i1] = (ItemData)EditorGUILayout.ObjectField("Element " + i1, item, typeof(ItemData), false);
+                                        if (GUILayout.Button("-", GUILayout.Width(20)))
+                                        {
+                                            slot.SlotGrid.SpecificItemCombined.RemoveAt(i1);
+                                        }
+
+                                    EditorGUILayout.EndHorizontal();
+                                }
+
+                                EditorGUILayout.BeginHorizontal();
+                                if (GUILayout.Button("+", GUILayout.Width(20)))
+                                {
+                                    slot.SlotGrid.SpecificItemCombined.Add(new ItemData());
+                                }
+                                if (GUILayout.Button("-", GUILayout.Width(20)))
+                                {
+                                    slot.SlotGrid.SpecificItemCombined.RemoveAt(slot.SlotGrid.SpecificItemCombined.Count - 1);
+                                }
+                                EditorGUILayout.EndHorizontal();
+                            }
+
+                        EditorGUILayout.EndFoldoutHeaderGroup();
+                    }
+
 
                     if (GUILayout.Button("Х"))            
                     {
@@ -404,44 +487,58 @@ namespace ModularEventArchitecture
 
             foreach (var slot in _currentInventoryContainer.Slots)
             {
-                DrawSlotGridData(gridRect, slot.SlotGrid);
+                DrawSlotGridData(gridRect, slot);
             }
         
             EditorGUILayout.EndScrollView();
         }
 
-        private void DrawSlotGridData(Rect gridRect, GridData2 slotGrid)
+        private void DrawSlotGridData(Rect gridRect, InventorySlot slot)
         {
                 // Применяем позицию из объекта slotGrid
             Rect adjustedGridRect = new Rect(
-                gridRect.x + slotGrid.Position.x, 
-                gridRect.y + slotGrid.Position.y, 
-                slotGrid.Size.x * cellSize, 
-                slotGrid.Size.y * cellSize
+                gridRect.x + slot.SlotGrid.Position.x, 
+                gridRect.y + slot.SlotGrid.Position.y, 
+                slot.SlotGrid.Size.x * cellSize, 
+                slot.SlotGrid.Size.y * cellSize
             );
 
             // Рисуем сетку с учетом её позиции
-            DrawSlotGrid(adjustedGridRect, slotGrid);
+            DrawSlotGrid(adjustedGridRect, slot);
             
             // Рисуем предметы с учетом позиции сетки
-            DrawItems(adjustedGridRect, slotGrid);
+            DrawItems(adjustedGridRect, slot.SlotGrid);
             
             // Обрабатываем перетаскивание с учетом позиции сетки
-            HandleDragAndDrop(adjustedGridRect, slotGrid);
+            HandleDragAndDrop(adjustedGridRect, slot.SlotGrid);
         }
 
-        private void DrawSlotGrid(Rect gridRect, GridData2 grid)
+        private void DrawSlotGrid(Rect gridRect, InventorySlot slot)
         {
-            for (int x = 0; x < grid.Size.x; x++)
+            for (int x = 0; x < slot.SlotGrid.Size.x; x++)
             {
-                for (int y = 0; y < grid.Size.y; y++)
+                for (int y = 0; y < slot.SlotGrid.Size.y; y++)
                 {
                     Rect cellRect = new Rect(
                         gridRect.x + x * cellSize, gridRect.y + y * cellSize, cellSize, cellSize
                     );
                     EditorGUI.DrawRect(cellRect, Color.gray);
-                    GUI.Box(cellRect, "", EditorStyles.helpBox);
+
                 }
+            }
+            // Отображаем иконку предмета при перетаскивании
+            if(slot.Icon)
+            {
+                GUIStyle slotStyle = new GUIStyle();
+                slotStyle.normal.background = slot.Icon.texture;
+                slotStyle.stretchWidth = true;
+                slotStyle.stretchHeight = true;
+                GUI.Box(gridRect, "", slotStyle);
+            }
+            else
+            {
+                EditorGUI.DrawRect(gridRect, Color.gray);
+                GUI.Box(gridRect, "", EditorStyles.helpBox);
             }
         }
 

@@ -1,5 +1,6 @@
 using InventoryDiablo;
 using UnityEngine;
+using static GridData2;
 
 namespace ModularEventArchitecture
 {
@@ -9,43 +10,46 @@ namespace ModularEventArchitecture
         //---------------------------------------------------
         //класс является системой управления всех ивентарей, основной функцианал инвентарей находится тут
         [SerializeField] private UIContextMenu contextMenu;
-        //---------------------------------------------------
 
-        private UIItemGrid LastGrid;
-        
-        public bool IsTreid{get; set;} = false;
-        private UIItemGrid selectedItemGrid;
-        public UIItemGrid SelectedItemGrid 
+        //---------------------------------------------------
+        private UIItemGrid selectedGrid;
+        public UIItemGrid SelectedGrid 
         {
-            get => selectedItemGrid; 
+            get => selectedGrid; 
             
             set 
             {
-                selectedItemGrid = value;
+                selectedGrid = value;
 
                 inventoryIHighLight.SetParent(value);
             }
         }
 
+        //---------------------------------------------------
         private UIInventoryItem UIselectedItem;
         private UIInventoryItem overlapItem;
+        
+        //---------------------------------------------------
         private RectTransform itemRectTransform;
+        
+        //---------------------------------------------------
         [SerializeField] private Canvas canvas;
 
-        // [SerializeField] private List<ItemData> items;
-        // [SerializeField] private List<InventoryItem> items;
-        [SerializeField] private AvailableItems availableItems;
+        //---------------------------------------------------
         [SerializeField] private UIInventoryItem itemPrefab;
+        [SerializeField] private AvailableItems availableItems;
 
-        public InventoryIHighLight inventoryIHighLight;
+        //---------------------------------------------------
+        private Vector2Int _oldPosition;
+        private UIInventoryItem _itemToHighLight;
+        //---------------------------------------------------
+        [SerializeField] private InventoryIHighLight inventoryIHighLight;
 
-        [HideInInspector] public SetCharacter Clothes{get; set;}
-        
         //!---------------------------------------------------
 
         public override void Initialize()
         {
-            Entity.Globalevents.Add((EventsInventory.SeletGrid, (data) => SelectedItemGrid = ((SelectGridEventData)data).ItemGrid));
+            Entity.Globalevents.Add((EventsInventory.SeletGrid, (data) => SelectedGrid = ((SelectGridEventData)data).ItemGrid));
             
             Entity.Globalevents.Add((EventsInventory.CreateAndInsertItem, (data) => OnCreateAndInsertItem(((CreateAndInsertItemEventData)data).InventoryItem, ((CreateAndInsertItemEventData)data).ItemGrid)));
             
@@ -54,13 +58,13 @@ namespace ModularEventArchitecture
 
         public override void UpdateMe() 
         {
-            ItemIconDrah();
+            ItemIconDrag();
 
             if(Input.GetKeyDown(KeyCode.M))
             {
                 if(UIselectedItem == null)
                 {
-                    CreateRandomItem(selectedItemGrid);
+                    CreateRandomItem(selectedGrid);
                 }
             }
 
@@ -74,24 +78,18 @@ namespace ModularEventArchitecture
                 RotateItem();
             }
 
-            if(SelectedItemGrid == null)
+            if(SelectedGrid == null)
             {
                 inventoryIHighLight.Show(false);
 
                 if(Input.GetMouseButtonDown(0))
                 {
-                    if(UIselectedItem && !IsTreid) DropItem(UIselectedItem.InventoryItem);
+                    if(UIselectedItem) DropItem(UIselectedItem.InventoryItem);
                 }
 
                 return;
             }
             
-            // if(UIselectedItem && SelectedItemGrid.GridData.CompatibleGroup != UIselectedItem.InventoryItem.ItemData.ItemGroup)
-            // {
-                // inventoryIHighLight.Show(false);
-                // return;
-            // }
-
             HandleHighlight();
             
             if(Input.GetMouseButtonDown(0))
@@ -115,21 +113,21 @@ namespace ModularEventArchitecture
         [ContextMenu("InsertRandomItem")]
         public void InsertRandomItem()
         {
-            if(selectedItemGrid == null) 
+            if(selectedGrid == null) 
             {
                 Debug.LogError("Не выбрана сетка для вставки предмета");
 
                 return;
             }
 
-            CreateRandomItem(selectedItemGrid);
+            CreateRandomItem(selectedGrid);
 
             UIInventoryItem itemToInsert = UIselectedItem;
 
             UIselectedItem = null;
 
             
-            InsertItemOnGrid(itemToInsert, selectedItemGrid);
+            InsertItemOnGrid(itemToInsert, selectedGrid);
         }
 
         private void InsertItemOnGrid(UIInventoryItem itemToInsert, UIItemGrid grid)
@@ -152,11 +150,11 @@ namespace ModularEventArchitecture
 
         //!!!Этот метод создает итем и устанавливает его на сетку ОБРАЩАТЬСЯ ЧЕРЕЗ НЕГО
         //создать физически итем и установить его на сетку 
-        public void OnCreateAndInsertItem(InventoryItem inventoryItem, UIItemGrid grid, int amount = 0)
+        public void OnCreateAndInsertItem(InventoryItem inventoryItem, UIItemGrid grid)
         {
-            Debug.Log($"Создан предмет {inventoryItem.ItemData.Title} {amount} штук");
+            Debug.Log($"Создан предмет {inventoryItem.ItemData.Title}");
             
-            CreateItem(inventoryItem, grid, amount);
+            CreateItem(inventoryItem);
             
             UIInventoryItem itemToInsert = UIselectedItem;
             
@@ -165,25 +163,23 @@ namespace ModularEventArchitecture
             InsertItemOnGrid(itemToInsert, grid);
         }
 
-        private Vector2Int _oldPosition;
-        private UIInventoryItem _itemToHighLight;
-
         //метод подсветки предмета
         private void HandleHighlight()
         {
             Vector2Int positionOnGrid = GetTitleGridPosition();
+
             if(_oldPosition == positionOnGrid){return;}
             
             _oldPosition = positionOnGrid;
             if(UIselectedItem == null)
             {
-                _itemToHighLight = SelectedItemGrid.GetUIItem(positionOnGrid.x, positionOnGrid.y);
+                _itemToHighLight = SelectedGrid.GetUIItem(positionOnGrid.x, positionOnGrid.y);
                 
                 if(_itemToHighLight != null)
                 {
                     inventoryIHighLight.Show(true);
                     inventoryIHighLight.SetSize(_itemToHighLight);
-                    inventoryIHighLight.SetPosition(SelectedItemGrid, _itemToHighLight);
+                    inventoryIHighLight.SetPosition(SelectedGrid, _itemToHighLight);
                 }
                 else
                 {
@@ -192,53 +188,80 @@ namespace ModularEventArchitecture
             }
             else
             {
-                inventoryIHighLight.Show(SelectedItemGrid.BoundryCheck(positionOnGrid.x, positionOnGrid.y, UIselectedItem.InventoryItem.WIDTH, UIselectedItem.InventoryItem.HEIGHT));
-                inventoryIHighLight.SetSize(UIselectedItem);
-                inventoryIHighLight.SetPosition(SelectedItemGrid, UIselectedItem, positionOnGrid.x, positionOnGrid.y);
+                if(ValidateItem())
+                {
+                    inventoryIHighLight.Show(SelectedGrid.BoundryCheck(positionOnGrid.x, positionOnGrid.y, UIselectedItem.InventoryItem.WIDTH, UIselectedItem.InventoryItem.HEIGHT));
+                    inventoryIHighLight.SetSize(UIselectedItem);
+                    inventoryIHighLight.SetPosition(SelectedGrid, UIselectedItem, positionOnGrid.x, positionOnGrid.y);            
+                }
             }
+        }
+    
+        //проверка выделеного предмета и выделеной сетки на валидность для установки на сетку
+        private bool ValidateItem()
+        {
+            if(SelectedGrid.GridDataInfo.CompatibilityGridMod == Compatibility.Access_public)
+            {
+                return true;
+            }
+            else
+            if(SelectedGrid.GridDataInfo.CompatibilityGridMod == Compatibility.Access_by_item_groups)
+            {
+                //если группы не совпадают то не подсвечивать
+                if(UIselectedItem.InventoryItem.ItemData.ItemGroup == SelectedGrid.GridDataInfo.CompatibleGroup) 
+                {
+                    return true;
+                }
+            }
+            else
+            if(SelectedGrid.GridDataInfo.CompatibilityGridMod == Compatibility.Access_by_specific_item)
+            {
+                foreach (var SpecificItemData in SelectedGrid.GridDataInfo.SpecificItemCombined)
+                {
+                    if(UIselectedItem.InventoryItem.ItemData == SpecificItemData) 
+                    {
+                        return true;
+                    }
+                }
+            }
+
+            return false;
         }
 
         //создать случайный итем
         public void CreateRandomItem(UIItemGrid itemGrid)
         {
-            UIInventoryItem inventoryItem = Instantiate(itemPrefab);
-            UIselectedItem = inventoryItem;
+            UIInventoryItem newUIinventoryItem = Instantiate(itemPrefab);
+            UIselectedItem = newUIinventoryItem;
 
-            itemRectTransform = inventoryItem.rectTransform;
+            itemRectTransform = newUIinventoryItem.rectTransform;
             itemRectTransform.SetParent(canvas.transform);
             itemRectTransform.SetAsLastSibling();
-
             
             int selectedItemID = UnityEngine.Random.Range(0, availableItems.items.Count);
 
-            UIselectedItem.Setup(availableItems.items[selectedItemID], null, availableItems.items[selectedItemID].ItemData.MaxStackSize);
-
-            LastGrid = itemGrid;
+            UIselectedItem.Setup(availableItems.items[selectedItemID].Clone());
         }
 
-        private void CreateItem(InventoryItem inventoryItem, UIItemGrid grid, int amount)
+        private void CreateItem(InventoryItem inventoryItem)
         {
             UIInventoryItem uiInventoryItem = Instantiate(itemPrefab);
             UIselectedItem = uiInventoryItem;
-
 
             itemRectTransform = uiInventoryItem.rectTransform;
             itemRectTransform.SetParent(canvas.transform);
             itemRectTransform.SetAsLastSibling();
 
-            UIselectedItem.Setup(inventoryItem, grid, amount);
+            UIselectedItem.Setup(inventoryItem);
         }
 
         //метод перемещает итем в след за мышкой
-        private void ItemIconDrah()
+        private void ItemIconDrag()
         {
             if(UIselectedItem)
             {
-                // itemRectTransform.position = Input.mousePosition
-                
                 //расчитать позицию итема с учетом изменения размера итема
                 itemRectTransform.position = Input.mousePosition - new Vector3((itemRectTransform.sizeDelta.x * itemRectTransform.localScale.x) / (itemRectTransform.lossyScale.x * 10), 0);
-
             }
         }
 
@@ -257,10 +280,6 @@ namespace ModularEventArchitecture
             }
 
             contextMenu.Show(false);
-
-            // if(selectedInventory != null) selectedInventory.UpdateChestItems();
-
-            // playerChest.UpdateChestItems();
         }
 
         //открыть контектсное меню
@@ -269,7 +288,7 @@ namespace ModularEventArchitecture
             if (UIselectedItem != null) return;
 
             Vector2Int titleGridPosition = GetTitleGridPosition();
-            UIInventoryItem uiInventoryItem = SelectedItemGrid.GetUIItem(titleGridPosition.x, titleGridPosition.y);
+            UIInventoryItem uiInventoryItem = SelectedGrid.GetUIItem(titleGridPosition.x, titleGridPosition.y);
             
             if(!uiInventoryItem)return;
             
@@ -287,64 +306,29 @@ namespace ModularEventArchitecture
                 position.y += (UIselectedItem.InventoryItem.HEIGHT - 1) * GridData.titleSizeHeight / 2;
             }
 
-            return SelectedItemGrid.GetTitleGridPosition(position);
+            return SelectedGrid.GetTitleGridPosition(position);
         }
-
 
         //поднять предмет с сетки
         private void PickUpItem(Vector2Int titleGridPosition)
         {
-            UIselectedItem = SelectedItemGrid.SelectIteme(titleGridPosition.x, titleGridPosition.y);
-            
-
-            if(SelectedItemGrid.GridDataInfo.isSingle)
-            {
-                // TakeOffClothes(selectedItem.itemData.GetItemTypeIndex());
-                //снять одежду
-                // SelectedItemGrid.GridData.OwnerInventory.TakeOffItem(UIselectedItem.InventoryItem);
-            }
+            UIselectedItem = SelectedGrid.SelectIteme(titleGridPosition.x, titleGridPosition.y);
 
             if (UIselectedItem)
             {
                 UIselectedItem.transform.SetParent(canvas.transform);
                 itemRectTransform = UIselectedItem.rectTransform;
                 itemRectTransform.SetAsLastSibling();
-
-                LastGrid = SelectedItemGrid;
-
-                // SelectedItemGrid.GridData.owner.RemoveItem(UIselectedItem.InventoryItem);
             }
-
         }
 
-        //расположить предмет на сетке 
+        //расположить итем на сетке
         private void PlaceItem(Vector2Int titleGridPosition)
         {
-            // if(IsTreid && LastGrid.GridData.OwnerInventory != SelectedItemGrid.GridData.OwnerInventory)
-            // {
-            //     PlaceItemInTrade();
-            // }
-            // else
-            {
-                PlaceItemIsNotTraded(titleGridPosition);
-            }
-        }
-
-        //расположить вне торговли
-        private void PlaceItemIsNotTraded(Vector2Int titleGridPosition)
-        {
-            bool complete = SelectedItemGrid.PlaceItem(UIselectedItem, titleGridPosition.x, titleGridPosition.y, ref overlapItem);        
+            bool complete = ValidateItem() ? SelectedGrid.PlaceItem(UIselectedItem, titleGridPosition.x, titleGridPosition.y, ref overlapItem) : false;
             
             if(complete)
             {
-                // SelectedItemGrid.inv.Add(UIselectedItem.InventoryItem);
-                if(SelectedItemGrid.GridDataInfo.isSingle)
-                {
-                    // PutOnClothesOnBody(selectedItem.itemData.GetItemTypeIndex());
-                    //надеть одежду
-                    // SelectedItemGrid.GridData.OwnerInventory.EquipItem(UIselectedItem.InventoryItem);
-                }
-                
                 UIselectedItem = null;
                 
                 if(overlapItem != null)
@@ -357,59 +341,13 @@ namespace ModularEventArchitecture
                 
                     itemRectTransform.SetAsLastSibling();
                 }
-                
             }
         }
 
-        //расположить при торговли
-        private void PlaceItemInTrade()
-        {
-            // if(SelectedItemGrid.GridData.OwnerInventory.money < UIselectedItem.InventoryItem.Price)
-            {
-                // GameManager.Instance.UIManager.GetPlayerInventoryWindowUI().NotEnoughMoneyAnimation();
-
-                return;
-            } 
-
-            // SelectedItemGrid.chest.money -= selectedItem.itemData.price;
-
-            // LastGrid.GridData.OwnerInventory.money += UIselectedItem.InventoryItem.Price;
-
-            // buferGrid.chest.UpdateMoney();
-
-            // SelectedItemGrid.chest.UpdateMoney();
-
-            UIInventoryItem buferItem = UIselectedItem;
-
-            OnCreateAndInsertItem(buferItem.InventoryItem, selectedItemGrid, UIselectedItem.InventoryItem.Amount);
-
-            buferItem.DestructSelf();
-
-            UIselectedItem = null;
-        }
-
-        // //надеть одежду 
-        // private void PutOnClothesOnBody(int index)
-        // {
-        //     playerChest.Clothes.items[index].Prefab = SelectedItemGrid.GetItem(0, 0).itemData.prefab;
-            
-        //     playerChest.Clothes.AddItem(index);
-        // }
-
-        // //снять одежду
-        // private void TakeOffClothes(int index)
-        // {
-        //     playerChest.Clothes.RemoveItem(index);
-
-        //     playerChest.Clothes.items[index].Prefab = null;
-        // }
-
-        //метод выкинуть предмет
+        //Выкинуть предмет
         public void DropItem(InventoryItem item)
         {
-            // 1)вызвать спавн объекта на улице
-            // 2)удалить предмет из инвентаря
-            // LastGrid.owner.DropItem(item);
+            GlobalEventBus.Instance.Publish(EventsSpawner.SpawnUnitOnStreet, new EventDataUnit {Item = UIselectedItem.InventoryItem} );
                 
             UIselectedItem.DestructSelf();
 

@@ -10,7 +10,6 @@ namespace Tool
 {
     public class PLayerInstaller : MonoInstaller
     {
-        [SerializeField] private Player player;
         [SerializeField] private StarterAssetsInputs starterAssetsInputs;
         [SerializeField] private Transform debugTarget;
         [SerializeField] private SettingsRaycaster settingsRaycaster;
@@ -19,7 +18,6 @@ namespace Tool
 
         public override void InstallBindings()
         {
-            Container.Bind<IMuveHandler>().To<PLayerMoveSystem>().AsSingle().WithArguments(starterAssetsInputs, player.humanModel.animator); // забиндить в поле вместе с аргументами
 
             Container.Bind<RigBuilder>().FromComponentSibling(); // найти в компонентах найденного объекта и вставить к нему
 
@@ -27,7 +25,6 @@ namespace Tool
 
             Container.Bind<IRaycastHandler>().To<RaycastService>().AsSingle().WithArguments(debugTarget, settingsRaycaster);
 
-            Container.Bind<HumanModel>().FromInstance(player.humanModel).AsSingle();
 
             
             // Container.Bind<IInventory>().To<Inventory>().AsTransient();

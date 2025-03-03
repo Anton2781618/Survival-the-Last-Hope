@@ -1,37 +1,25 @@
-using System.Collections;
-using System.Collections.Generic;
 using ModularEventArchitecture;
-using UnityEngine;
 
 namespace Entitys.Player.Events
 {
     public class EventsAnimationWeapon : IEventType
     {
-        private AnimationsWeaponActionsEnum _type;
+        public int Id { get; }
+        public string EventName { get; }
 
-        private EventsAnimationWeapon(AnimationsWeaponActionsEnum type)
+        private EventsAnimationWeapon(string eventName)
         {
-            _type = type;
+            EventName = eventName;
+            // Получаем хеш-код имени события, который будет уникален
+            // Добавляем префикс чтобы еще больше избежать коллизий
+            Id = ("EventsAnimationWeapon_" + eventName).GetHashCode();
         }
 
-        public int GetEventId() => (int)_type;
-        public string GetEventName() => _type.ToString();
-
-        public static IEventType HolsterWeaponStart => new EventsAnimationWeapon(AnimationsWeaponActionsEnum.HolsterWeaponStart);
-        public static IEventType DrawWeaponStart => new EventsAnimationWeapon(AnimationsWeaponActionsEnum.DrawWeaponStart);
-        public static IEventType AimWeapon => new EventsAnimationWeapon(AnimationsWeaponActionsEnum.AimWeapon);
-        public static IEventType OffAim => new EventsAnimationWeapon(AnimationsWeaponActionsEnum.OffAim);
-        public static IEventType Fire => new EventsAnimationWeapon(AnimationsWeaponActionsEnum.Fire);
-        public static IEventType StopFire => new EventsAnimationWeapon(AnimationsWeaponActionsEnum.StopFire);
-
-        public enum AnimationsWeaponActionsEnum
-        {
-            HolsterWeaponStart,
-            DrawWeaponStart,
-            AimWeapon,
-            OffAim,
-            Fire,
-            StopFire,
-        }
+        public static IEventType HolsterWeaponStart => new EventsAnimationWeapon("HolsterWeaponStart");
+        public static IEventType DrawWeaponStart => new EventsAnimationWeapon("DrawWeaponStart");
+        public static IEventType AimWeapon => new EventsAnimationWeapon("AimWeapon");
+        public static IEventType OffAim => new EventsAnimationWeapon("OffAim");
+        public static IEventType Fire => new EventsAnimationWeapon("Fire");
+        public static IEventType StopFire => new EventsAnimationWeapon("Fire");
     }
 }

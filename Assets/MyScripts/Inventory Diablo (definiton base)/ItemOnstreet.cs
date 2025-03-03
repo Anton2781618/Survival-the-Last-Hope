@@ -1,16 +1,15 @@
-using Units;
+using ModularEventArchitecture;
 using UnityEngine;
 
 namespace InventoryDiablo
 {
     [RequireComponent(typeof(Collider)), RequireComponent(typeof(Rigidbody)), RequireComponent(typeof(OutlineSystem.Outline))]
-    public class ItemOnstreet : Unit
+    public class ItemOnstreet : MonoBehaviour, IInteractable
     {
         [SerializeField] private InventoryItem _item;
         [SerializeField] private Collider _collider;
         [SerializeField] private Rigidbody _rigidbody;
         [SerializeField] private OutlineSystem.Outline _outline;
-        [SerializeField] private GameObject text;
 
         public Collider GetCollider() => _collider;
         public Rigidbody GetRigidbody() => _rigidbody;
@@ -28,55 +27,48 @@ namespace InventoryDiablo
             Destroy(this.gameObject);
         }
 
-        public override void Use(Unit unit)
+        public void Interact(GameEntity interactor)
         {
-            IInventorySystem inventorySystem = unit as IInventorySystem;
+            Debug.Log("Поднять предмет");
+            bool place = interactor.GetModule<InventoryModule>().Inventory.TryPlaceItem(_item);
 
-            UIItemGrid grid = inventorySystem.InventoryHandler.InventoryUI.CheckFreeSpaceForItem(_item);
-
-            if(!grid)
+            if(!place)
             {
                 Debug.Log("Нет места в инвентаре");
                 
                 return;
             }
 
-            inventorySystem.InventoryHandler.InventoryUI.CreateAndInsertItem(_item, grid);
-
-            inventorySystem.InventoryHandler.Inventory.AddItem(_item);
+            OnMouseExit();
 
             Destroy(gameObject);
         }
 
-        //переключить текст
-        public void ShowText(bool isShow) => text.gameObject.SetActive(isShow);
-
-
-        // public void Use(AbstractBehavior applicant)
-        // {
-        //     ShowOutline(false);
-        //     TakeItem(applicant.Chest);
-        // }
-
-        private void Dest()
+        public bool CanInteract(GameEntity interactor)
         {
-            Destroy(this.gameObject);
+            throw new System.NotImplementedException();
         }
 
-        public void SetupItem(InventoryItem item, GameObject textGo)
+        public void SetupItem(InventoryItem item)
         {
             _item = item;
-
-            text = textGo;
         }
 
         void OnMouseEnter()
         {
             _outline.enabled = true;
 
-            ShowText(true);
+            Vector3 position = new Vector3(transform.position.x, transform.position.y, transform.position.z - 0.5f);
 
-            text.transform.position = new Vector3(transform.position.x, transform.position.y, transform.position.z - 1);
+            GlobalEventBus.Instance.Publish(EventsUI.Show_Text, new EventShowText 
+            {
+                Enabled = true,
+
+                Text = _item.ItemData.Title,
+            
+                Position = position
+            });
+
         }
 
         void OnMouseOver()
@@ -86,9 +78,18 @@ namespace InventoryDiablo
 
         void OnMouseExit()
         {
-            ShowText(false);
+            GlobalEventBus.Instance.Publish(EventsUI.Show_Text, new EventShowText 
+            {
+                Enabled = false,
+                
+                Text = "",            
+                
+                Position = Vector3.zero
+            });
 
             _outline.enabled = false;
         }
+
+        
     }
 }

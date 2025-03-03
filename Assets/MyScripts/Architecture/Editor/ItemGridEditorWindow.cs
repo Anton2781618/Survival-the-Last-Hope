@@ -138,7 +138,7 @@ namespace ModularEventArchitecture
             EditorGUILayout.BeginHorizontal();
             if(GUILayout.Button("Отсеять предметы по типу сетки",GUILayout.Width(220), GUILayout.Height(44))) 
             {
-                _currCombinedItems = grid.specificItemCombined;
+                _currCombinedItems = grid.SpecificItemCombined;
             }
             EditorGUILayout.EndHorizontal();
 
@@ -425,7 +425,7 @@ namespace ModularEventArchitecture
                 else
                 if(grid.CompatibilityGridMod == GridData2.Compatibility.Access_by_specific_item)
                 {
-                    if (grid.specificItemCombined.Contains(draggedItem.ItemData))
+                    if (grid.SpecificItemCombined.Contains(draggedItem.ItemData))
                     {
                         return true;
                     }

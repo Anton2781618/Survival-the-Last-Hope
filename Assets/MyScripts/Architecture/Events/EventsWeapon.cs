@@ -1,35 +1,24 @@
-using System.Collections;
-using System.Collections.Generic;
 using ModularEventArchitecture;
-using UnityEngine;
 
 namespace Entitys.Player.Events
 {
     public class EventsWeapon : IEventType
     {
-        private WeaponActionsEnum _type;
+        public int Id { get; }
+        public string EventName { get; }
 
-        private EventsWeapon(WeaponActionsEnum type)
+        private EventsWeapon(string eventName)
         {
-            _type = type;
+            EventName = eventName;
+            // Получаем хеш-код имени события, который будет уникален
+            // Добавляем префикс чтобы еще больше избежать коллизий
+            Id = ("EventsWeapon_" + eventName).GetHashCode();
         }
 
-        public int GetEventId() => (int)_type;
-        public string GetEventName() => _type.ToString();
-
-        public static IEventType StartFire => new EventsWeapon(WeaponActionsEnum.StartFire);
-        public static IEventType StopFire => new EventsWeapon(WeaponActionsEnum.StopFire);
-        public static IEventType Reload => new EventsWeapon(WeaponActionsEnum.Reload);
-        public static IEventType ChangeAmmo => new EventsWeapon(WeaponActionsEnum.ChangeAmmo);
-        public static IEventType ChangeWeapon => new EventsWeapon(WeaponActionsEnum.ChangeWeapon);
-
-        public enum WeaponActionsEnum
-        {
-            StartFire,
-            StopFire,
-            Reload,
-            ChangeAmmo,
-            ChangeWeapon
-        }
+        public static IEventType StartFire => new EventsWeapon("StartFire");
+        public static IEventType StopFire => new EventsWeapon("StopFire");
+        public static IEventType Reload => new EventsWeapon("Reload");
+        public static IEventType ChangeAmmo => new EventsWeapon("ChangeAmmo");
+        public static IEventType ChangeWeapon => new EventsWeapon("ChangeWeapon");
     }        
 }

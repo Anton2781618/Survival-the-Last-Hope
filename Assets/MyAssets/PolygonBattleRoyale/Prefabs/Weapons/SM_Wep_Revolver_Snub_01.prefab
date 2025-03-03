@@ -261,7 +261,6 @@ GameObject:
   - component: {fileID: 33823080556168768}
   - component: {fileID: 23617040551028950}
   - component: {fileID: 8785459959053318129}
-  - component: {fileID: 264760886601912185}
   - component: {fileID: 4390249648141680984}
   m_Layer: 0
   m_Name: SM_Wep_Revolver_Snub_01
@@ -352,22 +351,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f52e9be4f6716fa4ca552435336c68ec, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  modules:
-  - {fileID: 264760886601912185}
+  Modules:
   - {fileID: 4390249648141680984}
---- !u!114 &264760886601912185
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1404540613340210}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 247d2b2d2695e924b86d8643a5547bf2, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  <Entity>k__BackingField: {fileID: 8785459959053318129}
 --- !u!114 &4390249648141680984
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -383,16 +368,17 @@ MonoBehaviour:
   <Entity>k__BackingField: {fileID: 8785459959053318129}
   muzzleFlashPoint: {fileID: 2142655367732836206}
   shellPoint: {fileID: 6874711828099779262}
-  weaponModel: {fileID: 11400000, guid: 0d6b48d78924ca549a3a817a114a5a37, type: 2}
+  WeaponModel: {fileID: 0}
   InventoryItem:
     <ItemData>k__BackingField: {fileID: 11400000, guid: ddcc013a94659bc4bb68e1f1fcf133cf,
       type: 2}
+    Grids: []
     amount: 0
-    price: 0
-    GridName: 0
     OnItemsChanged:
       m_PersistentCalls:
         m_Calls: []
+    OnGridPosition: {x: 0, y: 0}
+    Rotated: 0
   TypeWeapon: 0
 --- !u!1 &1529751969934678
 GameObject:

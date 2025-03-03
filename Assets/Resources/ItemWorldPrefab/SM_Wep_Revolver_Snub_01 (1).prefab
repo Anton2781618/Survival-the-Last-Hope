@@ -213,7 +213,6 @@ GameObject:
   - component: {fileID: 8838084401921921558}
   - component: {fileID: 4160713931563591706}
   - component: {fileID: 9065316657756585589}
-  - component: {fileID: 969383947148416284}
   m_Layer: 6
   m_Name: SM_Wep_Revolver_Snub_01 (1)
   m_TagString: Untagged
@@ -308,7 +307,7 @@ BoxCollider:
   m_LayerOverridePriority: 0
   m_IsTrigger: 0
   m_ProvidesContacts: 0
-  m_Enabled: 0
+  m_Enabled: 1
   serializedVersion: 3
   m_Size: {x: 0.040265445, y: 0.18462688, z: 0.25831425}
   m_Center: {x: 0.0000000048207225, y: 0.010605215, z: 0.08486189}
@@ -369,9 +368,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f52e9be4f6716fa4ca552435336c68ec, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  modules:
+  Modules:
   - {fileID: 9065316657756585589}
-  - {fileID: 969383947148416284}
 --- !u!114 &9065316657756585589
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -391,39 +389,14 @@ MonoBehaviour:
   InventoryItem:
     <ItemData>k__BackingField: {fileID: 11400000, guid: ddcc013a94659bc4bb68e1f1fcf133cf,
       type: 2}
+    Grids: []
     amount: 0
-    price: 0
-    GridName: 0
     OnItemsChanged:
       m_PersistentCalls:
         m_Calls: []
+    OnGridPosition: {x: 0, y: 0}
+    Rotated: 0
   TypeWeapon: 0
---- !u!114 &969383947148416284
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 901194093382967459}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6a9e07d11adb1b344be91e1d3d2468b0, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  <Entity>k__BackingField: {fileID: 4160713931563591706}
-  _item:
-    <ItemData>k__BackingField: {fileID: 11400000, guid: ddcc013a94659bc4bb68e1f1fcf133cf,
-      type: 2}
-    amount: 0
-    price: 0
-    GridName: 0
-    OnItemsChanged:
-      m_PersistentCalls:
-        m_Calls: []
-  _collider: {fileID: 6465697391638610782}
-  _rigidbody: {fileID: 8838084401921921558}
-  _outline: {fileID: 4503070667607788320}
-  text: {fileID: 0}
 --- !u!1 &1461848180851824766
 GameObject:
   m_ObjectHideFlags: 0

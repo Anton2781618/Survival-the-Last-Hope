@@ -7,19 +7,19 @@ namespace Tool
 {
     public class SaveManager : MonoBehaviour
     {
-        public Player player;
+        // public Player player;
         
         [ContextMenu("Save")]
         public void Save()
         {
-            SaveData saveData = new SaveData
-            {
-                Position = player.transform.position,
+            // SaveData saveData = new SaveData
+            // {
+            //     Position = player.transform.position,
 
-                InventorySaveData = new InventorySaveData(player.InventoryHandler.Inventory)
-            };
+            //     InventorySaveData = new InventorySaveData(player.InventoryHandler.Inventory)
+            // };
 
-            BlazeSave.SaveData("SaveData", saveData);
+            // BlazeSave.SaveData("SaveData", saveData);
         }
         
         [ContextMenu("Load")]
@@ -31,21 +31,21 @@ namespace Tool
 
             for (int i = 0; i < saveData.InventorySaveData.InventoryCount; i++)
             {
-                ItemData itemData = Helper.GameDataBase.GetItemData(saveData.InventorySaveData.ItemDataNames[i]);
+                // ItemData itemData = Helper.GameDataBase.GetItemData(saveData.InventorySaveData.ItemDataNames[i]);
 
-                InventoryItem inventoryItem = new InventoryItem(itemData, saveData.InventorySaveData.InventoryItemsAmounts[i]);
+                // InventoryItem inventoryItem = new InventoryItem(itemData, saveData.InventorySaveData.InventoryItemsAmounts[i]);
 
-                inventory.AddItem(inventoryItem);
+                // inventory.AddItem(inventoryItem);
             }
 
             
-            player.InventoryHandler.Inventory = inventory;
+            // player.InventoryHandler.Inventory = inventory;
 
-            player.CharacterControllerPlayer.enabled = false;
+            // player.CharacterControllerPlayer.enabled = false;
 
-            player.transform.position = saveData.Position;
+            // player.transform.position = saveData.Position;
 
-            player.CharacterControllerPlayer.enabled = true;
+            // player.CharacterControllerPlayer.enabled = true;
         }
     }
 }

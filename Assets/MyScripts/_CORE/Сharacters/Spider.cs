@@ -6,7 +6,7 @@ using Zenject;
 
 namespace Tool
 {
-    public class Spider : Unit, IDestroyable, IMoveSystem
+    public class Spider : MonoBehaviour, IDestroyable, IMoveSystem
     {
         public Animator Animator;
         public NTC.Global.System.RagdollOperations RagdollOperations;
