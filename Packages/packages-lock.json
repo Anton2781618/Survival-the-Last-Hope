@@ -13,7 +13,7 @@
       "dependencies": {
         "com.unity.textmeshpro": "3.0.6"
       },
-      "hash": "b29e7de5b83a62701d2f291de87d7541ce58c9c9"
+      "hash": "d3b57ee316d37df124ad955f5fd3e20b64441f15"
     },
     "com.tripolygon.umodeler-x": {
       "version": "file:com.tripolygon.umodeler-x-0.20.5/com.tripolygon.umodeler-x-0.20.5.tgz",

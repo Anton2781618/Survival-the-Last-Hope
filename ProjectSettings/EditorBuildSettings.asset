@@ -5,12 +5,9 @@ EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Scenes:
-  - enabled: 0
-    path: Assets/Scenes/Map.unity
-    guid: 99c9720ab356a0642a771bea13969a05
   - enabled: 1
-    path: Assets/MyScenes/LevelWeapons.unity
-    guid: 1227d4b8177fafd42b116ea2469ceb1a
+    path: Assets/MyScenes/Map.unity
+    guid: 74f1c38a4619e4a4f9e9d4b2877709f4
   m_configObjects:
     com.unity.addressableassets: {fileID: 11400000, guid: 3b94c5d54c3cd4f46a332e81046ac244,
       type: 2}

@@ -1,12 +1,11 @@
-using System;
 using System.Collections;
-using System.Collections.Generic;
 using Entitys.Player.Events;
 using Entitys.Weapon.Modules.WeaponModelModule;
+using InventoryDiablo;
 using States;
 using Units;
 using UnityEngine;
-using UnityEngine.Animations.Rigging;
+using static InventoryDiablo.ItemData;
 using static Weapons.WeaponModel;
 
 // Получает события от PlayerInputModule
@@ -23,11 +22,16 @@ namespace ModularEventArchitecture
         //--------------- Ссылки на объекты ----------------
         [SerializeField] private WeaponEntity _currentWeapon;
         [SerializeField] private HumanModel _humanModel;
+        private WeaponModelModule _weaponModule;
         private Weapons.WeaponModel _weaponModel;
 
         //------------- Корутины ----------------
         private Coroutine _currCoruteine;
         private Coroutine _currentAnimationCoroutine;
+        //-----------------------------------------------------------
+        [SerializeField] private Transform _hand;
+        
+        //-----------------------------------------------------------
 
         private enum AnimationState
         {
@@ -36,6 +40,7 @@ namespace ModularEventArchitecture
             Aim,
             Fire,
         }
+        //!-----------------------------------------------------------
 
         private void StopCurrentCoroutines()
         {
@@ -54,23 +59,39 @@ namespace ModularEventArchitecture
         
         public override void Initialize()
         {
-            Entity.LocalEvents.Subscribe<EventBase>(EventsAnimationWeapon.DrawWeaponStart, OnDrawWeapon);
+            Entity.LocalEvents.Subscribe<EventBase>(EventsAnimationWeapon.Draw_Weapon_Start, OnDrawWeapon);
             Entity.LocalEvents.Subscribe<EventBase>(EventsAnimationWeapon.AimWeapon, OnWeaponAim);
-            Entity.LocalEvents.Subscribe<EventBase>(EventsAnimationWeapon.OffAim, OnOffAim);
+            Entity.LocalEvents.Subscribe<EventBase>(EventsAnimationWeapon.Off_Aim, OnOffAim);
             Entity.LocalEvents.Subscribe<EventBase>(EventsAnimationWeapon.Fire, OnStartFire);
-            Entity.LocalEvents.Subscribe<EventBase>(EventsAnimationWeapon.StopFire, OnStopFire);
+            Entity.LocalEvents.Subscribe<EventBase>(EventsAnimationWeapon.Stop_Fire, OnStopFire);
+
+            Entity.LocalEvents.Subscribe<EquipItemEventData>(EventsInventory.Equip_item_in_slot, OnSpawnWeapon);
 
             _weaponModel = _currentWeapon.GetModule<WeaponModelModule>().WeaponModel;
 
             _currCoruteine = StartCoroutine(HolsterWeapon());
         }
 
-
-        public override void UpdateMe()
+        //заспавнить оружие в руках
+        private void OnSpawnWeapon(EquipItemEventData equipItemEventData)
         {
             
-        }
+            // if(_currentWeapon) Destroy(_currentWeapon.gameObject);
 
+            // if(equipItemEventData.InventoryItem.ItemData.TypeItem != ItemType.Оружие) return;
+            
+            // ItemOnstreet newWeapon = Instantiate(equipItemEventData.InventoryItem.ItemData.Prefab, _currentWeapon.transform);
+            // _currentWeapon = newWeapon.GetComponent<WeaponEntity>();
+
+            // _weaponModule = _currentWeapon.GetModule<WeaponModelModule>();
+            // _weaponModel = _weaponModule.WeaponModel;
+
+            // _weaponModule.HolsterWeapon(_humanModel.RifleHolster);
+
+            // // newWeapon.transform.localPosition = _weaponModel.AnimationsLayers[0].AnimationsPoints[0].RightHendPosition;
+            // // newWeapon.transform.localRotation = _weaponModel.AnimationsLayers[0].AnimationsPoints[0].RightHendRotation;
+        }
+    
         private void OnStartFire(EventBase eventBase)
         {
             if(_currentState != AnimationState.Aim) return;
@@ -100,7 +121,17 @@ namespace ModularEventArchitecture
             }
         }
         
-        private void OnWeaponAim(EventBase eventBase)
+        [Tools.Button("OnWeaponAim")]
+        private void A()
+        {
+            OnWeaponAim();
+        }
+        [Tools.Button("OnOffAim")]
+        private void OffA()
+        {
+            OnOffAim();
+        }
+        private void OnWeaponAim(EventBase eventBase = null)
         {
             if(_currentState != AnimationState.HeandOn) return;
 

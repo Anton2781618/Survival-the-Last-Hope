@@ -20,7 +20,7 @@ namespace ModularEventArchitecture
 
             if (Input.GetKeyUp(KeyCode.Mouse0))
             {
-                Entity.LocalEvents.Publish(EventsAnimationWeapon.StopFire, new EventBase());
+                Entity.LocalEvents.Publish(EventsAnimationWeapon.Stop_Fire, new EventBase());
             }
 
             if (Input.GetKeyDown(KeyCode.Mouse1))
@@ -30,12 +30,12 @@ namespace ModularEventArchitecture
 
             if (Input.GetKeyUp(KeyCode.Mouse1))
             {
-                Entity.LocalEvents.Publish(EventsAnimationWeapon.OffAim, new EventBase());
+                Entity.LocalEvents.Publish(EventsAnimationWeapon.Off_Aim, new EventBase());
             }
 
             if(Input.GetKeyDown(KeyCode.F))
             {
-                Entity.LocalEvents.Publish(EventsAnimationWeapon.DrawWeaponStart, new EventBase());
+                Entity.LocalEvents.Publish(EventsAnimationWeapon.Draw_Weapon_Start, new EventBase());
             }
 
             if(Input.GetKeyDown(KeyCode.Tab))
@@ -45,7 +45,6 @@ namespace ModularEventArchitecture
 
             if(Input.GetKeyDown(KeyCode.E))
             {
-                Debug.Log("Try_Interact !!!!!!!!!!");
                 Entity.LocalEvents.Publish(EventsInteraction.Try_Interact, new EventBase());
             }
         }

@@ -1,5 +1,4 @@
 using System.Collections;
-using System.Collections.Generic;
 using InventoryDiablo;
 using ModularEventArchitecture;
 using UnityEngine;

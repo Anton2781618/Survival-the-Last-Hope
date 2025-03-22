@@ -1,6 +1,9 @@
 using UnityEngine;
 
-public class WnidowNode : Node
+namespace MyEditor
 {
-    [SerializeField] public ScriptableObject data;
+    public class WnidowNode : Node
+    {
+        [SerializeField] public ScriptableObject data;
+    }
 }

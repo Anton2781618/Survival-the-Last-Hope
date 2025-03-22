@@ -1,3 +1,4 @@
+#if UNITY_EDITOR
 using ModularEventArchitecture;
 using UnityEditor;
 using UnityEngine;
@@ -53,3 +54,4 @@ namespace Tools
         }
     }
 }
+#endif

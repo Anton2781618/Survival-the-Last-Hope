@@ -18,12 +18,12 @@ namespace InventoryDiablo
 
         void IPointerEnterHandler.OnPointerEnter(PointerEventData eventData)
         {
-            GlobalEventBus.Instance.Publish(EventsInventory.SeletGrid, new SelectGridEventData{ItemGrid = itemGrid});
+            GlobalEventBus.Instance.Publish(EventsInventory.Select_Grid, new SelectGridEventData{ItemGrid = itemGrid});
         }
 
         void IPointerExitHandler.OnPointerExit(PointerEventData eventData)
         {
-            GlobalEventBus.Instance.Publish(EventsInventory.SeletGrid, new SelectGridEventData{ItemGrid = null});
+            GlobalEventBus.Instance.Publish(EventsInventory.Select_Grid, new SelectGridEventData{ItemGrid = null});
         }
     }
 }

@@ -10,243 +10,246 @@ using UnityEditor.UIElements;
 using UnityEngine;
 using UnityEngine.UIElements;
 
-//класс для отображения ноды в редакторе
-public class WindowNodeView : UnityEditor.Experimental.GraphView.Node
-{ 
-    public Action<WindowNodeView> OnNodeSelected;
+namespace MyEditor
+{
+    //класс для отображения ноды в редакторе
+    public class WindowNodeView : UnityEditor.Experimental.GraphView.Node
+    { 
+        public Action<WindowNodeView> OnNodeSelected;
 
-    public Port inputPort;
-    public Port outputPort;
-    
-    //ссылка на ноду в скриптовом объекте
-    public Node node;
-    public WnidowNode wnidowNode;
-    public MainScreenView MainScreenView;
-
-    private IMGUIContainer container2;
-    private Editor editor;
-
-    //сериализованный объект
-    private SerializedObject dataObject;
-    private SerializedProperty dataProperty;
-    private ScrollView contents;
-
-    public WindowNodeView(Node node, MainScreenView mainScreenView) : base(Path.Combine(GetScriptPath(), "WindowNodeView.uxml"))
-    {
-        wnidowNode = node as WnidowNode;
-        this.node = node;
-        this.title = node.name;
-        //установить ключ для сохранения данных
-        this.viewDataKey = node.guid;
-
-        MainScreenView = mainScreenView;
-
-        CreatePorts();
-        SetupBgColorElement();
-        SetupRegisterCallback();
-
-        //установить стиль
-        SetupStyleNode(node);
-
-        // var contents = this.Q<VisualElement>("contents");
-        contents = this.Q<ScrollView>();
+        public Port inputPort;
+        public Port outputPort;
         
+        //ссылка на ноду в скриптовом объекте
+        public Node node;
+        public WnidowNode wnidowNode;
+        public MainScreenView MainScreenView;
 
-        var serializedObject = new SerializedObject(node);
-        dataProperty = serializedObject.FindProperty("data");
+        private IMGUIContainer container2;
+        private Editor editor;
 
-        var container1 = new IMGUIContainer(() => 
+        //сериализованный объект
+        private SerializedObject dataObject;
+        private SerializedProperty dataProperty;
+        private ScrollView contents;
+
+        public WindowNodeView(Node node, MainScreenView mainScreenView) : base(Path.Combine(GetScriptPath(), "WindowNodeView.uxml"))
         {
-            serializedObject.Update();
+            wnidowNode = node as WnidowNode;
+            this.node = node;
+            this.title = node.name;
+            //установить ключ для сохранения данных
+            this.viewDataKey = node.guid;
 
+            MainScreenView = mainScreenView;
+
+            CreatePorts();
+            SetupBgColorElement();
+            SetupRegisterCallback();
+
+            //установить стиль
+            SetupStyleNode(node);
+
+            // var contents = this.Q<VisualElement>("contents");
+            contents = this.Q<ScrollView>();
             
-            EditorGUI.BeginChangeCheck();
-            EditorGUILayout.PropertyField(dataProperty, true);
-            
-            if (EditorGUI.EndChangeCheck())
+
+            var serializedObject = new SerializedObject(node);
+            dataProperty = serializedObject.FindProperty("data");
+
+            var container1 = new IMGUIContainer(() => 
             {
-                if(container2 != null) container2.SetEnabled(dataProperty.objectReferenceValue != null);
-            }
-            
-            if (serializedObject.hasModifiedProperties)
-            {
-                serializedObject.ApplyModifiedProperties();
-                Debug.Log("serializedObject.ApplyModifiedProperties()");
-                Cretecontainer2();
-            }
-        });
-        
-        contents.Add(container1);
+                serializedObject.Update();
 
-        if(dataProperty.objectReferenceValue != null) Cretecontainer2();
-
-        SetupLabelColorElement(container1);
-    }
-
-    private void Cretecontainer2()
-    {
-        //удалить contents2 из contents
-        if(container2 != null)
-        {
-            contents.Remove(container2);
-        }
-        
-        if(dataProperty.objectReferenceValue != null)
-        {
-            SerializedObject dataObject = new SerializedObject(dataProperty.objectReferenceValue);
-
-            // Контейнер 2 - для полей объекта data
-            container2 = new IMGUIContainer(() => 
-            {
-                dataObject.Update();
-
-                SerializedProperty iterator = dataObject.GetIterator();
-                bool enterChildren = true;
-
-                while (iterator.NextVisible(enterChildren))
-                {
-                    enterChildren = false;
-                    if (iterator.name == "m_Script") continue;
-
-                    EditorGUILayout.PropertyField(iterator, true);
-                }
-
-                if (dataObject.hasModifiedProperties)
-                {
-                    dataObject.ApplyModifiedProperties();
-                }
-
-                // Отрисовка кнопок с атрибутом [Tools.Button]
-                var target = dataProperty.objectReferenceValue;
-                var methods = target.GetType().GetMethods(BindingFlags.Instance | BindingFlags.Static | BindingFlags.Public | BindingFlags.NonPublic);
                 
-                foreach (var method in methods)
+                EditorGUI.BeginChangeCheck();
+                EditorGUILayout.PropertyField(dataProperty, true);
+                
+                if (EditorGUI.EndChangeCheck())
                 {
-                    var buttonAttribute = method.GetCustomAttribute<Tools.ButtonAttribute>();
-                    if (buttonAttribute != null)
-                    {
-                        bool shouldEnable = true;
-                        switch (buttonAttribute.mode)
-                        {
-                            case Tools.ButtonMode.EnabledInPlayMode:
-                                shouldEnable = Application.isPlaying;
-                                break;
-                            case Tools.ButtonMode.DisabledInPlayMode:
-                                shouldEnable = !Application.isPlaying;
-                                break;
-                        }
-
-                        EditorGUI.BeginDisabledGroup(!shouldEnable);
-                        
-                        string buttonName = string.IsNullOrEmpty(buttonAttribute.buttonName) 
-                            ? ObjectNames.NicifyVariableName(method.Name) 
-                            : buttonAttribute.buttonName;
-
-                        if (GUILayout.Button(buttonName))
-                        {
-                            method.Invoke(target, null);
-                            EditorUtility.SetDirty(target);
-                            AssetDatabase.SaveAssets();
-                        }
-                        
-                        EditorGUI.EndDisabledGroup();
-                    }
+                    if(container2 != null) container2.SetEnabled(dataProperty.objectReferenceValue != null);
+                }
+                
+                if (serializedObject.hasModifiedProperties)
+                {
+                    serializedObject.ApplyModifiedProperties();
+                    Debug.Log("serializedObject.ApplyModifiedProperties()");
+                    Cretecontainer2();
                 }
             });
-        }
-
-        // Начальное состояние container2
-        container2.SetEnabled(true);
-        contents.Add(container2);
-    }
-
-    //зарегестрировать обработчик двойного клика
-    private void SetupRegisterCallback()
-    {
-        this.RegisterCallback<MouseDownEvent>(evt =>
-        {
-            if (evt.clickCount == 2) // Двойной клик
-            {
-                FrameSelected(); // Центрируем камеру на выбранной ноде
-            }
-        });
-    }
-    
-    public void FrameSelected()
-    {
-        Rect nodeRect = GetPosition();
-        
-        Vector3 nodeCenter = new Vector3(nodeRect.x - 100, nodeRect.y - 150, 0 );
-        
-        MainScreenView.UpdateViewTransform(-nodeCenter,  Vector3.one);
-    }
-
-    private void CreatePorts()
-    {
-        inputPort = InstantiatePort(Orientation.Horizontal, Direction.Input, Port.Capacity.Multi, typeof(bool));
-        outputPort = InstantiatePort(Orientation.Horizontal, Direction.Output, Port.Capacity.Multi, typeof(bool));
-
-        if(outputPort != null)
-        {
-            outputPort.portName = "выход";
-            // mainContainer.Add(outputPort);
-        }
-        if(inputPort != null)
-        {
-            inputPort.portName = "вход";
-            // mainContainer.Add(inputPort);
-        }
-    }
-
-    private void SetupBgColorElement()
-    {
-        var bgColorElement = this.Q<ColorField>("BgColor");
-        
-        using (var serializedObject = new SerializedObject(node))
-        {
-            serializedObject.Update();
             
-            //задать цвет подложки main container
-            bgColorElement.value = node.ColorNode;
-            mainContainer.style.backgroundColor = node.ColorNode;
+            contents.Add(container1);
 
-            bgColorElement.RegisterValueChangedCallback(evt => 
+            if(dataProperty.objectReferenceValue != null) Cretecontainer2();
+
+            SetupLabelColorElement(container1);
+        }
+
+        private void Cretecontainer2()
+        {
+            //удалить contents2 из contents
+            if(container2 != null)
             {
-                    node.ColorNode = evt.newValue;
-                    mainContainer.style.backgroundColor = evt.newValue;
-                using (var updatedObject = new SerializedObject(node))
+                contents.Remove(container2);
+            }
+            
+            if(dataProperty.objectReferenceValue != null)
+            {
+                SerializedObject dataObject = new SerializedObject(dataProperty.objectReferenceValue);
+
+                // Контейнер 2 - для полей объекта data
+                container2 = new IMGUIContainer(() => 
                 {
+                    dataObject.Update();
+
+                    SerializedProperty iterator = dataObject.GetIterator();
+                    bool enterChildren = true;
+
+                    while (iterator.NextVisible(enterChildren))
+                    {
+                        enterChildren = false;
+                        if (iterator.name == "m_Script") continue;
+
+                        EditorGUILayout.PropertyField(iterator, true);
+                    }
+
+                    if (dataObject.hasModifiedProperties)
+                    {
+                        dataObject.ApplyModifiedProperties();
+                    }
+
+                    // Отрисовка кнопок с атрибутом [Tools.Button]
+                    var target = dataProperty.objectReferenceValue;
+                    var methods = target.GetType().GetMethods(BindingFlags.Instance | BindingFlags.Static | BindingFlags.Public | BindingFlags.NonPublic);
+                    
+                    foreach (var method in methods)
+                    {
+                        var buttonAttribute = method.GetCustomAttribute<Tools.ButtonAttribute>();
+                        if (buttonAttribute != null)
+                        {
+                            bool shouldEnable = true;
+                            switch (buttonAttribute.mode)
+                            {
+                                case Tools.ButtonMode.EnabledInPlayMode:
+                                    shouldEnable = Application.isPlaying;
+                                    break;
+                                case Tools.ButtonMode.DisabledInPlayMode:
+                                    shouldEnable = !Application.isPlaying;
+                                    break;
+                            }
+
+                            EditorGUI.BeginDisabledGroup(!shouldEnable);
+                            
+                            string buttonName = string.IsNullOrEmpty(buttonAttribute.buttonName) 
+                                ? ObjectNames.NicifyVariableName(method.Name) 
+                                : buttonAttribute.buttonName;
+
+                            if (GUILayout.Button(buttonName))
+                            {
+                                method.Invoke(target, null);
+                                EditorUtility.SetDirty(target);
+                                AssetDatabase.SaveAssets();
+                            }
+                            
+                            EditorGUI.EndDisabledGroup();
+                        }
+                    }
+                });
+            }
+
+            // Начальное состояние container2
+            container2.SetEnabled(true);
+            contents.Add(container2);
+        }
+
+        //зарегестрировать обработчик двойного клика
+        private void SetupRegisterCallback()
+        {
+            this.RegisterCallback<MouseDownEvent>(evt =>
+            {
+                if (evt.clickCount == 2) // Двойной клик
+                {
+                    FrameSelected(); // Центрируем камеру на выбранной ноде
                 }
             });
         }
-    }
-
-    private void SetupLabelColorElement(VisualElement IMGUIContainer)
-    {
-        var labelColorElement = this.Q<ColorField>("LabelColor");
         
-        labelColorElement.value = Color.white;
+        public void FrameSelected()
+        {
+            Rect nodeRect = GetPosition();
+            
+            Vector3 nodeCenter = new Vector3(nodeRect.x - 100, nodeRect.y - 150, 0 );
+            
+            MainScreenView.UpdateViewTransform(-nodeCenter,  Vector3.one);
+        }
+
+        private void CreatePorts()
+        {
+            inputPort = InstantiatePort(Orientation.Horizontal, Direction.Input, Port.Capacity.Multi, typeof(bool));
+            outputPort = InstantiatePort(Orientation.Horizontal, Direction.Output, Port.Capacity.Multi, typeof(bool));
+
+            if(outputPort != null)
+            {
+                outputPort.portName = "выход";
+                // mainContainer.Add(outputPort);
+            }
+            if(inputPort != null)
+            {
+                inputPort.portName = "вход";
+                // mainContainer.Add(inputPort);
+            }
+        }
+
+        private void SetupBgColorElement()
+        {
+            var bgColorElement = this.Q<ColorField>("BgColor");
+            
+            using (var serializedObject = new SerializedObject(node))
+            {
+                serializedObject.Update();
+                
+                //задать цвет подложки main container
+                bgColorElement.value = node.ColorNode;
+                mainContainer.style.backgroundColor = node.ColorNode;
+
+                bgColorElement.RegisterValueChangedCallback(evt => 
+                {
+                        node.ColorNode = evt.newValue;
+                        mainContainer.style.backgroundColor = evt.newValue;
+                    using (var updatedObject = new SerializedObject(node))
+                    {
+                    }
+                });
+            }
+        }
+
+        private void SetupLabelColorElement(VisualElement IMGUIContainer)
+        {
+            var labelColorElement = this.Q<ColorField>("LabelColor");
+            
+            labelColorElement.value = Color.white;
+        }
+
+        private static string GetScriptPath()
+        {
+            string scriptGUID = AssetDatabase.FindAssets($"t:Script {nameof(WindowNodeView)}")[0];
+            string scriptPath = AssetDatabase.GUIDToAssetPath(scriptGUID);
+            string directoryPath = Path.GetDirectoryName(scriptPath);
+            return directoryPath;
+        }
+
+        //тут меняется позиция ноду, так же отвечает за перетаскивание
+        public override void SetPosition(Rect newPos)
+        {
+            base.SetPosition(newPos);
+
+            node.Position = new Vector2(newPos.x, newPos.y);
+        }
+
+        private void SetupStyleNode(Node node)
+        {
+            style.left = node.Position.x;
+            style.top = node.Position.y;
+        }    
     }
-
-    private static string GetScriptPath()
-    {
-        string scriptGUID = AssetDatabase.FindAssets($"t:Script {nameof(WindowNodeView)}")[0];
-        string scriptPath = AssetDatabase.GUIDToAssetPath(scriptGUID);
-        string directoryPath = Path.GetDirectoryName(scriptPath);
-        return directoryPath;
-    }
-
-    //тут меняется позиция ноду, так же отвечает за перетаскивание
-    public override void SetPosition(Rect newPos)
-    {
-        base.SetPosition(newPos);
-
-        node.Position = new Vector2(newPos.x, newPos.y);
-    }
-
-    private void SetupStyleNode(Node node)
-    {
-        style.left = node.Position.x;
-        style.top = node.Position.y;
-    }    
 }

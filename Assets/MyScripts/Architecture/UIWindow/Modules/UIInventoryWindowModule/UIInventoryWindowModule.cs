@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using InventoryDiablo;
 using UnityEngine;
@@ -13,7 +12,7 @@ namespace ModularEventArchitecture
         [SerializeField] private GameObject windowContent;
 
         //-----------------------------------------------------------
-        //пулл 
+        //пулл контейнеров
         [SerializeField] private UIInventoryContainer _containerPrefabs;
         private List<UIInventoryContainer> _containerList = new List<UIInventoryContainer>();
         private List<UIInventoryContainer> _containerPool = new List<UIInventoryContainer>();
@@ -22,25 +21,27 @@ namespace ModularEventArchitecture
         private Inventory _selectInventory;
 
         //!-----------------------------------------------------------
+
         public override void Initialize()
         {
             Entity.Globalevents.Add((EventsInventory.TurnInventory, (data) => OnTurnInventory((ShowInventoryEventData)data)));
+
+            Entity.Globalevents.Add((EventsInventory.Item_Spawned_OnGrid, (data) => UpdateInventory((ShowInventoryEventData)data)));
         }
 
-        public void OnTurnInventory(ShowInventoryEventData showInventoryEventData)
+        private void OnTurnInventory(ShowInventoryEventData showInventoryEventData)
         {
-            if(!windowContent.activeSelf) CreateContainers(showInventoryEventData.Inventory);
+            if(!windowContent.activeSelf) CreateContainers(showInventoryEventData.InventoryOwner);
 
             ShowInventory(!windowContent.activeSelf);
         }
 
-        public void CreateAndInsertItem(InventoryItem inventoryItem, UIItemGrid grid)
+        //вызывается только когда инвентарь открыт
+        private void UpdateInventory(ShowInventoryEventData showInventoryEventData)
         {
-            GlobalEventBus.Instance.Publish(EventsInventory.CreateAndInsertItem, new CreateAndInsertItemEventData
-            {
-                InventoryItem = inventoryItem,
-                ItemGrid = grid
-            });
+            if(!windowContent.activeSelf) return;
+
+            CreateContainers(showInventoryEventData.InventoryOwner);
         }
 
         public void CreateContainers(Inventory inventory)
@@ -61,23 +62,9 @@ namespace ModularEventArchitecture
             }
         }
 
-        public void ShowInventory(bool value)
-        {
-            windowContent.SetActive(value);
-        }
+        public void ShowInventory(bool value) => windowContent.SetActive(value);
 
         //вызыватся снаружи кнопкой 
-        public void CreateRandomItem(UIItemGrid grid)
-        {
-            GlobalEventBus.Instance.Publish(EventsInventory.Item_Spawned_InHand, new UIItemGridEvent
-            {
-                grid = grid
-            });
-        }
+        public void CreateRandomItem() => GlobalEventBus.Instance.Publish(EventsInventory.Item_Spawned_On_Cursor, new EventBase());
     }
-        [Serializable]
-        public class UIItemGridEvent : IEventData
-        {    
-            public UIItemGrid grid;
-        }
 }

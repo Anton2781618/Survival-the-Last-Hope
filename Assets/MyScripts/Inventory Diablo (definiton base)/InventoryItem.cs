@@ -144,7 +144,7 @@ namespace InventoryDiablo
                     clone.Grids[i] = new GridData2
                     {
                         Size = this.Grids[i].Size,
-                        activeItems = new List<InventoryItem>(this.Grids[i].activeItems.Select(item => item.Clone())),
+                        ActiveItems = new List<InventoryItem>(this.Grids[i].ActiveItems.Select(item => item.Clone())),
                         Position = this.Grids[i].Position,
                         MaxStackSize = this.Grids[i].MaxStackSize,
                         CompatibilityGridMod = this.Grids[i].CompatibilityGridMod,

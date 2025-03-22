@@ -1,6 +1,5 @@
 using InventoryDiablo;
 using UnityEngine;
-using static GridData2;
 
 namespace ModularEventArchitecture
 {
@@ -9,51 +8,49 @@ namespace ModularEventArchitecture
     {
         //---------------------------------------------------
         //класс является системой управления всех ивентарей, основной функцианал инвентарей находится тут
-        [SerializeField] private UIContextMenu contextMenu;
+        [SerializeField] private UIContextMenu _contextMenu;
 
         //---------------------------------------------------
-        private UIItemGrid selectedGrid;
+        private UIItemGrid _selectedGrid;
         public UIItemGrid SelectedGrid 
         {
-            get => selectedGrid; 
+            get => _selectedGrid; 
             
             set 
             {
-                selectedGrid = value;
+                _selectedGrid = value;
 
-                inventoryIHighLight.SetParent(value);
+                _inventoryIHighLight.SetParent(value);
             }
         }
 
         //---------------------------------------------------
-        private UIInventoryItem UIselectedItem;
-        private UIInventoryItem overlapItem;
+        private UIInventoryItem _uiSelectedItem;
+        private UIInventoryItem _overlapItem;
         
         //---------------------------------------------------
-        private RectTransform itemRectTransform;
+        private RectTransform _itemRectTransform;
         
         //---------------------------------------------------
-        [SerializeField] private Canvas canvas;
+        [SerializeField] private Canvas _canvas;
 
         //---------------------------------------------------
-        [SerializeField] private UIInventoryItem itemPrefab;
-        [SerializeField] private AvailableItems availableItems;
+        [SerializeField] private UIInventoryItem _itemPrefab;
+        [SerializeField] private AvailableItems _availableItems;
 
         //---------------------------------------------------
         private Vector2Int _oldPosition;
         private UIInventoryItem _itemToHighLight;
         //---------------------------------------------------
-        [SerializeField] private InventoryIHighLight inventoryIHighLight;
+        [SerializeField] private InventoryIHighLight _inventoryIHighLight;
 
         //!---------------------------------------------------
 
         public override void Initialize()
         {
-            Entity.Globalevents.Add((EventsInventory.SeletGrid, (data) => SelectedGrid = ((SelectGridEventData)data).ItemGrid));
+            Entity.Globalevents.Add((EventsInventory.Select_Grid, (data) => SelectedGrid = ((SelectGridEventData)data).ItemGrid));
             
-            Entity.Globalevents.Add((EventsInventory.CreateAndInsertItem, (data) => OnCreateAndInsertItem(((CreateAndInsertItemEventData)data).InventoryItem, ((CreateAndInsertItemEventData)data).ItemGrid)));
-            
-            Entity.Globalevents.Add((EventsInventory.Item_Spawned_InHand, (data) => CreateRandomItem(((UIItemGridEvent)data).grid)));
+            Entity.Globalevents.Add((EventsInventory.Item_Spawned_On_Cursor, (data) => CreateRandomItem()));
         }
 
         public override void UpdateMe() 
@@ -62,9 +59,9 @@ namespace ModularEventArchitecture
 
             if(Input.GetKeyDown(KeyCode.M))
             {
-                if(UIselectedItem == null)
+                if(_uiSelectedItem == null)
                 {
-                    CreateRandomItem(selectedGrid);
+                    CreateRandomItem();
                 }
             }
 
@@ -80,11 +77,11 @@ namespace ModularEventArchitecture
 
             if(SelectedGrid == null)
             {
-                inventoryIHighLight.Show(false);
+                _inventoryIHighLight.Show(false);
 
                 if(Input.GetMouseButtonDown(0))
                 {
-                    if(UIselectedItem) DropItem(UIselectedItem.InventoryItem);
+                    if(_uiSelectedItem) DropItem(_uiSelectedItem.InventoryItem);
                 }
 
                 return;
@@ -105,35 +102,33 @@ namespace ModularEventArchitecture
 
         private void RotateItem()
         {
-            if(UIselectedItem == null) {return;}
+            if(_uiSelectedItem == null) {return;}
 
-            UIselectedItem.Rotated();
+            _uiSelectedItem.Rotated();
         }
 
         [ContextMenu("InsertRandomItem")]
         public void InsertRandomItem()
         {
-            if(selectedGrid == null) 
+            if(SelectedGrid == null) 
             {
                 Debug.LogError("Не выбрана сетка для вставки предмета");
 
                 return;
             }
 
-            CreateRandomItem(selectedGrid);
+            CreateRandomItem();
 
-            UIInventoryItem itemToInsert = UIselectedItem;
+            UIInventoryItem itemToInsert = _uiSelectedItem;
 
-            UIselectedItem = null;
-
+            _uiSelectedItem = null;
             
-            InsertItemOnGrid(itemToInsert, selectedGrid);
+            InsertItemOnGrid(itemToInsert, SelectedGrid);
         }
 
         private void InsertItemOnGrid(UIInventoryItem itemToInsert, UIItemGrid grid)
         {
             // Debug.Log($"Вставка предмета {itemToInsert.InventoryItem.ItemData.Title} на сетку {grid}");
-            Debug.Log(grid);
             Vector2Int? posOnGrid = grid.GridDataInfo.FindSpaceForObject(itemToInsert.InventoryItem);
             
             if(posOnGrid == null) 
@@ -148,21 +143,6 @@ namespace ModularEventArchitecture
             grid.PlaceItem(itemToInsert, posOnGrid.Value.x, posOnGrid.Value.y);
         }
 
-        //!!!Этот метод создает итем и устанавливает его на сетку ОБРАЩАТЬСЯ ЧЕРЕЗ НЕГО
-        //создать физически итем и установить его на сетку 
-        public void OnCreateAndInsertItem(InventoryItem inventoryItem, UIItemGrid grid)
-        {
-            Debug.Log($"Создан предмет {inventoryItem.ItemData.Title}");
-            
-            CreateItem(inventoryItem);
-            
-            UIInventoryItem itemToInsert = UIselectedItem;
-            
-            UIselectedItem = null;
-            
-            InsertItemOnGrid(itemToInsert, grid);
-        }
-
         //метод подсветки предмета
         private void HandleHighlight()
         {
@@ -171,97 +151,66 @@ namespace ModularEventArchitecture
             if(_oldPosition == positionOnGrid){return;}
             
             _oldPosition = positionOnGrid;
-            if(UIselectedItem == null)
+            if(_uiSelectedItem == null)
             {
                 _itemToHighLight = SelectedGrid.GetUIItem(positionOnGrid.x, positionOnGrid.y);
                 
                 if(_itemToHighLight != null)
                 {
-                    inventoryIHighLight.Show(true);
-                    inventoryIHighLight.SetSize(_itemToHighLight);
-                    inventoryIHighLight.SetPosition(SelectedGrid, _itemToHighLight);
+                    _inventoryIHighLight.Show(true);
+                    _inventoryIHighLight.SetSize(_itemToHighLight);
+                    _inventoryIHighLight.SetPosition(SelectedGrid, _itemToHighLight);
                 }
                 else
                 {
-                    inventoryIHighLight.Show(false);
+                    _inventoryIHighLight.Show(false);
                 }
             }
             else
             {
-                if(ValidateItem())
+                if(SelectedGrid.GridDataInfo.ValidateItem(_uiSelectedItem.InventoryItem))
                 {
-                    inventoryIHighLight.Show(SelectedGrid.BoundryCheck(positionOnGrid.x, positionOnGrid.y, UIselectedItem.InventoryItem.WIDTH, UIselectedItem.InventoryItem.HEIGHT));
-                    inventoryIHighLight.SetSize(UIselectedItem);
-                    inventoryIHighLight.SetPosition(SelectedGrid, UIselectedItem, positionOnGrid.x, positionOnGrid.y);            
+                    _inventoryIHighLight.Show(SelectedGrid.BoundryCheck(positionOnGrid.x, positionOnGrid.y, _uiSelectedItem.InventoryItem.WIDTH, _uiSelectedItem.InventoryItem.HEIGHT));
+                    _inventoryIHighLight.SetSize(_uiSelectedItem);
+                    _inventoryIHighLight.SetPosition(SelectedGrid, _uiSelectedItem, positionOnGrid.x, positionOnGrid.y);            
                 }
             }
-        }
-    
-        //проверка выделеного предмета и выделеной сетки на валидность для установки на сетку
-        private bool ValidateItem()
-        {
-            if(SelectedGrid.GridDataInfo.CompatibilityGridMod == Compatibility.Access_public)
-            {
-                return true;
-            }
-            else
-            if(SelectedGrid.GridDataInfo.CompatibilityGridMod == Compatibility.Access_by_item_groups)
-            {
-                //если группы не совпадают то не подсвечивать
-                if(UIselectedItem.InventoryItem.ItemData.ItemGroup == SelectedGrid.GridDataInfo.CompatibleGroup) 
-                {
-                    return true;
-                }
-            }
-            else
-            if(SelectedGrid.GridDataInfo.CompatibilityGridMod == Compatibility.Access_by_specific_item)
-            {
-                foreach (var SpecificItemData in SelectedGrid.GridDataInfo.SpecificItemCombined)
-                {
-                    if(UIselectedItem.InventoryItem.ItemData == SpecificItemData) 
-                    {
-                        return true;
-                    }
-                }
-            }
-
-            return false;
         }
 
         //создать случайный итем
-        public void CreateRandomItem(UIItemGrid itemGrid)
+        public void CreateRandomItem(/* UIItemGrid itemGrid */)
         {
-            UIInventoryItem newUIinventoryItem = Instantiate(itemPrefab);
-            UIselectedItem = newUIinventoryItem;
+            UIInventoryItem newUIinventoryItem = Instantiate(_itemPrefab);
+            _uiSelectedItem = newUIinventoryItem;
 
-            itemRectTransform = newUIinventoryItem.rectTransform;
-            itemRectTransform.SetParent(canvas.transform);
-            itemRectTransform.SetAsLastSibling();
+            _itemRectTransform = newUIinventoryItem.rectTransform;
+            _itemRectTransform.SetParent(_canvas.transform);
+            _itemRectTransform.SetAsLastSibling();
             
-            int selectedItemID = UnityEngine.Random.Range(0, availableItems.items.Count);
+            int selectedItemID = UnityEngine.Random.Range(0, _availableItems.items.Count);
 
-            UIselectedItem.Setup(availableItems.items[selectedItemID].Clone());
+            _uiSelectedItem.Setup(_availableItems.items[selectedItemID].Clone());
         }
 
         private void CreateItem(InventoryItem inventoryItem)
         {
-            UIInventoryItem uiInventoryItem = Instantiate(itemPrefab);
-            UIselectedItem = uiInventoryItem;
+            UIInventoryItem uiInventoryItem = Instantiate(_itemPrefab);
+            _uiSelectedItem = uiInventoryItem;
 
-            itemRectTransform = uiInventoryItem.rectTransform;
-            itemRectTransform.SetParent(canvas.transform);
-            itemRectTransform.SetAsLastSibling();
+            _itemRectTransform = uiInventoryItem.rectTransform;
+            _itemRectTransform.SetParent(_canvas.transform);
+            _itemRectTransform.SetAsLastSibling();
 
-            UIselectedItem.Setup(inventoryItem);
+            _uiSelectedItem.Setup(inventoryItem);
         }
 
         //метод перемещает итем в след за мышкой
         private void ItemIconDrag()
         {
-            if(UIselectedItem)
+            if(_uiSelectedItem)
             {
                 //расчитать позицию итема с учетом изменения размера итема
-                itemRectTransform.position = Input.mousePosition - new Vector3((itemRectTransform.sizeDelta.x * itemRectTransform.localScale.x) / (itemRectTransform.lossyScale.x * 10), 0);
+                _itemRectTransform.position = Input.mousePosition - new Vector3((_itemRectTransform.sizeDelta.x * _itemRectTransform.localScale.x) / (_itemRectTransform.lossyScale.x * 10), 0);
             }
         }
 
@@ -270,7 +219,7 @@ namespace ModularEventArchitecture
         {
             Vector2Int titleGridPosition = GetTitleGridPosition();
             
-            if (UIselectedItem == null)
+            if (_uiSelectedItem == null)
             {
                 PickUpItem(titleGridPosition);
             }
@@ -279,20 +228,20 @@ namespace ModularEventArchitecture
                 PlaceItem(titleGridPosition);
             }
 
-            contextMenu.Show(false);
+            _contextMenu.Show(false);
         }
 
         //открыть контектсное меню
         private void RightMouseButtonPress()
         {
-            if (UIselectedItem != null) return;
+            if (_uiSelectedItem != null) return;
 
             Vector2Int titleGridPosition = GetTitleGridPosition();
             UIInventoryItem uiInventoryItem = SelectedGrid.GetUIItem(titleGridPosition.x, titleGridPosition.y);
             
             if(!uiInventoryItem)return;
             
-            contextMenu.Setup(uiInventoryItem);
+            _contextMenu.Setup(uiInventoryItem);
         }
 
         //тут мы устанавливаем итем на сетку со смещением. Это для того что бы распологать итем по центру а не с краю мышки 
@@ -300,10 +249,10 @@ namespace ModularEventArchitecture
         {
             Vector2 position = Input.mousePosition;
             
-            if (UIselectedItem != null)
+            if (_uiSelectedItem != null)
             {
-                position.x -= (UIselectedItem.InventoryItem.WIDTH - 1) * GridData.titleSizeWidth / 2;
-                position.y += (UIselectedItem.InventoryItem.HEIGHT - 1) * GridData.titleSizeHeight / 2;
+                position.x -= (_uiSelectedItem.InventoryItem.WIDTH - 1) * GridData.titleSizeWidth / 2;
+                position.y += (_uiSelectedItem.InventoryItem.HEIGHT - 1) * GridData.titleSizeHeight / 2;
             }
 
             return SelectedGrid.GetTitleGridPosition(position);
@@ -312,34 +261,34 @@ namespace ModularEventArchitecture
         //поднять предмет с сетки
         private void PickUpItem(Vector2Int titleGridPosition)
         {
-            UIselectedItem = SelectedGrid.SelectIteme(titleGridPosition.x, titleGridPosition.y);
+            _uiSelectedItem = SelectedGrid.SelectIteme(titleGridPosition.x, titleGridPosition.y);
 
-            if (UIselectedItem)
+            if (_uiSelectedItem)
             {
-                UIselectedItem.transform.SetParent(canvas.transform);
-                itemRectTransform = UIselectedItem.rectTransform;
-                itemRectTransform.SetAsLastSibling();
+                _uiSelectedItem.transform.SetParent(_canvas.transform);
+                _itemRectTransform = _uiSelectedItem.rectTransform;
+                _itemRectTransform.SetAsLastSibling();
             }
         }
 
         //расположить итем на сетке
         private void PlaceItem(Vector2Int titleGridPosition)
         {
-            bool complete = ValidateItem() ? SelectedGrid.PlaceItem(UIselectedItem, titleGridPosition.x, titleGridPosition.y, ref overlapItem) : false;
+            bool complete = SelectedGrid.GridDataInfo.ValidateItem(_uiSelectedItem.InventoryItem) ? SelectedGrid.PlaceItem(_uiSelectedItem, titleGridPosition.x, titleGridPosition.y, ref _overlapItem) : false;
             
             if(complete)
             {
-                UIselectedItem = null;
+                _uiSelectedItem = null;
                 
-                if(overlapItem != null)
+                if(_overlapItem != null)
                 {
-                    UIselectedItem = overlapItem;
+                    _uiSelectedItem = _overlapItem;
                 
-                    overlapItem = null;
+                    _overlapItem = null;
                 
-                    itemRectTransform = UIselectedItem.rectTransform;
+                    _itemRectTransform = _uiSelectedItem.rectTransform;
                 
-                    itemRectTransform.SetAsLastSibling();
+                    _itemRectTransform.SetAsLastSibling();
                 }
             }
         }
@@ -347,11 +296,11 @@ namespace ModularEventArchitecture
         //Выкинуть предмет
         public void DropItem(InventoryItem item)
         {
-            GlobalEventBus.Instance.Publish(EventsSpawner.SpawnUnitOnStreet, new EventDataUnit {Item = UIselectedItem.InventoryItem} );
+            GlobalEventBus.Instance.Publish(EventsSpawner.SpawnUnitOnStreet, new EventDataUnit {Item = _uiSelectedItem.InventoryItem} );
                 
-            UIselectedItem.DestructSelf();
+            _uiSelectedItem.DestructSelf();
 
-            UIselectedItem = null;
+            _uiSelectedItem = null;
         }
     }
 }

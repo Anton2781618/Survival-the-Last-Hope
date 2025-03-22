@@ -71,7 +71,7 @@ MonoBehaviour:
     AnimationsPoints:
     - UseRightWeight: 1
       RightHendPosition: {x: 0.31877422, y: -0.3491154, z: 0.054777972}
-      RightHendRotation: {x: 0.4960064, y: -0.36488196, z: 0.43128327, w: -0.6594192}
+      RightHendRotation: {x: 0.49217924, y: -0.36827052, z: 0.4326596, w: -0.6595015}
       LerpCurveRightHend:
         serializedVersion: 2
         m_Curve:
@@ -119,7 +119,7 @@ MonoBehaviour:
   - Name: Aim
     AnimationsPoints:
     - UseRightWeight: 1
-      RightHendPosition: {x: -0.12283726, y: -0.37585098, z: -0.2244204}
+      RightHendPosition: {x: -0.158, y: -0.401, z: -0.047}
       RightHendRotation: {x: 0.49217924, y: -0.36827052, z: 0.4326596, w: -0.6595015}
       LerpCurveRightHend:
         serializedVersion: 2
@@ -147,8 +147,8 @@ MonoBehaviour:
         m_RotationOrder: 0
       LerpOffsetRightHend: {x: 0, y: 0, z: 0}
       UseLeftWeight: 0
-      LeftHendPosition: {x: 0, y: 0.06, z: 0}
-      LeftHendRotation: {x: 0, y: 0, z: 0, w: 0}
+      LeftHendPosition: {x: 0.116, y: 0.122, z: 0.014}
+      LeftHendRotation: {x: 0.046936538, y: -0.9762697, z: -0.084508136, w: -0.19378562}
       LerpCurveLeftHend:
         serializedVersion: 2
         m_Curve:

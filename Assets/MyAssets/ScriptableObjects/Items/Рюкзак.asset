@@ -15,7 +15,7 @@ MonoBehaviour:
   ItemIcon: {fileID: 21300000, guid: 6b0c715db7d593a479cf72260575b2d6, type: 3}
   Title: "\u0420\u044E\u043A\u0437\u0430\u043A"
   Description: 
-  Prefab: {fileID: 688769618811775190, guid: 21e1fb2b21fb18147b9b2e0521bf6b7b, type: 3}
+  Prefab: {fileID: 1209956293156075477, guid: b85d7680cc4425841af4b10e8cf220c9, type: 3}
   Width: 4
   Height: 5
   MaxStackSize: 0

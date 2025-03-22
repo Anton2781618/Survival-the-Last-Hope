@@ -1,8 +1,9 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System;
+#if UNITY_EDITOR
 using UnityEditor;
+#endif
 
 namespace Weapons
 {
@@ -42,7 +43,9 @@ namespace Weapons
         [ContextMenu("Save")]
         public void Save()
         {
+            #if UNITY_EDITOR
             AssetDatabase.SaveAssets();
+            #endif
         }
 
     }

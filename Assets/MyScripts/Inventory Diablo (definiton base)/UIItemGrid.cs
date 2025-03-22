@@ -2,9 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using ModularEventArchitecture;
 using UnityEngine;
-using UnityEngine.EventSystems;
 using static InventoryDiablo.ItemData;
 
 
@@ -38,7 +36,7 @@ namespace InventoryDiablo
         [Tools.Button("Обновить сетку")] 
         public void UpdateSizeGrid()
         {
-            Vector2 size = new Vector2(GridDataInfo.Size.x * global::GridData.titleSizeWidth, GridDataInfo.Size.y * global::GridData.titleSizeHeight);
+            Vector2 size = new Vector2(GridDataInfo.Size.x * global::GridData.titleSizeWidth, GridDataInfo.Size.y * GridData.titleSizeHeight);
             
             RectTransform.sizeDelta = size;
         }
@@ -47,7 +45,7 @@ namespace InventoryDiablo
         {
             GridDataInfo = gridData;
 
-            Vector2 size = new Vector2(gridData.Size.x * global::GridData.titleSizeWidth, gridData.Size.y * global::GridData.titleSizeHeight);
+            Vector2 size = new Vector2(gridData.Size.x * GridData.titleSizeWidth, gridData.Size.y * GridData.titleSizeHeight);
             
             RectTransform.sizeDelta = size;
 
@@ -59,7 +57,7 @@ namespace InventoryDiablo
         {
             Tool.Helper.ResetCards(_uIInventoryItemsList, _uIInventoryItemPool);
 
-            foreach (InventoryItem item in GridDataInfo.activeItems)
+            foreach (InventoryItem item in GridDataInfo.ActiveItems)
             {
                 UIInventoryItem newUIInventoryItem = Tool.Helper.GetFreeCard(_itemPrefab, _uIInventoryItemPool);
 
@@ -67,9 +65,11 @@ namespace InventoryDiablo
 
                 newUIInventoryItem.transform.SetParent(transform, false);
 
+                newUIInventoryItem.Setup(item);
+
                 GridDataInfo.SetItemPosition(item, item.OnGridPosition);
 
-                newUIInventoryItem.Setup(item);
+                SetPlaceItem(newUIInventoryItem, item.OnGridPosition.x, item.OnGridPosition.y);
 
                 newUIInventoryItem.gameObject.SetActive(true);
             }
@@ -115,15 +115,17 @@ namespace InventoryDiablo
         //извлеч итем из сетки по координатам
         public virtual UIInventoryItem SelectIteme(int x, int y)
         {
-            InventoryItem item = GridDataInfo.SelectIteme(x, y);
+            InventoryItem item = GridDataInfo.GetItem(x, y);
 
             if (item == null) { return null; }
 
             UIInventoryItem toReturn = GetUIItem(item);
 
-            _uIInventoryItemsList.Remove(toReturn);
-
             if (toReturn == null) { return null; }
+
+            GridDataInfo.RemoveItem(item);
+
+            _uIInventoryItemsList.Remove(toReturn);
             
             return toReturn;
         }
@@ -215,7 +217,9 @@ namespace InventoryDiablo
                     }
                 }
 
-                GridDataInfo.CleanGridReference(overlapItem.InventoryItem);
+                GridDataInfo.RemoveItem(overlapItem.InventoryItem);
+                
+                _uIInventoryItemsList.Remove(overlapItem);
             }
 
             PlaceItem(inventoryItem, GridDataInfo.isSingle ? 0 : posX, GridDataInfo.isSingle ? 0 : posY);
@@ -281,21 +285,26 @@ namespace InventoryDiablo
             return false;
         }
 
-        public virtual void PlaceItem(UIInventoryItem inventoryItem, int posX, int posY)
+        public virtual void PlaceItem(UIInventoryItem uIinventoryItem, int posX, int posY)
         {
-            RectTransform rectTransform = inventoryItem.rectTransform;
+            SetPlaceItem(uIinventoryItem, posX, posY);
+
+            _uIInventoryItemsList.Add(uIinventoryItem);
+
+            GridDataInfo.PlaceItem(uIinventoryItem.InventoryItem, posX, posY);
+        }
+
+        private void SetPlaceItem(UIInventoryItem uIinventoryItem, int posX, int posY)
+        {
+            RectTransform rectTransform = uIinventoryItem.rectTransform;
 
             rectTransform.SetParent(this.RectTransform);
 
-            _uIInventoryItemsList.Add(inventoryItem);
-
-            GridDataInfo.PlaceItem(inventoryItem.InventoryItem, posX, posY);
-
-            Vector2 positionItem = CalculatePositionOnGrid(inventoryItem, posX, posY);
+            Vector2 positionItem = CalculatePositionOnGrid(uIinventoryItem, posX, posY);
 
             rectTransform.localPosition = positionItem;
-        }
 
+        }
         public Vector2 CalculatePositionOnGrid(UIInventoryItem InventoryItemUI, int posX, int posY)
         {
             Vector2 positionItem = new Vector2();
@@ -310,7 +319,6 @@ namespace InventoryDiablo
             {
                 for (int y = 0; y < height; y++)
                 {
-                    // if(GridDataInfo.InventoryItems[x, y] != null)
                     if(GridDataInfo.GetItem(x, y) != null)
                     {
                         overlapItem = GetUIItem(x, y);

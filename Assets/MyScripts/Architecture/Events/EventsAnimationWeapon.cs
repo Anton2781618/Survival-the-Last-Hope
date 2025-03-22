@@ -15,11 +15,11 @@ namespace Entitys.Player.Events
             Id = ("EventsAnimationWeapon_" + eventName).GetHashCode();
         }
 
-        public static IEventType HolsterWeaponStart => new EventsAnimationWeapon("HolsterWeaponStart");
-        public static IEventType DrawWeaponStart => new EventsAnimationWeapon("DrawWeaponStart");
+        public static IEventType Holster_Weapon_Start => new EventsAnimationWeapon("Holster_Weapon_Start");
+        public static IEventType Draw_Weapon_Start => new EventsAnimationWeapon("Draw_Weapon_Start");
         public static IEventType AimWeapon => new EventsAnimationWeapon("AimWeapon");
-        public static IEventType OffAim => new EventsAnimationWeapon("OffAim");
+        public static IEventType Off_Aim => new EventsAnimationWeapon("Off_Aim");
         public static IEventType Fire => new EventsAnimationWeapon("Fire");
-        public static IEventType StopFire => new EventsAnimationWeapon("Fire");
+        public static IEventType Stop_Fire => new EventsAnimationWeapon("Stop_Fire");
     }
 }

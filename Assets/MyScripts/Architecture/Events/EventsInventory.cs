@@ -1,4 +1,8 @@
+using System;
+using System.Transactions;
 using InventoryDiablo;
+using Tripolygon.UModeler.UI;
+using UnityEngine;
 
 namespace ModularEventArchitecture
 {
@@ -17,31 +21,44 @@ namespace ModularEventArchitecture
 
         public static IEventType AddItem => new EventsInventory("AddItem");
         public static IEventType TurnInventory => new EventsInventory("Turn_Inventory");
-        public static IEventType SeletGrid => new EventsInventory("Selet_Grid");
-        public static IEventType CreateAndInsertItem => new EventsInventory("Create_And_Insert_Item");
+        public static IEventType Select_Grid => new EventsInventory("Select_Grid");
+        public static IEventType Item_Spawned_OnGrid => new EventsInventory("Item_Spawned_OnGrid");
         public static IEventType Item_Spawned_OnGround => new EventsInventory("Item_Spawned_OnGround");
-        public static IEventType Item_Spawned_InHand => new EventsInventory("Item_Spawned_InHand");
+        public static IEventType Item_Spawned_On_Cursor => new EventsInventory("Item_Spawned_InHand");
+        public static IEventType Equip_item_in_slot => new EventsInventory("Equip_item_in_slot");
+        public static IEventType Take_off_item => new EventsInventory("Take_off_item");
     }
 
-    [System.Serializable]
+    [Serializable]
     public class ShowInventoryEventData  : EventBase 
     {
-        public GameEntity InventoryOwner { get; set; }
-        public InventoryDiablo.Inventory Inventory { get; set; }
+        public GameEntity Owner { get; set; }
+        public InventoryDiablo.Inventory InventoryOwner { get; set; }
     }
 
-    [System.Serializable]
+    [Serializable]
     public class SelectGridEventData  : EventBase 
     {
         public UIItemGrid ItemGrid;
     }
 
-    [System.Serializable]
-    public class CreateAndInsertItemEventData  : EventBase 
+    [Serializable]
+    public class EquipItemEventData  : EventBase 
     {
         public InventoryItem InventoryItem;
-        public UIItemGrid ItemGrid;
+        public GameObject Parent;
     }
 
+    [Serializable]
+    public class TakeOffItemEventData  : EventBase 
+    {
+        public InventorySlot Slot;
+    }
+    
+    [Serializable]
+    public class UIItemGridEvent : IEventData
+    {    
+        public UIItemGrid grid;
+    }
     
 }    

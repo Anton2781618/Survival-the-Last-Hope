@@ -1,18 +1,17 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using ModularEventArchitecture;
 using UnityEngine;
 
 namespace InventoryDiablo
 {
-
     //класс является представлением места для хранения предметов (сундук или инвентарь игрока или торговца)
     [Serializable]
     public class Inventory
     {
         //---------------------------------------------------
-        public int money = 500;
+        public GameEntity Entity{get; set;}
+        //---------------------------------------------------
         public List<InventoryContainer> InventoryContainers = new List<InventoryContainer>();
         //---------------------------------------------------
         //Размер окна инвентаря
@@ -39,13 +38,46 @@ namespace InventoryDiablo
             // inventoryItems.Add(item);
         }
 
-        public bool TryPlaceItem(InventoryItem item)
+        public bool TryPlaceItemInInventory(InventoryItem item)
+        {
+            if(TryPlaceItemInSlots(item)) return true;
+
+            if(TryPlaceItemInGridsSlots(item)) return true;
+
+            return false;
+        }
+
+        private bool TryPlaceItemInSlots( InventoryItem item)
         {
             foreach (var container in InventoryContainers)
             {
                 foreach (var slot in container.Slots)
                 {
-                    foreach (var activeItem in slot.SlotGrid.activeItems)
+                    if(slot.SlotGrid.TryPlaceItem(item))
+                    {
+                        Entity.LocalEvents.Publish(EventsInventory.Equip_item_in_slot, new EquipItemEventData
+                        {
+                            InventoryItem = item,
+                            Parent = slot.SlotObjectToSpawn.gameObject
+                        });
+
+                        return true;
+                    } 
+                }
+            }
+
+            return false;
+        }
+
+        private bool TryPlaceItemInGridsSlots(InventoryItem item)
+        {
+            foreach (var container in InventoryContainers)
+            {
+                foreach (var slot in container.Slots)
+                {
+                    if(slot.SlotGrid.TryPlaceItem(item)) return true;
+
+                    foreach (var activeItem in slot.SlotGrid.ActiveItems)
                     {
                         if(activeItem.Grids.Length == 0) continue;
                         

@@ -100,7 +100,7 @@ namespace States
             
             UpdateLerpRatio();
 
-            if(lerpRatio >= 0.95f && _currentStgeIndex < _stagesCount)
+            if(lerpRatio >= 0.99f && _currentStgeIndex < _stagesCount)
             {
                 _currentStgeIndex ++;
 

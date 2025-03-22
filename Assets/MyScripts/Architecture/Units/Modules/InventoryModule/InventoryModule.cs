@@ -1,31 +1,48 @@
-using InventoryDiablo;
-using UnityEditor;
-using UnityEngine;
-using ModularEventArchitecture;
 using System;
+using InventoryDiablo;
+using UnityEngine;
 
 namespace ModularEventArchitecture
 {
     [CompatibleUnit(typeof(UnitEntity))]
     public class InventoryModule : ModuleBase
     {
-        [Serializable]
-        public class weapon
-        {
-            public string name;
-            public int damage;
-        }
+        //-----------------------------------------------------------
         public Inventory Inventory;
+
+        //!-----------------------------------------------------------
 
         public override void Initialize()
         {
-            Entity.LocalEvents.Subscribe<EventBase>(EventsInventory.AddItem, OnAddItem);
             Entity.LocalEvents.Subscribe<EventBase>(EventsInventory.TurnInventory, OnShowInventory);
+
+            Entity.LocalEvents.Subscribe<EquipItemEventData>(EventsInventory.Equip_item_in_slot, OnSpawnObject);
+            Entity.LocalEvents.Subscribe<TakeOffItemEventData>(EventsInventory.Take_off_item, OnDestroyObject);
+
+            InitInventory();
         }
 
-        private void OnAddItem(EventBase @base)
+        private void OnSpawnObject(EquipItemEventData data)
         {
-            // _inventory.AddItem(new InventoryItem());
+            Debug.Log("OnSpawnObject");
+            ItemOnstreet newObjecy = Instantiate(data.InventoryItem.ItemData.Prefab, data.Parent.transform);
+        }
+        private void OnDestroyObject(TakeOffItemEventData data)
+        {
+            // data.Slot
+        }
+
+        private void InitInventory()
+        {
+            Inventory.Entity = Entity;
+            
+            foreach (var container in Inventory.InventoryContainers)
+            {
+                foreach (var slot in container.Slots)
+                {
+                    slot.Inventory = Inventory;
+                }
+            }
         }
 
         private void OnShowInventory(EventBase eventBase)
@@ -33,14 +50,9 @@ namespace ModularEventArchitecture
             // Публикуем глобальное событие с ссылкой на инвентарь
             GlobalEventBus.Instance.Publish(EventsInventory.TurnInventory, new ShowInventoryEventData
             {
-                InventoryOwner = Entity,
-                Inventory = Inventory
+                Owner = Entity,
+                InventoryOwner = Inventory
             });
-        }
-
-        public override void UpdateMe()
-        {
-            
         }
     }
 }

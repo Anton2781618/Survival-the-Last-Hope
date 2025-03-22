@@ -15,14 +15,11 @@ MonoBehaviour:
   ItemIcon: {fileID: 21300000, guid: 79e495a080c45374e84172b23557b1c2, type: 3}
   Title: "\u0428\u043B\u0435\u043C \u0442\u0430\u043A\u0442\u0438\u0447\u0435\u0441\u043A\u0438\u0439"
   Description: 
-  Prefab: {fileID: 8323042574636055298, guid: 601dd205164ceee41bc018bbc4fdbd74, type: 3}
+  Prefab: {fileID: 1992274776862069122, guid: d1d1fb0324ed9084a9665dda8094a654, type: 3}
   Width: 2
   Height: 2
+  MaxStackSize: 0
   Price: 0
-  Benefit: 0
-  IsSingle: 0
-  MaxAmount: 1
   TypeItem: 1
+  ItemGroup: Default/default
   CanBeCombined: []
-  HierarchyItemTypesBuilder: {fileID: 11400000, guid: 312efaaf9d770874d8adc25b42904de7,
-    type: 2}

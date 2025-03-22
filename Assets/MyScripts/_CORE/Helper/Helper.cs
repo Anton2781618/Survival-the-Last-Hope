@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using InventoryDiablo;
+using ModularEventArchitecture;
 using UnityEngine;
 using Zenject;
 using static InventoryDiablo.ItemData;

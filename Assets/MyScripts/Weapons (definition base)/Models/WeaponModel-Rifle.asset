@@ -66,4 +66,178 @@ MonoBehaviour:
     AnimationsPoints: []
   - Name: Aim
     AnimationsPoints: []
-  AnimationsLayers: []
+  AnimationsLayers:
+  - Name: At ready
+    AnimationsPoints:
+    - UseRightWeight: 1
+      RightHendPosition: {x: 0.118, y: -0.214, z: 0.119}
+      RightHendRotation: {x: 0.5299853, y: -0.28788674, z: 0.4071549, w: -0.6859021}
+      LerpCurveRightHend:
+        serializedVersion: 2
+        m_Curve:
+        - serializedVersion: 3
+          time: 0
+          value: 0
+          inSlope: 1.9933295
+          outSlope: 1.9933295
+          tangentMode: 34
+          weightedMode: 0
+          inWeight: 0
+          outWeight: 0.33333334
+        - serializedVersion: 3
+          time: 0.4946504
+          value: 0.98600125
+          inSlope: 0.7454128
+          outSlope: 0.7454128
+          tangentMode: 0
+          weightedMode: 0
+          inWeight: 0.038364697
+          outWeight: 0.33333334
+        - serializedVersion: 3
+          time: 1
+          value: 0
+          inSlope: -1.9511268
+          outSlope: -1.9511268
+          tangentMode: 34
+          weightedMode: 0
+          inWeight: 0.33333334
+          outWeight: 0
+        m_PreInfinity: 2
+        m_PostInfinity: 2
+        m_RotationOrder: 4
+      LerpOffsetRightHend: {x: -0.13, y: 0.27, z: 0.13}
+      UseLeftWeight: 1
+      LeftHendPosition: {x: 0.141, y: 0.107, z: 0.01}
+      LeftHendRotation: {x: 0.08942438, y: -0.97612363, z: 0.04381304, w: 0.19304517}
+      LerpCurveLeftHend:
+        serializedVersion: 2
+        m_Curve: []
+        m_PreInfinity: 0
+        m_PostInfinity: 0
+        m_RotationOrder: 0
+      LerpOffsetLeftHend: {x: 0, y: 0, z: 0}
+  - Name: Aim
+    AnimationsPoints:
+    - UseRightWeight: 1
+      RightHendPosition: {x: -0.019, y: -0.347, z: -0.019}
+      RightHendRotation: {x: 0.49232423, y: -0.36813948, z: 0.43260625, w: -0.6595014}
+      LerpCurveRightHend:
+        serializedVersion: 2
+        m_Curve:
+        - serializedVersion: 3
+          time: 0
+          value: 1
+          inSlope: 0
+          outSlope: 0
+          tangentMode: 34
+          weightedMode: 0
+          inWeight: 0
+          outWeight: 0
+        - serializedVersion: 3
+          time: 1
+          value: 1
+          inSlope: 0
+          outSlope: 0
+          tangentMode: 34
+          weightedMode: 0
+          inWeight: 0
+          outWeight: 0
+        m_PreInfinity: 2
+        m_PostInfinity: 2
+        m_RotationOrder: 0
+      LerpOffsetRightHend: {x: 0, y: 0, z: 0}
+      UseLeftWeight: 0
+      LeftHendPosition: {x: 0.107, y: 0.111, z: 0.012}
+      LeftHendRotation: {x: 0.124431044, y: -0.9841758, z: 0.011574053, w: -0.12562256}
+      LerpCurveLeftHend:
+        serializedVersion: 2
+        m_Curve:
+        - serializedVersion: 3
+          time: 0
+          value: 1
+          inSlope: 0
+          outSlope: 0
+          tangentMode: 34
+          weightedMode: 0
+          inWeight: 0
+          outWeight: 0
+        - serializedVersion: 3
+          time: 1
+          value: 1
+          inSlope: 0
+          outSlope: 0
+          tangentMode: 34
+          weightedMode: 0
+          inWeight: 0
+          outWeight: 0
+        m_PreInfinity: 2
+        m_PostInfinity: 2
+        m_RotationOrder: 0
+      LerpOffsetLeftHend: {x: 0, y: 0, z: 0}
+  - Name: Off Aim
+    AnimationsPoints:
+    - UseRightWeight: 1
+      RightHendPosition: {x: 0.118, y: -0.214, z: 0.119}
+      RightHendRotation: {x: 0.5299853, y: -0.28788674, z: 0.4071549, w: -0.6859021}
+      LerpCurveRightHend:
+        serializedVersion: 2
+        m_Curve:
+        - serializedVersion: 3
+          time: 0
+          value: 1
+          inSlope: 0
+          outSlope: 0
+          tangentMode: 34
+          weightedMode: 0
+          inWeight: 0
+          outWeight: 0
+        - serializedVersion: 3
+          time: 1
+          value: 1
+          inSlope: 0
+          outSlope: 0
+          tangentMode: 34
+          weightedMode: 0
+          inWeight: 0
+          outWeight: 0
+        m_PreInfinity: 2
+        m_PostInfinity: 2
+        m_RotationOrder: 0
+      LerpOffsetRightHend: {x: 0, y: 0, z: 0}
+      UseLeftWeight: 1
+      LeftHendPosition: {x: 0.141, y: 0.107, z: 0.01}
+      LeftHendRotation: {x: 0.08942438, y: -0.97612363, z: 0.04381304, w: 0.19304517}
+      LerpCurveLeftHend:
+        serializedVersion: 2
+        m_Curve:
+        - serializedVersion: 3
+          time: 0
+          value: 0
+          inSlope: -0.0018081188
+          outSlope: -0.0018081188
+          tangentMode: 34
+          weightedMode: 0
+          inWeight: 0
+          outWeight: 0.33333334
+        - serializedVersion: 3
+          time: 0.080578834
+          value: -0.0001456961
+          inSlope: -0.0076057822
+          outSlope: -0.0076057822
+          tangentMode: 0
+          weightedMode: 0
+          inWeight: 0.038364697
+          outWeight: 0.13772297
+        - serializedVersion: 3
+          time: 1
+          value: 0
+          inSlope: 0.00015846503
+          outSlope: 0.00015846503
+          tangentMode: 34
+          weightedMode: 0
+          inWeight: 0.33333334
+          outWeight: 0
+        m_PreInfinity: 2
+        m_PostInfinity: 2
+        m_RotationOrder: 4
+      LerpOffsetLeftHend: {x: 0, y: 0, z: 0}

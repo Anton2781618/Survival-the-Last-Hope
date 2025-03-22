@@ -4,7 +4,6 @@ using InventoryDiablo;
 using System;
 using static InventoryDiablo.ItemData;
 using Unity.VisualScripting;
-using UnityEditor.Graphs;
 using Tool;
 using System.Collections.Generic;
 using static GridData2;
@@ -16,21 +15,21 @@ namespace ModularEventArchitecture
     {
         //---------------------------------------------------
         // private InventoryModule targetModule;
-        private Inventory targetInventory;
+        private Inventory _targetInventory;
 
         //---------------------------------------------------
         //скроллы
-        private Vector2 scrollPosition;
-        private Vector2 SlotScroll;
+        private Vector2 _scrollPosition;
+        private Vector2 _slotScroll;
 
         //---------------------------------------------------
         public int ItemGroupIndex = 0;
         //---------------------------------------------------
-        private float cellSize = 32f;
-        private float gridCellSize = 10f;
-        private InventoryItem selectedItem;
-        private AvailableItems availableItems;
-        private Vector2 itemListScroll;
+        private float _cellSize = 32f;
+        private float _gridCellSize = 10f;
+        private InventoryItem _selectedItem;
+        private AvailableItems _availableItems;
+        private Vector2 _itemListScroll;
 
         //---------------------------------------------------
         // Добавьте в класс InventoryEditor
@@ -60,7 +59,7 @@ namespace ModularEventArchitecture
         private GridData2 draggedGrid;
         private InventoryContainer _currentInventoryContainer;
         private Vector2 dragOffset;
-        private InventoryModule inventoryModule;
+        private InventoryModule _inventoryModule;
 
         //---------------------------------------------------
         private int draggedSlotIndex = -1;
@@ -87,8 +86,8 @@ namespace ModularEventArchitecture
                 return _asset;
             }
         }
-        //!---------------------------------------------------
 
+        //!---------------------------------------------------
 
 
         [MenuItem("Tools/Редактор Инвентарей")]
@@ -96,7 +95,7 @@ namespace ModularEventArchitecture
 
         private void OnGUI()
         {
-            if (targetInventory == null)
+            if (_targetInventory == null)
             {
                 Debug.Log("Target inventory is null");
                 DrawModuleSelectionBlock();
@@ -133,17 +132,15 @@ namespace ModularEventArchitecture
         private void DrawModuleSelectionBlock()
         {
             EditorGUILayout.HelpBox("Выберите инвентарь", MessageType.Info);
-            inventoryModule = EditorGUILayout.ObjectField("Module", inventoryModule, typeof(InventoryModule), true) as InventoryModule;
+            _inventoryModule = EditorGUILayout.ObjectField("Module", _inventoryModule, typeof(InventoryModule), true) as InventoryModule;
             
-            if (inventoryModule) 
-            {
-                targetInventory = inventoryModule.Inventory;
-            }
+            _targetInventory = _inventoryModule.Inventory;
         }
 
-        public void SetTartget(Inventory inventory)
+        public void SetTartget(InventoryModule inventoryModule)
         {
-            targetInventory = inventory;
+            _inventoryModule = inventoryModule;
+            _targetInventory = inventoryModule.Inventory;
         }
 
         //рисуем окно редактирования слота
@@ -161,17 +158,17 @@ namespace ModularEventArchitecture
         {
             EditorGUILayout.BeginVertical("box", GUILayout.Width(210));
             
-            if (availableItems == null)
+            if (_availableItems == null)
             {
-                availableItems = AssetDatabase.LoadAssetAtPath<AvailableItems>("Assets/MyAssets/ScriptableObjects/AvailableItems.asset");
-                if (availableItems == null)
+                _availableItems = AssetDatabase.LoadAssetAtPath<AvailableItems>("Assets/MyAssets/ScriptableObjects/AvailableItems.asset");
+                if (_availableItems == null)
                 {
                     EditorGUILayout.HelpBox("Create AvailableItems asset", MessageType.Warning);
                     
                     if (GUILayout.Button("Создать"))
                     {
-                        availableItems = CreateInstance<AvailableItems>();
-                        AssetDatabase.CreateAsset(availableItems, "Assets/Data/AvailableItems.asset");
+                        _availableItems = CreateInstance<AvailableItems>();
+                        AssetDatabase.CreateAsset(_availableItems, "Assets/Data/AvailableItems.asset");
                     }
                     
                     EditorGUILayout.EndVertical();
@@ -181,17 +178,17 @@ namespace ModularEventArchitecture
 
             EditorGUILayout.LabelField("Список предметов", EditorStyles.boldLabel);
             
-                itemListScroll = EditorGUILayout.BeginScrollView(itemListScroll, "Box");
+                _itemListScroll = EditorGUILayout.BeginScrollView(_itemListScroll, "Box");
                 
-                    foreach (var item in availableItems.items)
+                    foreach (var item in _availableItems.items)
                     {
                         if (Helper.AreHasFlag(item.ItemData.TypeItem, _currentInventoryContainer.TypeItem)) continue;
 
-                        GUI.backgroundColor = selectedItem != null && selectedItem.ItemData.Title == item.ItemData.Title ? Color.cyan : Color.white;
+                        GUI.backgroundColor = _selectedItem != null && _selectedItem.ItemData.Title == item.ItemData.Title ? Color.cyan : Color.white;
 
                         if (GUILayout.Button(item.ItemData.Title))
                         {
-                            selectedItem = item.Clone();
+                            _selectedItem = item.Clone();
                         }
 
                         GUI.backgroundColor = Color.white;
@@ -211,7 +208,7 @@ namespace ModularEventArchitecture
 
                 DrawContainerOnBackground();
 
-                SlotScroll = EditorGUILayout.BeginScrollView(SlotScroll, "Box", GUILayout.Width(330));
+                _slotScroll = EditorGUILayout.BeginScrollView(_slotScroll, "Box", GUILayout.Width(330));
 
                 DrawContainerInfo();
 
@@ -224,7 +221,7 @@ namespace ModularEventArchitecture
         //создать задний фон инвентаря
         private void DrawInventoryBackround()
         {
-            Rect cellRect = new Rect(0, 0, targetInventory.InventoryWindowSize.x, targetInventory.InventoryWindowSize.y);
+            Rect cellRect = new Rect(0, 0, _targetInventory.InventoryWindowSize.x, _targetInventory.InventoryWindowSize.y);
 
             EditorGUI.DrawRect(cellRect, Color.gray);
         }
@@ -233,7 +230,7 @@ namespace ModularEventArchitecture
         {
             if (GUILayout.Button("Сохранить")) 
             {  
-                EditorUtility.SetDirty(inventoryModule);
+                EditorUtility.SetDirty(_inventoryModule);
 
                 // Сохраняем ассеты
                 AssetDatabase.SaveAssets();
@@ -244,14 +241,14 @@ namespace ModularEventArchitecture
             }
             if (GUILayout.Button("Добавить Контейнер инвентаря"))            
             {
-                targetInventory.InventoryContainers.Add(new InventoryContainer());
+                _targetInventory.InventoryContainers.Add(new InventoryContainer());
             }
 
-            targetInventory.InventoryWindowSize = EditorGUILayout.Vector2Field("Размеры", targetInventory.InventoryWindowSize);
+            _targetInventory.InventoryWindowSize = EditorGUILayout.Vector2Field("Размеры", _targetInventory.InventoryWindowSize);
 
-            for (int i = 0; i < targetInventory.InventoryContainers.Count; i++)
+            for (int i = 0; i < _targetInventory.InventoryContainers.Count; i++)
             {
-                var container = targetInventory.InventoryContainers[i];
+                var container = _targetInventory.InventoryContainers[i];
 
                 // Используем сохраненную позицию слота или вычисляем базовую
                 
@@ -277,7 +274,7 @@ namespace ModularEventArchitecture
 
                 if (GUI.Button(new Rect(265, 5, 30, 30),"Х"))            
                 {
-                    targetInventory.InventoryContainers.Remove(container);
+                    _targetInventory.InventoryContainers.Remove(container);
                     
                     GUIUtility.ExitGUI();
                 }
@@ -293,16 +290,16 @@ namespace ModularEventArchitecture
         private void DrawContainerOnBackground()
         {
             // Создаем область для контейнеров
-            Rect totalArea = GUILayoutUtility.GetRect(300, targetInventory.InventoryContainers.Count * 120);
+            Rect totalArea = GUILayoutUtility.GetRect(300, _targetInventory.InventoryContainers.Count * 120);
 
-            for (int i = 0; i < targetInventory.InventoryContainers.Count; i++)
+            for (int i = 0; i < _targetInventory.InventoryContainers.Count; i++)
             {
-                InventoryContainer container = targetInventory.InventoryContainers[i];
+                InventoryContainer container = _targetInventory.InventoryContainers[i];
         
                 // Используем сохраненную позицию слота или вычисляем базовую
                 if (container.Position == Vector2.zero)
                 {
-                     container.Position = new Vector2(totalArea.x, totalArea.y + (i * gridCellSize));
+                     container.Position = new Vector2(totalArea.x, totalArea.y + (i * _gridCellSize));
                 }
 
                 // Получаем размер слота на основе типа предмета
@@ -315,8 +312,8 @@ namespace ModularEventArchitecture
                 if (isDraggingSlot && draggedSlotIndex == i)
                 {
                     Vector2 snappedPosition = new Vector2(
-                        Mathf.Floor((Event.current.mousePosition.x - slotDragOffset.x) / gridCellSize) * gridCellSize,
-                        Mathf.Floor((Event.current.mousePosition.y - slotDragOffset.y) / gridCellSize) * gridCellSize
+                        Mathf.Floor((Event.current.mousePosition.x - slotDragOffset.x) / _gridCellSize) * _gridCellSize,
+                        Mathf.Floor((Event.current.mousePosition.y - slotDragOffset.y) / _gridCellSize) * _gridCellSize
                     );
                     
                     // Обновляем только позицию текущего слота
@@ -363,11 +360,11 @@ namespace ModularEventArchitecture
                         {
                             // Фиксируем конечную позицию с привязкой к сетке
                             Vector2 finalPosition = new Vector2(
-                                Mathf.Floor(slotRect.x / gridCellSize) * gridCellSize,
-                                Mathf.Floor(slotRect.y / gridCellSize) * gridCellSize
+                                Mathf.Floor(slotRect.x / _gridCellSize) * _gridCellSize,
+                                Mathf.Floor(slotRect.y / _gridCellSize) * _gridCellSize
                             );
                             // Сохраняем позицию только для перетаскиваемого слота
-                            targetInventory.InventoryContainers[i].Position = finalPosition;
+                            _targetInventory.InventoryContainers[i].Position = finalPosition;
                             
                             isDraggingSlot = false;
                             draggedSlotIndex = -1;
@@ -402,8 +399,11 @@ namespace ModularEventArchitecture
                     _currentInventoryContainer.Slots.Add(new InventorySlot());
                 }
 
+
                 foreach (InventorySlot slot in _currentInventoryContainer.Slots)
                 {
+                    // slot.SlotObject = EditorGUILayout.ObjectField("Объект для спавна", slot.SlotObject, typeof(GameObject), false) as GameObject;
+                    slot.SlotObjectToSpawn = (Transform)EditorGUILayout.ObjectField("Точка крепления", slot.SlotObjectToSpawn, typeof(Transform), true);
                     EditorGUILayout.Space(10);
                     
                     var gridRect = EditorGUILayout.BeginVertical();
@@ -415,6 +415,8 @@ namespace ModularEventArchitecture
                     slot.SlotGrid.Position = EditorGUILayout.Vector2Field("Позиция слота", slot.SlotGrid.Position);
                     
                     slot.Icon = EditorGUILayout.ObjectField("Иконка", slot.Icon, typeof(Sprite), false) as Sprite;
+
+                    slot.ShowGrid = EditorGUILayout.Toggle("Показывать сетку", slot.ShowGrid);
 
                     slot.SlotGrid.CompatibilityGridMod = (Compatibility)EditorGUILayout.EnumPopup("Тип совместимости", slot.SlotGrid.CompatibilityGridMod);
 
@@ -476,13 +478,13 @@ namespace ModularEventArchitecture
 
         private void DrawInventoryGrid()
         {
-            scrollPosition = EditorGUILayout.BeginScrollView(scrollPosition);
+            _scrollPosition = EditorGUILayout.BeginScrollView(_scrollPosition);
     
             // Создаем общий контейнер для всех сеток
             EditorGUI.DrawRect(new Rect(0, 0, GetContainerSize(_currentInventoryContainer.TypeItem).x, GetContainerSize(_currentInventoryContainer.TypeItem).y), new Color(0.1803922f, 0.1803922f, 0.1803922f));
 
             Rect gridRect = new Rect(
-                0, 0, _currentInventoryContainer.Size.x * cellSize, _currentInventoryContainer.Size.y * cellSize
+                0, 0, _currentInventoryContainer.Size.x * _cellSize, _currentInventoryContainer.Size.y * _cellSize
             );
 
             foreach (var slot in _currentInventoryContainer.Slots)
@@ -499,8 +501,8 @@ namespace ModularEventArchitecture
             Rect adjustedGridRect = new Rect(
                 gridRect.x + slot.SlotGrid.Position.x, 
                 gridRect.y + slot.SlotGrid.Position.y, 
-                slot.SlotGrid.Size.x * cellSize, 
-                slot.SlotGrid.Size.y * cellSize
+                slot.SlotGrid.Size.x * _cellSize, 
+                slot.SlotGrid.Size.y * _cellSize
             );
 
             // Рисуем сетку с учетом её позиции
@@ -520,7 +522,7 @@ namespace ModularEventArchitecture
                 for (int y = 0; y < slot.SlotGrid.Size.y; y++)
                 {
                     Rect cellRect = new Rect(
-                        gridRect.x + x * cellSize, gridRect.y + y * cellSize, cellSize, cellSize
+                        gridRect.x + x * _cellSize, gridRect.y + y * _cellSize, _cellSize, _cellSize
                     );
                     EditorGUI.DrawRect(cellRect, Color.gray);
 
@@ -555,13 +557,13 @@ namespace ModularEventArchitecture
                         // Обработка правого клика
                         if (currentEvent.button == 1)
                         {
-                            foreach (var item in grid.activeItems)
+                            foreach (var item in grid.ActiveItems)
                             {
                                 Rect itemRect = new Rect(
-                                    gridRect.x + item.OnGridPosition.x * cellSize,
-                                    gridRect.y + item.OnGridPosition.y * cellSize,
-                                    item.WIDTH * cellSize,
-                                    item.HEIGHT * cellSize
+                                    gridRect.x + item.OnGridPosition.x * _cellSize,
+                                    gridRect.y + item.OnGridPosition.y * _cellSize,
+                                    item.WIDTH * _cellSize,
+                                    item.HEIGHT * _cellSize
                                 );
 
                                 if (itemRect.Contains(mousePosition))
@@ -577,13 +579,13 @@ namespace ModularEventArchitecture
                         Vector2 gridPos = GetGridPosition(gridRect, mousePosition);
                         bool clickedEmptyCell = true;
                         
-                        foreach (var item in grid.activeItems)
+                        foreach (var item in grid.ActiveItems)
                         {
                             Rect itemRect = new Rect(
-                                gridRect.x + item.OnGridPosition.x * cellSize,
-                                gridRect.y + item.OnGridPosition.y * cellSize,
-                                item.WIDTH * cellSize,
-                                item.HEIGHT * cellSize
+                                gridRect.x + item.OnGridPosition.x * _cellSize,
+                                gridRect.y + item.OnGridPosition.y * _cellSize,
+                                item.WIDTH * _cellSize,
+                                item.HEIGHT * _cellSize
                             );
 
                             if (itemRect.Contains(mousePosition))
@@ -592,8 +594,8 @@ namespace ModularEventArchitecture
                                 draggedItem = item;
                                 originalPosition = item;
                                 // Вычисляем смещение между позицией мыши и левым верхним углом предмета
-                                dragOffset = new Vector2((mousePosition.x - itemRect.x) - (cellSize / 2), (mousePosition.y - itemRect.y) - (cellSize / 2));
-                                grid.activeItems.Remove(item);
+                                dragOffset = new Vector2((mousePosition.x - itemRect.x) - (_cellSize / 2), (mousePosition.y - itemRect.y) - (_cellSize / 2));
+                                grid.ActiveItems.Remove(item);
                                 currentEvent.Use();
                                 return;
                             }
@@ -606,7 +608,7 @@ namespace ModularEventArchitecture
                         }
 
                         // Если кликнули в пустую область и нет выбранного предмета, начинаем перетаскивать сетку
-                        if (clickedEmptyCell && selectedItem == null)
+                        if (clickedEmptyCell && _selectedItem == null)
                         {
                             isDraggingSlot = true;
                             draggedGrid = grid;
@@ -618,10 +620,10 @@ namespace ModularEventArchitecture
                         }
 
                         // Если не нашли существующий предмет и есть выбранный предмет
-                        if (selectedItem != null)
+                        if (_selectedItem != null)
                         {
                             isDragging = true;
-                            draggedItem = selectedItem;
+                            draggedItem = _selectedItem;
                             currentEvent.Use();
                         }
                     }
@@ -638,8 +640,8 @@ namespace ModularEventArchitecture
                         // Рассчитываем новую позицию с привязкой к сетке
                         Vector2 delta = mousePosition - dragStartPosition;
                         Vector2 newPosition = new Vector2(
-                            initialGridPosition.x + Mathf.Round(delta.x / gridCellSize) * gridCellSize,
-                            initialGridPosition.y + Mathf.Round(delta.y / gridCellSize) * gridCellSize
+                            initialGridPosition.x + Mathf.Round(delta.x / _gridCellSize) * _gridCellSize,
+                            initialGridPosition.y + Mathf.Round(delta.y / _gridCellSize) * _gridCellSize
                         );
                         
                         // Обновляем позицию сетки
@@ -657,15 +659,15 @@ namespace ModularEventArchitecture
                         if (CanPlaceItem(grid, (int)newPos.x, (int)newPos.y))
                         {
                             grid.PlaceItem(draggedItem, (int)newPos.x, (int)newPos.y);
-                            if (draggedItem == selectedItem)
+                            if (draggedItem == _selectedItem)
                             {
-                                selectedItem = null;
+                                _selectedItem = null;
                             }
                         }
                         else if (originalPosition != null)
                         {
                             // Возвращаем предмет на исходную позицию
-                            grid.activeItems.Add(originalPosition);
+                            grid.ActiveItems.Add(originalPosition);
                         }
 
                         isDragging = false;
@@ -678,8 +680,8 @@ namespace ModularEventArchitecture
                     {
                         // Фиксируем конечную позицию с привязкой к сетке
                         Vector2 finalPosition = new Vector2(
-                            Mathf.Round(grid.Position.x / gridCellSize) * gridCellSize,
-                            Mathf.Round(grid.Position.y / gridCellSize) * gridCellSize
+                            Mathf.Round(grid.Position.x / _gridCellSize) * _gridCellSize,
+                            Mathf.Round(grid.Position.y / _gridCellSize) * _gridCellSize
                         );
                         
                         grid.Position = finalPosition;
@@ -704,10 +706,10 @@ namespace ModularEventArchitecture
             bool canPlace = CanPlaceItem(grid, (int)gridPosition.x, (int)gridPosition.y);
 
             Rect previewRect = new Rect(
-                gridRect.x + gridPosition.x * cellSize,
-                gridRect.y + gridPosition.y * cellSize,
-                draggedItem.WIDTH * cellSize,
-                draggedItem.HEIGHT * cellSize
+                gridRect.x + gridPosition.x * _cellSize,
+                gridRect.y + gridPosition.y * _cellSize,
+                draggedItem.WIDTH * _cellSize,
+                draggedItem.HEIGHT * _cellSize
             );
 
             Color previewColor = canPlace ? new Color(0, 1, 0, 0.3f) : new Color(1, 0, 0, 0.3f);
@@ -726,7 +728,7 @@ namespace ModularEventArchitecture
             GenericMenu menu = new GenericMenu();
             
             menu.AddItem(new GUIContent("Удалить"), false, () => {
-                grid.activeItems.Remove(item);
+                grid.ActiveItems.Remove(item);
             });
             
             menu.AddItem(new GUIContent("Информация"), false, () => {
@@ -758,8 +760,8 @@ namespace ModularEventArchitecture
         private Vector2 GetGridPosition(Rect gridRect, Vector2 mousePos)
         {
             return new Vector2(
-                Mathf.Floor((mousePos.x - gridRect.x) / cellSize),
-                Mathf.Floor((mousePos.y - gridRect.y) / cellSize)
+                Mathf.Floor((mousePos.x - gridRect.x) / _cellSize),
+                Mathf.Floor((mousePos.y - gridRect.y) / _cellSize)
             );
         }
 
@@ -778,21 +780,21 @@ namespace ModularEventArchitecture
             Vector2 gridPosition = GetGridPosition(gridRect, mousePosition - dragOffset);
             if (CanPlaceItem(grid, (int)gridPosition.x, (int)gridPosition.y))
             {
-                grid.PlaceItem(selectedItem, (int)gridPosition.x, (int)gridPosition.y);
-                selectedItem = null;
+                grid.PlaceItem(_selectedItem, (int)gridPosition.x, (int)gridPosition.y);
+                _selectedItem = null;
             }
         }        
 
         private void DrawItems(Rect gridRect, GridData2 grid)
         {
-            foreach (var item in grid.activeItems)
+            foreach (var item in grid.ActiveItems)
             {
                 // Вычисляем прямоугольник для предмета
                 Rect itemRect = new Rect(
-                    gridRect.x + item.OnGridPosition.x * cellSize,
-                    gridRect.y + item.OnGridPosition.y * cellSize,
-                    item.WIDTH * cellSize,
-                    item.HEIGHT * cellSize 
+                    gridRect.x + item.OnGridPosition.x * _cellSize,
+                    gridRect.y + item.OnGridPosition.y * _cellSize,
+                    item.WIDTH * _cellSize,
+                    item.HEIGHT * _cellSize 
                 );
 
                 // Создаем стиль с текстурой

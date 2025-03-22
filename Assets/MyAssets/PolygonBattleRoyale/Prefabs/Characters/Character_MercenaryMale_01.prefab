@@ -345,7 +345,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &4378675750067672
 Transform:
   m_ObjectHideFlags: 0
@@ -381,7 +381,7 @@ SkinnedMeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: a74066172cf19cd4bacae3c6600a7217, type: 2}
+  - {fileID: 2100000, guid: c03cd3022949c6e43af60b56befeddf7, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -1431,7 +1431,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &4563124394034958
 Transform:
   m_ObjectHideFlags: 0
@@ -1654,10 +1654,12 @@ GameObject:
   m_Component:
   - component: {fileID: 4675232436007860}
   - component: {fileID: 95880590792931522}
+  - component: {fileID: 5488081995295016184}
   - component: {fileID: 7410907725967975510}
   - component: {fileID: 7079569339213578272}
   - component: {fileID: 7566005466475899841}
   - component: {fileID: 4189236538345667723}
+  - component: {fileID: 669924612304801185}
   - component: {fileID: 3641390256548994838}
   - component: {fileID: 1830968802510587310}
   m_Layer: 0
@@ -1728,6 +1730,32 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!143 &5488081995295016184
+CharacterController:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1513220350763136}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Height: 1.8
+  m_Radius: 0.28
+  m_SlopeLimit: 45
+  m_StepOffset: 0.4
+  m_SkinWidth: 0.02
+  m_MinMoveDistance: 0
+  m_Center: {x: 0, y: 0.93, z: 0}
 --- !u!114 &7410907725967975510
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1779,6 +1807,7 @@ MonoBehaviour:
   - {fileID: 1830968802510587310}
   - {fileID: 4189236538345667723}
   - {fileID: 3641390256548994838}
+  - {fileID: 669924612304801185}
 --- !u!114 &7566005466475899841
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1836,6 +1865,7 @@ MonoBehaviour:
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
+  _hand: {fileID: 4240262807728466}
 --- !u!114 &4189236538345667723
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1849,6 +1879,24 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   <Entity>k__BackingField: {fileID: 7079569339213578272}
+--- !u!114 &669924612304801185
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1513220350763136}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f0512dec2a20d1444ac6da889e3ce60c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  <Entity>k__BackingField: {fileID: 7079569339213578272}
+  interactionRange: 100
+  interactionLayer:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  _mainCamera: {fileID: 0}
 --- !u!114 &3641390256548994838
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1876,9 +1924,63 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   <Entity>k__BackingField: {fileID: 7079569339213578272}
   Inventory:
-    money: 500
-    InventoryContainers: []
-    InventoryWindowSize: {x: 500, y: 500}
+    InventoryContainers:
+    - Slots:
+      - Inventory:
+          InventoryContainers: []
+          InventoryWindowSize: {x: 0, y: 0}
+        Icon: {fileID: 21300000, guid: cc9df6aba6639604389b2bd6ec637fd6, type: 3}
+        ShowGrid: 0
+        SlotGrid:
+          Size: {x: 4, y: 4}
+          MaxStackSize: 0
+          Position: {x: 30, y: 20}
+          CompatibilityGridMod: 1
+          SpecificItemCombined: []
+          CompatibleGroup: "\u0410\u043C\u0443\u043D\u0438\u0446\u0438\u044F/\u0420\u0430\u0437\u0433\u0440\u0443\u0437\u043E\u0447\u043D\u044B\u0435
+            \u0436\u0435\u043B\u0435\u0442\u044B"
+          ActiveItems: []
+          isSingle: 0
+      Position: {x: 20, y: 280}
+      TypeItem: 2
+      Size: {x: 480, y: 180}
+    - Slots:
+      - Inventory:
+          InventoryContainers: []
+          InventoryWindowSize: {x: 0, y: 0}
+        Icon: {fileID: 442799280, guid: 67f527bbb203651438aac26594ddc4e6, type: 3}
+        ShowGrid: 0
+        SlotGrid:
+          Size: {x: 4, y: 5}
+          MaxStackSize: 0
+          Position: {x: 30, y: 50}
+          CompatibilityGridMod: 1
+          SpecificItemCombined: []
+          CompatibleGroup: "\u0410\u043C\u0443\u043D\u0438\u0446\u0438\u044F/\u0420\u044E\u043A\u0437\u0430\u043A\u0438"
+          ActiveItems: []
+          isSingle: 0
+      Position: {x: 20, y: 470}
+      TypeItem: 8
+      Size: {x: 800, y: 270}
+    - Slots:
+      - Inventory:
+          InventoryContainers: []
+          InventoryWindowSize: {x: 0, y: 0}
+        Icon: {fileID: 979975201, guid: 5f63b64d96acb4a489e6cb4ed4c8ba62, type: 3}
+        ShowGrid: 0
+        SlotGrid:
+          Size: {x: 10, y: 3}
+          MaxStackSize: 0
+          Position: {x: 0, y: 0}
+          CompatibilityGridMod: 0
+          SpecificItemCombined: []
+          CompatibleGroup: "\u041E\u0440\u0443\u0436\u0438\u0435/\u041E\u0433\u043D\u0435\u0441\u0442\u0440\u0435\u043B\u044C\u043D\u043E\u0435/\u0410\u0432\u0442\u043E\u043C\u0430\u0442\u044B"
+          ActiveItems: []
+          isSingle: 0
+      Position: {x: 180, y: 170}
+      TypeItem: 32
+      Size: {x: 320, y: 100}
+    InventoryWindowSize: {x: 840, y: 750}
 --- !u!1 &1529319069444562
 GameObject:
   m_ObjectHideFlags: 0
@@ -1994,7 +2096,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &4343691481291294
 Transform:
   m_ObjectHideFlags: 0
@@ -2143,7 +2245,7 @@ Transform:
   m_Children:
   - {fileID: 4676483082588956}
   m_Father: {fileID: 4240262807728466}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: -0, y: 7.5450068, z: 0.4885246}
 --- !u!1 &1617195574731608
 GameObject:
   m_ObjectHideFlags: 0
@@ -2603,7 +2705,7 @@ Transform:
   - {fileID: 4471583802264398}
   - {fileID: 2020319015068801070}
   m_Father: {fileID: 4023640026866246}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 81.407166, y: 270, z: 88.181046}
 --- !u!1 &1674985679435670
 GameObject:
   m_ObjectHideFlags: 0
@@ -3670,7 +3772,7 @@ SkinnedMeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: a74066172cf19cd4bacae3c6600a7217, type: 2}
+  - {fileID: 2100000, guid: 931a8223b8cb7e449bd50e42d6c0a2d8, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -3812,7 +3914,7 @@ Transform:
   m_Children:
   - {fileID: 4850261405973928}
   m_Father: {fileID: 4240262807728466}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: -0, y: 354.96207, z: 6.486357}
 --- !u!1 &1938685317110614
 GameObject:
   m_ObjectHideFlags: 0
@@ -4485,7 +4587,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   config: 0
-  weaponModel: {fileID: 11400000, guid: 0d6b48d78924ca549a3a817a114a5a37, type: 2}
+  weaponModel: {fileID: 11400000, guid: d7814c4934122524c9390c9ad1416264, type: 2}
   rightHend: {fileID: 3150076551107634489}
   weaponAnimationName: 
   stage: 0
@@ -4683,7 +4785,7 @@ Transform:
   m_GameObject: {fileID: 2322817084210708963}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 5.412, y: 1.195, z: -0.592}
+  m_LocalPosition: {x: 0.491, y: 1.283, z: -0.157}
   m_LocalScale: {x: 0.1, y: 0.1, z: 0.1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -4848,7 +4950,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   config: 1
-  weaponModel: {fileID: 11400000, guid: 0d6b48d78924ca549a3a817a114a5a37, type: 2}
+  weaponModel: {fileID: 11400000, guid: d7814c4934122524c9390c9ad1416264, type: 2}
   rightHend: {fileID: 2425037954419858198}
   weaponAnimationName: 
   stage: 0

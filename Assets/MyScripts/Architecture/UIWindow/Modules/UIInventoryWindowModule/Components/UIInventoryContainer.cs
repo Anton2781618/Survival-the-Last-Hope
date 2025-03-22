@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using InventoryDiablo;
 using UnityEngine;
 using static InventoryDiablo.ItemData;
 
@@ -53,10 +52,12 @@ namespace ModularEventArchitecture
 
                 newUISlotGrid.Icon.sprite = slot.Icon;
                 
-                newUISlotGrid.Setup(slot.SlotGrid);
+                newUISlotGrid.Setup(slot);
+
+                newUISlotGrid.Inventory = slot.Inventory;
 
                 //показ сетки если в слоте есть предметы
-                // if(newUISlotGrid.GridDataInfo.activeItems.Count > 0) newUISlotGrid.CreateGridsForItems(newUISlotGrid.GridDataInfo.activeItems[0]);
+                if(newUISlotGrid.GridDataInfo.ActiveItems.Count > 0) newUISlotGrid.CreateGridsForItems(newUISlotGrid.GridDataInfo.ActiveItems[0]);
 
                 newUISlotGrid.gameObject.SetActive(true);
             }

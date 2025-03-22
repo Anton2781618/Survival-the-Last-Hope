@@ -3,75 +3,78 @@ using UnityEditor;
 using UnityEngine;
 using UnityEngine.UIElements;
 
-public class ControlPanelEditor : EditorWindow
+namespace MyEditor
 {
-    private MainScreenView _treeView;
-    private ControlPanelView _сontrolPanelView;
-    private BehavioureTree _target;
-
-    [MenuItem("Tools/Панель управления")]
-    public static void OpenWindow()
+    public class ControlPanelEditor : EditorWindow
     {
-        ControlPanelEditor wnd = GetWindow<ControlPanelEditor>();
-        wnd.titleContent = new GUIContent("ControlPanelEditor");
-    }
-    
+        private MainScreenView _treeView;
+        private ControlPanelView _сontrolPanelView;
+        private BehavioureTree _target;
 
-    public void CreateGUI()
-    {
-        Debug.Log("CreateGUI");
-        VisualElement root = rootVisualElement;
-
-        var visualTree = AssetDatabase.LoadAssetAtPath<VisualTreeAsset>("Assets/MyScripts/Architecture/Editor/ControlPanel/ControlPanelEditor/DesignMainScreen.uxml");
-        visualTree.CloneTree(root);
-        
-        // получить ссылку на дерево         
-        _treeView = root.Q<MainScreenView>();
-
-        _сontrolPanelView = root.Q<ControlPanelView>();
-
-        // treeView.OnNodeSelected = OnNodeSelectionChanged;
-        Button populateBUtton = root.Q<Button>("populateBUtton");
-        populateBUtton.clicked += populateBUttonClick;
-
-        SetupControlPanel();
-        
-        OnSelectionChange();
-    }
-
-    public void SetupControlPanel() => _сontrolPanelView.Setup(this);
-    
-
-    public void OnNodeSelectionChanged(NodeView nodeView)
-    {
-    }
-
-    public void SelectTrget(BehavioureTree target)
-    {
-        _target = target;
-        OnSelectionChange();
-    }
-
-    private void OnSelectionChange()
-    {
-        if(Application.isPlaying)
+        [MenuItem("Tools/Панель управления")]
+        public static void OpenWindow()
         {
-            if(_target)
+            ControlPanelEditor wnd = GetWindow<ControlPanelEditor>();
+            wnd.titleContent = new GUIContent("ControlPanelEditor");
+        }
+        
+
+        public void CreateGUI()
+        {
+            Debug.Log("CreateGUI");
+            VisualElement root = rootVisualElement;
+
+            var visualTree = AssetDatabase.LoadAssetAtPath<VisualTreeAsset>("Assets/MyScripts/Architecture/Editor/ControlPanel/ControlPanelEditor/DesignMainScreen.uxml");
+            visualTree.CloneTree(root);
+            
+            // получить ссылку на дерево         
+            _treeView = root.Q<MainScreenView>();
+
+            _сontrolPanelView = root.Q<ControlPanelView>();
+
+            // treeView.OnNodeSelected = OnNodeSelectionChanged;
+            Button populateBUtton = root.Q<Button>("populateBUtton");
+            populateBUtton.clicked += populateBUttonClick;
+
+            SetupControlPanel();
+            
+            OnSelectionChange();
+        }
+
+        public void SetupControlPanel() => _сontrolPanelView.Setup(this);
+        
+
+        public void OnNodeSelectionChanged(NodeView nodeView)
+        {
+        }
+
+        public void SelectTrget(BehavioureTree target)
+        {
+            _target = target;
+            OnSelectionChange();
+        }
+
+        private void OnSelectionChange()
+        {
+            if(Application.isPlaying)
             {
-                _treeView.PopulateView(_target);
+                if(_target)
+                {
+                    _treeView.PopulateView(_target);
+                }
+            }
+            else
+            {
+                if(_target && AssetDatabase.CanOpenAssetInEditor(_target.GetInstanceID()))
+                {
+                    _treeView.PopulateView(_target);
+                }
             }
         }
-        else
-        {
-            if(_target && AssetDatabase.CanOpenAssetInEditor(_target.GetInstanceID()))
-            {
-                _treeView.PopulateView(_target);
-            }
-        }
-    }
 
-    private void populateBUttonClick()
-    {
-        SetupControlPanel();
+        private void populateBUttonClick()
+        {
+            SetupControlPanel();
+        }
     }
 }

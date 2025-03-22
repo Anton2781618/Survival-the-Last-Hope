@@ -36,11 +36,11 @@ public class InventoryPropertyDrawer : PropertyDrawer
     {
         object inventory = property.serializedObject.targetObject;
             
-        InventoryModule inventory1 = inventory as InventoryModule;
+        InventoryModule inventoryModule = inventory as InventoryModule;
         
         var editor = EditorWindow.GetWindow<InventoryEditor>();
         
-        editor.SetTartget(inventory1.Inventory);
+        editor.SetTartget(inventoryModule);
 
         editor.Show();
     }

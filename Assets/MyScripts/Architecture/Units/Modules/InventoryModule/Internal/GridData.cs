@@ -216,7 +216,7 @@ public class GridData2 : ISerializationCallbackReceiver
 
     //-------------------------------------------------------------------------------------
     [Header("Блок итемов размещенных на сетке")]
-    [SerializeField] public List<InventoryItem> activeItems = new List<InventoryItem>();
+    [SerializeField] public List<InventoryItem> ActiveItems = new List<InventoryItem>();
 
     //-------------------------------------------------------------------------------------
     //настройки сериалиации
@@ -241,6 +241,8 @@ public class GridData2 : ISerializationCallbackReceiver
     }
     public bool TryPlaceItem(InventoryItem item)
     {
+        if(!ValidateItem(item)) return false;
+        
         for (int x = 0; x < Size.x; x++)
         {
             for (int y = 0; y < Size.y; y++)
@@ -250,11 +252,41 @@ public class GridData2 : ISerializationCallbackReceiver
                     item.OnGridPosition.x = x;
                     item.OnGridPosition.y = y;
                     
-                    activeItems.Add(item);
+                    ActiveItems.Add(item);
                     return true;
                 }
             }
         }
+        return false;
+    }
+
+    public bool ValidateItem(InventoryItem item)
+    {
+        if(CompatibilityGridMod == Compatibility.Access_public)
+        {
+            return true;
+        }
+        else
+        if(CompatibilityGridMod == Compatibility.Access_by_item_groups)
+        {
+            //если группы не совпадают то не подсвечивать
+            if(item.ItemData.ItemGroup == CompatibleGroup) 
+            {
+                return true;
+            }
+        }
+        else
+        if(CompatibilityGridMod == Compatibility.Access_by_specific_item)
+        {
+            foreach (var SpecificItemData in SpecificItemCombined)
+            {
+                if(item.ItemData == SpecificItemData) 
+                {
+                    return true;
+                }
+            }
+        }
+
         return false;
     }
 
@@ -266,7 +298,7 @@ public class GridData2 : ISerializationCallbackReceiver
             return false;
         }
 
-        foreach (var items in activeItems)
+        foreach (var items in ActiveItems)
         {
             if (DoRectsIntersect(posX, posY, width, height, items.OnGridPosition.x, items.OnGridPosition.y, items.WIDTH, items.HEIGHT))
             {
@@ -285,16 +317,16 @@ public class GridData2 : ISerializationCallbackReceiver
     // Проверка позиций всех предметов
     public bool ValidateItemsPosition()
     {
-        List<InventoryItem> tempItems = new List<InventoryItem>(activeItems);
-        activeItems.Clear();
+        List<InventoryItem> tempItems = new List<InventoryItem>(ActiveItems);
+        ActiveItems.Clear();
 
         foreach (var item in tempItems)
         {
             // Проверка размеров предмета
             if (item.WIDTH > Size.x || item.HEIGHT > Size.y)
             {
-                activeItems.Clear();
-                activeItems.AddRange(tempItems);
+                ActiveItems.Clear();
+                ActiveItems.AddRange(tempItems);
                 return false;
             }
 
@@ -305,7 +337,7 @@ public class GridData2 : ISerializationCallbackReceiver
                 {
                     if (CheckAvailableSpace(x, y, item.WIDTH, item.HEIGHT))
                     {
-                        activeItems.Add(item);
+                        ActiveItems.Add(item);
                         found = true;
                     }
                 }
@@ -313,8 +345,8 @@ public class GridData2 : ISerializationCallbackReceiver
             
             if (!found)
             {
-                activeItems.Clear();
-                activeItems.AddRange(tempItems);
+                ActiveItems.Clear();
+                ActiveItems.AddRange(tempItems);
                 return false;
             }
         }
@@ -325,26 +357,27 @@ public class GridData2 : ISerializationCallbackReceiver
     {
         // Debug.Log("PlaceItem " + item.ItemData.Title);
         SetItemPosition(item, new Vector2Int(x, y));
-        activeItems.Add(item);
+        ActiveItems.Add(item);
     }
 
     public void SetItemPosition(InventoryItem item, Vector2Int vector2Int)
     {
-        item.OnGridPosition.x = vector2Int.x;
+        item.OnGridPosition = vector2Int;
     }
 
     //метод поднять итем из сетки и вернуть его
     public InventoryItem SelectIteme(int x, int y)
     {
-        foreach (var item in activeItems)
+        for (int i = 0; i < ActiveItems.Count; i++)
         {
+            InventoryItem item = ActiveItems[i];
             // Проверяем, попадают ли координаты в область предмета
             bool isInsideItemX = x >= item.OnGridPosition.x && x < item.OnGridPosition.x + item.WIDTH;
             bool isInsideItemY = y >= item.OnGridPosition.y && y < item.OnGridPosition.y + item.HEIGHT;
             
             if (isInsideItemX && isInsideItemY)
             {
-                activeItems.Remove(item); // Удаляем предмет из списка
+                ActiveItems.Remove(item); // Удаляем предмет из списка
                 return item;
             }
         }
@@ -353,8 +386,9 @@ public class GridData2 : ISerializationCallbackReceiver
 
     public InventoryItem GetItem(int x, int y)
     {
-        foreach (var item in activeItems)
+        for (int i = 0; i < ActiveItems.Count; i++)
         {
+            InventoryItem item = ActiveItems[i];
             // Проверяем, попадают ли координаты в область предмета
             bool isInsideItemX = x >= item.OnGridPosition.x && x < item.OnGridPosition.x + item.WIDTH;
             bool isInsideItemY = y >= item.OnGridPosition.y && y < item.OnGridPosition.y + item.HEIGHT;
@@ -365,6 +399,11 @@ public class GridData2 : ISerializationCallbackReceiver
             }
         }
         return null;
+    }
+
+    public void RemoveItem(InventoryItem item)
+    {
+        ActiveItems.Remove(item);
     }
     
     //находит свободное место на сетке для объекта
@@ -389,18 +428,6 @@ public class GridData2 : ISerializationCallbackReceiver
 
         // Если место не найдено, возвращаем null
         return null;
-    }
-    //очистить сылки на итем в сетке
-    public void CleanGridReference(InventoryItem toReturn)
-    {
-        foreach (var item in activeItems)
-        {
-            if (item == toReturn)
-            {
-                activeItems.Remove(item);
-                return;
-            }
-        }
     }
 
     //вызывается перед сериализацией

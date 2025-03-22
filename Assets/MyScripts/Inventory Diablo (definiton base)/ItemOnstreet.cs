@@ -29,8 +29,9 @@ namespace InventoryDiablo
 
         public void Interact(GameEntity interactor)
         {
-            Debug.Log("Поднять предмет");
-            bool place = interactor.GetModule<InventoryModule>().Inventory.TryPlaceItem(_item);
+            Inventory currInventory = interactor.GetModule<InventoryModule>().Inventory;
+
+            bool place = currInventory.TryPlaceItemInInventory(_item);
 
             if(!place)
             {
@@ -42,6 +43,11 @@ namespace InventoryDiablo
             OnMouseExit();
 
             Destroy(gameObject);
+
+            GlobalEventBus.Instance.Publish(EventsInventory.Item_Spawned_OnGrid, new ShowInventoryEventData
+            {
+                InventoryOwner = currInventory
+            });
         }
 
         public bool CanInteract(GameEntity interactor)

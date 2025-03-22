@@ -10,258 +10,261 @@ using System.Net;
 using ModestTree;
 using System.IO;
 
-public class MainScreenView : GraphView
+namespace MyEditor
 {
-    //событие выбора ноды
-    public Action<WindowNodeView> OnNodeSelected;
-    public new class UxmlFactory : UxmlFactory<MainScreenView, GraphView.UxmlTraits> { }
-    public BehavioureTree treeModel;
-
-    public MainScreenView()
+    public class MainScreenView : GraphView
     {
-        // добавить бэкграунд
-        Insert(0, new GridBackground());
+        //событие выбора ноды
+        public Action<WindowNodeView> OnNodeSelected;
+        public new class UxmlFactory : UxmlFactory<MainScreenView, GraphView.UxmlTraits> { }
+        public BehavioureTree treeModel;
 
-        // Add a minimap
-        // Add(new MiniMap { anchored = true });
-
-        // добавить группы нод
-        // AddElement(new Group { title = "Group", autoUpdateGeometry = true }); 
-
-        var zoomer = new ContentZoomer();
-        zoomer.minScale = 0.1f;  // Минимальный масштаб 10%
-        zoomer.maxScale = 2.0f;  // Максимальный масштаб 300%
-        zoomer.scaleStep = 0.1f; // Шаг масштабирования
-
-        // добавить манипуляторы
-        this.AddManipulator(zoomer);
-        this.AddManipulator(new ContentDragger());
-        this.AddManipulator(new SelectionDragger());
-        this.AddManipulator(new RectangleSelector());
-        this.AddManipulator(new FreehandSelector());
-        
-        //подключить файл стилей
-        var styleSheet = AssetDatabase.LoadAssetAtPath<StyleSheet>("Assets/MyScripts/Architecture/Editor/ControlPanel/ControlPanelEditor/BehavioureTreeEdtor.uss");
-        styleSheets.Add(styleSheet);
-
-        Undo.undoRedoPerformed += OnUndoRedo;
-    }
-
-    
-
-
-    // метод для проверки отмены действия
-    private void OnUndoRedo()
-    {
-        PopulateView(treeModel);
-
-        AssetDatabase.SaveAssets();
-    }
-
-    //перезаполнить дерево каждый раз когда мы его выделяем или открываем
-    internal void PopulateView(BehavioureTree tree)
-    {
-        Debug.Log("PopulateView");
-        this.treeModel = tree;
-        
-        //отписаться от события изменения графа для того чтобы не вызывалось при удалении нод
-        graphViewChanged -= OnGraphViewChanged;
-     
-        //удалить все элементы
-        DeleteElements(graphElements);
-        
-        graphViewChanged += OnGraphViewChanged;
-
-        //создать ноды
-        for (int i = 0; i < tree.nodes.Count; i++)
+        public MainScreenView()
         {
-            CreateNodeView(tree.nodes[i]);
+            // добавить бэкграунд
+            Insert(0, new GridBackground());
+
+            // Add a minimap
+            // Add(new MiniMap { anchored = true });
+
+            // добавить группы нод
+            // AddElement(new Group { title = "Group", autoUpdateGeometry = true }); 
+
+            var zoomer = new ContentZoomer();
+            zoomer.minScale = 0.1f;  // Минимальный масштаб 10%
+            zoomer.maxScale = 2.0f;  // Максимальный масштаб 300%
+            zoomer.scaleStep = 0.1f; // Шаг масштабирования
+
+            // добавить манипуляторы
+            this.AddManipulator(zoomer);
+            this.AddManipulator(new ContentDragger());
+            this.AddManipulator(new SelectionDragger());
+            this.AddManipulator(new RectangleSelector());
+            this.AddManipulator(new FreehandSelector());
+            
+            //подключить файл стилей
+            var styleSheet = AssetDatabase.LoadAssetAtPath<StyleSheet>("Assets/MyScripts/Architecture/Editor/ControlPanel/ControlPanelEditor/BehavioureTreeEdtor.uss");
+            styleSheets.Add(styleSheet);
+
+            Undo.undoRedoPerformed += OnUndoRedo;
+        }
+
+        
+
+
+        // метод для проверки отмены действия
+        private void OnUndoRedo()
+        {
+            PopulateView(treeModel);
+
+            AssetDatabase.SaveAssets();
+        }
+
+        //перезаполнить дерево каждый раз когда мы его выделяем или открываем
+        internal void PopulateView(BehavioureTree tree)
+        {
+            Debug.Log("PopulateView");
+            this.treeModel = tree;
+            
+            //отписаться от события изменения графа для того чтобы не вызывалось при удалении нод
+            graphViewChanged -= OnGraphViewChanged;
+        
+            //удалить все элементы
+            DeleteElements(graphElements);
+            
+            graphViewChanged += OnGraphViewChanged;
+
+            //создать ноды
+            for (int i = 0; i < tree.nodes.Count; i++)
+            {
+                CreateNodeView(tree.nodes[i]);
+            }
+            
+            //создать связи между нодами(ребра)
+            // tree.nodes.ForEach(node => СreateСonnections(tree, node));
+        }
+
+        // метод сохранить дерево
+        private void SaveTree(BehavioureTree tree)
+        {
+            // сохранить изменения иначе данные удалятся после перезагрузки
+            EditorUtility.SetDirty(tree);
+                
+            // сохранить изменения скриптбл обджектов
+            AssetDatabase.SaveAssets();
         }
         
-        //создать связи между нодами(ребра)
-        // tree.nodes.ForEach(node => СreateСonnections(tree, node));
-    }
-
-    // метод сохранить дерево
-    private void SaveTree(BehavioureTree tree)
-    {
-        // сохранить изменения иначе данные удалятся после перезагрузки
-        EditorUtility.SetDirty(tree);
+        private void СreateСonnections(BehavioureTree tree, Node node)
+        {
+            //получить детей ноды
+            var children = tree.GetChildren(node);
             
-        // сохранить изменения скриптбл обджектов
-        AssetDatabase.SaveAssets();
-    }
-    
-    private void СreateСonnections(BehavioureTree tree, Node node)
-    {
-        //получить детей ноды
-        var children = tree.GetChildren(node);
-        
-        //пройтись по всем детям
-        children.ForEach(child =>
-        {
-            //получить ноды для соединения ребра
-            NodeView parentView = FindNodeView(node);
-
-            NodeView childView = FindNodeView(child);
-
-
-            Edge edge = parentView.outputPort.ConnectTo(childView.inputPort);
-
-            AddElement(edge);
-        });
-        
-        //получить детей ноды
-        var derivatives = tree.GetDerivatives(node);
-        
-        //пройтись по всем детям
-        derivatives.ForEach(child =>
-        {
-            //получить ноды для соединения ребра
-            NodeView parentView = FindNodeView(node);
-
-            NodeView childView = FindNodeView(child);
-
-            Edge edge = parentView.childPort.ConnectTo(childView.ParentPort);
-
-            AddElement(edge);
-        });
-    }
-
-
-    //получить порт ноды по имени порта 
-    private NodeView FindNodeView(Node node) => GetNodeByGuid(node.guid) as NodeView;
-
-
-    //метод изменения графа для того чтобы удалять ноды из модели дерева
-    private GraphViewChange OnGraphViewChanged(GraphViewChange graphViewChange)
-    {
-        Debug.Log("OnGraphViewChanged");
-        //если есть элементы для удаления
-        if(graphViewChange.elementsToRemove != null)
-        {
-            //пройтись по всем элементам
-            graphViewChange.elementsToRemove.ForEach(element =>
+            //пройтись по всем детям
+            children.ForEach(child =>
             {
-                //получить ноду
-                WindowNodeView nodeView = element as WindowNodeView;
-                
-                //если нода не пустая
-                if(nodeView != null)
-                {
-                    //удалить ноду из модели дерева 
-                    treeModel.DeleteNode(nodeView.node);
-                }
+                //получить ноды для соединения ребра
+                NodeView parentView = FindNodeView(node);
 
-                // Edge edge = element as Edge;
+                NodeView childView = FindNodeView(child);
 
-                // if(edge != null)
-                // {
-                //     //получить ноды
-                    // NodeView childView = edge.input.node as NodeView;
-                //     NodeView parentView = edge.output.node as NodeView;
 
-                //     //если ноды не пустые
-                //     if(childView != null && parentView != null)
-                //     {
-                //         if(edge.input.portName == "предки" && edge.output.portName == "дочерние")
-                //         {
-                //             treeModel.RemoveChild(parentView.node, childView.node);
-                //         }
-                //         else
-                //         {
-                //             //удалить связь между нодами
-                //             treeModel.RemoveDependencie(parentView.node, childView.node);
-                //         }
-                //     }
-                // }
+                Edge edge = parentView.outputPort.ConnectTo(childView.inputPort);
 
+                AddElement(edge);
+            });
+            
+            //получить детей ноды
+            var derivatives = tree.GetDerivatives(node);
+            
+            //пройтись по всем детям
+            derivatives.ForEach(child =>
+            {
+                //получить ноды для соединения ребра
+                NodeView parentView = FindNodeView(node);
+
+                NodeView childView = FindNodeView(child);
+
+                Edge edge = parentView.childPort.ConnectTo(childView.ParentPort);
+
+                AddElement(edge);
             });
         }
 
-        // if(graphViewChange.edgesToCreate != null)
-        // {
-        //     graphViewChange.edgesToCreate.ForEach(edge =>
-        //     {
-        //         //получить ноды
-        //         NodeView childView = edge.input.node as NodeView;
-        //         NodeView parentView = edge.output.node as NodeView;
-                
-        //         //если ноды не пустые
-        //         if(childView != null && parentView != null)
-        //         {
-        //             if(edge.input.portName == "предки" && edge.output.portName == "дочерние")
-        //             {
-        //                 treeModel.AddChild(parentView.node, childView.node);
-        //             }
-        //             else
-        //             {
-        //                 //добавить связь между нодами
-        //                 treeModel.AddDependencie(parentView.node, childView.node);
-        //             }
-        //         }
-        //     });
-        // }
 
-        //вернуть изменения
-        return graphViewChange;
-    }
+        //получить порт ноды по имени порта 
+        private NodeView FindNodeView(Node node) => GetNodeByGuid(node.guid) as NodeView;
 
-    //переопределить метод создания контекстного меню
-    public override void BuildContextualMenu(ContextualMenuPopulateEvent evt)
-    {
-        base.BuildContextualMenu(evt);
+
+        //метод изменения графа для того чтобы удалять ноды из модели дерева
+        private GraphViewChange OnGraphViewChanged(GraphViewChange graphViewChange)
         {
-            //получить все типы наследуемые от Node
-            var types = TypeCache.GetTypesDerivedFrom<Node>();
-
-            foreach (var type in types)
+            Debug.Log("OnGraphViewChanged");
+            //если есть элементы для удаления
+            if(graphViewChange.elementsToRemove != null)
             {
-                // Добавление действия в контекстное меню
-                evt.menu.AppendAction($"[{type.BaseType.Name}] {type.Name}", (a) => CreateNode(type)); 
-                
-                evt.menu.AppendAction($"Создавть группу", (a) => CreteGroup("новая группа"));
+                //пройтись по всем элементам
+                graphViewChange.elementsToRemove.ForEach(element =>
+                {
+                    //получить ноду
+                    WindowNodeView nodeView = element as WindowNodeView;
+                    
+                    //если нода не пустая
+                    if(nodeView != null)
+                    {
+                        //удалить ноду из модели дерева 
+                        treeModel.DeleteNode(nodeView.node);
+                    }
+
+                    // Edge edge = element as Edge;
+
+                    // if(edge != null)
+                    // {
+                    //     //получить ноды
+                        // NodeView childView = edge.input.node as NodeView;
+                    //     NodeView parentView = edge.output.node as NodeView;
+
+                    //     //если ноды не пустые
+                    //     if(childView != null && parentView != null)
+                    //     {
+                    //         if(edge.input.portName == "предки" && edge.output.portName == "дочерние")
+                    //         {
+                    //             treeModel.RemoveChild(parentView.node, childView.node);
+                    //         }
+                    //         else
+                    //         {
+                    //             //удалить связь между нодами
+                    //             treeModel.RemoveDependencie(parentView.node, childView.node);
+                    //         }
+                    //     }
+                    // }
+
+                });
             }
+
+            // if(graphViewChange.edgesToCreate != null)
+            // {
+            //     graphViewChange.edgesToCreate.ForEach(edge =>
+            //     {
+            //         //получить ноды
+            //         NodeView childView = edge.input.node as NodeView;
+            //         NodeView parentView = edge.output.node as NodeView;
+                    
+            //         //если ноды не пустые
+            //         if(childView != null && parentView != null)
+            //         {
+            //             if(edge.input.portName == "предки" && edge.output.portName == "дочерние")
+            //             {
+            //                 treeModel.AddChild(parentView.node, childView.node);
+            //             }
+            //             else
+            //             {
+            //                 //добавить связь между нодами
+            //                 treeModel.AddDependencie(parentView.node, childView.node);
+            //             }
+            //         }
+            //     });
+            // }
+
+            //вернуть изменения
+            return graphViewChange;
+        }
+
+        //переопределить метод создания контекстного меню
+        public override void BuildContextualMenu(ContextualMenuPopulateEvent evt)
+        {
+            base.BuildContextualMenu(evt);
+            {
+                //получить все типы наследуемые от Node
+                var types = TypeCache.GetTypesDerivedFrom<Node>();
+
+                foreach (var type in types)
+                {
+                    // Добавление действия в контекстное меню
+                    evt.menu.AppendAction($"[{type.BaseType.Name}] {type.Name}", (a) => CreateNode(type)); 
+                    
+                    evt.menu.AppendAction($"Создавть группу", (a) => CreteGroup("новая группа"));
+                }
+            }
+            
+        }
+
+        public Group CreteGroup(string title)
+        {
+            Group group = new Group();
+
+            treeModel.groups.Add(group);
+
+            group.title = title;
+
+            return group;
+        }
+
+        //создать ноду
+        public Node CreateNode(System.Type type)
+        {
+            Node node = treeModel.CreateNode(type);
+
+            CreateNodeView(node);
+            return node;
         }
         
-    }
 
-    public Group CreteGroup(string title)
-    {
-        Group group = new Group();
+        //переопределить метод создания ноды
+        public void CreateNodeView(Node node)
+        {
+            // NodeView nodeView = new NodeView(node);
+            WindowNodeView nodeView = new WindowNodeView(node, this);
 
-        treeModel.groups.Add(group);
+            nodeView.OnNodeSelected = OnNodeSelected;
 
-        group.title = title;
+            AddElement(nodeView);
+            
+            // if(node.group != null)
+            // {
+            //     node.group.AddElement(nodeView);
 
-        return group;
-    }
-
-    //создать ноду
-    public Node CreateNode(System.Type type)
-    {
-        Node node = treeModel.CreateNode(type);
-
-        CreateNodeView(node);
-        return node;
-    }
-    
-
-    //переопределить метод создания ноды
-    public void CreateNodeView(Node node)
-    {
-        // NodeView nodeView = new NodeView(node);
-        WindowNodeView nodeView = new WindowNodeView(node, this);
-
-        nodeView.OnNodeSelected = OnNodeSelected;
-
-        AddElement(nodeView);
-        
-        // if(node.group != null)
-        // {
-        //     node.group.AddElement(nodeView);
-
-        //     AddElement(node.group);
-        // }
+            //     AddElement(node.group);
+            // }
+        }
     }
 }

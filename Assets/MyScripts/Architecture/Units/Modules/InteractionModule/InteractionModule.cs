@@ -32,7 +32,6 @@ namespace ModularEventArchitecture
                 if (interactable != null)
                 {
                     interactable.Interact(Entity);
-                    
                 }
             }
         }

@@ -275,10 +275,10 @@ MonoBehaviour:
         m_TargetAssemblyTypeName: ModularEventArchitecture.UIInventoryWindowModule,
           Assembly-CSharp
         m_MethodName: CreateRandomItem
-        m_Mode: 2
+        m_Mode: 1
         m_Arguments:
-          m_ObjectArgument: {fileID: 7388930636463265690}
-          m_ObjectArgumentAssemblyTypeName: InventoryDiablo.UIItemGrid, Assembly-CSharp
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
@@ -374,7 +374,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bae209eda2508f340bb2047a90f51cb7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  GridData:
+  GridDataInfo:
     Size: {x: 5, y: 5}
     MaxStackSize: 0
     Position: {x: 0, y: 0}
@@ -837,7 +837,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bae209eda2508f340bb2047a90f51cb7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  GridData:
+  GridDataInfo:
     Size: {x: 5, y: 5}
     MaxStackSize: 0
     Position: {x: 0, y: 0}
@@ -952,7 +952,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 965a47ad1e4366340a7ea95f223aace3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  GridData:
+  GridDataInfo:
     Size: {x: 5, y: 5}
     MaxStackSize: 0
     Position: {x: 0, y: 0}
@@ -965,7 +965,6 @@ MonoBehaviour:
   _itemPrefab: {fileID: 3786321271830801994, guid: 211cbaeb343b3fa469149bc570354fe2,
     type: 3}
   Icon: {fileID: 3724985124808729097}
-  uIInventoryContainer: {fileID: 9037590262481892889}
   _gridPrefab: {fileID: 7388930636463265690}
 --- !u!114 &4917274589837720739
 MonoBehaviour:

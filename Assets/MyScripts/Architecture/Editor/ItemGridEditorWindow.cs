@@ -188,7 +188,7 @@ namespace ModularEventArchitecture
                         // Обработка правого клика
                         if (currentEvent.button == 1)
                         {
-                            foreach (var item in grid.activeItems)
+                            foreach (var item in grid.ActiveItems)
                             {
                                 Rect itemRect = new Rect(
                                     gridRect.x + item.OnGridPosition.x * cellSize,
@@ -208,7 +208,7 @@ namespace ModularEventArchitecture
 
                         // Проверяем клик по существующему предмету
                         Vector2 gridPos = GetGridPosition(gridRect, mousePosition);
-                        foreach (var item in grid.activeItems)
+                        foreach (var item in grid.ActiveItems)
                         {
                             Rect itemRect = new Rect(
                                 gridRect.x + item.OnGridPosition.x * cellSize,
@@ -226,7 +226,7 @@ namespace ModularEventArchitecture
                                 // Вычисляем смещение между позицией мыши и левым верхним углом предмета
                                 dragOffset = new Vector2((mousePosition.x - itemRect.x) - (cellSize / 2), (mousePosition.y - itemRect.y) - (cellSize / 2));
                                 
-                                grid.activeItems.Remove(item);
+                                grid.ActiveItems.Remove(item);
                                 currentEvent.Use();
                                 return;
                             }
@@ -258,7 +258,7 @@ namespace ModularEventArchitecture
                     {
                         // Проверяем, не отпустили ли мы предмет над другим предметом
                         InventoryItem targetItem = null;
-                        foreach (var item in grid.activeItems)
+                        foreach (var item in grid.ActiveItems)
                         {
                             Rect itemRect = new Rect(
                                 gridRect.x + item.OnGridPosition.x * cellSize,
@@ -301,7 +301,7 @@ namespace ModularEventArchitecture
                             // Если предмет не может быть вставлен в целевой предмет, то проверяем сетки предмета на наличие предметов которые подходят для комбинации с целевым предметом
                             foreach (var draggedItemGrid in draggedItem.Grids)
                             {
-                                foreach (var draggedActiveItem in draggedItemGrid.activeItems)
+                                foreach (var draggedActiveItem in draggedItemGrid.ActiveItems)
                                 {
                                     if (targetItem != null && CanCombineItems(targetItem, draggedActiveItem))
                                     {
@@ -325,7 +325,7 @@ namespace ModularEventArchitecture
                                                 }
 
                                                 // Возвращаем предмет на исходную позицию
-                                                grid.activeItems.Add(originalPosition);
+                                                grid.ActiveItems.Add(originalPosition);
                                                 isDragging = false;
                                                 originalPosition = null;
                                                 draggedItem = null;
@@ -335,7 +335,7 @@ namespace ModularEventArchitecture
                                             else
                                             {
                                                 Debug.Log("Нет места в сетке");
-                                                foreach (var targetActiveItem in targetGrid.activeItems)
+                                                foreach (var targetActiveItem in targetGrid.ActiveItems)
                                                 {
                                                     if(targetActiveItem.ItemData == draggedActiveItem.ItemData)
                                                     {
@@ -355,8 +355,8 @@ namespace ModularEventArchitecture
                                                                 Debug.Log($"target {targetActiveItem.Amount} : eragg {draggedActiveItem.Amount}" );
                                                                 targetActiveItem.Amount += draggedActiveItem.Amount;
                                                                 
-                                                                draggedItemGrid.activeItems.Remove(draggedActiveItem);
-                                                                grid.activeItems.Add(originalPosition);
+                                                                draggedItemGrid.ActiveItems.Remove(draggedActiveItem);
+                                                                grid.ActiveItems.Add(originalPosition);
                                                                 isDragging = false;
                                                                 originalPosition = null;
                                                                 draggedItem = null;
@@ -389,7 +389,7 @@ namespace ModularEventArchitecture
                         else if (originalPosition != null)
                         {
                             // Возвращаем предмет на исходную позицию
-                            grid.activeItems.Add(originalPosition);
+                            grid.ActiveItems.Add(originalPosition);
                         }
                         isDragging = false;
                         draggedItem = null;
@@ -493,7 +493,7 @@ namespace ModularEventArchitecture
             GenericMenu menu = new GenericMenu();
             
             menu.AddItem(new GUIContent("Удалить"), false, () => {
-                grid.activeItems.Remove(item);
+                grid.ActiveItems.Remove(item);
             });
 
             
@@ -546,13 +546,13 @@ namespace ModularEventArchitecture
             // пройтись по всем сеткам предмета и если есть сетка с предметами, то добавить пункт меню
             foreach (var itemGrid in item.Grids)
             {
-                foreach (var activeItem in itemGrid.activeItems)
+                foreach (var activeItem in itemGrid.ActiveItems)
                 {
                     menu.AddItem(new GUIContent($"Извлечь {activeItem.ItemData.Title}"), false, () => 
                     {
-                        itemGrid.activeItems.Remove(activeItem);
+                        itemGrid.ActiveItems.Remove(activeItem);
                         // Добавляем activeItem в целевую сетку или в выбранные предметы
-                        grid.activeItems.Add(activeItem); // Пример добавления в первую сетку
+                        grid.ActiveItems.Add(activeItem); // Пример добавления в первую сетку
                     });
                     
                 }
@@ -575,7 +575,7 @@ namespace ModularEventArchitecture
         // Изменяем метод DrawItems
         private void DrawItems(Rect gridRect, GridData2 grid)
         {
-            foreach (var item in grid.activeItems)
+            foreach (var item in grid.ActiveItems)
             {
                 // Вычисляем прямоугольник для предмета
                 Rect itemRect = new Rect(
@@ -632,7 +632,7 @@ namespace ModularEventArchitecture
             
             foreach (var grid in item.Grids)
             {
-                foreach (var activeItem in grid.activeItems)
+                foreach (var activeItem in grid.ActiveItems)
                 {
                     int deepAmount = FindDeepAmount(activeItem);
                     if (deepAmount > 0)
