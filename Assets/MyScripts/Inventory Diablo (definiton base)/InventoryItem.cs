@@ -82,6 +82,7 @@ namespace InventoryDiablo
         }
 
         public int Price {get => ItemData.Price;}
+        //!-------------------------------------------------------------------------------------
 
         public InventoryItem(){}
         public InventoryItem(ItemData itemData, int amount)

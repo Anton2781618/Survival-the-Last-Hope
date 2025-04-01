@@ -57,7 +57,7 @@ namespace ModularEventArchitecture
                 newUISlotGrid.Inventory = slot.Inventory;
 
                 //показ сетки если в слоте есть предметы
-                if(newUISlotGrid.GridDataInfo.ActiveItems.Count > 0) newUISlotGrid.CreateGridsForItems(newUISlotGrid.GridDataInfo.ActiveItems[0]);
+                if(newUISlotGrid.GridDataInfo.ActiveItems.Count > 0 && slot.ShowGrid) newUISlotGrid.CreateGridsForItems(newUISlotGrid.GridDataInfo.ActiveItems[0]);
 
                 newUISlotGrid.gameObject.SetActive(true);
             }

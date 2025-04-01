@@ -20,7 +20,7 @@ MonoBehaviour:
     type: 3}
   layerMask:
     serializedVersion: 2
-    m_Bits: 1
+    m_Bits: 4294967295
   prefabWeapon: {fileID: 3157565929852043342, guid: cc4156adf6614cb4693b57fd602cf0b9,
     type: 3}
   buletSpawner: {fileID: 11400000, guid: 9ebc35bce57ebb34086242e7c8839608, type: 2}
@@ -105,7 +105,7 @@ MonoBehaviour:
         m_PreInfinity: 2
         m_PostInfinity: 2
         m_RotationOrder: 4
-      LerpOffsetRightHend: {x: -0.13, y: 0.27, z: 0.13}
+      LerpOffsetRightHend: {x: -0.13, y: -0.1, z: 0.2}
       UseLeftWeight: 1
       LeftHendPosition: {x: 0.141, y: 0.107, z: 0.01}
       LeftHendRotation: {x: 0.08942438, y: -0.97612363, z: 0.04381304, w: 0.19304517}

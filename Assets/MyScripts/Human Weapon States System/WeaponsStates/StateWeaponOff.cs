@@ -30,22 +30,7 @@ namespace States
         }
 
         public override void Execute()
-        {
-            // if(!stateService.inputSystem.weaponOn && stateService.inputSystem.weaponChange && IsComplete)
-            // {
-            //     stateService.TransitionTo(stateService.stateWeaponChange);
-            // }
-            // else
-            // if(!stateService.inputSystem.weaponOn && IsComplete) 
-            // {
-            //     return;
-            // }
-            // else
-            // if(stateService.inputSystem.weaponOn) 
-            // {
-            //     stateService.TransitionTo(stateService.stateHeandOnWeapon);
-            // }
-
+        {         
             MoveHendsFromPoint();
 
             WeaponOff();

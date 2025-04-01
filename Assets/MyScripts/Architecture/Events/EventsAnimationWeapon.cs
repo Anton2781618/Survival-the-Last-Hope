@@ -1,3 +1,4 @@
+using System;
 using ModularEventArchitecture;
 
 namespace Entitys.Player.Events
@@ -21,5 +22,12 @@ namespace Entitys.Player.Events
         public static IEventType Off_Aim => new EventsAnimationWeapon("Off_Aim");
         public static IEventType Fire => new EventsAnimationWeapon("Fire");
         public static IEventType Stop_Fire => new EventsAnimationWeapon("Stop_Fire");
+        public static IEventType Setup_Weapon => new EventsAnimationWeapon("Setup_Weapon");
+    }
+
+    [Serializable]
+    public class SetupWeaponEventData  : EventBase 
+    {
+        public InventorySlot Slot;
     }
 }

@@ -156,9 +156,9 @@ MonoBehaviour:
   - <ItemData>k__BackingField: {fileID: 11400000, guid: 18eaea6f274582f42b6d3944c8b3bc4d,
       type: 2}
     Grids:
-    - Size: {x: 5, y: 5}
+    - Size: {x: 10, y: 5}
       MaxStackSize: 0
-      Position: {x: 470, y: 40}
+      Position: {x: 420, y: 40}
       CompatibilityGridMod: 0
       SpecificItemCombined: []
       CompatibleGroup: Default/default
@@ -171,6 +171,15 @@ MonoBehaviour:
     OnGridPosition: {x: 0, y: 0}
     Rotated: 0
   - <ItemData>k__BackingField: {fileID: 11400000, guid: c65f5e3e4f0fc5a4cba9d990faa6d337,
+      type: 2}
+    Grids: []
+    amount: 0
+    OnItemsChanged:
+      m_PersistentCalls:
+        m_Calls: []
+    OnGridPosition: {x: 0, y: 0}
+    Rotated: 0
+  - <ItemData>k__BackingField: {fileID: 11400000, guid: 81d2004054fd3bf4fa169ba6a0db0e4c,
       type: 2}
     Grids: []
     amount: 0

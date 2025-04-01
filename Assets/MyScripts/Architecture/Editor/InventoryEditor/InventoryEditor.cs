@@ -403,7 +403,7 @@ namespace ModularEventArchitecture
                 foreach (InventorySlot slot in _currentInventoryContainer.Slots)
                 {
                     // slot.SlotObject = EditorGUILayout.ObjectField("Объект для спавна", slot.SlotObject, typeof(GameObject), false) as GameObject;
-                    slot.SlotObjectToSpawn = (Transform)EditorGUILayout.ObjectField("Точка крепления", slot.SlotObjectToSpawn, typeof(Transform), true);
+                    slot.PlaceToSpawnObject = (Transform)EditorGUILayout.ObjectField("Точка крепления", slot.PlaceToSpawnObject, typeof(Transform), true);
                     EditorGUILayout.Space(10);
                     
                     var gridRect = EditorGUILayout.BeginVertical();

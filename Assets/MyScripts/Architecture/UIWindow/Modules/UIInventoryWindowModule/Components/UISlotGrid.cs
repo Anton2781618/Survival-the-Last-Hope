@@ -33,15 +33,15 @@ namespace ModularEventArchitecture
 
         public override void PlaceItem(UIInventoryItem UIInventoryItem, int posX, int posY)
         {
-            CreateGridsForItems(UIInventoryItem.InventoryItem);
+            if (_slot.ShowGrid) CreateGridsForItems(UIInventoryItem.InventoryItem);
 
             base.PlaceItem(UIInventoryItem, posX, posY);
 
             Inventory.Entity.LocalEvents.Publish(EventsInventory.Equip_item_in_slot, new EquipItemEventData
             { 
                 InventoryItem = UIInventoryItem.InventoryItem,
-                Parent = _slot.SlotObjectToSpawn.gameObject
-                
+                Parent = _slot.PlaceToSpawnObject.gameObject,
+                Slot = _slot
             });
         }
 

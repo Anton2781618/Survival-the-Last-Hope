@@ -46,13 +46,8 @@ namespace InventoryDiablo
 
             GlobalEventBus.Instance.Publish(EventsInventory.Item_Spawned_OnGrid, new ShowInventoryEventData
             {
-                InventoryOwner = currInventory
+                Owner = interactor
             });
-        }
-
-        public bool CanInteract(GameEntity interactor)
-        {
-            throw new System.NotImplementedException();
         }
 
         public void SetupItem(InventoryItem item)
@@ -60,7 +55,7 @@ namespace InventoryDiablo
             _item = item;
         }
 
-        void OnMouseEnter()
+        public void OnMouseEnter()
         {
             _outline.enabled = true;
 
@@ -82,7 +77,7 @@ namespace InventoryDiablo
             // rend.material.color -= new Color(0.1F, 0, 0) * Time.deltaTime;
         }
 
-        void OnMouseExit()
+        public void OnMouseExit()
         {
             GlobalEventBus.Instance.Publish(EventsUI.Show_Text, new EventShowText 
             {

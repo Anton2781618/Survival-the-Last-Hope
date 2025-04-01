@@ -1,7 +1,5 @@
 using System;
-using System.Transactions;
 using InventoryDiablo;
-using Tripolygon.UModeler.UI;
 using UnityEngine;
 
 namespace ModularEventArchitecture
@@ -20,20 +18,13 @@ namespace ModularEventArchitecture
         }
 
         public static IEventType AddItem => new EventsInventory("AddItem");
-        public static IEventType TurnInventory => new EventsInventory("Turn_Inventory");
+        // public static IEventType TurnInventory => new EventsInventory("Turn_Inventory");
         public static IEventType Select_Grid => new EventsInventory("Select_Grid");
         public static IEventType Item_Spawned_OnGrid => new EventsInventory("Item_Spawned_OnGrid");
         public static IEventType Item_Spawned_OnGround => new EventsInventory("Item_Spawned_OnGround");
         public static IEventType Item_Spawned_On_Cursor => new EventsInventory("Item_Spawned_InHand");
         public static IEventType Equip_item_in_slot => new EventsInventory("Equip_item_in_slot");
         public static IEventType Take_off_item => new EventsInventory("Take_off_item");
-    }
-
-    [Serializable]
-    public class ShowInventoryEventData  : EventBase 
-    {
-        public GameEntity Owner { get; set; }
-        public InventoryDiablo.Inventory InventoryOwner { get; set; }
     }
 
     [Serializable]
@@ -47,6 +38,7 @@ namespace ModularEventArchitecture
     {
         public InventoryItem InventoryItem;
         public GameObject Parent;
+        public InventorySlot Slot;
     }
 
     [Serializable]
@@ -60,5 +52,4 @@ namespace ModularEventArchitecture
     {    
         public UIItemGrid grid;
     }
-    
 }    

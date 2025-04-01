@@ -166,7 +166,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _item:
-    <ItemData>k__BackingField: {fileID: 0}
+    <ItemData>k__BackingField: {fileID: 11400000, guid: 18eaea6f274582f42b6d3944c8b3bc4d,
+      type: 2}
     Grids: []
     amount: 0
     OnItemsChanged:

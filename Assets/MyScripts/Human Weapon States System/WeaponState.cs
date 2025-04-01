@@ -12,7 +12,7 @@ namespace States
         //--------- сервис ----------------
         protected HumanWeaponStateManager stateService;
         public HumanModel UnitModel;
-        public WeaponModelModule CurrentWeapon;
+        public WeaponDataModule CurrentWeapon;
         
         //--------- позиция и поворот ----------------
         public Vector3 FromPointRight;
@@ -92,9 +92,10 @@ namespace States
 
             //левая рука
             UnitModel.rigTargetLeft.localPosition = Vector3.Lerp(FromPointLeft, _currentStage.LeftHendPosition, lerpRatio) + positionOffsetLeft;
+
+            Quaternion q = _currentStage.LeftHendRotation;
+            if(q.x != 0 && q.y != 0 && q.z != 0 && q.w != 0) UnitModel.rigTargetLeft.localRotation = Quaternion.Lerp(FromRotationLeft, _currentStage.LeftHendRotation, lerpRatio);
             
-            UnitModel.rigTargetLeft.localRotation = Quaternion.Lerp(FromRotationLeft, _currentStage.LeftHendRotation, lerpRatio);
-            // UnitModel.rigTargetLeft.transform.localPosition = _currentStage.LeftHendPosition;
 
             if(_currentStage.UseLeftWeight) UnitModel.SetWeightLeftHand(lerpRatio);
             

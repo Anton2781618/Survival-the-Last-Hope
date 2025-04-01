@@ -24,14 +24,16 @@ namespace ModularEventArchitecture
 
         public override void Initialize()
         {
-            Entity.Globalevents.Add((EventsInventory.TurnInventory, (data) => OnTurnInventory((ShowInventoryEventData)data)));
+            // Entity.Globalevents.Add((EventsUI.Show_window, (data) => OnShowWondow((ShowInventoryEventData)data)));
+            Entity.LocalEvents.Subscribe<ShowInventoryEventData>(EventsUI.Show_window, OnShowWondow);
 
             Entity.Globalevents.Add((EventsInventory.Item_Spawned_OnGrid, (data) => UpdateInventory((ShowInventoryEventData)data)));
         }
 
-        private void OnTurnInventory(ShowInventoryEventData showInventoryEventData)
+        private void OnShowWondow(ShowInventoryEventData showInventoryEventData)
         {
-            if(!windowContent.activeSelf) CreateContainers(showInventoryEventData.InventoryOwner);
+            Debug.Log("1 " + transform.name);
+            if(!windowContent.activeSelf) CreateContainers(showInventoryEventData.Owner.GetModule<InventoryModule>().Inventory);
 
             ShowInventory(!windowContent.activeSelf);
         }
@@ -41,7 +43,7 @@ namespace ModularEventArchitecture
         {
             if(!windowContent.activeSelf) return;
 
-            CreateContainers(showInventoryEventData.InventoryOwner);
+            CreateContainers(showInventoryEventData.Owner.GetModule<InventoryModule>().Inventory);
         }
 
         public void CreateContainers(Inventory inventory)
