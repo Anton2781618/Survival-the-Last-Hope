@@ -8,8 +8,8 @@ namespace ModularEventArchitecture
     public class ScreensModule : ModuleBase
     {
         //-----------------------------------------------------------
-        [SerializeField] private UIWindow _playerInventoryWindow = new UIWindow();
-        [SerializeField] private UIWindow _UnitInventoryWindow = new UIWindow();
+        [SerializeField] private UIWindow _playerInventoryWindow;
+        [SerializeField] private UIWindow _UnitInventoryWindow;
 
         //!-----------------------------------------------------------
 
@@ -35,7 +35,7 @@ namespace ModularEventArchitecture
 
             _UnitInventoryWindow.LocalEvents.Publish(EventsUI.Show_window, new ShowInventoryEventData
             {
-                Owner = showInventoryEventData.Unit
+                Owner = showInventoryEventData.Unit 
             });
         }
     }

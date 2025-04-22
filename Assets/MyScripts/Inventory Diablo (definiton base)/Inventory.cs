@@ -58,7 +58,7 @@ namespace InventoryDiablo
                         Entity.LocalEvents.Publish(EventsInventory.Equip_item_in_slot, new EquipItemEventData
                         {
                             InventoryItem = item,
-                            Parent = slot.PlaceToSpawnObject.gameObject,
+                            PlaceToSpawnClothing = slot.PlaceToSpawnObject.gameObject,
                             Slot = slot
 
                         });

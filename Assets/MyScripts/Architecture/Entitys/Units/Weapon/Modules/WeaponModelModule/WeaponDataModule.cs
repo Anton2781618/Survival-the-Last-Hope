@@ -10,10 +10,17 @@ namespace Entitys.Weapon.Modules.WeaponModelModule
     [CompatibleUnit(typeof(UnitEntity))]
     public class WeaponDataModule : WeaponBaseModule
     {
+        //-----------------------------------------------------------
         private Ray ray;
         private Camera cameraMain;
-        
+
+        //-----------------------------------------------------------
+        private InventoryItem _clip = null;
+        private InventoryItem bullets = null;
+        //-----------------------------------------------------------
         private bool Shoot = false;
+
+        //!-----------------------------------------------------------
 
         public override void Initialize()
         {
@@ -61,46 +68,59 @@ namespace Entitys.Weapon.Modules.WeaponModelModule
 
             return aimDirection;
         }
+        
 
         public override void Fire()
         {
-            if(Time.time > nextTimeToFire)
+            if (Time.time > nextTimeToFire)
             {
                 nextTimeToFire = Time.time + 1f / WeaponModel.FireRate;
 
-                // if(!CheckMagazine())
-                // {
-                //     Debug.Log("Нет Обоймы");
-                    
-                //     return;
-                // }
-                // else
-                // if(InventoryItem.CombinedItems[InventoryDiablo.ItemData.ItemType.Обойма_патронов].Amount <= 0)
-                // {
-                //     Debug.Log("Обойма пуста");
-                    
-                //     return;                
-                // }          
-            
+                if (_clip == null) _clip = ChecItemStatus(InventoryItem, ItemData.ItemType.Обойма_патронов);
+
+                if (_clip == null)
+                {
+                    Debug.Log("Нет Обоймы");
+
+                    return;
+                }
+
+                if (bullets == null) bullets = ChecItemStatus(_clip, ItemData.ItemType.Патроны);
+
+                if (bullets == null)
+                {
+                    Debug.Log("Не нашел патронов");
+
+                    return;
+                }
+
+                if (bullets.Amount == 0)
+                {
+                    Debug.Log("Обойма пуста");
+
+                    return;
+                }
+
                 ray.origin = muzzleFlashPoint.position;
 
                 ray.direction = GetMouseWold();
 
-                if(Physics.Raycast(ray, out RaycastHit hit, 100f, layerMask))
+                if (Physics.Raycast(ray, out RaycastHit hit, 100f, layerMask))
                 {
-                    if(hit.transform.tag == "Enemy")
+                    if (hit.transform.tag == "Enemy")
                     {
                         hitEffect = WeaponModel.buletSpawner.HitBloodEffect;
 
                         // hit.transform.root.GetComponent<Weapons.IDestroyable>().SetDamage(); 
                         hit.transform.root.GetComponent<EmeraldAI.IDamageable>().Damage(10, transform, 0);
-                    } 
+                    }
                     else
-                    hitEffect = WeaponModel.buletSpawner.HitDirtEffect;
-                
+                        hitEffect = WeaponModel.buletSpawner.HitDirtEffect;
+
                     muzzleFlash.Play();
 
                     // InventoryItem.CombinedItems[InventoryDiablo.ItemData.ItemType.Обойма_патронов].Amount--;
+                    bullets.Amount--;
 
                     // InventoryItem.OnItemsChanged?.Invoke();
 
@@ -110,6 +130,7 @@ namespace Entitys.Weapon.Modules.WeaponModelModule
 
                     CreateHole(hit);
                 }
+                Debug.Log(bullets.Amount);
             }
         }
 
@@ -146,9 +167,25 @@ namespace Entitys.Weapon.Modules.WeaponModelModule
             // Instantiate(holeEffect, hitEffectBufer.transform.position, muzzleFlashPoint.rotation, hit.transform);
         }
 
-        //проверить наличие обоймы в оружие
-        public bool CheckMagazine() => InventoryItem.CombinedItems.ContainsKey(InventoryDiablo.ItemData.ItemType.Обойма_патронов);
+        //проверить наличие обоймы в оружие, и патроны в обойме
+        private InventoryItem ChecItemStatus(InventoryItem item, ItemData.ItemType checkedType)
+        {
+            foreach (var grid in item.Grids)
+            {
+                foreach (var clip in grid.ActiveItems)
+                {
+                    Debug.Log(clip);
+                    Debug.Log(clip.ItemData);
+                    if (clip.ItemData.TypeItem == checkedType)
+                    {
+                        return clip;
+                    }
+                }                
+            }
 
+            return null;
+            // return InventoryItem.CombinedItems.ContainsKey(InventoryDiablo.ItemData.ItemType.Обойма_патронов);
+        }
 
 
         public override void StopFire()
@@ -158,7 +195,7 @@ namespace Entitys.Weapon.Modules.WeaponModelModule
 
         public override void InsertClip(InventoryItem inventoryItem)
         {
-            if(!CheckMagazine()) 
+            if(ChecItemStatus(inventoryItem, ItemData.ItemType.Обойма_патронов) != null) 
             {
                 InventoryItem.InsertСombinedItems(InventoryDiablo.ItemData.ItemType.Обойма_патронов, inventoryItem);
             }

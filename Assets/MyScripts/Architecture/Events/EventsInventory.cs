@@ -37,7 +37,9 @@ namespace ModularEventArchitecture
     public class EquipItemEventData  : EventBase 
     {
         public InventoryItem InventoryItem;
-        public GameObject Parent;
+        public GameObject PlaceToSpawnClothing;
+
+        //слот, потому что объект с одеждой находится в слоте
         public InventorySlot Slot;
     }
 

@@ -6,7 +6,7 @@ using UnityEngine;
 namespace ModularEventArchitecture
 {
     [CompatibleUnit(typeof(UnitEntity))]
-    [RequireComponent(typeof(BoxCollider))][ RequireComponent(typeof(Rigidbody))] [RequireComponent(typeof(OutlineSystem.Outline))]
+    
     public class InteractableModule2 : InteractableModule, IInteractable
     {
         //-----------------------------------------------------------

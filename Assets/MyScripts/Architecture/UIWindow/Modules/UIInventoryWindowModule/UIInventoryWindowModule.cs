@@ -56,7 +56,7 @@ namespace ModularEventArchitecture
             {
                 var newContainer = Tool.Helper.GetFreeCard(_containerPrefabs, _containerPool);
 
-                newContainer.Setup(container);
+                newContainer.Setup(container, inventory);
 
                 _containerList.Add(newContainer);
 

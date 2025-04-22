@@ -9,31 +9,34 @@ namespace States
 {
     public abstract class WeaponState
     {
-        //--------- сервис ----------------
+        //--------- сервис --------------------------------------
         protected HumanWeaponStateManager stateService;
         public HumanModel UnitModel;
         public WeaponDataModule CurrentWeapon;
         
-        //--------- позиция и поворот ----------------
+        //--------- позиция и поворот ---------------------------
         public Vector3 FromPointRight;
         public Quaternion FromRotationRight;
         public Vector3 FromPointLeft;
         public Quaternion FromRotationLeft;
 
-        //--------- кривая лерпа ----------------
+        //--------- кривая лерпа ---------------------------------
         internal float lerpRatio = 0;
         internal float stateTimer = 0;
         internal float LerpTime = 0.4f;
 
-        //--------- флаги ----------------
+        //--------- флаги -----------------------------------------
         public bool IsComplete = false;
         internal bool needMoveHeand = true;
         private int _stagesCount = 0;
-        private int _currentStgeIndex = 0;
+        public int _currentStageIndex = 0;
+        public bool TransitToNextStage = true;
 
-        //--------- объект с точкой куда перемещать конечности
+        //--------- объект с точкой куда перемещать конечности------
         private WeaponPositions _weaponPositions;
         private AnimationPoint _currentStage;
+
+        //-----------------------------------------------------------
 
         public void Setup(WeaponPositions weaponPositions)
         {
@@ -41,7 +44,7 @@ namespace States
 
             _stagesCount = _weaponPositions.AnimationsPoints.Count - 1;
 
-            _currentStage = _weaponPositions.AnimationsPoints[_currentStgeIndex];
+            _currentStage = _weaponPositions.AnimationsPoints[_currentStageIndex];
         }
 
         public void InitState(HumanWeaponStateManager stateService)
@@ -101,11 +104,11 @@ namespace States
             
             UpdateLerpRatio();
 
-            if(lerpRatio >= 0.99f && _currentStgeIndex < _stagesCount)
+            if(TransitToNextStage && lerpRatio >= 0.99f && _currentStageIndex < _stagesCount)
             {
-                _currentStgeIndex ++;
+                _currentStageIndex ++;
 
-                _currentStage = _weaponPositions.AnimationsPoints[_currentStgeIndex];
+                _currentStage = _weaponPositions.AnimationsPoints[_currentStageIndex];
 
                 Init();
             }

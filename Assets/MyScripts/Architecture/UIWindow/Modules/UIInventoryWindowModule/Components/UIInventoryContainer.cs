@@ -29,16 +29,16 @@ namespace ModularEventArchitecture
 
         //!-----------------------------------------------------------
 
-        public void Setup(InventoryContainer container)
+        public void Setup(InventoryContainer container, InventoryDiablo.Inventory inventory)
         {
             _rectTransform.anchoredPosition = new Vector2(container.Position.x, -container.Position.y);
 
             _rectTransform.sizeDelta = new Vector2(container.Size.x, container.Size.y);
-            
-            CreateSlotGrid(container);
+
+            CreateSlotGrid(container, inventory);
         }
 
-        public void CreateSlotGrid(InventoryContainer inventoryContainer)
+        public void CreateSlotGrid(InventoryContainer inventoryContainer, InventoryDiablo.Inventory inventory)
         {
             Tool.Helper.ResetCards(_slotGridsList, _slotGridsPool);
 
@@ -54,7 +54,7 @@ namespace ModularEventArchitecture
                 
                 newUISlotGrid.Setup(slot);
 
-                newUISlotGrid.Inventory = slot.Inventory;
+                newUISlotGrid.Inventory = inventory;
 
                 //показ сетки если в слоте есть предметы
                 if(newUISlotGrid.GridDataInfo.ActiveItems.Count > 0 && slot.ShowGrid) newUISlotGrid.CreateGridsForItems(newUISlotGrid.GridDataInfo.ActiveItems[0]);

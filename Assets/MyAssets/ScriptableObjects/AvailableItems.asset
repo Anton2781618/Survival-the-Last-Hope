@@ -19,9 +19,10 @@ MonoBehaviour:
     - Size: {x: 1, y: 2}
       MaxStackSize: 0
       Position: {x: 0, y: 0}
-      CompatibilityGridMod: 0
+      CompatibilityGridMod: 1
       SpecificItemCombined: []
-      CompatibleGroup: Default/default
+      CompatibleGroup: "\u041E\u0440\u0443\u0436\u0438\u0435/\u041E\u0431\u043E\u0439\u043C\u044B/\u041E\u0431\u043E\u0439\u043C\u0430
+        7.62\u043C\u043C"
       ActiveItems: []
       isSingle: 0
     amount: 0
@@ -49,7 +50,15 @@ MonoBehaviour:
     Rotated: 0
   - <ItemData>k__BackingField: {fileID: 11400000, guid: 65defc33165764a4687df65bc6be9884,
       type: 2}
-    Grids: []
+    Grids:
+    - Size: {x: 2, y: 2}
+      MaxStackSize: 0
+      Position: {x: 0, y: 0}
+      CompatibilityGridMod: 0
+      SpecificItemCombined: []
+      CompatibleGroup: Default/default
+      ActiveItems: []
+      isSingle: 0
     amount: 0
     OnItemsChanged:
       m_PersistentCalls:
@@ -60,7 +69,7 @@ MonoBehaviour:
       type: 2}
     Grids:
     - Size: {x: 2, y: 2}
-      MaxStackSize: 7
+      MaxStackSize: 0
       Position: {x: 0, y: 0}
       CompatibilityGridMod: 1
       SpecificItemCombined: []
@@ -181,10 +190,30 @@ MonoBehaviour:
     Rotated: 0
   - <ItemData>k__BackingField: {fileID: 11400000, guid: 81d2004054fd3bf4fa169ba6a0db0e4c,
       type: 2}
-    Grids: []
+    Grids:
+    - Size: {x: 13, y: 7}
+      MaxStackSize: 0
+      Position: {x: 280, y: 20}
+      CompatibilityGridMod: 0
+      SpecificItemCombined: []
+      CompatibleGroup: Default/default
+      ActiveItems: []
+      isSingle: 0
     amount: 0
     OnItemsChanged:
       m_PersistentCalls:
         m_Calls: []
     OnGridPosition: {x: 0, y: 0}
     Rotated: 0
+  - <ItemData>k__BackingField: {fileID: 11400000, guid: 02f4769aa70338a43ac58dfa60cd613c,
+      type: 2}
+    Grids: []
+    amount: 50
+    OnItemsChanged:
+      m_PersistentCalls:
+        m_Calls: []
+    OnGridPosition: {x: 0, y: 0}
+    Rotated: 0
+  references:
+    version: 2
+    RefIds: []

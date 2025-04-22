@@ -1,4 +1,3 @@
-// using ModestTree;
 using UnityEngine;
 
 namespace States
@@ -17,23 +16,6 @@ namespace States
 
         public override void Execute()
         {
-            // if(stateService.inputSystem.reload)
-            // {
-            //     stateService.TransitionTo(stateService.stateWeaponReload);
-            // }
-            // else
-            // if(!stateService.inputSystem.aim)
-            // {
-            //     stateService.stateWeaponOn.TransitionForward = false;
-
-            //     stateService.TransitionTo(stateService.stateWeaponOn);
-            // }
-            // else
-            // if(stateService.inputSystem.shoot && IsComplete)
-            // {
-            //     stateService.TransitionTo(stateService.stateWeaponShoot);
-            // }
-
             if(!UnitModel.animator.GetBool("Aim")) UnitModel.animator.SetBool("Aim", true);
             
             MoveHendsFromPoint();

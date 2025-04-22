@@ -216,12 +216,12 @@ public class GridData2 : ISerializationCallbackReceiver
 
     //-------------------------------------------------------------------------------------
     [Header("Блок итемов размещенных на сетке")]
-    [SerializeField] public List<InventoryItem> ActiveItems = new List<InventoryItem>();
+    [SerializeReference] public List<InventoryItem> ActiveItems = new List<InventoryItem>(); 
 
     //-------------------------------------------------------------------------------------
     //настройки сериалиации
     // Указываем максимальную глубину сериализации
-    private const int MaxDepth = 3;
+    private const int MaxDepth = 4;
     //поле для хранения текущей глубины
     [NonSerialized] private int currentDepth;
         
@@ -239,10 +239,12 @@ public class GridData2 : ISerializationCallbackReceiver
     {
         Size = new Vector2Int(width, height);
     }
+    
+    //проверка на возможность разместить итем в сетке
     public bool TryPlaceItem(InventoryItem item)
     {
-        if(!ValidateItem(item)) return false;
-        
+        if (!ValidateItem(item)) return false;
+
         for (int x = 0; x < Size.x; x++)
         {
             for (int y = 0; y < Size.y; y++)
@@ -251,7 +253,7 @@ public class GridData2 : ISerializationCallbackReceiver
                 {
                     item.OnGridPosition.x = x;
                     item.OnGridPosition.y = y;
-                    
+
                     ActiveItems.Add(item);
                     return true;
                 }
@@ -260,27 +262,28 @@ public class GridData2 : ISerializationCallbackReceiver
         return false;
     }
 
+    //проверка совместимости итема с сеткой
     public bool ValidateItem(InventoryItem item)
     {
-        if(CompatibilityGridMod == Compatibility.Access_public)
+        if (CompatibilityGridMod == Compatibility.Access_public)
         {
             return true;
         }
         else
-        if(CompatibilityGridMod == Compatibility.Access_by_item_groups)
+        if (CompatibilityGridMod == Compatibility.Access_by_item_groups)
         {
             //если группы не совпадают то не подсвечивать
-            if(item.ItemData.ItemGroup == CompatibleGroup) 
+            if (item.ItemData.ItemGroup == CompatibleGroup)
             {
                 return true;
             }
         }
         else
-        if(CompatibilityGridMod == Compatibility.Access_by_specific_item)
+        if (CompatibilityGridMod == Compatibility.Access_by_specific_item)
         {
             foreach (var SpecificItemData in SpecificItemCombined)
             {
-                if(item.ItemData == SpecificItemData) 
+                if (item.ItemData == SpecificItemData)
                 {
                     return true;
                 }
@@ -290,6 +293,7 @@ public class GridData2 : ISerializationCallbackReceiver
         return false;
     }
 
+    //проверка на возможность разместить итем в сетке
     public bool CheckAvailableSpace(int posX, int posY, int width, int height)
     {
         // Проверка выхода за границы сетки
@@ -308,6 +312,7 @@ public class GridData2 : ISerializationCallbackReceiver
         return true;
     }
 
+    // Проверка пересечения двух прямоугольников
     private bool DoRectsIntersect(int x1, int y1, int w1, int h1, int x2, int y2, int w2, int h2)
     {
         return x1 < x2 + w2 && x1 + w1 > x2 &&
@@ -353,13 +358,15 @@ public class GridData2 : ISerializationCallbackReceiver
         return true;
     }
 
+    // метод для установки итема в сетку
     public void PlaceItem(InventoryItem item, int x, int y)
     {
-        // Debug.Log("PlaceItem " + item.ItemData.Title);
+        Debug.Log("PlaceItem " + item.ItemData.Title);
         SetItemPosition(item, new Vector2Int(x, y));
         ActiveItems.Add(item);
     }
 
+    // установить позицию итема в сетке
     public void SetItemPosition(InventoryItem item, Vector2Int vector2Int)
     {
         item.OnGridPosition = vector2Int;
@@ -384,6 +391,7 @@ public class GridData2 : ISerializationCallbackReceiver
         return null;
     }
 
+    // получить итем по координатам
     public InventoryItem GetItem(int x, int y)
     {
         for (int i = 0; i < ActiveItems.Count; i++)
@@ -392,7 +400,7 @@ public class GridData2 : ISerializationCallbackReceiver
             // Проверяем, попадают ли координаты в область предмета
             bool isInsideItemX = x >= item.OnGridPosition.x && x < item.OnGridPosition.x + item.WIDTH;
             bool isInsideItemY = y >= item.OnGridPosition.y && y < item.OnGridPosition.y + item.HEIGHT;
-            
+
             if (isInsideItemX && isInsideItemY)
             {
                 return item;
@@ -401,6 +409,7 @@ public class GridData2 : ISerializationCallbackReceiver
         return null;
     }
 
+    // удалить итем из сетки
     public void RemoveItem(InventoryItem item)
     {
         ActiveItems.Remove(item);
@@ -433,21 +442,22 @@ public class GridData2 : ISerializationCallbackReceiver
     //вызывается перед сериализацией
     public void OnBeforeSerialize()
     {
-        if (currentDepth >= MaxDepth)
-        {
-            // activeItems = null;
-        }
-        else 
-        {
-            // Увеличиваем текущую глубину
-            currentDepth++;
-        }
+        
+        // if (currentDepth >= MaxDepth)
+        // {
+        //     // activeItems = null;
+        // }
+        // else
+        // {
+        //     // Увеличиваем текущую глубину
+        //     currentDepth++;
+        // }
     }
 
     //вызывается после десериализации
     public void OnAfterDeserialize()
     {
         // Сбрасываем текущую глубину
-        currentDepth = 0;
+        // currentDepth = 0;
     }
 }

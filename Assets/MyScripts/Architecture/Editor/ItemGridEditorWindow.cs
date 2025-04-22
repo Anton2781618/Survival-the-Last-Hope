@@ -288,6 +288,7 @@ namespace ModularEventArchitecture
                                     {
                                         selectedItem = null;
                                     }
+                                    
                                     isDragging = false;
                                     draggedItem = null;
                                     originalPosition = null;
@@ -364,11 +365,8 @@ namespace ModularEventArchitecture
                                                                 currentEvent.Use();
                                                                 return;
                                                             }
-                                                            
                                                         }
-
                                                     }
-                                                    
                                                 }
                                             }
                                         }

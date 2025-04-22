@@ -21,5 +21,5 @@ MonoBehaviour:
   MaxStackSize: 0
   Price: 0
   TypeItem: 1
-  ItemGroup: Default/default
+  ItemGroup: "\u0410\u043C\u0443\u043D\u0438\u0446\u0438\u044F/\u0428\u043B\u0435\u043C\u044B"
   CanBeCombined: []

@@ -23,13 +23,17 @@ namespace ModularEventArchitecture
         private WeaponDataModule _weaponDataModule;
         private Weapons.WeaponModel _weaponModel;
 
-        //------------- Корутины ----------------
+        //------------- Корутины -----------------------------------
         private Coroutine _currCoruteine;
         private Coroutine _currentAnimationCoroutine;
         //-----------------------------------------------------------
         [SerializeField] private Transform _hand;
-        
+
         //-----------------------------------------------------------
+        [ReadOnly] [SerializeField] private string currentAnimationName = "";
+        [ReadOnly] [SerializeField] private int currentAnimationStage = 0;
+        private int indexAnimation = 0;
+        //----------------------------------------------------------
 
         private enum AnimationState
         {
@@ -37,8 +41,50 @@ namespace ModularEventArchitecture
             HeandOn,
             Aim,
             Fire,
+            Reload,
         }
         //!-----------------------------------------------------------
+
+        //----------------Сервисная часть------------------
+        [Tools.Button("Weapon_Aim")]
+        private void Weapon_Aim() => OnWeaponAim();
+
+        [Tools.Button("Off_Aim")]
+        private void OnOff_Aim()
+        {
+            _currentState = AnimationState.Aim;
+            OnOffAim();
+        }
+
+        [Tools.Button("Reload")]
+        private void On_Reload()
+        {
+            OnReload();
+        }
+
+        [Tools.Button("Следующая анимация")]
+        private void SetNextAnimation()
+        {
+
+            //выбрать следуующий AnimationsLayers 
+            indexAnimation = (indexAnimation + 1) % _weaponModel.AnimationsLayers.Count;
+
+            currentAnimationName = _weaponModel.AnimationsLayers[indexAnimation].Name;
+        }
+
+        [Tools.Button("Следующий Этап")]
+        private void SetNextStage()
+        {
+            currentAnimationStage = (currentAnimationStage + 1) % _weaponModel.AnimationsLayers[indexAnimation].AnimationsPoints.Count;
+        }
+
+        [Tools.Button("перейти к этапу анимации")]
+        private void TransitionTo()
+        {
+            StopCurrentCoroutines();
+            _currCoruteine = StartCoroutine(Reloadddd(indexAnimation, currentAnimationStage));
+        }
+        //-------------------------------------------------
 
         private void StopCurrentCoroutines()
         {
@@ -62,6 +108,7 @@ namespace ModularEventArchitecture
             Entity.LocalEvents.Subscribe<EventBase>(EventsAnimationWeapon.Off_Aim, OnOffAim);
             Entity.LocalEvents.Subscribe<EventBase>(EventsAnimationWeapon.Fire, OnStartFire);
             Entity.LocalEvents.Subscribe<EventBase>(EventsAnimationWeapon.Stop_Fire, OnStopFire);
+            Entity.LocalEvents.Subscribe<EventBase>(EventsAnimationWeapon.Reload, OnReload);
 
             Entity.LocalEvents.Subscribe<SetupWeaponEventData>(EventsAnimationWeapon.Setup_Weapon, OnSetupWeapon);
         }
@@ -72,9 +119,10 @@ namespace ModularEventArchitecture
             _currentWeapon = setupWeaponEventData.Slot.ClothingItem.GetComponent<WeaponEntity>();
 
             _weaponDataModule = _currentWeapon.GetModule<WeaponDataModule>();
+                Debug.Log(_weaponDataModule == null);
+            _weaponDataModule.InventoryItem = setupWeaponEventData.InventoryItem;
             
             _weaponModel = _weaponDataModule.WeaponModel;
-
 
 
             _weaponDataModule.DrawWeapon(_hand);
@@ -91,7 +139,8 @@ namespace ModularEventArchitecture
             // _weaponDataModule.HolsterWeapon(_humanModel.RifleHolster);
         }
     
-        private void OnStartFire(EventBase eventBase)
+        //старт стрельбы
+        private void OnStartFire(EventBase eventBase = null)
         {
             if(_currentState != AnimationState.Aim) return;
 
@@ -99,7 +148,7 @@ namespace ModularEventArchitecture
 
             // _currentState = AnimationState.Fire;
         }
-        private void OnStopFire(EventBase eventBase)
+        private void OnStopFire(EventBase eventBase = null)
         {
             if(!_currentWeapon) return;
 
@@ -119,19 +168,17 @@ namespace ModularEventArchitecture
                 _currCoruteine = StartCoroutine(WeaponOn());
             }
         }
+
         
-        [Tools.Button("OnWeaponAim")]
-        private void A()
+
+        private void OnReload(EventBase eventBase = null)
         {
-            OnWeaponAim();
+            // if(_currentState != AnimationState.Reload) return;
+
+            StopCurrentCoroutines();
+            _currCoruteine = StartCoroutine(Reload());
         }
-        
-        [Tools.Button("OnOffAim")]
-        private void OffA()
-        {
-            _currentState = AnimationState.Aim;
-            OnOffAim();
-        }
+
         private void OnWeaponAim(EventBase eventBase = null)
         {
             if(_currentState != AnimationState.HeandOn) return;
@@ -143,6 +190,8 @@ namespace ModularEventArchitecture
         private void OnOffAim(EventBase eventBase = null)
         {
             if(_currentState != AnimationState.Aim) return;
+
+            OnStopFire();
             
             StopCurrentCoroutines();
             _currCoruteine = StartCoroutine(OffAim());
@@ -195,13 +244,47 @@ namespace ModularEventArchitecture
         {
             _currentState = AnimationState.HeandOn;
 
-            StateWeaponOn stateWeaponOn = new StateWeaponOn();
+            StateWeaponOn stateWeapon = new StateWeaponOn();
 
-            stateWeaponOn.Setup(_weaponModel.AnimationsLayers[(int)WeaponPositionsStates.OffAim]);
+            stateWeapon.Setup(_weaponModel.AnimationsLayers[(int)WeaponPositionsStates.OffAim]);
 
-            _currentAnimationCoroutine = StartCoroutine(StartAnimation(stateWeaponOn));
+            _currentAnimationCoroutine = StartCoroutine(StartAnimation(stateWeapon));
             yield return _currentAnimationCoroutine;
 
+        }
+
+        private IEnumerator Reload()
+        {
+            _currentState = AnimationState.Reload;
+
+            StateWeaponReload stateWeapon = new StateWeaponReload();
+
+            stateWeapon.Setup(_weaponModel.AnimationsLayers[(int)WeaponPositionsStates.Reload]);
+
+            _currentAnimationCoroutine = StartCoroutine(StartAnimation(stateWeapon));
+
+            yield return _currentAnimationCoroutine;
+
+            _currentState = AnimationState.HeandOn;
+        }
+        private IEnumerator Reloadddd(int indexAnimLayer, int stage)
+        {
+            _currentState = AnimationState.Reload;
+
+            StateWeaponReload stateWeapon = new StateWeaponReload();
+
+            stateWeapon._currentStageIndex = stage;
+
+            stateWeapon.Setup(_weaponModel.AnimationsLayers[indexAnimLayer]);
+
+            stateWeapon.TransitToNextStage = false;
+
+
+            _currentAnimationCoroutine = StartCoroutine(StartAnimation(stateWeapon));
+
+            yield return _currentAnimationCoroutine;
+
+            _currentState = AnimationState.HeandOn;
         }
 
         public IEnumerator StartAnimation(WeaponState weaponState)
@@ -215,7 +298,7 @@ namespace ModularEventArchitecture
             {
                 yield return null;
                 weaponState.Execute();
-            }            
+            }
 
             Debug.Log("IsComplete");
         }       

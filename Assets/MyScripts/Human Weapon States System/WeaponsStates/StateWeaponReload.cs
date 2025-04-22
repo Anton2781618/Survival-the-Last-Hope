@@ -9,7 +9,7 @@ namespace States
         {
             Reload();
 
-            if (!stateService.CurrentWeapon.IsReloadingNow())
+            /* if (!stateService.CurrentWeapon.IsReloadingNow())
             {
                 needMoveHeand = true;
 
@@ -17,32 +17,35 @@ namespace States
                 
                 stateService.CurrentWeapon.InventoryItem.OnItemsChanged?.Invoke();
                 Debug.Log("Reload complete");
-            }
+            } */
         }
 
         private void Reload()
         {
-            if (stateService.inputSystem.reload)
-            {
-                IsComplete = false;
+            MoveHendsFromPoint();
+            // if (stateService.inputSystem.reload)
+            // if (needMoveHeand)
+            // {
+                // IsComplete = false;
 
-                needMoveHeand = false;
+                // needMoveHeand = false;
 
-                stateService.playerModel.animator.SetTrigger("Reload");
+                // UnitModel.animator.SetTrigger("Reload");
 
-                stateService.inputSystem.reload = false;
+                // stateService.inputSystem.reload = false;
 
-                stateService.CurrentWeapon.StartCoroutine(stateService.CurrentWeapon.Reload(stateService.owner));
-            }
+                // stateService.CurrentWeapon.StartCoroutine(stateService.CurrentWeapon.Reload(stateService.owner));
+            // }
 
-            SetNoWeapon();
+            // SetNoWeapon();
+            if(lerpRatio >=1) IsComplete = true;
         }
 
         //убрать вес со слоя так что юы персонаж был без оружия
         private void SetNoWeapon()
         {
-            if(stateService.playerModel.SetWeightRigBuilderlayer((int)Units.HumanModel.RigLayers.Aim, 0, Time.deltaTime * 5) == 0 && 
-            stateService.playerModel.SetWeightRigBuilderlayer((int)Units.HumanModel.RigLayers.NoAim, 0, Time.deltaTime * 5) == 0) IsComplete = true;
+            if(UnitModel.SetWeightRigBuilderlayer((int)Units.HumanModel.RigLayers.Aim, 0, Time.deltaTime * 5) == 0 && 
+            UnitModel.SetWeightRigBuilderlayer((int)Units.HumanModel.RigLayers.NoAim, 0, Time.deltaTime * 5) == 0) IsComplete = true;
         }
     }
 }

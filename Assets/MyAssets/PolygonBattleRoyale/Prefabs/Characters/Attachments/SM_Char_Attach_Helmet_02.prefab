@@ -165,8 +165,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 82024d51c0f9c664fa919de88079db6e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  <Entity>k__BackingField: {fileID: 0}
   _item:
-    <ItemData>k__BackingField: {fileID: 0}
+    <ItemData>k__BackingField: {fileID: 11400000, guid: c65f5e3e4f0fc5a4cba9d990faa6d337,
+      type: 2}
     Grids: []
     amount: 0
     OnItemsChanged:
@@ -177,3 +179,6 @@ MonoBehaviour:
   _collider: {fileID: 3132464587571574789}
   _rigidbody: {fileID: 1075224771183430559}
   _outline: {fileID: 7097517710118395674}
+  references:
+    version: 2
+    RefIds: []

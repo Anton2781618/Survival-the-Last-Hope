@@ -21,6 +21,6 @@ MonoBehaviour:
   MaxStackSize: 0
   Price: 0
   TypeItem: 32
-  ItemGroup: "\u041E\u0440\u0443\u0436\u0438\u0435/\u041E\u0433\u043D\u0435\u0441\u0442\u0440\u0435\u043B\u044C\u043D\u043E\u0435/\u0410\u0432\u0442\u043E\u043C\u0430\u0442\u044B"
+  ItemGroup: Default/default
   CanBeCombined:
   - {fileID: 11400000, guid: 65defc33165764a4687df65bc6be9884, type: 2}

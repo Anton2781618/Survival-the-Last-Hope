@@ -7,22 +7,6 @@ namespace States
     {
         public override void Execute()
         {
-            // if(stateService.inputSystem.weaponOn && IsComplete)
-            // {
-            //     stateService.stateWeaponOn.TransitionForward = true;
-
-            //     stateService.TransitionTo(stateService.stateWeaponOn);
-
-            //     return;
-            // }
-            // else
-            // if(!stateService.inputSystem.weaponOn && IsComplete)
-            // {
-            //     stateService.TransitionTo(stateService.stateWeaponOff);
-            //     return;
-
-            // }
-
             SetWeaponInHend();
         }
 

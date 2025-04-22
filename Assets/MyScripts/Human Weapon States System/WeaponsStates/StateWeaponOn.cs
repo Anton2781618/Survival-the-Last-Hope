@@ -17,25 +17,7 @@ namespace States
         }
         
         public override void Execute()
-        {
-            // if(!stateService.inputSystem.weaponOn && IsComplete || stateService.CurrentWeapon == null)
-            // {
-            //     stateService.TransitionTo(stateService.stateWeaponOff);
-            // }
-            // else
-            // if(stateService.inputSystem.reload)
-            // {
-            //     stateService.TransitionTo(stateService.stateWeaponReload);
-            // }
-            // else
-            // if(stateService.inputSystem.aim && lerpRatio > 0.9f) 
-            // {
-            //     stateService.TransitionTo(stateService.stateWeaponAim);
-            // }
-            // else
-            // if(stateService.inputSystem.weaponOn && IsComplete) return;
-            
-            // if(stateService.playerModel.animator.GetBool("Aim")) stateService.playerModel.animator.SetBool("Aim", false);
+        {            
             if(UnitModel.animator.GetBool("Aim")) UnitModel.animator.SetBool("Aim", false);
 
             MoveHendsFromPoint();

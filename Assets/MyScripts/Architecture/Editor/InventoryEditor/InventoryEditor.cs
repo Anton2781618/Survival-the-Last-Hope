@@ -134,7 +134,7 @@ namespace ModularEventArchitecture
             EditorGUILayout.HelpBox("Выберите инвентарь", MessageType.Info);
             _inventoryModule = EditorGUILayout.ObjectField("Module", _inventoryModule, typeof(InventoryModule), true) as InventoryModule;
             
-            _targetInventory = _inventoryModule.Inventory;
+            if (_inventoryModule != null) _targetInventory = _inventoryModule.Inventory;
         }
 
         public void SetTartget(InventoryModule inventoryModule)

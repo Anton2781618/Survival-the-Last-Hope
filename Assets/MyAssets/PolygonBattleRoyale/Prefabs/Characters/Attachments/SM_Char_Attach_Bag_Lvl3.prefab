@@ -15,6 +15,7 @@ GameObject:
   - component: {fileID: 7219025098778040530}
   - component: {fileID: 1316942824803932157}
   - component: {fileID: 1209956293156075477}
+  - component: {fileID: 1187487982405022159}
   m_Layer: 0
   m_Name: SM_Char_Attach_Bag_Lvl3
   m_TagString: Untagged
@@ -165,6 +166,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 82024d51c0f9c664fa919de88079db6e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  <Entity>k__BackingField: {fileID: 1187487982405022159}
   _item:
     <ItemData>k__BackingField: {fileID: 11400000, guid: 18eaea6f274582f42b6d3944c8b3bc4d,
       type: 2}
@@ -178,3 +180,20 @@ MonoBehaviour:
   _collider: {fileID: 4561042261026550820}
   _rigidbody: {fileID: 7219025098778040530}
   _outline: {fileID: 1316942824803932157}
+  references:
+    version: 2
+    RefIds: []
+--- !u!114 &1187487982405022159
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1239348574406318}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f52e9be4f6716fa4ca552435336c68ec, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _modules:
+  - {fileID: 1209956293156075477}

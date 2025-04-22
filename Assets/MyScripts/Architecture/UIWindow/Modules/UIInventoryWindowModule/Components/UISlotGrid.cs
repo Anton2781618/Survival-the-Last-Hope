@@ -36,11 +36,14 @@ namespace ModularEventArchitecture
             if (_slot.ShowGrid) CreateGridsForItems(UIInventoryItem.InventoryItem);
 
             base.PlaceItem(UIInventoryItem, posX, posY);
-
+            Debug.Log(UIInventoryItem);
+            Debug.Log(UIInventoryItem.InventoryItem);
+            Debug.Log(Inventory);
+            Debug.Log(Inventory.Entity);
             Inventory.Entity.LocalEvents.Publish(EventsInventory.Equip_item_in_slot, new EquipItemEventData
             { 
                 InventoryItem = UIInventoryItem.InventoryItem,
-                Parent = _slot.PlaceToSpawnObject.gameObject,
+                PlaceToSpawnClothing = _slot.PlaceToSpawnObject.gameObject,
                 Slot = _slot
             });
         }

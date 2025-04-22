@@ -1656,17 +1656,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _item:
-    <ItemData>k__BackingField: {fileID: 0}
+    <ItemData>k__BackingField: {fileID: 11400000, guid: ac88002b590d69347a03057e4563e671,
+      type: 2}
+    Grids: []
     amount: 0
-    price: 0
-    GridName: 0
     OnItemsChanged:
       m_PersistentCalls:
         m_Calls: []
+    OnGridPosition: {x: 0, y: 0}
+    Rotated: 0
   _collider: {fileID: 5558258256254244885}
   _rigidbody: {fileID: -7045200364582063091}
   _outline: {fileID: -7237083738613366175}
-  text: {fileID: 0}
 --- !u!54 &-7045200364582063091
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -1876,9 +1877,6 @@ SkinnedMeshRenderer:
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 3
   m_RayTraceProcedural: 0
-  m_RayTracingAccelStructBuildFlagsOverride: 0
-  m_RayTracingAccelStructBuildFlags: 1
-  m_SmallMeshCulling: 1
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:

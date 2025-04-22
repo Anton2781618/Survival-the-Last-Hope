@@ -33,6 +33,11 @@ namespace ModularEventArchitecture
                 Entity.LocalEvents.Publish(EventsAnimationWeapon.Off_Aim, new EventBase());
             }
 
+            if(Input.GetKeyDown(KeyCode.R))
+            {
+                Entity.LocalEvents.Publish(EventsAnimationWeapon.Reload, new EventBase());
+            }
+
             if(Input.GetKeyDown(KeyCode.F))
             {
                 Entity.LocalEvents.Publish(EventsAnimationWeapon.Draw_Weapon_Start, new EventBase());

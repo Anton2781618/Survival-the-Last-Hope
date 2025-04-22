@@ -20,7 +20,7 @@ MonoBehaviour:
     type: 3}
   layerMask:
     serializedVersion: 2
-    m_Bits: 1
+    m_Bits: 4294967295
   prefabWeapon: {fileID: 1785435777294800262, guid: 1f01a7aea7ce1e9419915423dfb24a86,
     type: 3}
   buletSpawner: {fileID: 11400000, guid: 9ebc35bce57ebb34086242e7c8839608, type: 2}
@@ -119,7 +119,65 @@ MonoBehaviour:
   - Name: Aim
     AnimationsPoints:
     - UseRightWeight: 1
-      RightHendPosition: {x: -0.158, y: -0.401, z: -0.047}
+      RightHendPosition: {x: -0.137, y: -0.387, z: -0.184}
+      RightHendRotation: {x: 0.47956967, y: -0.34874108, z: 0.3526112, w: -0.7239185}
+      LerpCurveRightHend:
+        serializedVersion: 2
+        m_Curve:
+        - serializedVersion: 3
+          time: 0
+          value: 1
+          inSlope: 0
+          outSlope: 0
+          tangentMode: 34
+          weightedMode: 0
+          inWeight: 0
+          outWeight: 0
+        - serializedVersion: 3
+          time: 1
+          value: 1
+          inSlope: 0
+          outSlope: 0
+          tangentMode: 34
+          weightedMode: 0
+          inWeight: 0
+          outWeight: 0
+        m_PreInfinity: 2
+        m_PostInfinity: 2
+        m_RotationOrder: 0
+      LerpOffsetRightHend: {x: 0, y: 0, z: 0}
+      UseLeftWeight: 0
+      LeftHendPosition: {x: -0.004, y: 0.09, z: 0.004}
+      LeftHendRotation: {x: -0.004377012, y: -0.9619468, z: -0.1901286, w: -0.19618966}
+      LerpCurveLeftHend:
+        serializedVersion: 2
+        m_Curve:
+        - serializedVersion: 3
+          time: 0
+          value: 1
+          inSlope: 0
+          outSlope: 0
+          tangentMode: 34
+          weightedMode: 0
+          inWeight: 0
+          outWeight: 0
+        - serializedVersion: 3
+          time: 1
+          value: 1
+          inSlope: 0
+          outSlope: 0
+          tangentMode: 34
+          weightedMode: 0
+          inWeight: 0
+          outWeight: 0
+        m_PreInfinity: 2
+        m_PostInfinity: 2
+        m_RotationOrder: 0
+      LerpOffsetLeftHend: {x: 0, y: 0, z: 0}
+  - Name: Off Aim
+    AnimationsPoints:
+    - UseRightWeight: 1
+      RightHendPosition: {x: 0.31877422, y: -0.3491154, z: 0.054777972}
       RightHendRotation: {x: 0.49217924, y: -0.36827052, z: 0.4326596, w: -0.6595015}
       LerpCurveRightHend:
         serializedVersion: 2
@@ -147,34 +205,43 @@ MonoBehaviour:
         m_RotationOrder: 0
       LerpOffsetRightHend: {x: 0, y: 0, z: 0}
       UseLeftWeight: 0
-      LeftHendPosition: {x: 0.116, y: 0.122, z: 0.014}
-      LeftHendRotation: {x: 0.046936538, y: -0.9762697, z: -0.084508136, w: -0.19378562}
+      LeftHendPosition: {x: -0.011491736, y: 0.069596194, z: 0.0038503236}
+      LeftHendRotation: {x: 0.063123494, y: -0.96560836, z: -0.16706523, w: -0.18895826}
       LerpCurveLeftHend:
         serializedVersion: 2
         m_Curve:
         - serializedVersion: 3
           time: 0
-          value: 1
-          inSlope: 0
-          outSlope: 0
+          value: 0
+          inSlope: 1.9933295
+          outSlope: 1.9933295
           tangentMode: 34
           weightedMode: 0
           inWeight: 0
-          outWeight: 0
+          outWeight: 0.33333334
+        - serializedVersion: 3
+          time: 0.4946504
+          value: 0.98600125
+          inSlope: 0.7454128
+          outSlope: 0.7454128
+          tangentMode: 0
+          weightedMode: 0
+          inWeight: 0.038364697
+          outWeight: 0.33333334
         - serializedVersion: 3
           time: 1
-          value: 1
-          inSlope: 0
-          outSlope: 0
+          value: 0
+          inSlope: -1.9511268
+          outSlope: -1.9511268
           tangentMode: 34
           weightedMode: 0
-          inWeight: 0
+          inWeight: 0.33333334
           outWeight: 0
         m_PreInfinity: 2
         m_PostInfinity: 2
-        m_RotationOrder: 0
+        m_RotationOrder: 4
       LerpOffsetLeftHend: {x: 0, y: 0, z: 0}
-  - Name: Off Aim
+  - Name: Reload
     AnimationsPoints:
     - UseRightWeight: 1
       RightHendPosition: {x: 0.31877422, y: -0.3491154, z: 0.054777972}

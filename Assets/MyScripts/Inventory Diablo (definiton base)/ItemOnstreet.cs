@@ -4,12 +4,21 @@ using UnityEngine;
 namespace InventoryDiablo
 {
     [RequireComponent(typeof(Collider)), RequireComponent(typeof(Rigidbody)), RequireComponent(typeof(OutlineSystem.Outline))]
-    public class ItemOnstreet : MonoBehaviour, IInteractable
+    public class ItemOnstreet : ModuleBase, IInteractable
     {
+        //-----------------------------------------------------------
         [SerializeField] private InventoryItem _item;
+        
+        //-----------------------------------------------------------
         [SerializeField] private Collider _collider;
         [SerializeField] private Rigidbody _rigidbody;
         [SerializeField] private OutlineSystem.Outline _outline;
+        
+        //!-----------------------------------------------------------
+        public override void Initialize()
+        {
+
+        }
 
         public Collider GetCollider() => _collider;
         public Rigidbody GetRigidbody() => _rigidbody;

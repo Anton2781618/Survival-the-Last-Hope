@@ -12,27 +12,46 @@ public class ConfigScript : MonoBehaviour
     [SerializeField] protected WeaponModel weaponModel;
     [SerializeField] private Transform rightHend;
 
-    [SerializeField] private string weaponAnimationName;
-    [SerializeField] private int stage;
+    //----------------------------------------------------------
+    [ReadOnly] [SerializeField] private string currentAnimationName = "";
+    [ReadOnly] [SerializeField] private int currentAnimationStage = 0;
+    private int indexAnimation = 0;
 
+    //----------------------------------------------------------
     public enum Config
     {
         rightHend,
         leftHend
     }
+    //!----------------------------------------------------------
 
 
+    [Tools.Button("Следующая анимация")]
+    private void SetNextAnimation()
+    {
 
-    [Tools.Button("SetPositionsHand")]
+        //выбрать следуующий AnimationsLayers 
+        indexAnimation = (indexAnimation + 1) % weaponModel.AnimationsLayers.Count;
+
+        currentAnimationName = weaponModel.AnimationsLayers[indexAnimation].Name;
+    }
+
+    [Tools.Button("Следующий Этап")]
+    private void SetNextStage()
+    {
+        currentAnimationStage = (currentAnimationStage + 1) % weaponModel.AnimationsLayers[indexAnimation].AnimationsPoints.Count;
+    }
+
+    [Tools.Button("Задать позицию")]
     public void SetPositionsHand()
     {
         if(config == Config.rightHend)
         {
-            weaponModel.AnimationsLayers.Find(x => x.Name == weaponAnimationName).AnimationsPoints[stage].SetPositionsRightHand(rightHend);
+            weaponModel.AnimationsLayers.Find(x => x.Name == currentAnimationName).AnimationsPoints[currentAnimationStage].SetPositionsRightHand(rightHend);
         }
         else
         {
-            weaponModel.AnimationsLayers.Find(x => x.Name == weaponAnimationName).AnimationsPoints[stage].SetPositionsLeftHand(rightHend);
+            weaponModel.AnimationsLayers.Find(x => x.Name == currentAnimationName).AnimationsPoints[currentAnimationStage].SetPositionsLeftHand(rightHend);
         }
     }
 }

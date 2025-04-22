@@ -42,11 +42,11 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7617103563624255186}
-  - component: {fileID: -1152881421759394975}
   - component: {fileID: 6933947390752158324}
   - component: {fileID: 8440308642706476167}
   - component: {fileID: -7198099488417508629}
   - component: {fileID: -1154283283711185422}
+  - component: {fileID: -1152881421759394975}
   - component: {fileID: -7299007644670962231}
   m_Layer: 6
   m_Name: Pistol 9mm
@@ -73,31 +73,6 @@ Transform:
   - {fileID: 5588764957873239313}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &-1152881421759394975
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7133336745682130024}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 82024d51c0f9c664fa919de88079db6e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _item:
-    <ItemData>k__BackingField: {fileID: 11400000, guid: ddcc013a94659bc4bb68e1f1fcf133cf,
-      type: 2}
-    Grids: []
-    amount: 0
-    OnItemsChanged:
-      m_PersistentCalls:
-        m_Calls: []
-    OnGridPosition: {x: 0, y: 0}
-    Rotated: 0
-  _collider: {fileID: 8440308642706476167}
-  _rigidbody: {fileID: -7198099488417508629}
-  _outline: {fileID: 6933947390752158324}
 --- !u!114 &6933947390752158324
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -202,8 +177,37 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f52e9be4f6716fa4ca552435336c68ec, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Modules:
+  _modules:
+  - {fileID: -1152881421759394975}
   - {fileID: -7299007644670962231}
+--- !u!114 &-1152881421759394975
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7133336745682130024}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 82024d51c0f9c664fa919de88079db6e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  <Entity>k__BackingField: {fileID: -1154283283711185422}
+  _item:
+    <ItemData>k__BackingField: {fileID: 0}
+    Grids: []
+    amount: 0
+    OnItemsChanged:
+      m_PersistentCalls:
+        m_Calls: []
+    OnGridPosition: {x: 0, y: 0}
+    Rotated: 0
+  _collider: {fileID: 8440308642706476167}
+  _rigidbody: {fileID: -7198099488417508629}
+  _outline: {fileID: 6933947390752158324}
+  references:
+    version: 2
+    RefIds: []
 --- !u!114 &-7299007644670962231
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -231,6 +235,9 @@ MonoBehaviour:
     OnGridPosition: {x: 0, y: 0}
     Rotated: 0
   TypeWeapon: 0
+  references:
+    version: 2
+    RefIds: []
 --- !u!1 &7756309875952392592
 GameObject:
   m_ObjectHideFlags: 0

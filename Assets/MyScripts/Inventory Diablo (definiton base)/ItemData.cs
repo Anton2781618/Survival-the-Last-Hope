@@ -5,7 +5,7 @@ namespace InventoryDiablo
 {
 
     [CreateAssetMenu] [Serializable]
-    public class ItemData : ScriptableObject, ISerializationCallbackReceiver
+    public class ItemData : ScriptableObject
     {
         //-------------------------------------------------------------------------------------
         [Header("Основные настройки")]
@@ -71,29 +71,5 @@ namespace InventoryDiablo
             Коробка_патронов = 1 << 16,
             
         }
-
-        //вызывается перед сериализацией
-        public void OnBeforeSerialize()
-        {
-            if (currentDepth >= MaxDepth)
-            {
-                CanBeCombined = null;
-                // Grids = null;
-            }
-            else
-            {
-                // Увеличиваем текущую глубину
-                currentDepth++;
-            }
-        }
-
-        //вызывается после десериализации
-        public void OnAfterDeserialize()
-        {
-            // Сбрасываем текущую глубину
-            currentDepth = 0;
-        }
     }
-
-    
 }
